@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "619732706955",
+    "project_id": "lifeblood-fa426",
+    "storage_bucket": "lifeblood-fa426.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619732706955:android:4dce40ad8d5f885653968e",
+        "android_client_info": {
+          "package_name": "com.example.lifebloodworld"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC05_62fDbFunLJxfPuAL3T6zhBPalzuOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

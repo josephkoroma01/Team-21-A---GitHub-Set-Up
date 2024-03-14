@@ -1,0 +1,32 @@
+{
+    "signupandsavelives": "INSCRIVEZ-VOUS ET SAUVEZ DES VIES",
+    "login": "SE CONNECTER", 
+    "selectlanguage" : "Choisir la langue",
+    "weaimto" : "nous visons à",
+    "increasesafeblood": "Augmenter la disponibilité de sang sûr,\nles données sanguines et le soutien des donneurs", 
+    "increasevoluntary": "Augmenter le nombre de donateurs volontaires\nnon rémunérés", 
+    "establishpropercommunication":"Établir une \ncommunication appropriée entre \nle côté demande et le côté donateur.",
+    "providepropercomm":"Fournir une éducation appropriée\nsur le sang, réduisant ainsi les fausses croyances sur le sang.", 
+    "done": "Fait",
+    "enterphonenumber": "Entrez le numéro de téléphone",
+    "enterpassword": "Entrer le mot de passe",
+    "forgotpassword": "Mot de passe oublié?",
+    "dhaveanaccountsign": "Vous n'avez pas de compte? S'inscrire",
+    "youdontneedtobeadoctortodonate": "Vous n'avez pas besoin d'être médecin pour sauver une vie, il suffit de donner votre sang.", 
+    "makeadifferencetoday": "Faites une\ndifférence aujourd'hui !",
+    "givebloodsavelives": "Donner du sang. Sauver des vies.",
+    "personalinformation": "Informations personnelles",
+    "phonenumber": "Numéro de téléphone",
+    "firstname": "Prénom", 
+    "middlename": "Deuxième prénom",
+    "lastname" : "Nom de famille",
+    "doyouwishtouseyourmiddlename":"Souhaitez-vous utiliser votre deuxième prénom ?",
+    "yes": "Oui",
+    "no" : "Non",
+    "dob": "Date de naissance",
+    "gender": "",
+    "contactinformation": "Gender", 
+    "blooddonationrequest": "Demande de don de sang"
+
+    
+}
