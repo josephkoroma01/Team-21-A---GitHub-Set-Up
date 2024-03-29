@@ -2993,7 +2993,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                               fontSize: 12,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -3077,7 +3077,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                               fontSize: 12,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -3185,7 +3185,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                               fontSize: 12,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -3393,7 +3393,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                                         .white)),
                                                         style: TextButton
                                                             .styleFrom(
-                                                          primary: Colors.white,
+                                                          foregroundColor: Colors.white,
                                                           backgroundColor:
                                                               Color(0xff389e9d),
                                                           shape: const RoundedRectangleBorder(
@@ -3508,7 +3508,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                               fontSize: 12,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -3683,7 +3683,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                                     child: TextButton(
                                                                         child: Text('Submit Feedback', textAlign: TextAlign.center, style: TextStyle(fontFamily: 'Montserrat', letterSpacing: 0, fontSize: 13, color: Colors.white)),
                                                                         style: TextButton.styleFrom(
-                                                                          primary:
+                                                                          foregroundColor:
                                                                               Colors.white,
                                                                           backgroundColor:
                                                                               Color(0xff389e9d),
@@ -4148,7 +4148,7 @@ class _DialogContentState extends State<DialogContent> {
                                                                               .white)),
                                                                   style: TextButton
                                                                       .styleFrom(
-                                                                    primary: Colors
+                                                                    foregroundColor: Colors
                                                                         .white,
                                                                     backgroundColor:
                                                                         Color(
@@ -4987,7 +4987,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                             ],
                                           ),
                                           style: TextButton.styleFrom(
-                                            primary: Colors.white,
+                                            foregroundColor: Colors.white,
                                             shape:
                                                 const RoundedRectangleBorder(
                                                     borderRadius:

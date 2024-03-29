@@ -305,7 +305,7 @@ class _BloodTestPageState extends State<BloodTestPage> {
                                 ),
                               ),
                               style: TextButton.styleFrom(
-                                primary: Colors.teal,
+                                foregroundColor: Colors.teal,
                                 backgroundColor: Colors.white,
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:

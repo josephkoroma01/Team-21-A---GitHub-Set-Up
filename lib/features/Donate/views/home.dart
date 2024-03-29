@@ -3153,7 +3153,7 @@ final TextEditingController _addressCtrl = TextEditingController();
                                               fontSize: 12,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -3398,7 +3398,7 @@ final TextEditingController _addressCtrl = TextEditingController();
                                                                           .white)),
                                                               style: TextButton
                                                                   .styleFrom(
-                                                                primary: Colors
+                                                                foregroundColor: Colors
                                                                     .white,
                                                                 backgroundColor:
                                                                     Colors.teal,
@@ -3613,7 +3613,7 @@ final TextEditingController _addressCtrl = TextEditingController();
                                                                                                         TextButton(
                                                                                                             child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12, color: Colors.white)),
                                                                                                             style: TextButton.styleFrom(
-                                                                                                              primary: Colors.white,
+                                                                                                              foregroundColor: Colors.white,
                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                             ),
@@ -8174,7 +8174,7 @@ final TextEditingController _addressCtrl = TextEditingController();
                                               fontSize: 12,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -8639,7 +8639,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                             ],
                                           ),
                                           style: TextButton.styleFrom(
-                                            primary: Colors.white,
+                                            foregroundColor: Colors.white,
                                             shape:
                                                 const RoundedRectangleBorder(
                                                     borderRadius:

@@ -445,7 +445,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                             ],
                                           ),
                                           style: TextButton.styleFrom(
-                                            primary: Colors.white,
+                                            foregroundColor: Colors.white,
                                             shape:
                                                 const RoundedRectangleBorder(
                                                     borderRadius:

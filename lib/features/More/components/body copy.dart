@@ -405,7 +405,7 @@ class MeBodyState extends State<MeBody> {
                                                       fontSize: 12.sp,
                                                       color: Colors.white)),
                                               style: TextButton.styleFrom(
-                                                primary: Colors.white,
+                                                foregroundColor: Colors.white,
                                                 backgroundColor:
                                                     Color(0xff389e9d),
                                                 shape:
@@ -433,7 +433,7 @@ class MeBodyState extends State<MeBody> {
                                                       fontSize: 12.sp,
                                                       color: Colors.white)),
                                               style: TextButton.styleFrom(
-                                                primary: Colors.white,
+                                                foregroundColor: Colors.white,
                                                 backgroundColor:
                                                     Color(0xFFE02020),
                                                 shape:

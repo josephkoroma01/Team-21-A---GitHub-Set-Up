@@ -777,7 +777,7 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                   //                               ],
                   //                             ),
                   //                             style: TextButton.styleFrom(
-                  //                               primary: Colors.white,
+                  //                               foregroundColor: Colors.white,
 
                   //                               shape: const RoundedRectangleBorder(
                   //                                   borderRadius: BorderRadius.all(
@@ -849,7 +849,7 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                   //                                             fontSize: 12.sp,
                   //                                             color: Colors.white)),
                   //                                     style: TextButton.styleFrom(
-                  //                                       primary: Colors.white,
+                  //                                       foregroundColor: Colors.white,
                   //                                       backgroundColor:
                   //                                           Color(0xff389e9d),
                   //                                       shape:
@@ -1848,7 +1848,7 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                                   fontSize: 12.sp, color: Colors.white)),
                         ]),
                         style: TextButton.styleFrom(
-                          primary: Colors.white,
+                          foregroundColor: Colors.white,
                           backgroundColor: Colors.teal,
                           shape: const RoundedRectangleBorder(
                               borderRadius:

@@ -328,7 +328,7 @@ class _managedonationAppointmentsState
                                       ],
                                     ),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                      
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -403,7 +403,7 @@ class _managedonationAppointmentsState
                                             fontSize: 12.sp,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(

@@ -631,7 +631,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                             ),
                             style:
                             TextButton.styleFrom(
-                            primary: Colors.white,
+                            foregroundColor: Colors.white,
                             backgroundColor: Color(0xff389e9d),
                             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                             ),
@@ -681,7 +681,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                 ),
                                 style:
                                 TextButton.styleFrom(
-                                  primary: Colors.white,
+                                  foregroundColor: Colors.white,
                                   backgroundColor: Color(0xFFE02020),
                                   shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                 ),
@@ -747,7 +747,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                     TextButton(
                                                         child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                         style: TextButton.styleFrom(
-                                                          primary: Colors.white,
+                                                          foregroundColor: Colors.white,
                                                           backgroundColor: Color(0xff389e9d),
                                                           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                         ),
@@ -807,7 +807,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                     TextButton(
                                                         child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                         style: TextButton.styleFrom(
-                                                          primary: Colors.white,
+                                                          foregroundColor: Colors.white,
                                                           backgroundColor: Color(0xFFE02020),
                                                           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                         ),
@@ -862,7 +862,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                       ],
                                                                                     ),
                                                                                     style: TextButton.styleFrom(
-                                                                                      primary: Colors.white,
+                                                                                      foregroundColor: Colors.white,
                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                       shape: const RoundedRectangleBorder(
                                                                                           borderRadius: BorderRadius.all(
@@ -900,7 +900,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                     ),
                                                                                     style:
                                                                                     TextButton.styleFrom(
-                                                                                      primary: Colors.white,
+                                                                                      foregroundColor: Colors.white,
                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                     ),
@@ -962,7 +962,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                         TextButton(
                                                                                                             child: Text('Take Eligibility Quiz', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                             style: TextButton.styleFrom(
-                                                                                                              primary: Colors.white,
+                                                                                                              foregroundColor: Colors.white,
                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                             ),
@@ -1011,7 +1011,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                 TextButton(
                                                                                                                                     child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                      primary: Colors.white,
+                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                     ),
@@ -1051,7 +1051,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                         TextButton(
                                                                                                                                                             child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                             ),
@@ -1135,7 +1135,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                 TextButton(
                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                     ),
@@ -1161,7 +1161,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                         TextButton(
                                                                                                                                                             child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                             ),
@@ -1201,7 +1201,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                 TextButton(
                                                                                                                                                                                     child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                     ),
@@ -1282,7 +1282,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                             ),
@@ -1308,7 +1308,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                 TextButton(
                                                                                                                                                                                     child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                     ),
@@ -1348,7 +1348,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                             child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                             ),
@@ -1426,7 +1426,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                     ),
@@ -1452,7 +1452,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                             child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                             ),
@@ -1492,7 +1492,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                     child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                     ),
@@ -1570,7 +1570,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                             ),
@@ -1596,7 +1596,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                     child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                     ),
@@ -1636,7 +1636,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                             child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                             ),
@@ -1714,7 +1714,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                     ),
@@ -1740,7 +1740,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                             child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                             ),
@@ -1780,7 +1780,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                     child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                     ),
@@ -1858,7 +1858,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                             ),
@@ -1884,7 +1884,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                     child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                     ),
@@ -2079,7 +2079,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                                                             child: Text('Accept', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                             ),
@@ -2153,7 +2153,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                                                                     child: Text('Volunteer Now', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                                                     ),
@@ -2237,7 +2237,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                                                     ),
@@ -2263,7 +2263,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                                                             child: Text('Reject', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                               backgroundColor: Color(0xff406986),
                                                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                             ),
@@ -2341,7 +2341,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                                                     ),
@@ -2367,7 +2367,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                             ),
@@ -2471,7 +2471,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                 TextButton(
                                                                                                                                     child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                      primary: Colors.white,
+                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                     ),
@@ -2555,7 +2555,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                                                                         TextButton(
                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                             ),
@@ -2594,7 +2594,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                                                                         TextButton(
                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                             style: TextButton.styleFrom(
-                                                                                                              primary: Colors.white,
+                                                                                                              foregroundColor: Colors.white,
                                                                                                               backgroundColor: Color(0xFFE02020),
                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                             ),
@@ -2665,7 +2665,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                       ],
                     ),
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: Color(0xff389e9d),
                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                     ),
@@ -2918,7 +2918,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                   child: Text('Send Trigger',
                                                       textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
                                                   style: TextButton.styleFrom(
-                                                    primary: Colors.white,
+                                                    foregroundColor: Colors.white,
                                                     backgroundColor: Color(0xff389e9d),
                                                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                   ),
@@ -2947,7 +2947,7 @@ class _BloodCommunityState extends State<BloodCommunity> {
                                                   child: Text('Close',
                                                       textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
                                                   style: TextButton.styleFrom(
-                                                    primary: Colors.white,
+                                                    foregroundColor: Colors.white,
                                                     backgroundColor: Color(0xffd12624),
                                                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                   ),
@@ -3253,7 +3253,7 @@ class _registeredDonorsState extends State<registeredDonors> {
                                           style: GoogleFonts.montserrat(
                                               fontSize: 12.sp, color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -3488,7 +3488,7 @@ class _registeredDonorsState extends State<registeredDonors> {
                                                                             ],
                                                                           ),
                                                                           style: TextButton.styleFrom(
-                                                                            primary: Colors.white,
+                                                                            foregroundColor: Colors.white,
                                                                             backgroundColor: Color(0xff389e9d),
                                                                             shape: const RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.all(
@@ -3526,7 +3526,7 @@ class _registeredDonorsState extends State<registeredDonors> {
                                                                             ],
                                                                           ),
                                                                           style: TextButton.styleFrom(
-                                                                            primary: Colors.white,
+                                                                            foregroundColor: Colors.white,
                                                                             backgroundColor: Color(0xff389e9d),
                                                                             shape: const RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.all(
@@ -3571,7 +3571,7 @@ class _registeredDonorsState extends State<registeredDonors> {
                                                                             ],
                                                                           ),
                                                                           style: TextButton.styleFrom(
-                                                                            primary: Colors.white,
+                                                                            foregroundColor: Colors.white,
                                                                             backgroundColor: Color(0xff389e9d),
                                                                             shape: const RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.all(
@@ -3616,8 +3616,8 @@ class _registeredDonorsState extends State<registeredDonors> {
                                                                             ],
                                                                           ),
                                                                           style: TextButton.styleFrom(
-                                                                            primary: Colors.white,
-                                                                            backgroundColor: Colors.transparent,
+                                                                            
+                                                                            foregroundColor: Colors.white, backgroundColor: Colors.transparent,
                                                                             shape: const RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.all(
                                                                                     Radius.circular(0))),
@@ -3751,8 +3751,7 @@ class _registeredDonorsState extends State<registeredDonors> {
                                                                                               TextButton(
                                                                                                   child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                   style: TextButton.styleFrom(
-                                                                                                    primary: Colors.white,
-                                                                                                    backgroundColor: Color(0xffd12624),
+                                                                                                    foregroundColor: Colors.white, backgroundColor: Color(0xffd12624),
                                                                                                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                   ),
                                                                                                   onPressed: () {
@@ -4090,7 +4089,7 @@ class _fundingState extends State<funding> {
                                           style: GoogleFonts.montserrat(
                                               fontSize: 12.sp, color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -4287,7 +4286,7 @@ class _fundingState extends State<funding> {
                                                                             ],
                                                                           ),
                                                                           style: TextButton.styleFrom(
-                                                                            primary: Colors.white,
+                                                                            foregroundColor: Colors.white,
                                                                             backgroundColor: Color(0xff389e9d),
                                                                             shape: const RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.all(
@@ -4325,7 +4324,7 @@ class _fundingState extends State<funding> {
                                                                             ],
                                                                           ),
                                                                           style: TextButton.styleFrom(
-                                                                            primary: Colors.white,
+                                                                            foregroundColor: Colors.white,
                                                                             backgroundColor: Color(0xff389e9d),
                                                                             shape: const RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.all(
@@ -4370,7 +4369,7 @@ class _fundingState extends State<funding> {
                                                                             ],
                                                                           ),
                                                                           style: TextButton.styleFrom(
-                                                                            primary: Colors.white,
+                                                                            foregroundColor: Colors.white,
                                                                             backgroundColor: Color(0xff389e9d),
                                                                             shape: const RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.all(
@@ -4415,7 +4414,7 @@ class _fundingState extends State<funding> {
                                                                             ],
                                                                           ),
                                                                           style: TextButton.styleFrom(
-                                                                            primary: Colors.white,
+                                                                            foregroundColor: Colors.white,
                                                                             backgroundColor: Colors.transparent,
                                                                             shape: const RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.all(
@@ -4550,7 +4549,7 @@ class _fundingState extends State<funding> {
                                                                                               TextButton(
                                                                                                   child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                   style: TextButton.styleFrom(
-                                                                                                    primary: Colors.white,
+                                                                                                    foregroundColor: Colors.white,
                                                                                                     backgroundColor: Color(0xffd12624),
                                                                                                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                   ),

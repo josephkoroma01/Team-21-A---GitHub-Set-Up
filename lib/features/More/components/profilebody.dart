@@ -927,7 +927,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                       child: ElevatedButton(
                                                                           child: Text('Add Email Address', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
                                                                           style: TextButton.styleFrom(
-                                                                            primary:
+                                                                            foregroundColor:
                                                                                 Colors.white,
                                                                             backgroundColor:
                                                                                 Color(0xff389e9d),
@@ -1185,7 +1185,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                       child: ElevatedButton(
                                                                           child: Text('Add NIN', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
                                                                           style: TextButton.styleFrom(
-                                                                            primary:
+                                                                            foregroundColor:
                                                                                 Colors.white,
                                                                             backgroundColor:
                                                                                 Color(0xff389e9d),
@@ -1579,7 +1579,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         ],
                                                       ),
                                                 style: TextButton.styleFrom(
-                                                  primary: Colors.white,
+                                                  foregroundColor: Colors.white,
                                                   backgroundColor:
                                                       Color(0xFF205072),
                                                   shape:
@@ -1766,7 +1766,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                   child: ElevatedButton(
                                                                       child: Text('Update Details', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
                                                                       style: TextButton.styleFrom(
-                                                                        primary:
+                                                                        foregroundColor:
                                                                             Colors.white,
                                                                         backgroundColor:
                                                                             Color(0xff389e9d),
