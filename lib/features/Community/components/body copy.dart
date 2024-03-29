@@ -192,7 +192,7 @@ SizedBox(
                             child:  TextButton(
                               child: Text('Open', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                               style: TextButton.styleFrom(
-                                primary: Colors.white,
+                                foregroundColor: Colors.white,
                                 backgroundColor: Color(0xff389e9d),
                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                               ),
@@ -214,7 +214,7 @@ SizedBox(
                                 ),
                               ) : Text('Join', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                               style: TextButton.styleFrom(
-                                primary: Colors.white,
+                                foregroundColor: Colors.white,
                                 backgroundColor: Color(0xff389e9d),
                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                               ),
@@ -333,7 +333,7 @@ SizedBox(
                                                                   .white)),
                                                       style: TextButton
                                                           .styleFrom(
-                                                        primary: Colors.white,
+                                                        foregroundColor: Colors.white,
                                                         backgroundColor:
                                                         Color(0xff389e9d),
                                                         shape: const RoundedRectangleBorder(
@@ -379,7 +379,7 @@ SizedBox(
                                                                           TextButton(
                                                                               child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                               style: TextButton.styleFrom(
-                                                                                primary: Colors.white,
+                                                                                foregroundColor: Colors.white,
                                                                                 backgroundColor: Color(0xff389e9d),
                                                                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                               ),
@@ -453,7 +453,7 @@ SizedBox(
                                                                                                   TextButton(
                                                                                                       child: Text('Join Now', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                       style: TextButton.styleFrom(
-                                                                                                        primary: Colors.white,
+                                                                                                        foregroundColor: Colors.white,
                                                                                                         backgroundColor: Color(0xff389e9d),
                                                                                                         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                       ),
@@ -485,7 +485,7 @@ SizedBox(
                                                                                                   TextButton(
                                                                                                       child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                       style: TextButton.styleFrom(
-                                                                                                        primary: Colors.white,
+                                                                                                        foregroundColor: Colors.white,
                                                                                                         backgroundColor: Color(0xffd12624),
                                                                                                         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                       ),
@@ -511,7 +511,7 @@ SizedBox(
                                                                           TextButton(
                                                                               child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                               style: TextButton.styleFrom(
-                                                                                primary: Colors.white,
+                                                                                foregroundColor: Colors.white,
                                                                                 backgroundColor: Color(0xffd12624),
                                                                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                               ),
@@ -590,7 +590,7 @@ SizedBox(
                                                                                                   TextButton(
                                                                                                       child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                       style: TextButton.styleFrom(
-                                                                                                        primary: Colors.white,
+                                                                                                        foregroundColor: Colors.white,
                                                                                                         backgroundColor: Color(0xffd12624),
                                                                                                         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                       ),
@@ -638,7 +638,7 @@ SizedBox(
                                                                   .white)),
                                                       style: TextButton
                                                           .styleFrom(
-                                                        primary: Colors.white,
+                                                        foregroundColor: Colors.white,
                                                         backgroundColor:
                                                         Color(0xFFE02020),
                                                         shape: const RoundedRectangleBorder(
@@ -711,7 +711,7 @@ SizedBox(
                             child: TextButton(
                               child: Text('Know More', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                               style: TextButton.styleFrom(
-                                primary: Colors.white,
+                                foregroundColor: Colors.white,
                                 backgroundColor: Color(0xff389e9d),
                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                               ),
@@ -791,7 +791,7 @@ SizedBox(
                             child: TextButton(
                               child: Text('Explore', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                               style: TextButton.styleFrom(
-                                primary: Colors.white,
+                                foregroundColor: Colors.white,
                                 backgroundColor: Color(0xff389e9d),
                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                               ),
@@ -846,7 +846,7 @@ SizedBox(
                             child: TextButton(
                               child: Text('Support', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                               style: TextButton.styleFrom(
-                                primary: Colors.white,
+                                foregroundColor: Colors.white,
                                 backgroundColor: Color(0xff389e9d),
                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                               ),

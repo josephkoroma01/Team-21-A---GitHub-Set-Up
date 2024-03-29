@@ -616,7 +616,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                               ],
                                             ),
                                             style: TextButton.styleFrom(
-                                              primary: Colors.white,
+                                              foregroundColor: Colors.white,
                                               shape:
                                                   const RoundedRectangleBorder(
                                                       borderRadius:
@@ -1305,7 +1305,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                               fontSize: 12, color: Colors.white)),
                     ]),
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: Colors.teal,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),

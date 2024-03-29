@@ -345,7 +345,7 @@ class _LoginPageState extends State<LoginPage> {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.teal)),
                                 style: TextButton.styleFrom(
-                                  primary: Colors.teal,
+                                  foregroundColor: Colors.teal,
                                   backgroundColor: Colors.transparent,
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
@@ -453,7 +453,7 @@ class _LoginPageState extends State<LoginPage> {
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF205072))),
                       style: TextButton.styleFrom(
-                        primary: Color(0xFF205072),
+                        foregroundColor: Color(0xFF205072),
                         backgroundColor: Colors.transparent,
                         shape: const RoundedRectangleBorder(
                             borderRadius:

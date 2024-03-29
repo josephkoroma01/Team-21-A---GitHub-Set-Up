@@ -148,7 +148,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               fontSize: 14.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xFFE02020),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -265,7 +265,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               fontSize: 14.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xFFE02020),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -382,7 +382,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               fontSize: 14.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xFFE02020),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -499,7 +499,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               fontSize: 14.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xFFE02020),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -699,7 +699,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                             fontSize: 14.sp,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -727,7 +727,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                             fontSize: 14.sp,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xFFE02020),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -867,7 +867,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                   child: TextButton(
                                     child: Text('Create', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                     ),
@@ -932,7 +932,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                   child: TextButton(
                                     child: Text('Find More', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                     ),
@@ -1007,7 +1007,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                   child: TextButton(
                                     child: Text('Manage', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                     ),
@@ -1074,7 +1074,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                   child: TextButton(
                                     child: Text('Track', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                     ),
@@ -1173,7 +1173,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                                                           .white)),
                                                               style: TextButton
                                                                   .styleFrom(
-                                                                primary: Colors.white,
+                                                                foregroundColor: Colors.white,
                                                                 backgroundColor:
                                                                 Color(0xff389e9d),
                                                                 shape: const RoundedRectangleBorder(

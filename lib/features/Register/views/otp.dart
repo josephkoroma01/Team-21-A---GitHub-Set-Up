@@ -180,7 +180,7 @@ class _OTPScreenPageState extends State<OTPScreenPage> {
                                           fontSize: 14,
                                           color: Colors.white)),
                                   style: TextButton.styleFrom(
-                                    primary: Colors.white,
+                                    foregroundColor: Colors.white,
                                     backgroundColor: Color(0xff389e9d),
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -207,7 +207,7 @@ class _OTPScreenPageState extends State<OTPScreenPage> {
                                           fontSize: 14,
                                           color: Colors.white)),
                                   style: TextButton.styleFrom(
-                                    primary: Colors.white,
+                                    foregroundColor: Colors.white,
                                     backgroundColor: Color(0xFFE02020),
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -556,7 +556,7 @@ class _OTPScreenPageState extends State<OTPScreenPage> {
                                                                         ),
                                                                         style: TextButton
                                                                             .styleFrom(
-                                                                          primary:
+                                                                          foregroundColor:
                                                                               Colors.white,
                                                                           backgroundColor:
                                                                               Color(0xff389e9d),

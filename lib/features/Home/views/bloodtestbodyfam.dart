@@ -322,7 +322,7 @@ final List<String> bloodItems = [
                                 ),
                               ),
                               style: TextButton.styleFrom(
-                                primary: Colors.teal,
+                                foregroundColor: Colors.teal,
                                 backgroundColor: Colors.white,
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:

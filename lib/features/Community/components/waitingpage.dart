@@ -228,7 +228,7 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
                               ),
                               style: TextButton
                                   .styleFrom(
-                                primary: Colors.teal,
+                                foregroundColor: Colors.teal,
                                 backgroundColor:
                                 Colors.white,
                                 shape: const RoundedRectangleBorder(

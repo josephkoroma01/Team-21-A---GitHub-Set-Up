@@ -208,7 +208,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                     letterSpacing: 0,
                                       fontSize: 14, color: Colors.white)),
                               style: TextButton.styleFrom(
-                                primary: Colors.white,
+                                foregroundColor: Colors.white,
                                 backgroundColor: Color(0xff389e9d),
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
@@ -577,7 +577,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                                                         ),
                                                                         style: TextButton
                                                                             .styleFrom(
-                                                                          primary:
+                                                                          foregroundColor:
                                                                               Colors.white,
                                                                           backgroundColor:
                                                                               Color(0xff389e9d),

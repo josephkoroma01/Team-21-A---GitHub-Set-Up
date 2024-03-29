@@ -111,7 +111,7 @@ class bloodtypebodyState extends State<bloodtypebody> {
 letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -189,7 +189,7 @@ letterSpacing: 0,
 letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -274,7 +274,7 @@ letterSpacing: 0,
 letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -353,7 +353,7 @@ letterSpacing: 0,
 letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -439,7 +439,7 @@ letterSpacing: 0,
 letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -517,7 +517,7 @@ letterSpacing: 0,
 letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -602,7 +602,7 @@ letterSpacing: 0,
 letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -680,7 +680,7 @@ letterSpacing: 0,
 letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(

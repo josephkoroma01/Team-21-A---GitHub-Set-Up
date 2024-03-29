@@ -1818,7 +1818,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                                                               .white)),
                                                                   style: TextButton
                                                                       .styleFrom(
-                                                                    primary: Colors
+                                                                        
+                                                                    foregroundColor: Colors
                                                                         .white,
                                                                     backgroundColor:
                                                                         Color(
@@ -1935,7 +1936,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                                               .white)),
                                                                   style: TextButton
                                                                       .styleFrom(
-                                                                    primary: Colors
+                                                                    foregroundColor: Colors
                                                                         .white,
                                                                     backgroundColor:
                                                                         Color(
