@@ -51,9 +51,9 @@ class _managebloodtestAppointmentsState
   final _formKey = GlobalKey<FormState>();
   late Timer _getRefPreftimer;
   Future<bool> getInternetUsingInternetConnectivity() async {
-  bool result = await InternetConnectionChecker().hasConnection;
-  return result;
-}
+    bool result = await InternetConnectionChecker().hasConnection;
+    return result;
+  }
 
   @override
   void initState() {
@@ -144,7 +144,10 @@ class _managebloodtestAppointmentsState
                 ),
               );
             },
-           icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('Manage Appointments',
             textAlign: TextAlign.center,
@@ -305,7 +308,6 @@ class _managebloodtestAppointmentsState
                                               color: Colors.white)),
                                     ],
                                   ),
-                                  
                                 ],
                               ),
                             ),
@@ -417,7 +419,7 @@ class _managebloodtestAppointmentsState
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.montserrat(
                                               fontSize: 14.sp,
-                                              letterSpacing:0,
+                                              letterSpacing: 0,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white)),
                                     ],
@@ -425,7 +427,6 @@ class _managebloodtestAppointmentsState
                                   SizedBox(
                                     height: 8.h,
                                   ),
-                                  
                                 ],
                               ),
                             ),
@@ -461,7 +462,11 @@ class _managebloodtestAppointmentsState
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  FaIcon(FontAwesomeIcons.calendarCheck, size: 40, color: Colors.grey,),
+                                  FaIcon(
+                                    FontAwesomeIcons.calendarCheck,
+                                    size: 40,
+                                    color: Colors.grey,
+                                  ),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -474,7 +479,6 @@ class _managebloodtestAppointmentsState
                                   SizedBox(
                                     height: 5.h,
                                   ),
-                                  
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -487,7 +491,7 @@ class _managebloodtestAppointmentsState
                                               fontSize: 12.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -548,7 +552,11 @@ class _managebloodtestAppointmentsState
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  FaIcon(FontAwesomeIcons.calendarCheck, size: 40, color: Colors.grey,),
+                                  FaIcon(
+                                    FontAwesomeIcons.calendarCheck,
+                                    size: 40,
+                                    color: Colors.grey,
+                                  ),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -560,7 +568,6 @@ class _managebloodtestAppointmentsState
                                   SizedBox(
                                     height: 5.h,
                                   ),
-                                  
                                   Container(
                                     width: double.infinity,
                                     child: TextButton(
@@ -570,7 +577,7 @@ class _managebloodtestAppointmentsState
                                               fontSize: 12.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(

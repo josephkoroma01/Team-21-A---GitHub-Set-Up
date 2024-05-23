@@ -70,9 +70,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   bool _validate = false;
   FocusNode focusNode = FocusNode();
   Future<bool> getInternetUsingInternetConnectivity() async {
-  bool result = await InternetConnectionChecker().hasConnection;
-  return result;
-}
+    bool result = await InternetConnectionChecker().hasConnection;
+    return result;
+  }
 
   @override
   void initState() {
@@ -205,10 +205,11 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                               child: Text('Create Now',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.montserrat(
-                                    letterSpacing: 0,
-                                      fontSize: 14, color: Colors.white)),
+                                      letterSpacing: 0,
+                                      fontSize: 14,
+                                      color: Colors.white)),
                               style: TextButton.styleFrom(
-                                primary: Colors.white,
+                                foregroundColor: Colors.white,
                                 backgroundColor: Color(0xff389e9d),
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
@@ -310,8 +311,10 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                               },
                               decoration: InputDecoration(
                                 labelText: 'Phone Number',
-                                
-                                labelStyle: TextStyle(fontSize: 15, letterSpacing: 0,),
+                                labelStyle: TextStyle(
+                                  fontSize: 15,
+                                  letterSpacing: 0,
+                                ),
                               ),
                               controller: refCodeCtrl,
                             ),
@@ -342,48 +345,49 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: IntlPhoneField(
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  letterSpacing: 0,
-                                  fontFamily: 'Montserrat'),
-                              focusNode: focusNode,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Phone Number is required';
-                                }
-                                return null;
-                              },
-                              controller: _forgetphonenumberCtrl,
-                              decoration: InputDecoration(
-                                counterText: '',
-                                isDense: true,
-                                labelText: 'Phone Number',
-                                labelStyle: TextStyle(
-                                    fontSize: 14,
-                                    letterSpacing: 0,
-                                    fontFamily: 'Montserrat'),
-                                errorStyle: TextStyle(
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontFamily: 'Montserrat'),
-                                helperStyle: TextStyle(
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontFamily: 'Montserrat'),
-                                hintStyle: TextStyle(
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontFamily: 'Montserrat'),
-                                border: InputBorder.none,
-                              ),
-                              languageCode: "en",
-                              onChanged: (phone) {
-                                print(phone.completeNumber);
-                              },
-                              onCountryChanged: (country) {
-                                print('Country changed to: ' + country.name);
-                              },
-                            ),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          letterSpacing: 0,
+                                          fontFamily: 'Montserrat'),
+                                      focusNode: focusNode,
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Phone Number is required';
+                                        }
+                                        return null;
+                                      },
+                                      controller: _forgetphonenumberCtrl,
+                                      decoration: InputDecoration(
+                                        counterText: '',
+                                        isDense: true,
+                                        labelText: 'Phone Number',
+                                        labelStyle: TextStyle(
+                                            fontSize: 14,
+                                            letterSpacing: 0,
+                                            fontFamily: 'Montserrat'),
+                                        errorStyle: TextStyle(
+                                            fontSize: 12,
+                                            letterSpacing: 0,
+                                            fontFamily: 'Montserrat'),
+                                        helperStyle: TextStyle(
+                                            fontSize: 12,
+                                            letterSpacing: 0,
+                                            fontFamily: 'Montserrat'),
+                                        hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            letterSpacing: 0,
+                                            fontFamily: 'Montserrat'),
+                                        border: InputBorder.none,
+                                      ),
+                                      languageCode: "en",
+                                      onChanged: (phone) {
+                                        print(phone.completeNumber);
+                                      },
+                                      onCountryChanged: (country) {
+                                        print('Country changed to: ' +
+                                            country.name);
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
@@ -447,7 +451,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                       child: Text('Verify',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.montserrat(
-                                            letterSpacing: 0,
+                                              letterSpacing: 0,
                                               fontSize: 14,
                                               color: Colors.white)),
                                     ),
@@ -568,8 +572,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                                                     TextButton(
                                                                         child:
                                                                             Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.all(5),
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              5),
                                                                           child: Text(
                                                                               'Copy',
                                                                               textAlign: TextAlign.center,
@@ -577,7 +582,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                                                         ),
                                                                         style: TextButton
                                                                             .styleFrom(
-                                                                          primary:
+                                                                          foregroundColor:
                                                                               Colors.white,
                                                                           backgroundColor:
                                                                               Color(0xff389e9d),
@@ -623,7 +628,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                                 'Verification Code do not match.',
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.montserrat(
-                                                  letterSpacing: 0,
+                                                    letterSpacing: 0,
                                                     fontSize: 12)),
                                             backgroundColor: Color(0xFFE02020),
                                             behavior: SnackBarBehavior.fixed,
@@ -638,7 +643,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                           content: Text('Enter 6-Digit code',
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.montserrat(
-                                                letterSpacing: 0,
+                                                  letterSpacing: 0,
                                                   fontSize: 12)),
                                           backgroundColor: Color(0xFFE02020),
                                           behavior: SnackBarBehavior.fixed,
@@ -679,8 +684,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                                 'You are offline, Kindly turn on Wifi or Mobile Data to continue',
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.montserrat(
-                                                    fontSize: 10, 
-                                                    letterSpacing: 0,)),
+                                                  fontSize: 10,
+                                                  letterSpacing: 0,
+                                                )),
                                             backgroundColor: Color(0xFFE02020),
                                             behavior: SnackBarBehavior.fixed,
                                             duration:

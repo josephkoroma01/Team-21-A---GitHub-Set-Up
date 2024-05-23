@@ -31,7 +31,6 @@ import 'package:http/http.dart' as http;
 import '../../../main.dart';
 import '../../../constants/colors.dart';
 
-
 class facilitydata {
   String rbtc;
   String rbtcid;
@@ -505,7 +504,7 @@ class labtestbodyState extends State<labtestbody> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.teal,
         leading: IconButton(
           onPressed: () {
@@ -538,7 +537,6 @@ class labtestbodyState extends State<labtestbody> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  
                   builddonationSearch(),
                   Expanded(
                       child: Column(
@@ -555,8 +553,7 @@ class labtestbodyState extends State<labtestbody> {
                               children: <Widget>[
                                 Expanded(
                                   child: SingleChildScrollView(
-                                    child: 
-                                    Container(
+                                    child: Container(
                                       padding: EdgeInsets.only(
                                           bottom: MediaQuery.of(context)
                                               .viewInsets
@@ -587,90 +584,113 @@ class labtestbodyState extends State<labtestbody> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.spaceBetween,
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     Flexible(
                                                       flex: 1,
                                                       child: Container(
-                                                                                                height: 40,
-                                                                                                width: 40,
-                                                                                                decoration: BoxDecoration(
-                                                                                                  color: kIconBcgColor,
-                                                                                                  borderRadius:
-                                                                                                      BorderRadius.circular(10),
-                                                                                                ),
-                                                                                                child: Center(child: FaIcon(FontAwesomeIcons.allergies, color: kPrimaryColor, size: 25,)),
-                                                                                              ),
+                                                        height: 40,
+                                                        width: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: kIconBcgColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: Center(
+                                                            child: FaIcon(
+                                                          FontAwesomeIcons
+                                                              .allergies,
+                                                          color:
+                                                              kPrimaryColor,
+                                                          size: 25,
+                                                        )),
+                                                      ),
                                                     ),
                                                     Flexible(
                                                       flex: 3,
                                                       child: Column(
-                                                       mainAxisAlignment: MainAxisAlignment.start,
-                                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          
-                                                                                              
-                                                                                              Text('Allergy & Intolerance Tests',
-                                                          overflow: TextOverflow.clip,
-                                                          style: GoogleFonts
-                                                                      .montserrat(
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                            letterSpacing: 0,
-                                                                    color: Color(
-                                                                        0xFF205072),
-                                                                  ),),
+                                                          Text(
+                                                            'Allergy & Intolerance Tests',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            style: GoogleFonts
+                                                                .montserrat(
+                                                              fontSize: 13.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              letterSpacing: 0,
+                                                              color: Color(
+                                                                  0xFF205072),
+                                                            ),
+                                                          ),
                                                           3.verticalSpace,
-                                                       TextButton(
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text('View All Tests',
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style: GoogleFonts
-                                                                          .montserrat(
-                                                                        fontSize: 11.sp,
-                                                                        letterSpacing:
-                                                                            0,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
-                                                                        color:
-                                                                            kPrimaryColor,
-                                                                      )),
-                                                                      5.horizontalSpace,
-                                                                      FaIcon(FontAwesomeIcons.squareArrowUpRight, color: kPrimaryColor, size: 15,)
-                                                                ],
-                                                              ),
-                                                              style:
-                                                                  TextButton.styleFrom(
-                                                                foregroundColor:
-                                                                    Colors.white,
-                                                                backgroundColor:
-                                                                    kPrimaryColor
-                                                                        .shade100,
-                                                                shape: const RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .all(Radius
-                                                                                .circular(
-                                                                                    10))),
-                                                              ),
-                                                              onPressed: () {
-                                                                _showDialog(context);
-                                                                 
-                                                              },
-                                                            ),   
+                                                          TextButton(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    'View All Tests',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: GoogleFonts
+                                                                        .montserrat(
+                                                                      fontSize:
+                                                                          11.sp,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      color:
+                                                                          kPrimaryColor,
+                                                                    )),
+                                                                5.horizontalSpace,
+                                                                FaIcon(
+                                                                  FontAwesomeIcons
+                                                                      .squareArrowUpRight,
+                                                                  color:
+                                                                      kPrimaryColor,
+                                                                  size: 15,
+                                                                )
+                                                              ],
+                                                            ),
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              foregroundColor:
+                                                                  Colors.white,
+                                                              backgroundColor:
+                                                                  Colors.teal
+                                                                      .shade100,
+                                                              shape: const RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10))),
+                                                            ),
+                                                            onPressed: () {
+                                                              _showDialog(
+                                                                  context);
+                                                            },
+                                                          ),
                                                         ],
                                                       ),
-                                                    ),],
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
@@ -678,7 +698,6 @@ class labtestbodyState extends State<labtestbody> {
                                         ),
                                       ),
                                     ),
-                                  
                                   ),
                                 ),
                               ],
@@ -688,8 +707,7 @@ class labtestbodyState extends State<labtestbody> {
                               children: <Widget>[
                                 Expanded(
                                   child: SingleChildScrollView(
-                                    child: 
-                                    Container(
+                                    child: Container(
                                       padding: EdgeInsets.only(
                                           bottom: MediaQuery.of(context)
                                               .viewInsets
@@ -720,95 +738,112 @@ class labtestbodyState extends State<labtestbody> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.spaceBetween,
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     Flexible(
                                                       flex: 1,
                                                       child: Container(
-                                                                                                height: 40,
-                                                                                                width: 40,
-                                                                                                decoration: BoxDecoration(
-                                                                                                  color: kIconBcgColor,
-                                                                                                  borderRadius:
-                                                                                                      BorderRadius.circular(10),
-                                                                                                ),
-                                                                                                child: Center(child: FaIcon(FontAwesomeIcons.tooth, color: kPrimaryColor, size: 25,)),
-                                                                                              ),
+                                                        height: 40,
+                                                        width: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: kIconBcgColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: Center(
+                                                            child: FaIcon(
+                                                          FontAwesomeIcons
+                                                              .tooth,
+                                                          color:
+                                                              kPrimaryColor,
+                                                          size: 25,
+                                                        )),
+                                                      ),
                                                     ),
                                                     Flexible(
                                                       flex: 3,
                                                       child: Column(
-                                                       mainAxisAlignment: MainAxisAlignment.start,
-                                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          Text('Dental Tests',
-                                                          overflow: TextOverflow.clip,
-                                                          style: GoogleFonts
-                                                                      .montserrat(
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                            letterSpacing: 0,
-                                                                    color: Color(
-                                                                        0xFF205072),
-                                                                  ),),
-                                                          
-                                                                                              
-                                                                                             
+                                                          Text(
+                                                            'Dental Tests',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            style: GoogleFonts
+                                                                .montserrat(
+                                                              fontSize: 13.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              letterSpacing: 0,
+                                                              color: Color(
+                                                                  0xFF205072),
+                                                            ),
+                                                          ),
                                                           3.verticalSpace,
-                                                       TextButton(
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text('View All Tests',
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style: GoogleFonts
-                                                                          .montserrat(
-                                                                        fontSize: 11.sp,
-                                                                        
-                                                                        letterSpacing:
-                                                                            0,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
-                                                                        color:
-                                                                            kPrimaryColor,
-                                                                      )),
-                                                                      5.horizontalSpace,
-                                                                      FaIcon(FontAwesomeIcons.squareArrowUpRight, color: kPrimaryColor, size: 15,)
-                                                                ],
-                                                              ),
-                                                              style:
-                                                                  TextButton.styleFrom(
-                                                                foregroundColor:
-                                                                    Colors.white,
-                                                                backgroundColor:
-                                                                    kPrimaryColor
-                                                                        .shade100,
-                                                                shape: const RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .all(Radius
-                                                                                .circular(
-                                                                                    10))),
-                                                              ),
-                                                              onPressed: () {
-                                                                
-                                                                _showDialog(context);
-                                                                 
-                                                              },
-                                                            ),   
+                                                          TextButton(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    'View All Tests',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: GoogleFonts
+                                                                        .montserrat(
+                                                                      fontSize:
+                                                                          11.sp,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      color:
+                                                                          kPrimaryColor,
+                                                                    )),
+                                                                5.horizontalSpace,
+                                                                FaIcon(
+                                                                  FontAwesomeIcons
+                                                                      .squareArrowUpRight,
+                                                                  color:
+                                                                      kPrimaryColor,
+                                                                  size: 15,
+                                                                )
+                                                              ],
+                                                            ),
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              foregroundColor:
+                                                                  Colors.white,
+                                                              backgroundColor:
+                                                                  Colors.teal
+                                                                      .shade100,
+                                                              shape: const RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10))),
+                                                            ),
+                                                            onPressed: () {
+                                                              _showDialog(
+                                                                  context);
+                                                            },
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
-                                                   
-                                                   
                                                   ],
                                                 ),
                                               ],
@@ -817,7 +852,6 @@ class labtestbodyState extends State<labtestbody> {
                                         ),
                                       ),
                                     ),
-                                  
                                   ),
                                 ),
                               ],
@@ -880,7 +914,7 @@ class labtestbodyState extends State<labtestbody> {
                   //                               ],
                   //                             ),
                   //                             style: TextButton.styleFrom(
-                  //                               primary: Colors.white,
+                  //                               foregroundColor: Colors.white,
 
                   //                               shape: const RoundedRectangleBorder(
                   //                                   borderRadius: BorderRadius.all(
@@ -952,7 +986,7 @@ class labtestbodyState extends State<labtestbody> {
                   //                                             fontSize: 12.sp,
                   //                                             color: Colors.white)),
                   //                                     style: TextButton.styleFrom(
-                  //                                       primary: Colors.white,
+                  //                                       foregroundColor: Colors.white,
                   //                                       backgroundColor:
                   //                                           Color(0xff389e9d),
                   //                                       shape:
@@ -1615,7 +1649,6 @@ class labtestbodyState extends State<labtestbody> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
@@ -1626,13 +1659,15 @@ class labtestbodyState extends State<labtestbody> {
                               return SingleChildScrollView(
                                 child: Container(
                                   padding: EdgeInsets.only(
-                                      bottom:
-                                          MediaQuery.of(context).viewInsets.bottom),
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
                                   child: Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        20.0, 20.0, 20.0, 0.0), // content padding
+                                    padding: EdgeInsets.fromLTRB(20.0, 20.0,
+                                        20.0, 0.0), // content padding
                                     child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text('Admit Patient',
                                               style: GoogleFonts.montserrat(
@@ -1669,28 +1704,36 @@ class labtestbodyState extends State<labtestbody> {
                                                     },
                                                     child: Container(
                                                       padding: EdgeInsets.only(
-                                                          bottom:
-                                                              MediaQuery.of(context)
-                                                                  .viewInsets
-                                                                  .bottom),
+                                                          bottom: MediaQuery.of(
+                                                                  context)
+                                                              .viewInsets
+                                                              .bottom),
                                                       child: Padding(
                                                         padding:
                                                             EdgeInsets.fromLTRB(
-                                                                0.0, 0.0, 0.0, 0.0),
+                                                                0.0,
+                                                                0.0,
+                                                                0.0,
+                                                                0.0),
                                                         child: Padding(
-                                                          padding:
-                                                              EdgeInsets.symmetric(
-                                                                  horizontal: 5.w),
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      5.w),
                                                           child: Container(
-                                                            padding: EdgeInsets.all(
-                                                                10.r),
-                                                            width: double.infinity,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    10.r),
+                                                            width:
+                                                                double.infinity,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               borderRadius:
                                                                   BorderRadius
-                                                                      .circular(16),
+                                                                      .circular(
+                                                                          16),
                                                             ),
                                                             child: Column(
                                                               mainAxisAlignment:
@@ -1713,8 +1756,8 @@ class labtestbodyState extends State<labtestbody> {
                                                                         TextAlign
                                                                             .center,
                                                                     style: GoogleFonts.montserrat(
-                                                                        fontSize:
-                                                                            14.sp,
+                                                                        fontSize: 14
+                                                                            .sp,
                                                                         color: Color(
                                                                             0xff406986))),
                                                                 SizedBox(
@@ -1753,26 +1796,35 @@ class labtestbodyState extends State<labtestbody> {
                                                   },
                                                   child: Container(
                                                     padding: EdgeInsets.only(
-                                                        bottom:
-                                                            MediaQuery.of(context)
-                                                                .viewInsets
-                                                                .bottom),
+                                                        bottom: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets
+                                                            .bottom),
                                                     child: Padding(
-                                                      padding: EdgeInsets.fromLTRB(
-                                                          0.0, 0.0, 0.0, 0.0),
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              0.0,
+                                                              0.0,
+                                                              0.0,
+                                                              0.0),
                                                       child: Padding(
-                                                        padding:
-                                                            EdgeInsets.symmetric(
-                                                                horizontal: 5.w),
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    5.w),
                                                         child: Container(
                                                           padding:
-                                                              EdgeInsets.all(10.r),
-                                                          width: double.infinity,
-                                                          decoration: BoxDecoration(
+                                                              EdgeInsets.all(
+                                                                  10.r),
+                                                          width:
+                                                              double.infinity,
+                                                          decoration:
+                                                              BoxDecoration(
                                                             color: Colors.white,
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(16),
+                                                                    .circular(
+                                                                        16),
                                                           ),
                                                           child: Column(
                                                             mainAxisAlignment:
@@ -1794,12 +1846,11 @@ class labtestbodyState extends State<labtestbody> {
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
-                                                                  style: GoogleFonts
-                                                                      .montserrat(
-                                                                          fontSize:
-                                                                              14.sp,
-                                                                          color: Color(
-                                                                              0xff406986))),
+                                                                  style: GoogleFonts.montserrat(
+                                                                      fontSize:
+                                                                          14.sp,
+                                                                      color: Color(
+                                                                          0xff406986))),
                                                               SizedBox(
                                                                 height: 5.h,
                                                               ),
@@ -1835,28 +1886,36 @@ class labtestbodyState extends State<labtestbody> {
                                                     },
                                                     child: Container(
                                                       padding: EdgeInsets.only(
-                                                          bottom:
-                                                              MediaQuery.of(context)
-                                                                  .viewInsets
-                                                                  .bottom),
+                                                          bottom: MediaQuery.of(
+                                                                  context)
+                                                              .viewInsets
+                                                              .bottom),
                                                       child: Padding(
                                                         padding:
                                                             EdgeInsets.fromLTRB(
-                                                                0.0, 0.0, 0.0, 0.0),
+                                                                0.0,
+                                                                0.0,
+                                                                0.0,
+                                                                0.0),
                                                         child: Padding(
-                                                          padding:
-                                                              EdgeInsets.symmetric(
-                                                                  horizontal: 5.w),
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      5.w),
                                                           child: Container(
-                                                            padding: EdgeInsets.all(
-                                                                10.r),
-                                                            width: double.infinity,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    10.r),
+                                                            width:
+                                                                double.infinity,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               borderRadius:
                                                                   BorderRadius
-                                                                      .circular(16),
+                                                                      .circular(
+                                                                          16),
                                                             ),
                                                             child: Column(
                                                               mainAxisAlignment:
@@ -1879,8 +1938,8 @@ class labtestbodyState extends State<labtestbody> {
                                                                         TextAlign
                                                                             .center,
                                                                     style: GoogleFonts.montserrat(
-                                                                        fontSize:
-                                                                            14.sp,
+                                                                        fontSize: 14
+                                                                            .sp,
                                                                         color: Color(
                                                                             0xff406986))),
                                                                 SizedBox(
@@ -1926,19 +1985,18 @@ class labtestbodyState extends State<labtestbody> {
                                   fontSize: 12.sp, color: Colors.white)),
                         ]),
                         style: TextButton.styleFrom(
-                          primary: Colors.white,
+                          foregroundColor: Colors.white,
                           backgroundColor: Colors.teal,
                           shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
                         ),
                         onPressed: () async {
-                           Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            BloodGroupResults()));
-                          },
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BloodGroupResults()));
+                        },
                       ),
                     ),
                   ],
@@ -1950,6 +2008,7 @@ class labtestbodyState extends State<labtestbody> {
       ),
     );
   }
+
   void _showDialog(BuildContext context) {
     showDialog(
         context: context, builder: (BuildContext context) => DialogContent());
@@ -1966,7 +2025,6 @@ class DialogContent extends StatefulWidget {
 }
 
 class _DialogContentState extends State<DialogContent> {
-
   Timer? debouncer;
   String donationquery = '';
 
@@ -2019,6 +2077,7 @@ class _DialogContentState extends State<DialogContent> {
 
     debouncer = Timer(duration, callback);
   }
+
   Future searchBook(String donationquery) async => debounce(() async {
         final donationschedule = await getBloodDonationApp(donationquery);
 
@@ -2040,16 +2099,13 @@ class _DialogContentState extends State<DialogContent> {
         child: Container(
           width: MediaQuery.of(context).size.width <= 768 ? 0.7.sw : 0.35.sw,
           decoration: BoxDecoration(
-            color: Colors.white,
-             borderRadius: BorderRadius.circular(10)
-          ),
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
           child: Column(
             children: [
               Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: kPrimaryColor,
-                 
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2078,309 +2134,293 @@ class _DialogContentState extends State<DialogContent> {
                   ],
                 ),
               ),
-              
               builddonationSearch(),
-               Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    child: Padding(
-                                      padding: EdgeInsets.fromLTRB(
-                                          .0, 5.0, 5.0, 5.0),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.w),
-                                        child: Container(
-                                          padding: EdgeInsets.all(10.r),
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: Colors.teal),
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(.0, 5.0, 5.0, 5.0),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          child: Container(
+                            padding: EdgeInsets.all(10.r),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.teal),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text('Laboratory Test Details',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 10.sp,
+                                            color: Color(0xff389e9d))),
+                                    SizedBox(
+                                      height: 5.h,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text.rich(
+                                          TextSpan(
+                                            style: TextStyle(
+                                              color: Color(0xFF205072),
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                             children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      'Laboratory Test Details',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: 10.sp,
-                                                              color: Color(
-                                                                  0xff389e9d))),
-                                                  SizedBox(
-                                                    height: 5.h,
-                                                  ),
-                                                  
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text.rich(
-                                                        TextSpan(
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF205072),
-                                                            fontSize: 15.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold,
-                                                          ),
-                                                          children: [
-                                                            TextSpan(
-                                                              text:
-                                                                  'DAO (Histamine Intolerance)',
-                                                              style: GoogleFonts
-                                                                  .montserrat(
-                                                                fontSize:
-                                                                    13.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                        letterSpacing: 0,
-                                                                color: Color(
-                                                                    0xFF205072),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        textHeightBehavior:
-                                                            TextHeightBehavior(
-                                                                applyHeightToFirstAscent:
-                                                                    false),
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                      ),
-                                                      
-                                                    ],
-                                                  ),
-
-                                                  Row(
-                                                      children: [
-                                                        Flexible(
-                                                          child: TextButton(
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Text('Description',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style: GoogleFonts
-                                                                        .montserrat(
-                                                                      fontSize: 11.sp,
-                                                                      letterSpacing:
-                                                                          0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      color:
-                                                                          kPrimaryColor,
-                                                                    )),
-                                                              ],
-                                                            ),
-                                                            style:
-                                                                TextButton.styleFrom(
-                                                              foregroundColor:
-                                                                  Colors.white,
-                                                              backgroundColor:
-                                                                  kPrimaryColor
-                                                                      .shade100,
-                                                              shape: const RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .all(Radius
-                                                                              .circular(
-                                                                                  10))),
-                                                            ),
-                                                            onPressed: () {
-                                                              
-                                                              showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Color(0xFFebf5f5),
-                            context: context,
-                            builder: (context) {
-                              return SingleChildScrollView(
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context)
-                                          .viewInsets
-                                          .bottom),
-                                  child: Padding(
-                                    padding: EdgeInsets.fromLTRB(20.0, 20.0,
-                                        20.0, 0.0), // content padding
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
-                                            height: 10.h,
+                                              TextSpan(
+                                                text:
+                                                    'DAO (Histamine Intolerance)',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 0,
+                                                  color: Color(0xFF205072),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
+                                          textHeightBehavior:
+                                              TextHeightBehavior(
+                                                  applyHeightToFirstAscent:
+                                                      false),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: TextButton(
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                Text(' Close',
+                                                Text('Description',
                                                     textAlign: TextAlign.center,
                                                     style:
                                                         GoogleFonts.montserrat(
-                                                            fontSize: 13.sp,
-                                                            color: Colors.red)),
+                                                      fontSize: 11.sp,
+                                                      letterSpacing: 0,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color:
+                                                          kPrimaryColor,
+                                                    )),
                                               ],
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 5.h,
-                                          ),
-                                          Text(
-                                              'DAO (Histamine Intolerance',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 15.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xff389e9d))),
-                                          SizedBox(
-                                            height: 5.h,
-                                          ),
-                                          Container(
-                                            width: double.infinity,
-                                            child: SizedBox(
-                                              child: Divider(
-                                                color: Colors.teal,
-                                                thickness: 1,
-                                              ),
-                                              height: 5.h,
+                                            style: TextButton.styleFrom(
+                                              foregroundColor: Colors.white,
+                                              backgroundColor:
+                                                  Colors.teal
+                                                      .shade100,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10))),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 5.h,
-                                          ),
-                                          
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text('Where is the blood needed?',
-                                                  textAlign: TextAlign.left,
-                                                  style: GoogleFonts.montserrat(
-                                                      fontSize: 12.sp,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color:
-                                                          Color(0xff406986))),
-                                            ],
-                                          ),
-                                          SizedBox(height: 5.h),
-                                          
-                                                SizedBox(height: 10.h),
-                                                   
-                                      
-                                        ]),
-                                  ),
-                                ),
-                              );
-                            });
-                      
-                                                               
-                                                            },
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 5,),
-                                                        Flexible(
-                                                          child: TextButton(
-                                                            child: Row(
+                                            onPressed: () {
+                                              showModalBottomSheet(
+                                                  isScrollControlled: true,
+                                                  backgroundColor:
+                                                      Color(0xFFebf5f5),
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return SingleChildScrollView(
+                                                      child: Container(
+                                                        padding: EdgeInsets.only(
+                                                            bottom:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .viewInsets
+                                                                    .bottom),
+                                                        child: Padding(
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(
+                                                                  20.0,
+                                                                  20.0,
+                                                                  20.0,
+                                                                  0.0), // content padding
+                                                          child: Column(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
                                                               children: [
-                                                                Text('Schedule',
+                                                                SizedBox(
+                                                                  height: 10.h,
+                                                                ),
+                                                                InkWell(
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .end,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .end,
+                                                                    children: [
+                                                                      Text(
+                                                                          ' Close',
+                                                                          textAlign: TextAlign
+                                                                              .center,
+                                                                          style: GoogleFonts.montserrat(
+                                                                              fontSize: 13.sp,
+                                                                              color: Colors.red)),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5.h,
+                                                                ),
+                                                                Text(
+                                                                    'DAO (Histamine Intolerance',
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
-                                                                    style: GoogleFonts
-                                                                        .montserrat(
-                                                                      fontSize: 11.sp,
-                                                                      letterSpacing:
-                                                                          0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      color:
-                                                                          kPrimaryColor,
-                                                                    )),
-                                                              ],
-                                                            ),
-                                                            style:
-                                                                TextButton.styleFrom(
-                                                              foregroundColor:
-                                                                  Colors.white,
-                                                              backgroundColor:
-                                                                  kPrimaryColor
-                                                                      .shade100,
-                                                              shape: const RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .all(Radius
-                                                                              .circular(
-                                                                                  10))),
-                                                            ),
-                                                            onPressed: () {
-                                                              Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder:
-                                                                              (context) =>
-                                                                                  scheduletest(title: 'DAO (Histamin Intolerance)',)));
-                                                               
-                                                            },
-                                                          ),
+                                                                    style: GoogleFonts.montserrat(
+                                                                        fontSize: 15
+                                                                            .sp,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        color: Color(
+                                                                            0xff389e9d))),
+                                                                SizedBox(
+                                                                  height: 5.h,
+                                                                ),
+                                                                Container(
+                                                                  width: double
+                                                                      .infinity,
+                                                                  child:
+                                                                      SizedBox(
+                                                                    child:
+                                                                        Divider(
+                                                                      color: Colors
+                                                                          .teal,
+                                                                      thickness:
+                                                                          1,
+                                                                    ),
+                                                                    height: 5.h,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5.h,
+                                                                ),
+                                                                Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                        'Where is the blood needed?',
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .left,
+                                                                        style: GoogleFonts.montserrat(
+                                                                            fontSize:
+                                                                                12.sp,
+                                                                            fontWeight: FontWeight.normal,
+                                                                            color: Color(0xff406986))),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                    height:
+                                                                        5.h),
+                                                                SizedBox(
+                                                                    height:
+                                                                        10.h),
+                                                              ]),
                                                         ),
-                                                      ],
-                                                    ),
-                                                 
-                                                  
-                                                   ],
-                                              ),
-                                            ],
+                                                      ),
+                                                    );
+                                                  });
+                                            },
                                           ),
                                         ),
-                                      ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Flexible(
+                                          child: TextButton(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text('Schedule',
+                                                    textAlign: TextAlign.center,
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 11.sp,
+                                                      letterSpacing: 0,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color:
+                                                          kPrimaryColor,
+                                                    )),
+                                              ],
+                                            ),
+                                            style: TextButton.styleFrom(
+                                              foregroundColor: Colors.white,
+                                              backgroundColor:
+                                                  Colors.teal
+                                                      .shade100,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10))),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          scheduletest(
+                                                            title:
+                                                                'DAO (Histamin Intolerance)',
+                                                          )));
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ],
                             ),
-           10.verticalSpace,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              10.verticalSpace,
             ],
           ),
         ),
@@ -2388,7 +2428,6 @@ class _DialogContentState extends State<DialogContent> {
     );
   }
 }
-
 
 class NoGlowBehaviour extends ScrollBehavior {
   @override

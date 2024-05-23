@@ -14,8 +14,7 @@ class BloodDoonationScreen extends StatelessWidget {
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
       debugShowCheckedModeBanner: false,
-      home:
-      BloodDonation(title: 'Schedule Voluntary Blood Donation'),
+      home: BloodDonation(title: 'Schedule Voluntary Blood Donation'),
     );
   }
 }

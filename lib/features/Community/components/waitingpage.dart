@@ -13,29 +13,24 @@ import 'package:lifebloodworld/features/Community/components/donationcampaignsea
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-
-
 class waitingCampaignPage extends StatefulWidget {
-
-
-  waitingCampaignPage({Key? key,
-    required this.name,
-    required this.campaignname,
-    required this.campaigndescription,
-    required this.phonenumber,
-    required this.email,
-    required this.campaignemail,
-    required this.address,
-    required this.targeteddistrict,
-    required this.targetedarea,
-    required this.bloodcomponent,
-    required this.targetedbloodliters,
-    required this.budgetrange,
-    required this.daterange,
-    required this.refcode
-
-
-  }) : super(key: key);
+  waitingCampaignPage(
+      {Key? key,
+      required this.name,
+      required this.campaignname,
+      required this.campaigndescription,
+      required this.phonenumber,
+      required this.email,
+      required this.campaignemail,
+      required this.address,
+      required this.targeteddistrict,
+      required this.targetedarea,
+      required this.bloodcomponent,
+      required this.targetedbloodliters,
+      required this.budgetrange,
+      required this.daterange,
+      required this.refcode})
+      : super(key: key);
 
   String? name;
   String? campaignname;
@@ -71,21 +66,22 @@ class waitingCampaignPage extends StatefulWidget {
 }
 
 class waitingCampaignPageState extends State<waitingCampaignPage> {
-  waitingCampaignPageState({Key? key,
-    required this.name,
-    required this.campaignname,
-    required this.campaigndescription,
-    required this.phonenumber,
-    required this.email,
-    required this.campaignemail,
-    required this.address,
-    required this.targeteddistrict,
-    required this.targetedarea,
-    required this.bloodcomponent,
-    required this.targetedbloodliters,
-    required this.budgetrange,
-    required this.daterange,
-    required this.refcode});
+  waitingCampaignPageState(
+      {Key? key,
+      required this.name,
+      required this.campaignname,
+      required this.campaigndescription,
+      required this.phonenumber,
+      required this.email,
+      required this.campaignemail,
+      required this.address,
+      required this.targeteddistrict,
+      required this.targetedarea,
+      required this.bloodcomponent,
+      required this.targetedbloodliters,
+      required this.budgetrange,
+      required this.daterange,
+      required this.refcode});
 
   String query = '';
   GlobalKey _scaffold = GlobalKey();
@@ -106,12 +102,7 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
   String? daterange;
   String? refcode;
 
-
-
   bool _isloginLoading = true;
-
-
-
 
   @override
   void initState() {
@@ -119,40 +110,44 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
     register();
   }
 
-
   Future register() async {
     await Future.delayed(Duration(seconds: 2));
-    var response = await http.post(Uri.parse("http://lifebloodsl.com/communityapi/donationcampaigns.php"), body: {
-      "name": name,
-      "campaignname": campaignname,
-      "campaigndescription": campaigndescription,
-      "phonenumber": phonenumber,
-      "email": email,
-      "campaignemail": phonenumber,
-      "address": address,
-      "targeteddistrict": targeteddistrict,
-      "targetedarea": targetedarea,
-      "bloodcomponent": bloodcomponent,
-      "targetedbloodliters": targetedbloodliters,
-      "budgetrange": budgetrange,
-      "daterange": daterange,
-      "refcode": refcode
-    });
+    var response = await http.post(
+        Uri.parse("http://lifebloodsl.com/communityapi/donationcampaigns.php"),
+        body: {
+          "name": name,
+          "campaignname": campaignname,
+          "campaigndescription": campaigndescription,
+          "phonenumber": phonenumber,
+          "email": email,
+          "campaignemail": phonenumber,
+          "address": address,
+          "targeteddistrict": targeteddistrict,
+          "targetedarea": targetedarea,
+          "bloodcomponent": bloodcomponent,
+          "targetedbloodliters": targetedbloodliters,
+          "budgetrange": budgetrange,
+          "daterange": daterange,
+          "refcode": refcode
+        });
     var data = json.decode(response.body);
     if (data == "Error") {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please Try Again, Schedule Already Exists, Try Tracking Schedule',
-            style: GoogleFonts
-                .montserrat()),
+        content: Text(
+            'Please Try Again, Schedule Already Exists, Try Tracking Schedule',
+            style: GoogleFonts.montserrat()),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.fixed,
         duration: Duration(seconds: 4),
       ));
       await Future.delayed(Duration(seconds: 2));
       // scheduleAlarm()
-      await Navigator.push(context, MaterialPageRoute(builder: (context)=>DonationCampaigns(),),
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DonationCampaigns(),
+        ),
       );
-
     } else {
       showModalBottomSheet(
           backgroundColor: Colors.teal,
@@ -169,7 +164,11 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
                     children: [
                       Column(
                         children: [
-                          Text('Campaign Created Successfully, \nYou will be contacted shortly !!', textAlign:TextAlign.center, style:GoogleFonts.montserrat(fontSize: 11.sp, color: Colors.white) ),
+                          Text(
+                              'Campaign Created Successfully, \nYou will be contacted shortly !!',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 11.sp, color: Colors.white)),
                         ],
                       ),
                       Column(
@@ -186,13 +185,16 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: 'Your reference code to track \nreview process is ',
+                                  text:
+                                      'Your reference code to track \nreview process is ',
                                 ),
                                 TextSpan(
-                                  text:  refcode,
-                                  style: GoogleFonts.montserrat(fontSize: 12.sp,
+                                  text: refcode,
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 12.sp,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,),
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
@@ -209,8 +211,6 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
-
                           TextButton(
                               child: Padding(
                                 padding: const EdgeInsets.all(5),
@@ -218,36 +218,41 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.copy, size:13, color: Colors.teal),
+                                    Icon(Icons.copy,
+                                        size: 13, color: Colors.teal),
                                     SizedBox(
                                       width: 5.h,
                                     ),
-                                    Text('Copy Code', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.teal)),
+                                    Text('Copy Code',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 13.sp,
+                                            color: Colors.teal)),
                                   ],
                                 ),
                               ),
-                              style: TextButton
-                                  .styleFrom(
-                                primary: Colors.teal,
-                                backgroundColor:
-                                Colors.white,
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.teal,
+                                backgroundColor: Colors.white,
                                 shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius
-                                        .all(Radius
-                                        .circular(
-                                        5))),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
                               ),
-
-                              onPressed: () async{
-                                await Clipboard.setData(ClipboardData(text: '$refcode'));
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              onPressed: () async {
+                                await Clipboard.setData(
+                                    ClipboardData(text: '$refcode'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
                                   duration: Duration(seconds: 5),
-                                  content: Text('Copied to clipboard',  style: GoogleFonts
-                                      .montserrat()),
-
+                                  content: Text('Copied to clipboard',
+                                      style: GoogleFonts.montserrat()),
                                 ));
                                 // scheduleAlarm()
-                                await Navigator.push(context, MaterialPageRoute(builder: (context)=>DonationCampaigns(),),
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DonationCampaigns(),
+                                  ),
                                 );
                                 Navigator.pop(context);
                               }),
@@ -260,11 +265,10 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
                   ),
                 ),
               ),
-            );});
-
+            );
+          });
     }
   }
-
 
   Timer? debouncer;
 
@@ -274,7 +278,8 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
     super.dispose();
   }
 
-  void debounce(VoidCallback callback, {
+  void debounce(
+    VoidCallback callback, {
     Duration duration = const Duration(milliseconds: 1000),
   }) {
     if (debouncer != null) {
@@ -312,26 +317,20 @@ class waitingCampaignPageState extends State<waitingCampaignPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
             Expanded(
-                child:
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.teal,
-                        )),
-                    SizedBox(
-                        height:5
-                    ),
-                    Text('Creating Campaign..')
-                  ],
-                )
-            ),
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.teal,
+                )),
+                SizedBox(height: 5),
+                Text('Creating Campaign..')
+              ],
+            )),
           ]),
     );
   }
-
 }

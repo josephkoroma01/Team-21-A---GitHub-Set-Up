@@ -14,8 +14,7 @@ class FshipBloodTestScreen extends StatelessWidget {
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
       debugShowCheckedModeBanner: false,
-      home:
-      BloodTestPageShip(title: 'Blood Group Test For A Friend'),
+      home: BloodTestPageShip(title: 'Blood Group Test For A Friend'),
     );
   }
 }

@@ -59,7 +59,7 @@ class _BloodDonationState extends State<BloodDonation> {
       TextEditingController(text: formattedNewMonth.toString());
   final TextEditingController donatedateinput =
       TextEditingController(text: formattedNewDate.toString());
-       final TextEditingController dateinput =TextEditingController();
+  final TextEditingController dateinput = TextEditingController();
   final TextEditingController yearinput =
       TextEditingController(text: formattedNewYear.toString());
   final TextEditingController _addressCtrl = TextEditingController();
@@ -814,23 +814,23 @@ class _BloodDonationState extends State<BloodDonation> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: maritalstatusItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -887,23 +887,23 @@ class _BloodDonationState extends State<BloodDonation> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: idItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -1079,23 +1079,23 @@ class _BloodDonationState extends State<BloodDonation> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: facilityItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -1124,7 +1124,7 @@ class _BloodDonationState extends State<BloodDonation> {
                       SizedBox(
                         height: 10.h,
                       ),
-                       TextFormField(
+                      TextFormField(
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Date is required';
@@ -1189,23 +1189,23 @@ class _BloodDonationState extends State<BloodDonation> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: timeslotItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,

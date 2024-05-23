@@ -162,7 +162,8 @@ class leaderboardbodyState extends State<leaderboardbody> {
     _getBgresulttimer =
         Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
   }
-    Future<List<DonorRegisterData>> findDonor(String query) async {
+
+  Future<List<DonorRegisterData>> findDonor(String query) async {
     var data = {'rbtc_id': '1', 'tfs_id': '2', 'status': 'Pending'};
 
     var response = await http.post(
@@ -199,7 +200,7 @@ class leaderboardbodyState extends State<leaderboardbody> {
     }
   }
 
-   late Future<List<DonorRegisterData>> _donorRegisteredFuture;
+  late Future<List<DonorRegisterData>> _donorRegisteredFuture;
 
   void getRefPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -454,7 +455,8 @@ class leaderboardbodyState extends State<leaderboardbody> {
         final servicetypeLower = donationschedule.facilityname.toLowerCase();
         final searchLower = donationquery.toLowerCase();
         return regionLower.contains(searchLower) ||
-            facilitynameLower.contains(searchLower) || servicetypeLower.contains(searchLower);
+            facilitynameLower.contains(searchLower) ||
+            servicetypeLower.contains(searchLower);
       }).toList();
     } else {
       throw Exception();
@@ -597,204 +599,215 @@ class leaderboardbodyState extends State<leaderboardbody> {
                   SizedBox(
                     height: 10,
                   ),
-                   Expanded(
-                          child: FutureBuilder<List<DonorRegisterData>>(
-                            future: _donorRegisteredFuture,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              } else if (snapshot.hasError) {
-                                return Center(
-                                    child: Text('Error: ${snapshot.error}',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontFamily: 'Montserrat',
-                                        )));
-                              } else if (!snapshot.hasData ||
-                                  snapshot.data!.isEmpty) {
-                                return Center(
-                                    child: Text(
-                                        'No donor data found, Register Donor',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontFamily: 'Montserrat',
-                                        )));
-                              } else {
-                                return 
-                                SingleChildScrollView(
-  scrollDirection: Axis.horizontal,
-  child: SingleChildScrollView(
-    child: SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header row
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 0.1, color: Colors.black),
+                  Expanded(
+                    child: FutureBuilder<List<DonorRegisterData>>(
+                      future: _donorRegisteredFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Montserrat',
+                                  )));
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Center(
+                              child: Text('No donor data found, Register Donor',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Montserrat',
+                                  )));
+                        } else {
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: SingleChildScrollView(
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Header row
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                    width: 0.1,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'Rank',
+                                              style: TextStyle(
+                                                color: kGreyColor,
+                                                fontSize: 12,
+                                                fontFamily: 'Montserrat',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                    width: 0.1,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'User',
+                                              style: TextStyle(
+                                                color: kGreyColor,
+                                                fontSize: 12,
+                                                fontFamily: 'Montserrat',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                    width: 0.1,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'W',
+                                              style: TextStyle(
+                                                color: kGreyColor,
+                                                fontSize: 12,
+                                                fontFamily: 'Montserrat',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                    width: 0.1,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'TOT',
+                                              style: TextStyle(
+                                                color: kGreyColor,
+                                                fontSize: 12,
+                                                fontFamily: 'Montserrat',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // Data rows
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        var donor = snapshot.data![index];
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                  width: 0.1,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8),
+                                                  child: Text(
+                                                    '1',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13,
+                                                      fontFamily: 'Montserrat',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8),
+                                                  child: Text(
+                                                    donor.name,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13,
+                                                      fontFamily: 'Montserrat',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8),
+                                                  child: Text(
+                                                    '10',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13,
+                                                      fontFamily: 'Montserrat',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8),
+                                                  child: Text(
+                                                    '140',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13,
+                                                      fontFamily: 'Montserrat',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
-                  child: Text(
-                    'Rank',
-                    style: TextStyle(
-                      color: kGreyColor,
-                      fontSize: 12,
-                      fontFamily: 'Montserrat',
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 0.1, color: Colors.black),
-                    ),
-                  ),
-                  child: Text(
-                    'User',
-                    style: TextStyle(
-                      color: kGreyColor,
-                      fontSize: 12,
-                      fontFamily: 'Montserrat',
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 0.1, color: Colors.black),
-                    ),
-                  ),
-                  child: Text(
-                    'W',
-                    style: TextStyle(
-                      color: kGreyColor,
-                      fontSize: 12,
-                      fontFamily: 'Montserrat',
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 0.1, color: Colors.black),
-                    ),
-                  ),
-                  child: Text(
-                    'TOT',
-                    style: TextStyle(
-                      color: kGreyColor,
-                      fontSize: 12,
-                      fontFamily: 'Montserrat',
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          // Data rows
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              var donor = snapshot.data![index];
-              return Container(
-                  decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(width: 0.1, color: Colors.black),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text(
-                          '1',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        
-                        child: Text(
-                          donor.name,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text(
-                          '10',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text(
-                          '140',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    ),
-  ),
-);
-
-
-                              }
-                            },
-                          ),
-                        ),
-                     
                 ],
               ),
               Positioned(
@@ -1102,7 +1115,10 @@ class leaderboardbodyState extends State<leaderboardbody> {
                   },
                   child: TextButton(
                     child: Row(children: [
-                      FaIcon(FontAwesomeIcons.history, size: 15,),
+                      FaIcon(
+                        FontAwesomeIcons.history,
+                        size: 15,
+                      ),
                       SizedBox(
                         width: 5.h,
                       ),
@@ -1112,7 +1128,7 @@ class leaderboardbodyState extends State<leaderboardbody> {
                               fontSize: 12, color: Colors.white)),
                     ]),
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: Colors.teal,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),

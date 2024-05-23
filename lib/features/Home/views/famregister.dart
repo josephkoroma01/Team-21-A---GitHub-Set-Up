@@ -14,8 +14,7 @@ class FamBloodTestScreen extends StatelessWidget {
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
       debugShowCheckedModeBanner: false,
-      home:
-      BloodTestPageFam(title: 'Blood Group Test For Family'),
+      home: BloodTestPageFam(title: 'Blood Group Test For Family'),
     );
   }
 }

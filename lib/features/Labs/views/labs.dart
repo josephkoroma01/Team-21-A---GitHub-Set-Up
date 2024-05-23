@@ -30,7 +30,6 @@ import 'package:http/http.dart' as http;
 import '../../../main.dart';
 import '../../../constants/colors.dart';
 
-
 class facilitydata {
   String rbtc;
   String rbtcid;
@@ -163,7 +162,7 @@ class labbodyState extends State<labbody> {
     _getBgresulttimer =
         Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
   }
-  
+
   TextEditingController _password = TextEditingController();
   bool _passwordVisible = false;
   bool _isloginLoading = false;
@@ -508,7 +507,6 @@ class labbodyState extends State<labbody> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      
       backgroundColor: Color(0xFFe0e9e4),
       body: SafeArea(
         child: Container(
@@ -522,34 +520,33 @@ class labbodyState extends State<labbody> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Column(
-              children: [
-                SizedBox(height: 15.h),
-                Padding(
-                  padding: const EdgeInsets.only(left:15, right: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Laboratory",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF205072)),
-                          ),
+                      SizedBox(height: 15.h),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Laboratory",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF205072)),
+                                ),
+                              ],
+                            ),
                           ],
+                        ),
                       ),
-                      
                     ],
                   ),
-                ),
-              ],
-            ),
                   builddonationSearch(),
                   Expanded(
                       child: Column(
@@ -599,8 +596,7 @@ class labbodyState extends State<labbody> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                        'Laboratory Details',
+                                                    Text('Laboratory Details',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: GoogleFonts
@@ -637,7 +633,8 @@ class labbodyState extends State<labbody> {
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
-                                                                          letterSpacing: 0,
+                                                                  letterSpacing:
+                                                                      0,
                                                                   color: Color(
                                                                       0xFF205072),
                                                                 ),
@@ -651,7 +648,6 @@ class labbodyState extends State<labbody> {
                                                           textAlign:
                                                               TextAlign.left,
                                                         ),
-                                                        
                                                       ],
                                                     ),
                                                     SizedBox(
@@ -663,7 +659,7 @@ class labbodyState extends State<labbody> {
                                                         fontSize: 13.sp,
                                                         fontWeight:
                                                             FontWeight.normal,
-                                                            letterSpacing: 0,
+                                                        letterSpacing: 0,
                                                         fontFamily:
                                                             'Montserrat',
                                                         color:
@@ -706,14 +702,14 @@ class labbodyState extends State<labbody> {
                                                     SizedBox(
                                                       height: 2.h,
                                                     ),
-                                                    
                                                     TextButton(
                                                       child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Text('Explore Laboratory Tests',
+                                                          Text(
+                                                              'Explore Laboratory Tests',
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -735,7 +731,7 @@ class labbodyState extends State<labbody> {
                                                         foregroundColor:
                                                             Colors.white,
                                                         backgroundColor:
-                                                            kPrimaryColor
+                                                            Colors.teal
                                                                 .shade100,
                                                         shape: const RoundedRectangleBorder(
                                                             borderRadius:
@@ -746,12 +742,11 @@ class labbodyState extends State<labbody> {
                                                       ),
                                                       onPressed: () {
                                                         Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            labtestbody()));
-                                                         
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        labtestbody()));
                                                       },
                                                     ),
                                                   ],
@@ -824,7 +819,7 @@ class labbodyState extends State<labbody> {
                   //                               ],
                   //                             ),
                   //                             style: TextButton.styleFrom(
-                  //                               primary: Colors.white,
+                  //                               foregroundColor: Colors.white,
 
                   //                               shape: const RoundedRectangleBorder(
                   //                                   borderRadius: BorderRadius.all(
@@ -896,7 +891,7 @@ class labbodyState extends State<labbody> {
                   //                                             fontSize: 12.sp,
                   //                                             color: Colors.white)),
                   //                                     style: TextButton.styleFrom(
-                  //                                       primary: Colors.white,
+                  //                                       foregroundColor: Colors.white,
                   //                                       backgroundColor:
                   //                                           Color(0xff389e9d),
                   //                                       shape:
@@ -1571,15 +1566,15 @@ class labbodyState extends State<labbody> {
                                 fontSize: 12.sp, color: Colors.white)),
                       ]),
                       style: TextButton.styleFrom(
-                        primary: Colors.white,
+                        foregroundColor: Colors.white,
                         backgroundColor: Colors.teal,
                         shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                       ),
                       onPressed: () async {
                         _showDialog(context);
-                     
-                        },
+                      },
                     ),
                     TextButton(
                       child: Row(children: [
@@ -1593,19 +1588,18 @@ class labbodyState extends State<labbody> {
                                 fontSize: 12.sp, color: Colors.white)),
                       ]),
                       style: TextButton.styleFrom(
-                        primary: Colors.white,
+                        foregroundColor: Colors.white,
                         backgroundColor: Colors.teal,
                         shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                       ),
                       onPressed: () async {
-                         Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          BloodGroupResults()));
-                        },
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BloodGroupResults()));
+                      },
                     ),
                   ],
                 ),
@@ -1633,7 +1627,6 @@ class DialogContent extends StatefulWidget {
 }
 
 class _DialogContentState extends State<DialogContent> {
-
   Timer? debouncer;
   String donationquery = '';
   TextEditingController _password = TextEditingController();
@@ -1691,6 +1684,7 @@ class _DialogContentState extends State<DialogContent> {
 
     debouncer = Timer(duration, callback);
   }
+
   Future searchBook(String donationquery) async => debounce(() async {
         final donationschedule = await getBloodDonationApp(donationquery);
 
@@ -1712,16 +1706,13 @@ class _DialogContentState extends State<DialogContent> {
         child: Container(
           width: MediaQuery.of(context).size.width <= 768 ? 0.7.sw : 0.35.sw,
           decoration: BoxDecoration(
-            color: Colors.white,
-             borderRadius: BorderRadius.circular(10)
-          ),
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
           child: Column(
             children: [
               Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: kPrimaryColor,
-                 
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1755,115 +1746,112 @@ class _DialogContentState extends State<DialogContent> {
                 child: Column(
                   children: [
                     Form(
-                      key: _formKey, 
-                                           child: TextFormField(
-                        
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Kindly Enter you Password';
-                                    }
-                                    
-                                    return null;
-                                  },
-                                  obscureText: !_passwordVisible,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    border: OutlineInputBorder(),
-                                    labelStyle: TextStyle(fontSize: 14.sp,  letterSpacing: 0,fontFamily: 'Montserrat'),
-                                    errorStyle: TextStyle(letterSpacing: 0,fontFamily: 'Montserrat'),
-                                    labelText: 'Enter Your Password',
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        // Based on passwordVisible state choose the icon
-                                        _passwordVisible
-                                            ? Icons.visibility
-                                            : Icons.visibility_off,
-                                        color: Colors.teal,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _passwordVisible = !_passwordVisible;
-                                        });
-                                      },
-                                      color: Colors.teal,
-                                    ),
-                                  ),
-                                  controller: _password,
-                                ),
-                    ),
-                    
-                   SizedBox(height: 5.h),
-                                        SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              child: _isloginLoading
-                                  ? SizedBox(
-                                      height: 15.0,
-                                      width: 15.0,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 2.0,
-                                      ),
-                                    )
-                                  : Text(
-                                      'Continue',
-                                      style: GoogleFonts.montserrat(
-                                          color: Colors.white,
-                                          fontSize: 13.sp,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  if (await getInternetUsingInternetConnectivity()) {
-                                    setState(() {
-                                      _isloginLoading = true;
-                                    });
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                labtestresultsbody(
-                                                 
-                                                )),
-                                        );
-                                    // userLogin();
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                          'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.montserrat(
-                                              fontSize: 10.sp)),
-                                      backgroundColor: Color(0xFFE02020),
-                                      behavior: SnackBarBehavior.fixed,
-                                      duration: const Duration(seconds: 10),
-                                      // duration: Duration(seconds: 3),
-                                    ));
-                                  }
-                                } else {
-                                  _validate;
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  backgroundColor: Colors.teal,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 20),
-                                  textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
+                      key: _formKey,
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Kindly Enter you Password';
+                          }
+
+                          return null;
+                        },
+                        obscureText: !_passwordVisible,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(),
+                          labelStyle: TextStyle(
+                              fontSize: 14.sp,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                          errorStyle: TextStyle(
+                              letterSpacing: 0, fontFamily: 'Montserrat'),
+                          labelText: 'Enter Your Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              // Based on passwordVisible state choose the icon
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.teal,
                             ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                            color: Colors.teal,
                           ),
-            
+                        ),
+                        controller: _password,
+                      ),
+                    ),
+                    SizedBox(height: 5.h),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        child: _isloginLoading
+                            ? SizedBox(
+                                height: 15.0,
+                                width: 15.0,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2.0,
+                                ),
+                              )
+                            : Text(
+                                'Continue',
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontSize: 13.sp,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            if (await getInternetUsingInternetConnectivity()) {
+                              setState(() {
+                                _isloginLoading = true;
+                              });
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => labtestresultsbody()),
+                              );
+                              // userLogin();
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(
+                                    'You are offline, Kindly turn on Wifi or Mobile Data to continue',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 10.sp)),
+                                backgroundColor: Color(0xFFE02020),
+                                behavior: SnackBarBehavior.fixed,
+                                duration: const Duration(seconds: 10),
+                                // duration: Duration(seconds: 3),
+                              ));
+                            }
+                          } else {
+                            _validate;
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            backgroundColor: Colors.teal,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 20),
+                            textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500)),
+                      ),
+                    ),
                   ],
                 ),
               ),
-                                       
-           10.verticalSpace,
+              10.verticalSpace,
             ],
           ),
         ),

@@ -16,9 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class SupportLifeBloodScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,22 +27,22 @@ class SupportLifeBloodScreen extends StatelessWidget {
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
       debugShowCheckedModeBanner: false,
-      home:
-      SupportLifeBlood(title: 'Create Donation Campaigns'),
+      home: SupportLifeBlood(title: 'Create Donation Campaigns'),
     );
   }
 }
 
 class SupportLifeBlood extends StatefulWidget {
-  SupportLifeBlood({Key? key, required this.title,}) : super(key: key);
+  SupportLifeBlood({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   final String? title;
 
   @override
 
   //text editing controller for text field
-
-
 
   _SupportLifeBloodState createState() => _SupportLifeBloodState();
 }
@@ -83,42 +81,40 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
       district = prefs.getString('district');
       bloodtype = prefs.getString('bloodtype');
       prevdonation = prefs.getString('prevdonation');
-
     });
   }
-
 
   final _formKey = GlobalKey<FormState>();
 
   String dropdownValue = 'Select Support Type';
 
-
-
   final TextEditingController dateinput = TextEditingController();
-  final TextEditingController refCodeCtrl = TextEditingController(text:randomAlphaNumeric(8).toString(),);
+  final TextEditingController refCodeCtrl = TextEditingController(
+    text: randomAlphaNumeric(8).toString(),
+  );
   final TextEditingController _amountCtrl = TextEditingController();
 
-
-
   Future register() async {
-    var response = await http.post(Uri.parse("http://nsbslifeblood.niche.sl/supportlifeblood.php"), body: {
-      "firstname": ufname,
-      "middlename": umname,
-      "lastname": ulname,
-      "age": age,
-      "gender": gender,
-      "phonenumber": phonenumber,
-      "email": email,
-      "address": address,
-      "district": district,
-      "supporttype": dropdownValue,
-      "amount": _amountCtrl.text,
-
-    });
+    var response = await http.post(
+        Uri.parse("http://nsbslifeblood.niche.sl/supportlifeblood.php"),
+        body: {
+          "firstname": ufname,
+          "middlename": umname,
+          "lastname": ulname,
+          "age": age,
+          "gender": gender,
+          "phonenumber": phonenumber,
+          "email": email,
+          "address": address,
+          "district": district,
+          "supporttype": dropdownValue,
+          "amount": _amountCtrl.text,
+        });
     var data = json.decode(response.body);
     if (data == "Error") {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please Try Again, Schedule Already Exists, Try Tracking Schedule'),
+        content: Text(
+            'Please Try Again, Schedule Already Exists, Try Tracking Schedule'),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.fixed,
         duration: Duration(seconds: 5),
@@ -131,7 +127,9 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
             children: [
               Column(
                 children: [
-                  Text('Schedule Successful, You will be contacted shortly !!', textAlign:TextAlign.center, style:GoogleFonts.montserrat(fontSize: 11.sp) ),
+                  Text('Schedule Successful, You will be contacted shortly !!',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.montserrat(fontSize: 11.sp)),
                 ],
               ),
             ],
@@ -139,12 +137,17 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
         ),
         backgroundColor: Colors.teal,
         behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 15),));
+        duration: Duration(seconds: 15),
+      ));
       // scheduleAlarm()
-      await Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePageScreen(pageIndex: 3),),);
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePageScreen(pageIndex: 3),
+        ),
+      );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +161,7 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
           child: Column(
             children: [
               Visibility(
-                visible : false,
+                visible: false,
                 child: Container(
                   child: TextFormField(
                     enabled: false,
@@ -173,40 +176,39 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
                     decoration: InputDecoration(
                       labelText: 'Phone Number',
                       labelStyle: TextStyle(fontSize: 15.sp),
-
                     ),
-
-
                     controller: refCodeCtrl,
                   ),
                 ),
               ),
-
               DropdownButton<String>(
                 isExpanded: true,
                 value: dropdownValue,
                 icon: const Icon(Icons.arrow_downward),
                 elevation: 16,
-
                 underline: Container(
                   height: 1,
                   color: Colors.grey,
-
                 ),
                 onChanged: (String? newValue) {
                   setState(() {
                     dropdownValue = newValue!;
                   });
                 },
-                items: <String>['Select Support Type', 'Blood Banks', 'LifeBlood Team',]
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: <String>[
+                  'Select Support Type',
+                  'Blood Banks',
+                  'LifeBlood Team',
+                ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
                   );
                 }).toList(),
               ),
-              SizedBox(  height: size.height * 0.013,),
+              SizedBox(
+                height: size.height * 0.013,
+              ),
               TextFormField(
                 keyboardType: TextInputType.number,
                 maxLength: 8,
@@ -217,17 +219,14 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
                   return null;
                 },
                 decoration: InputDecoration(
-
-                    labelText: 'Amount (\$)',
-                    labelStyle: TextStyle(fontSize: 15.sp),
+                  labelText: 'Amount (\$)',
+                  labelStyle: TextStyle(fontSize: 15.sp),
                 ),
-
-
                 controller: _amountCtrl,
               ),
-
-              SizedBox(  height: size.height * 0.013,),
-
+              SizedBox(
+                height: size.height * 0.013,
+              ),
             ],
           ),
         ),
@@ -238,18 +237,14 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
           return null;
         },
       ),
-
     ];
 
     final stepper = CoolStepper(
       showErrorSnackbar: false,
-      onCompleted: () async{
-        if(await getInternetUsingInternetConnectivity()){
-
-
+      onCompleted: () async {
+        if (await getInternetUsingInternetConnectivity()) {
           register();
-        }
-        else{
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
                 'You are offline, Kindly turn on Wifi or Mobile Data to continue',
@@ -260,17 +255,13 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
             duration: const Duration(seconds: 10),
             // duration: Duration(seconds: 3),
           ));
-
         }
-
-
       },
       steps: steps,
       config: CoolStepperConfig(
         backText: 'PREV',
       ),
     );
-
 
     return Scaffold(
       appBar: AppBar(
@@ -283,21 +274,15 @@ class _SupportLifeBloodState extends State<SupportLifeBlood> {
                   ),
                 );
               },
-              icon:Icon(Icons.arrow_back)
-          ),
+              icon: Icon(Icons.arrow_back)),
           elevation: 0,
-          title: Text(widget.title!, style: TextStyle(fontSize: 13.sp),)
-      ),
+          title: Text(
+            widget.title!,
+            style: TextStyle(fontSize: 13.sp),
+          )),
       body: Container(
         child: stepper,
       ),
     );
   }
-
-
-
-
-
 }
-
-

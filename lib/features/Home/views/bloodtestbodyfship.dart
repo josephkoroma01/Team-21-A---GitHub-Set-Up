@@ -279,7 +279,7 @@ class _BloodTestPageShipState extends State<BloodTestPageShip> {
                                 ),
                               ),
                               style: TextButton.styleFrom(
-                                primary: Colors.teal,
+                                foregroundColor: Colors.teal,
                                 backgroundColor: Colors.white,
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
@@ -751,23 +751,23 @@ class _BloodTestPageShipState extends State<BloodTestPageShip> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: ageItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -811,23 +811,23 @@ class _BloodTestPageShipState extends State<BloodTestPageShip> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: genderItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -969,23 +969,23 @@ class _BloodTestPageShipState extends State<BloodTestPageShip> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: facilityItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -1076,23 +1076,23 @@ class _BloodTestPageShipState extends State<BloodTestPageShip> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: timeslotItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,

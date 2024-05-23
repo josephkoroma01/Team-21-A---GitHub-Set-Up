@@ -115,14 +115,12 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
   String? bloodtype;
   String? prevdonation;
 
-
   @override
   void initState() {
     super.initState();
     getPref();
     findCampaigns(query);
   }
-
 
   void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -141,8 +139,8 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
   }
 
   Future<List<DonationCampaigndata>> findCampaigns(String query) async {
-    var response = await http
-        .get(Uri.parse("http://lifebloodsl.com/communityapi/findcampaigns.php"));
+    var response = await http.get(
+        Uri.parse("http://lifebloodsl.com/communityapi/findcampaigns.php"));
 
     if (response.statusCode == 200) {
       final List campaign = json.decode(response.body);
@@ -309,7 +307,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                     style: GoogleFonts.montserrat(
                                         fontSize: 12.sp, color: Colors.white)),
                                 style: TextButton.styleFrom(
-                                  primary: Colors.white,
+                                  foregroundColor: Colors.white,
                                   backgroundColor: Color(0xff389e9d),
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
@@ -341,8 +339,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          ],
+                          children: [],
                         ),
                         Expanded(
                           child: ListView(
@@ -404,8 +401,9 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                             .center,
                                                                     children: [
                                                                       Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(8.0),
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
                                                                         child:
                                                                             Column(
                                                                           crossAxisAlignment:
@@ -419,7 +417,6 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                             SizedBox(
                                                                               height: 5.h,
                                                                             ),
-
                                                                             Form(
                                                                                 // key: _formKey,
                                                                                 autovalidateMode: AutovalidateMode.always,
@@ -518,7 +515,6 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                     },
                                                                                     decoration: InputDecoration(labelText: 'Targeted District & Area', hintText: 'Enter New Phone Number', labelStyle: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'), hintStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat')),
                                                                                   ),
-
                                                                                 ])),
                                                                           ],
                                                                         ),
@@ -563,7 +559,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                             ),
                                                                             style:
                                                                                 TextButton.styleFrom(
-                                                                              primary: Colors.white,
+                                                                              foregroundColor: Colors.white,
                                                                               backgroundColor: Color(0xff389e9d),
                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                             ),
@@ -626,7 +622,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                 TextButton(
                                                                                                     child: Text('Take Eligibility Quiz', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                     style: TextButton.styleFrom(
-                                                                                                      primary: Colors.white,
+                                                                                                      foregroundColor: Colors.white,
                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                     ),
@@ -671,7 +667,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                         TextButton(
                                                                                                                             child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                              primary: Colors.white,
+                                                                                                                              foregroundColor: Colors.white,
                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                             ),
@@ -711,7 +707,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                 TextButton(
                                                                                                                                                     child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                     ),
@@ -795,7 +791,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                         TextButton(
                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                             ),
@@ -821,7 +817,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                 TextButton(
                                                                                                                                                     child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                     ),
@@ -861,7 +857,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                         TextButton(
                                                                                                                                                                             child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                             ),
@@ -942,7 +938,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                     ),
@@ -968,7 +964,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                         TextButton(
                                                                                                                                                                             child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                             ),
@@ -1008,7 +1004,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                     child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                     ),
@@ -1086,7 +1082,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                             ),
@@ -1112,7 +1108,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                     child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                     ),
@@ -1152,7 +1148,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                             child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                             ),
@@ -1230,7 +1226,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                     ),
@@ -1256,7 +1252,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                             child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                             ),
@@ -1296,7 +1292,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                     child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                     ),
@@ -1374,7 +1370,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                             ),
@@ -1400,7 +1396,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                     child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                     ),
@@ -1440,7 +1436,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                             child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                             ),
@@ -1518,7 +1514,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                     ),
@@ -1544,7 +1540,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                             child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                             ),
@@ -1611,7 +1607,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                               textAlign: TextAlign.center,
                                                                                                                                                                                                                                                                                               softWrap: true,
                                                                                                                                                                                                                                                                                             ),
-                                                                                                                                                                                                                                                                                            SizedBox(width:5.w),
+                                                                                                                                                                                                                                                                                            SizedBox(width: 5.w),
                                                                                                                                                                                                                                                                                             Text.rich(
                                                                                                                                                                                                                                                                                               TextSpan(
                                                                                                                                                                                                                                                                                                 style: TextStyle(
@@ -1739,7 +1735,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                                     child: Text('Accept', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                     ),
@@ -1813,35 +1809,29 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                                                                             child: Text('Register Now', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                                               backgroundColor: Color(0xff389e9d),
                                                                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                                             ),
                                                                                                                                                                                                                                                                                                                             onPressed: () async {
-                                                                                                                                                                                                                                                                                                                              if(await getInternetUsingInternetConnectivity()) {
-                                                                                                                                                                                                                                                                                                                                var response = await http
-                                                                                                                                                                                                                                                                                                                                    .post(
-                                                                                                                                                                                                                                                                                                                                    Uri
-                                                                                                                                                                                                                                                                                                                                        .parse(
-                                                                                                                                                                                                                                                                                                                                        "http://lifebloodsl.com/communityapi/campaignblooddonorregistration.php"),
-                                                                                                                                                                                                                                                                                                                                    body: {
-                                                                                                                                                                                                                                                                                                                                      "lastname": ulname,
-                                                                                                                                                                                                                                                                                                                                      "middlename": umname,
-                                                                                                                                                                                                                                                                                                                                      "firstname": ufname,
-                                                                                                                                                                                                                                                                                                                                      "age": age,
-                                                                                                                                                                                                                                                                                                                                      "gender": gender,
-                                                                                                                                                                                                                                                                                                                                      "address": address,
-                                                                                                                                                                                                                                                                                                                                      "district": district,
-                                                                                                                                                                                                                                                                                                                                      "phonenumber": phonenumber,
-                                                                                                                                                                                                                                                                                                                                      "donoremail": donoremail,
-                                                                                                                                                                                                                                                                                                                                      "email": email,
-                                                                                                                                                                                                                                                                                                                                      "campaignemail": campaignemail,
-                                                                                                                                                                                                                                                                                                                                      "bloodgroup": bloodtype,
-                                                                                                                                                                                                                                                                                                                                      "campaignname": campaignname,
-                                                                                                                                                                                                                                                                                                                                      "name": name,
-                                                                                                                                                                                                                                                                                                                                      "date": date,
-
-                                                                                                                                                                                                                                                                                                                                    });
+                                                                                                                                                                                                                                                                                                                              if (await getInternetUsingInternetConnectivity()) {
+                                                                                                                                                                                                                                                                                                                                var response = await http.post(Uri.parse("http://lifebloodsl.com/communityapi/campaignblooddonorregistration.php"), body: {
+                                                                                                                                                                                                                                                                                                                                  "lastname": ulname,
+                                                                                                                                                                                                                                                                                                                                  "middlename": umname,
+                                                                                                                                                                                                                                                                                                                                  "firstname": ufname,
+                                                                                                                                                                                                                                                                                                                                  "age": age,
+                                                                                                                                                                                                                                                                                                                                  "gender": gender,
+                                                                                                                                                                                                                                                                                                                                  "address": address,
+                                                                                                                                                                                                                                                                                                                                  "district": district,
+                                                                                                                                                                                                                                                                                                                                  "phonenumber": phonenumber,
+                                                                                                                                                                                                                                                                                                                                  "donoremail": donoremail,
+                                                                                                                                                                                                                                                                                                                                  "email": email,
+                                                                                                                                                                                                                                                                                                                                  "campaignemail": campaignemail,
+                                                                                                                                                                                                                                                                                                                                  "bloodgroup": bloodtype,
+                                                                                                                                                                                                                                                                                                                                  "campaignname": campaignname,
+                                                                                                                                                                                                                                                                                                                                  "name": name,
+                                                                                                                                                                                                                                                                                                                                  "date": date,
+                                                                                                                                                                                                                                                                                                                                });
                                                                                                                                                                                                                                                                                                                                 Navigator.pop(context);
                                                                                                                                                                                                                                                                                                                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                                                                                                                                                                                                                                                                                                                   content: Container(
@@ -1850,7 +1840,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                                                       children: [
                                                                                                                                                                                                                                                                                                                                         Column(
                                                                                                                                                                                                                                                                                                                                           children: [
-                                                                                                                                                                                                                                                                                                                                            Text('Registration Successful', textAlign:TextAlign.center, style:GoogleFonts.montserrat(fontSize: 11.sp) ),
+                                                                                                                                                                                                                                                                                                                                            Text('Registration Successful', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 11.sp)),
                                                                                                                                                                                                                                                                                                                                           ],
                                                                                                                                                                                                                                                                                                                                         ),
                                                                                                                                                                                                                                                                                                                                       ],
@@ -1858,34 +1848,17 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                                                   ),
                                                                                                                                                                                                                                                                                                                                   backgroundColor: Colors.teal,
                                                                                                                                                                                                                                                                                                                                   behavior: SnackBarBehavior.fixed,
-                                                                                                                                                                                                                                                                                                                                  duration: Duration(seconds: 15),));
-
-
-
-                }
-                 else{
-                                                                                                                                                                                                                                                                                                                                ScaffoldMessenger
-                                                                                                                                                                                                                                                                                                                                    .of(
-                                                                                                                                                                                                                                                                                                                                    context)
-                                                                                                                                                                                                                                                                                                                                    .showSnackBar(
-                                                                                                                                                                                                                                                                                                                                    SnackBar(
-                                                                                                                                                                                                                                                                                                                                      content: Text(
-                                                                                                                                                                                                                                                                                                                                          'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                                                                                                                                                                                                                                                                                                                                          textAlign: TextAlign
-                                                                                                                                                                                                                                                                                                                                              .center,
-                                                                                                                                                                                                                                                                                                                                          style: GoogleFonts
-                                                                                                                                                                                                                                                                                                                                              .montserrat(
-                                                                                                                                                                                                                                                                                                                                              fontSize: 10
-                                                                                                                                                                                                                                                                                                                                                  .sp)),
-                                                                                                                                                                                                                                                                                                                                      backgroundColor: Color(
-                                                                                                                                                                                                                                                                                                                                          0xFFE02020),
-                                                                                                                                                                                                                                                                                                                                      behavior: SnackBarBehavior
-                                                                                                                                                                                                                                                                                                                                          .fixed,
-                                                                                                                                                                                                                                                                                                                                      duration: const Duration(
-                                                                                                                                                                                                                                                                                                                                          seconds: 10),
-                                                                                                                                                                                                                                                                                                                                      // duration: Duration(seconds: 3),
-                                                                                                                                                                                                                                                                                                                                    ));
-                                                                                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                                                                                                  duration: Duration(seconds: 15),
+                                                                                                                                                                                                                                                                                                                                ));
+                                                                                                                                                                                                                                                                                                                              } else {
+                                                                                                                                                                                                                                                                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                                                                                                                                                                                                                                                                  content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
+                                                                                                                                                                                                                                                                                                                                  backgroundColor: Color(0xFFE02020),
+                                                                                                                                                                                                                                                                                                                                  behavior: SnackBarBehavior.fixed,
+                                                                                                                                                                                                                                                                                                                                  duration: const Duration(seconds: 10),
+                                                                                                                                                                                                                                                                                                                                  // duration: Duration(seconds: 3),
+                                                                                                                                                                                                                                                                                                                                ));
+                                                                                                                                                                                                                                                                                                                              }
                                                                                                                                                                                                                                                                                                                             }),
                                                                                                                                                                                                                                                                                                                         SizedBox(
                                                                                                                                                                                                                                                                                                                           width: 5.h,
@@ -1893,7 +1866,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                                             ),
@@ -1919,7 +1892,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                                     child: Text('Reject', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xff406986),
                                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                     ),
@@ -1997,7 +1970,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                                         TextButton(
                                                                                                                                                                                                                                                                                                                             child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                                              primary: Colors.white,
+                                                                                                                                                                                                                                                                                                                              foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                                             ),
@@ -2023,7 +1996,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                                                                                                                                                                 TextButton(
                                                                                                                                                                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                                                                                                                                                                     ),
@@ -2127,7 +2100,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                         TextButton(
                                                                                                                             child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
                                                                                                                             style: TextButton.styleFrom(
-                                                                                                                              primary: Colors.white,
+                                                                                                                              foregroundColor: Colors.white,
                                                                                                                               backgroundColor: Color(0xffd12624),
                                                                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                             ),
@@ -2211,7 +2184,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                                                                 TextButton(
                                                                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                                                     style: TextButton.styleFrom(
-                                                                                                                                                      primary: Colors.white,
+                                                                                                                                                      foregroundColor: Colors.white,
                                                                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                                                     ),
@@ -2250,7 +2223,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                 TextButton(
                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                     style: TextButton.styleFrom(
-                                                                                                      primary: Colors.white,
+                                                                                                      foregroundColor: Colors.white,
                                                                                                       backgroundColor: Color(0xFFE02020),
                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                     ),
@@ -2296,149 +2269,141 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                             ),
                                                                             style:
                                                                                 TextButton.styleFrom(
-                                                                              primary: Colors.white,
+                                                                              foregroundColor: Colors.white,
                                                                               backgroundColor: Color(0xff389e9d),
                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                             ),
                                                                             onPressed:
                                                                                 () {
-                                                                                  String selectedpayment = '';
-                                                                                  var email = data.email;
-                                                                                  var campaignemail = data.campaignemail;
-                                                                                  var campaignname = data.campaignname;
-                                                                                  var name = data.name;
-                                                                                  var date = data.daterange;
-                                                                                  final TextEditingController amountCtrl = TextEditingController();
+                                                                              String selectedpayment = '';
+                                                                              var email = data.email;
+                                                                              var campaignemail = data.campaignemail;
+                                                                              var campaignname = data.campaignname;
+                                                                              var name = data.name;
+                                                                              var date = data.daterange;
+                                                                              final TextEditingController amountCtrl = TextEditingController();
 
-                                                                                  showModalBottomSheet(
-                                                                                    backgroundColor: Color(0xFFebf5f5),
-                                                                                    context: context,
-                                                                                    builder: (context) {
-                                                                                      return SingleChildScrollView(
-                                                                                        child: Container(
-                                                                                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                                                                          child: Padding(
-                                                                                            padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0), // content padding
-                                                                                            child: Column(
+                                                                              showModalBottomSheet(
+                                                                                backgroundColor: Color(0xFFebf5f5),
+                                                                                context: context,
+                                                                                builder: (context) {
+                                                                                  return SingleChildScrollView(
+                                                                                    child: Container(
+                                                                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                                      child: Padding(
+                                                                                        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0), // content padding
+                                                                                        child: Column(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            SizedBox(
+                                                                                              height: 5.h,
+                                                                                            ),
+                                                                                            Text.rich(
+                                                                                              TextSpan(
+                                                                                                style: TextStyle(
+                                                                                                  fontFamily: 'Montserrat',
+                                                                                                  fontSize: 15.sp,
+                                                                                                  color: Color(0xff406986),
+                                                                                                  height: 1.3846153846153846,
+                                                                                                ),
+                                                                                                children: [
+                                                                                                  TextSpan(
+                                                                                                    text: 'Hi,',
+                                                                                                    style: GoogleFonts.montserrat(
+                                                                                                      fontSize: 14.sp,
+                                                                                                      fontWeight: FontWeight.bold,
+                                                                                                      color: Color(0xff406986),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  TextSpan(
+                                                                                                    text: ' $ufname $ulname',
+                                                                                                    style: GoogleFonts.montserrat(
+                                                                                                      fontSize: 14.sp,
+                                                                                                      fontWeight: FontWeight.bold,
+                                                                                                      color: Color(0xff389e9d),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                              textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                                              textAlign: TextAlign.center,
+                                                                                              softWrap: true,
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              height: 10.h,
+                                                                                            ),
+                                                                                            Text('We appreciate you for this decision. \nThanks in advance.', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Color(0xff389e9d))),
+                                                                                            SizedBox(
+                                                                                              height: 10.h,
+                                                                                            ),
+                                                                                            Form(
+                                                                                              key: _formKey,
+                                                                                              autovalidateMode: AutovalidateMode.always,
+                                                                                              child: Column(
+                                                                                                children: [
+                                                                                                  TextFormField(
+                                                                                                    keyboardType: TextInputType.text,
+                                                                                                    enabled: false,
+                                                                                                    readOnly: true,
+                                                                                                    initialValue: data.budgetrange,
+                                                                                                    style: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'),
+                                                                                                    validator: (value) {
+                                                                                                      if (value!.isEmpty) {
+                                                                                                        return 'Address is required';
+                                                                                                      }
+                                                                                                      return null;
+                                                                                                    },
+                                                                                                    decoration: InputDecoration(labelText: 'Budget Range', hintText: 'Enter New Address', labelStyle: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'), hintStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat')),
+                                                                                                  ),
+                                                                                                  TextFormField(
+                                                                                                    keyboardType: TextInputType.number,
+                                                                                                    style: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'),
+                                                                                                    validator: (value) {
+                                                                                                      if (value!.isEmpty) {
+                                                                                                        return 'Amount is required';
+                                                                                                      }
+                                                                                                      return null;
+                                                                                                    },
+                                                                                                    controller: amountCtrl,
+                                                                                                    decoration: InputDecoration(labelText: 'Amount', hintText: 'Enter Amount', labelStyle: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'), hintStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat')),
+                                                                                                  ),
+                                                                                                  SizedBox(height: 8.h),
+                                                                                                  FormBuilderRadioGroup(
+                                                                                                    orientation: OptionsOrientation.vertical,
+                                                                                                    name: selectedpayment,
+                                                                                                    decoration: InputDecoration(border: InputBorder.none, labelText: 'Payment Information', labelStyle: TextStyle(fontSize: 14.sp, fontFamily: 'Montserrat')),
+                                                                                                    onChanged: (String? value) {
+                                                                                                      setState(() {
+                                                                                                        selectedpayment = value!;
+                                                                                                      });
+                                                                                                    },
+                                                                                                    validator: FormBuilderValidators.required(
+                                                                                                      errorText: 'Kindly Select a Blood Type',
+                                                                                                    ),
+                                                                                                    options: [
+                                                                                                      'Bank',
+                                                                                                      'Orange Money',
+                                                                                                      'Afrimoney'
+                                                                                                    ].map((selectedpayment) => FormBuilderFieldOption(value: selectedpayment)).toList(growable: false),
+                                                                                                  ),
+                                                                                                  SizedBox(height: 10.h),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                            Row(
                                                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                                                               children: [
-                                                                                                SizedBox(
-                                                                                                  height: 5.h,
-                                                                                                ),
-                                                                                                Text.rich(
-                                                                                                  TextSpan(
-                                                                                                    style: TextStyle(
-                                                                                                      fontFamily: 'Montserrat',
-                                                                                                      fontSize: 15.sp,
-                                                                                                      color: Color(0xff406986),
-                                                                                                      height: 1.3846153846153846,
+                                                                                                TextButton(
+                                                                                                    child: Text('Submit Fund', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
+                                                                                                    style: TextButton.styleFrom(
+                                                                                                      foregroundColor: Colors.white,
+                                                                                                      backgroundColor: Color(0xff389e9d),
+                                                                                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                     ),
-                                                                                                    children: [
-                                                                                                      TextSpan(
-                                                                                                        text: 'Hi,',
-                                                                                                        style: GoogleFonts.montserrat(
-                                                                                                          fontSize: 14.sp,
-                                                                                                          fontWeight: FontWeight.bold,
-                                                                                                          color: Color(0xff406986),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      TextSpan(
-                                                                                                        text: ' $ufname $ulname',
-                                                                                                        style: GoogleFonts.montserrat(
-                                                                                                          fontSize: 14.sp,
-                                                                                                          fontWeight: FontWeight.bold,
-                                                                                                          color: Color(0xff389e9d),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                  textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
-                                                                                                  textAlign: TextAlign.center,
-                                                                                                  softWrap: true,
-                                                                                                ),
-                                                                                                SizedBox(
-                                                                                                  height: 10.h,
-                                                                                                ),
-                                                                                                Text('We appreciate you for this decision. \nThanks in advance.',
-                                                                                                    textAlign: TextAlign.center,
-                                                                                                    style: GoogleFonts.montserrat(fontSize: 12.sp, color: Color(0xff389e9d))),
-
-                                                                                                SizedBox(
-                                                                                                  height: 10.h,
-                                                                                                ),Form(
-                                                                                                  key: _formKey,
-                                                                                                  autovalidateMode: AutovalidateMode.always,
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      TextFormField(
-                                                                                                        keyboardType: TextInputType.text,
-                                                                                                        enabled: false,
-                                                                                                        readOnly: true,
-                                                                                                        initialValue: data.budgetrange,
-                                                                                                        style: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'),
-                                                                                                        validator: (value) {
-                                                                                                          if (value!.isEmpty) {
-                                                                                                            return 'Address is required';
-                                                                                                          }
-                                                                                                          return null;
-                                                                                                        },
-                                                                                                        decoration: InputDecoration(labelText: 'Budget Range', hintText: 'Enter New Address', labelStyle: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'), hintStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat')),
-                                                                                                      ),
-                                                                                                      TextFormField(
-                                                                                                        keyboardType: TextInputType.number,
-                                                                                                        style: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'),
-                                                                                                        validator: (value) {
-                                                                                                          if (value!.isEmpty) {
-                                                                                                            return 'Amount is required';
-                                                                                                          }
-                                                                                                          return null;
-                                                                                                        },
-                                                                                                        controller: amountCtrl,
-                                                                                                        decoration: InputDecoration(labelText: 'Amount', hintText: 'Enter Amount', labelStyle: TextStyle(fontSize: 13.sp, fontFamily: 'Montserrat'), hintStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat')),
-                                                                                                      ),
-                                                                                                      SizedBox(height: 8.h),
-                                                                                                      FormBuilderRadioGroup(
-                                                                                                        orientation: OptionsOrientation.vertical,
-                                                                                                        name: selectedpayment,
-                                                                                                        decoration: InputDecoration(border: InputBorder.none, labelText: 'Payment Information', labelStyle: TextStyle(fontSize: 14.sp, fontFamily: 'Montserrat')),
-                                                                                                        onChanged: (String? value) {
-                                                                                                          setState(() {
-                                                                                                            selectedpayment = value!;
-                                                                                                          });
-                                                                                                        },
-                                                                                                        validator: FormBuilderValidators.required(
-                                                                                                          errorText: 'Kindly Select a Blood Type',
-                                                                                                        ),
-                                                                                                        options: [
-                                                                                                          'Bank',
-                                                                                                          'Orange Money',
-                                                                                                          'Afrimoney'
-                                                                                                        ].map((selectedpayment) => FormBuilderFieldOption(value: selectedpayment)).toList(growable: false),
-                                                                                                      ),
-
-                                                                                                      SizedBox(height: 10.h),
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                ),
-                                                                                                Row(
-                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                  children: [
-                                                                                                    TextButton(
-                                                                                                        child: Text('Submit Fund', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
-                                                                                                        style: TextButton.styleFrom(
-                                                                                                          primary: Colors.white,
-                                                                                                          backgroundColor: Color(0xff389e9d),
-                                                                                                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                                                                                        ),
-                                                                                                        onPressed: () async{
-                                                                                                          Navigator.pop(context);
-                                                                                                          if(await getInternetUsingInternetConnectivity()) {
-                                                                                                          var response = await http
-                                                                                                              .post(
-                                                                                                          Uri
-                                                                                                              .parse(
-                                                                                                          "http://nsbslifebloodsl.com/communityapi/campaignbloodfunding.php"),
-                                                                                                          body: {
+                                                                                                    onPressed: () async {
+                                                                                                      Navigator.pop(context);
+                                                                                                      if (await getInternetUsingInternetConnectivity()) {
+                                                                                                        var response = await http.post(Uri.parse("http://nsbslifebloodsl.com/communityapi/campaignbloodfunding.php"), body: {
                                                                                                           "lastname": ulname,
                                                                                                           "middlename": umname,
                                                                                                           "firstname": ufname,
@@ -2449,84 +2414,66 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                           "phonenumber": phonenumber,
                                                                                                           "donoremail": donoremail,
                                                                                                           "email": email,
-                                                                                                            "campaignemail": campaignemail,
+                                                                                                          "campaignemail": campaignemail,
                                                                                                           "bloodgroup": bloodtype,
                                                                                                           "campaignname": campaignname,
                                                                                                           "name": name,
                                                                                                           "date": date,
-                                                                                                            "amount": amountCtrl.text,
-                                                                                                            "paymenttype": selectedpayment,
-
-                                                                                                          });
-                                                                                                          Navigator.pop(context);
-                                                                                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                                                            content: Container(
-                                                                                                              height: 25.h,
-                                                                                                              child: Column(
-                                                                                                                children: [
-                                                                                                                  Column(
-                                                                                                                    children: [
-                                                                                                                      Text('Funding Successful, You will be contacted shortly!!', textAlign:TextAlign.center, style:GoogleFonts.montserrat(fontSize: 11.sp) ),
-                                                                                                                    ],
-                                                                                                                  ),
-                                                                                                                ],
-                                                                                                              ),
+                                                                                                          "amount": amountCtrl.text,
+                                                                                                          "paymenttype": selectedpayment,
+                                                                                                        });
+                                                                                                        Navigator.pop(context);
+                                                                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                                          content: Container(
+                                                                                                            height: 25.h,
+                                                                                                            child: Column(
+                                                                                                              children: [
+                                                                                                                Column(
+                                                                                                                  children: [
+                                                                                                                    Text('Funding Successful, You will be contacted shortly!!', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 11.sp)),
+                                                                                                                  ],
+                                                                                                                ),
+                                                                                                              ],
                                                                                                             ),
-                                                                                                            backgroundColor: Colors.teal,
-                                                                                                            behavior: SnackBarBehavior.fixed,
-                                                                                                            duration: Duration(seconds: 15),));
-
-                                                                                                          }
-                                                                                                          else{
-                                                                                                          ScaffoldMessenger
-                                                                                                              .of(
-                                                                                                          context)
-                                                                                                              .showSnackBar(
-                                                                                                          SnackBar(
-                                                                                                          content: Text(
-                                                                                                          'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                                                                                                          textAlign: TextAlign
-                                                                                                              .center,
-                                                                                                          style: GoogleFonts
-                                                                                                              .montserrat(
-                                                                                                          fontSize: 10
-                                                                                                              .sp)),
-                                                                                                          backgroundColor: Color(
-                                                                                                          0xFFE02020),
-                                                                                                          behavior: SnackBarBehavior
-                                                                                                              .fixed,
-                                                                                                          duration: const Duration(
-                                                                                                          seconds: 10),
+                                                                                                          ),
+                                                                                                          backgroundColor: Colors.teal,
+                                                                                                          behavior: SnackBarBehavior.fixed,
+                                                                                                          duration: Duration(seconds: 15),
+                                                                                                        ));
+                                                                                                      } else {
+                                                                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                                          content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
+                                                                                                          backgroundColor: Color(0xFFE02020),
+                                                                                                          behavior: SnackBarBehavior.fixed,
+                                                                                                          duration: const Duration(seconds: 10),
                                                                                                           // duration: Duration(seconds: 3),
-                                                                                                          ));
-                                                                                                          }
-                                                                                                        }),
-                                                                                                    SizedBox(
-                                                                                                      width: 5.w
+                                                                                                        ));
+                                                                                                      }
+                                                                                                    }),
+                                                                                                SizedBox(width: 5.w),
+                                                                                                TextButton(
+                                                                                                    child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
+                                                                                                    style: TextButton.styleFrom(
+                                                                                                      foregroundColor: Colors.white,
+                                                                                                      backgroundColor: Color(0xffd12624),
+                                                                                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                     ),
-                                                                                                    TextButton(
-                                                                                                        child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
-                                                                                                        style: TextButton.styleFrom(
-                                                                                                          primary: Colors.white,
-                                                                                                          backgroundColor: Color(0xffd12624),
-                                                                                                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                                                                                        ),
-                                                                                                        onPressed: () {
-                                                                                                          Navigator.pop(context);
-                                                                                                        }),
-                                                                                                  ],
-                                                                                                ),
-                                                                                                SizedBox(
-                                                                                                  height: 10.h,
-                                                                                                ),
+                                                                                                    onPressed: () {
+                                                                                                      Navigator.pop(context);
+                                                                                                    }),
                                                                                               ],
                                                                                             ),
-                                                                                          ),
+                                                                                            SizedBox(
+                                                                                              height: 10.h,
+                                                                                            ),
+                                                                                          ],
                                                                                         ),
-                                                                                      );
-                                                                                    },
+                                                                                      ),
+                                                                                    ),
                                                                                   );
                                                                                 },
+                                                                              );
+                                                                            },
                                                                           ),
                                                                           SizedBox(
                                                                             width:
@@ -2559,7 +2506,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                             ),
                                                                             style:
                                                                                 TextButton.styleFrom(
-                                                                              primary: Colors.white,
+                                                                              foregroundColor: Colors.white,
                                                                               backgroundColor: Colors.transparent,
                                                                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(0))),
                                                                             ),
@@ -2687,7 +2634,7 @@ class _findDonationCampaignsState extends State<findDonationCampaigns> {
                                                                                                 TextButton(
                                                                                                     child: Text('Close', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                     style: TextButton.styleFrom(
-                                                                                                      primary: Colors.white,
+                                                                                                      foregroundColor: Colors.white,
                                                                                                       backgroundColor: Color(0xffd12624),
                                                                                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                     ),

@@ -96,16 +96,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     final Locale locale = Localizations.localeOf(context);
     // dropdown options
     var items = [
-      'en',
-      'fr',
+      'English',
+      'French',
     ];
-    return 
-    IntroductionScreen(
+    return IntroductionScreen(
       key: introKey,
       globalBackgroundColor: Color(0xFFe0e9e4),
       allowImplicitScrolling: false,
       infiniteAutoScroll: true,
-      autoScrollDuration: 3500,
+      autoScrollDuration: 4000,
       globalHeader: Align(
         alignment: Alignment.topCenter,
         child: SafeArea(
@@ -117,6 +116,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Images.logo,
+                  10.verticalSpace,
                 ],
               ),
             ),
@@ -127,58 +127,74 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-           SizedBox(
+          SizedBox(
             height: 10.h,
           ),
           Padding(
             padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 10.h),
-            child: SizedBox(
-                width: double.infinity,
-                child: FormBuilderDropdown(
-                  onChanged: (String? newValue) {
-                    LifeBlood.setLocale(context, Locale(newValue!));
-                  },
-                  decoration: InputDecoration(
-                    fillColor: kPrimaryColor,
-                    filled: true,
+            child: IntrinsicHeight(
+              child: SizedBox(
+                  width: double.infinity,
+                  child: FormBuilderDropdown(
+                    iconEnabledColor: kWhiteColor,
                     focusColor: kWhiteColor,
-                    labelText: t.selectlanguage,
-                    labelStyle: TextStyle(
+                    style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 14,
                         color: kWhiteColor,
                         letterSpacing: 0),
-                    hintStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 14,
-                        color: kWhiteColor),
-                    hintText: t.selectlanguage,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: kPrimaryColor,
+                    isDense: true,
+                    onChanged: (String? newValue) {
+                      newValue == "English"
+                          ? LifeBlood.setLocale(context, Locale('en'))
+                          : LifeBlood.setLocale(context, Locale('fr'));
+                    },
+                    decoration: InputDecoration(
+                      fillColor: kPrimaryColor,
+                      filled: true,
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      focusColor: kWhiteColor,
+                      labelText: t.selectlanguage,
+                      iconColor: kWhiteColor,
+                      suffixIconColor: kWhiteColor,
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 14,
+                          color: kWhiteColor,
+                          letterSpacing: 0),
+                      hintStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 14,
+                          color: kWhiteColor),
+                      hintText: t.selectlanguage,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: kBlackColor, width: 0.3),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: kBlackColor, width: 0.3),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: kBlackColor, width: 0.3),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                     ),
-                    // border: OutlineInputBorder(
-                    //   borderSide: BorderSide(
-                    //     color: Colors.black,
-                    //   ),
-                    // ),
-                  ),
-                  name: 'Select Language',
-                  items: items.map((String items) {
-                    return DropdownMenuItem(
-                      value: items,
-                      child: Text(
-                        items,
-                        style: TextStyle(fontFamily: 'Montserrat',),
-                      ),
-                    );
-                  }).toList(),
-                )),
+                    name: 'Select Language',
+                    items: items.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        child: Text(
+                          items,
+                          style: TextStyle(
+                              fontFamily: 'Montserrat', color: kBlackColor),
+                        ),
+                      );
+                    }).toList(),
+                  )),
+            ),
           ),
-          SizedBox(
-            height: 10.h,
-          ),
+          25.verticalSpace,
         ],
       ),
 
@@ -189,12 +205,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           image: _buildImage('transfusion.png'),
           decoration: PageDecoration(
             titleTextStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               fontFamily: 'Montserrat',
             ),
             bodyTextStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontFamily: 'Montserrat',
             ),
             bodyPadding: EdgeInsets.fromLTRB(10.w, 0.0, 10.w, 0.0),
@@ -208,12 +224,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           image: _buildImage('vdonors.png'),
           decoration: PageDecoration(
             titleTextStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               fontFamily: 'Montserrat',
             ),
             bodyTextStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontFamily: 'Montserrat',
             ),
             bodyPadding: EdgeInsets.fromLTRB(10.w, 0.0, 10.w, 0.0),
@@ -227,12 +243,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           image: _buildImage('smartphone.png'),
           decoration: PageDecoration(
             titleTextStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               fontFamily: 'Montserrat',
             ),
             bodyTextStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontFamily: 'Montserrat',
             ),
             bodyPadding: EdgeInsets.fromLTRB(10.w, 0.w, 10.w, 0.w),
@@ -246,12 +262,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           image: _buildImage('bloodtest.png'),
           decoration: PageDecoration(
             titleTextStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               fontFamily: 'Montserrat',
             ),
             bodyTextStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontFamily: 'Montserrat',
             ),
             bodyPadding: EdgeInsets.fromLTRB(10.w, 0.w, 10.w, 0.w),
@@ -292,8 +308,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               color: kPrimaryColor,
               fontWeight: FontWeight.w600,
               fontFamily: 'Montserrat')),
-      curve: Curves.fastLinearToSlowEaseIn,
-
+      curve: Curves.easeIn,
       controlsMargin: const EdgeInsets.all(20),
       controlsPadding: EdgeInsets.fromLTRB(8.w, 0.h, 8.w, 0.h),
       dotsDecorator: DotsDecorator(

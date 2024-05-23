@@ -415,7 +415,8 @@ class scheduletypebodyState extends State<scheduletypebody> {
         final servicetypeLower = donationschedule.facilityname.toLowerCase();
         final searchLower = donationquery.toLowerCase();
         return regionLower.contains(searchLower) ||
-            facilitynameLower.contains(searchLower) || servicetypeLower.contains(searchLower);
+            facilitynameLower.contains(searchLower) ||
+            servicetypeLower.contains(searchLower);
       }).toList();
     } else {
       throw Exception();
@@ -559,7 +560,6 @@ class scheduletypebodyState extends State<scheduletypebody> {
                     height: 10,
                   ),
                   builddonationSearch(),
-                 
                   Expanded(
                       child: FutureBuilder<List<BloodTestingFacilities>>(
                           future: getBloodFacilities(donationquery),
@@ -616,7 +616,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                               ],
                                             ),
                                             style: TextButton.styleFrom(
-                                              primary: Colors.white,
+                                              foregroundColor: Colors.white,
                                               shape:
                                                   const RoundedRectangleBorder(
                                                       borderRadius:
@@ -707,9 +707,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                           children: [
                                                                             Text('Blood Group Testing Facilties',
                                                                                 textAlign: TextAlign.center,
-                                                                                style: GoogleFonts.montserrat(fontSize: 10,
-                                                                                letterSpacing: 0, 
-                                                                                color: Color(0xff389e9d))),
+                                                                                style: GoogleFonts.montserrat(fontSize: 10, letterSpacing: 0, color: Color(0xff389e9d))),
                                                                             SizedBox(
                                                                               height: 5.h,
                                                                             ),
@@ -762,7 +760,6 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               children: [
                                                                                 Flexible(
-                                                                                  
                                                                                   child: Expanded(
                                                                                     child: Text(
                                                                                       data.address,
@@ -821,7 +818,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                               ),
                                                                               style: TextButton.styleFrom(
                                                                                 foregroundColor: Colors.white,
-                                                                                backgroundColor: kPrimaryColor.shade100,
+                                                                                backgroundColor: Colors.teal.shade100,
                                                                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                               ),
                                                                               onPressed: () {
@@ -876,7 +873,10 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                                                                   children: [
-                                                                                                                    FaIcon(FontAwesomeIcons.userLarge, color: kLifeBloodBlue,),
+                                                                                                                    FaIcon(
+                                                                                                                      FontAwesomeIcons.userLarge,
+                                                                                                                      color: kLifeBloodBlue,
+                                                                                                                    ),
                                                                                                                     SizedBox(
                                                                                                                       height: 5.h,
                                                                                                                     ),
@@ -931,7 +931,10 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                                                                                 children: [
-                                                                                                                  FaIcon(FontAwesomeIcons.peopleGroup, color: kLifeBloodBlue,),
+                                                                                                                  FaIcon(
+                                                                                                                    FontAwesomeIcons.peopleGroup,
+                                                                                                                    color: kLifeBloodBlue,
+                                                                                                                  ),
                                                                                                                   SizedBox(
                                                                                                                     height: 5.h,
                                                                                                                   ),
@@ -987,7 +990,6 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                   ]);
                             }
                           }))
-                
                 ],
               ),
               Positioned(
@@ -1305,7 +1307,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                               fontSize: 12, color: Colors.white)),
                     ]),
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: Colors.teal,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),

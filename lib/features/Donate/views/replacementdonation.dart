@@ -319,7 +319,7 @@ class _ReplacementDonationState extends State<ReplacementDonation> {
                       ),
                     ));
               },
-          icon: Icon(Icons.arrow_back)),
+              icon: Icon(Icons.arrow_back)),
           elevation: 0,
           title: Text(
             'Schedule Replacement Blood Donation',
@@ -726,23 +726,23 @@ class _ReplacementDonationState extends State<ReplacementDonation> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: maritalstatusItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -799,23 +799,23 @@ class _ReplacementDonationState extends State<ReplacementDonation> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: idItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -991,23 +991,23 @@ class _ReplacementDonationState extends State<ReplacementDonation> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: facilityItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -1073,23 +1073,23 @@ class _ReplacementDonationState extends State<ReplacementDonation> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: timeslotItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,

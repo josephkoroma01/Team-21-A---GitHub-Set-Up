@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cool_stepper/cool_stepper.dart';
+import 'package:country_flags/country_flags.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -8,10 +9,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:lifebloodworld/constants/colors.dart';
 import 'package:lifebloodworld/features/Home/views/schedulebloodtest.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
@@ -19,23 +22,6 @@ import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserData {
-  String userfirstname;
-  String usermiddlename;
-  String userlastname;
-  String userdob;
-  String usergender;
-  String userphonenumber;
-  String useremail;
-  String useraddress;
-  String usernin;
-  String userdistrict;
-  String userethnicity;
-  String userbloodtype;
-  String userprevdonation;
-  String userprevdonationamt;
-  String userpassword;
-  String created_at;
-
   UserData(
       {required this.userfirstname,
       required this.usermiddlename,
@@ -73,6 +59,23 @@ class UserData {
         userpassword: json['password'].toString(),
         created_at: json['created_at'].toString());
   }
+
+  String created_at;
+  String useraddress;
+  String userbloodtype;
+  String userdistrict;
+  String userdob;
+  String useremail;
+  String userethnicity;
+  String userfirstname;
+  String usergender;
+  String userlastname;
+  String usermiddlename;
+  String usernin;
+  String userpassword;
+  String userphonenumber;
+  String userprevdonation;
+  String userprevdonationamt;
 }
 
 class ProfilePage extends StatefulWidget {
@@ -86,35 +89,55 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String? address;
+  final TextEditingController addressCtrl = TextEditingController();
+  String? agecategory;
+  final List<String> bloodgrouplist = [
+    'A+',
+    'A-',
+    'AB+',
+    'AB-',
+    'B+',
+    'B-',
+    'O+',
+    'O-'
+  ];
+
+  String bloodtestfor = 'Myself';
+  String? bloodtype;
+  String? community;
+  String? communitydonor;
+  String? district;
+  String dropdownValue = 'Select Facility';
   String? email;
+  String? ethnicity;
+  final TextEditingController firstnameCtrl = TextEditingController();
+  String? gender;
+  String? nin;
+  final TextEditingController ninCtrl = TextEditingController();
+  String? phonenumber;
+  String? prevdonation;
+  String? prevdonationamt;
+  String? selectedBloodType = '';
   String? ufname;
   String? ulname;
   String? umname;
-  String? gender;
-  String? agecategory;
-  String? phonenumber;
-  String? address;
-  String? community;
-  String? communitydonor;
-  String? nin;
-  String? bloodtype;
-  String? prevdonation;
-  String? prevdonationamt;
-  String? district;
-  String? ethnicity;
-  bool _isLoading = false;
-  bool _iscontactLoading = false;
-  bool _isnincontactLoading = false;
-  bool _isemailcontactLoading = false;
-  bool _ispersonalLoading = false;
-  String? selectedBloodType = '';
 
   final TextEditingController _ageCtrl = TextEditingController();
-  final TextEditingController firstnameCtrl = TextEditingController();
-  final TextEditingController _phoneCtrl = TextEditingController();
   final TextEditingController _emailCtrl = TextEditingController();
-  final TextEditingController addressCtrl = TextEditingController();
-  final TextEditingController ninCtrl = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
+  bool _iscontactLoading = false;
+  bool _isemailcontactLoading = false;
+  bool _isnincontactLoading = false;
+  bool _ispersonalLoading = false;
+  final TextEditingController _phoneCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    getPref();
+    super.initState();
+  }
 
   void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -138,23 +161,6 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  @override
-  void initState() {
-    getPref();
-    super.initState();
-  }
-
-  final List<String> bloodgrouplist = [
-    'A+',
-    'A-',
-    'AB+',
-    'AB-',
-    'B+',
-    'B-',
-    'O+',
-    'O-'
-  ];
-
   savebloodPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('bloodtype', selectedBloodType!);
@@ -169,10 +175,6 @@ class _ProfilePageState extends State<ProfilePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', _emailCtrl.text);
   }
-
-  final _formKey = GlobalKey<FormState>();
-  String dropdownValue = 'Select Facility';
-  String bloodtestfor = 'Myself';
 
   Future register() async {
     var response = await http.post(
@@ -271,7 +273,7 @@ class _ProfilePageState extends State<ProfilePage> {
       savebloodPref();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Container(
-          height: 15.h,
+          height: 15,
           child: Column(
             children: [
               Text('Update Successful',
@@ -397,1485 +399,6 @@ class _ProfilePageState extends State<ProfilePage> {
       print(e);
       throw e;
     }
-  }
-
-  // void scheduleAlarm() async{
-  //   var tz;
-  //   await flutterLocalNotificationsPlugin.zonedSchedule(
-  //       0,
-  //       'LifeBlood',
-  //       'Thank You For Regisering, You Have Saved A Life',
-  //       tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
-  //       const NotificationDetails(
-  //         android: AndroidNotificationDetails(
-  //           'alarm_notify',
-  //           'alarm_notify',
-  //           channelDescription: 'Channel For Registeration',
-  //           icon: 'lifeblood',
-  //           sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
-  //           largeIcon: DrawableResourceAndroidBitmap('lifeblood'),),
-  //         iOS: IOSNotificationDetails(
-  //             sound: 'a_long_cold_sting.wav',
-  //             presentAlert: true,
-  //             presentBadge: true,
-  //             presentSound: true),),
-  //       androidAllowWhileIdle: true,
-  //       uiLocalNotificationDateInterpretation:
-  //       UILocalNotificationDateInterpretation.absoluteTime);
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.teal,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => HomePageScreen(pageIndex: 3),
-                  ),
-                );
-              },
-              icon: Icon(Icons.arrow_back)),
-          elevation: 0,
-          title: Text(
-            "$ufname $umname\u0027s Profile",
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 13.sp),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 20.h),
-              Image.asset(
-                (gender == "Female")
-                    ? "assets/icons/woman.png"
-                    : "assets/icons/man.png",
-                height: 60.h,
-                // width: size.width * 0.4,
-              ),
-              SizedBox(height: 10.h),
-              Text(
-                "My Profile",
-                style: GoogleFonts.montserrat(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.normal,
-                    color: Color(0xFF205072)),
-              ),
-              SizedBox(height: 2.h),
-              SizedBox(
-                height: 15.h,
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: Container(
-                              padding: EdgeInsets.all(10.r),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFebf5f5),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text(
-                                    "Personal Details",
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xff389e9d)),
-                                  ),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'First Name: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: ufname,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  (umname != null)
-                                      ? Text.rich(
-                                          TextSpan(
-                                            style: TextStyle(
-                                              color: Color(0xFF205072),
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text: 'Middle Name: ',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Color(0xFF205072),
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: umname,
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xFF205072),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          textHeightBehavior:
-                                              TextHeightBehavior(
-                                                  applyHeightToFirstAscent:
-                                                      false),
-                                          textAlign: TextAlign.left,
-                                        )
-                                      : SizedBox(
-                                          height: 0.h,
-                                        ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Last Name: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: ulname,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Age Category: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: agecategory,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text.rich(
-                                        TextSpan(
-                                          style: TextStyle(
-                                            color: Color(0xFF205072),
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          children: [
-                                            TextSpan(
-                                              text: 'Gender: ',
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.normal,
-                                                color: Color(0xFF205072),
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: gender,
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xFF205072),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        textHeightBehavior: TextHeightBehavior(
-                                            applyHeightToFirstAscent: false),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      (gender == "Male")
-                                          ? Icon(
-                                              Icons.male_outlined,
-                                              color: Color(0xFF205072),
-                                            )
-                                          : Icon(Icons.female_outlined),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: Container(
-                              padding: EdgeInsets.all(10.r),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFebf5f5),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text(
-                                    "Contact Details",
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xff389e9d)),
-                                  ),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Phone Number: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: phonenumber,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  (email == "")
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text.rich(
-                                              TextSpan(
-                                                style: TextStyle(
-                                                  color: Color(0xFF205072),
-                                                  fontSize: 15.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                children: [
-                                                  TextSpan(
-                                                    text: 'Email: ',
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: Color(0xFF205072),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              textHeightBehavior:
-                                                  TextHeightBehavior(
-                                                      applyHeightToFirstAscent:
-                                                          false),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            _isemailcontactLoading
-                                                ? SizedBox(
-                                                    height: 15.0,
-                                                    width: 15.0,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: Colors.blue,
-                                                      strokeWidth: 2.0,
-                                                    ),
-                                                  )
-                                                : InkWell(
-                                                    onTap: () {
-                                                      showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        backgroundColor:
-                                                            Color(0xFFebf5f5),
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return SingleChildScrollView(
-                                                            child: Container(
-                                                              padding: EdgeInsets.only(
-                                                                  bottom: MediaQuery.of(
-                                                                          context)
-                                                                      .viewInsets
-                                                                      .bottom),
-                                                              child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        20.0,
-                                                                        20.0,
-                                                                        20.0,
-                                                                        0.0),
-                                                                // content padding
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    InkWell(
-                                                                      onTap:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.end,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.end,
-                                                                        children: [
-                                                                          Text(
-                                                                              ' Close',
-                                                                              textAlign: TextAlign.center,
-                                                                              style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.red)),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          5.h,
-                                                                    ),
-                                                                    Text(
-                                                                        'Add Email Address',
-                                                                        textAlign:
-                                                                            TextAlign
-                                                                                .center,
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontSize:
-                                                                                15.sp,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            color: Colors.teal)),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          5.h,
-                                                                    ),
-                                                                    Container(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      child:
-                                                                          SizedBox(
-                                                                        child:
-                                                                            Divider(
-                                                                          color:
-                                                                              Colors.teal,
-                                                                          thickness:
-                                                                              1,
-                                                                        ),
-                                                                        height:
-                                                                            5.h,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          5.h,
-                                                                    ),
-                                                                    Form(
-                                                                      key:
-                                                                          _formKey,
-                                                                      child:
-                                                                          Column(
-                                                                        children: [
-                                                                          TextFormField(
-                                                                            keyboardType:
-                                                                                TextInputType.text,
-                                                                            style:
-                                                                                TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat'),
-                                                                            controller:
-                                                                                ninCtrl,
-                                                                            decoration: InputDecoration(
-                                                                                labelText: 'Email Address',
-                                                                                hintText: 'Enter Email Address',
-                                                                                labelStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat'),
-                                                                                hintStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat')),
-                                                                          ),
-                                                                          SizedBox(
-                                                                              height: 10.h),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      child: ElevatedButton(
-                                                                          child: Text('Add Email Address', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
-                                                                          style: TextButton.styleFrom(
-                                                                            primary:
-                                                                                Colors.white,
-                                                                            backgroundColor:
-                                                                                Color(0xff389e9d),
-                                                                          ),
-                                                                          onPressed: () async {
-                                                                            if (_formKey.currentState!.validate()) {
-                                                                              Navigator.pop(context);
-                                                                              if (await getInternetUsingInternetConnectivity()) {
-                                                                                setState(() {
-                                                                                  _isemailcontactLoading = true;
-                                                                                });
-                                                                                emailcontactdetailsupdate();
-                                                                              } else {
-                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                                  content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
-                                                                                  backgroundColor: Color(0xFFE02020),
-                                                                                  behavior: SnackBarBehavior.fixed,
-                                                                                  duration: const Duration(seconds: 10),
-                                                                                  // duration: Duration(seconds: 3),
-                                                                                ));
-                                                                              }
-                                                                            }
-                                                                          }),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          15.h,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.add,
-                                                          color: Colors.blue,
-                                                          size: 15,
-                                                        ),
-                                                        SizedBox(width: 5.h),
-                                                        Text('add Email',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: GoogleFonts
-                                                                .montserrat(
-                                                                    fontSize:
-                                                                        12.sp,
-                                                                    color: Colors
-                                                                        .blue)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                          ],
-                                        )
-                                      : Text.rich(
-                                          TextSpan(
-                                            style: TextStyle(
-                                              color: Color(0xFF205072),
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text: 'Email: ',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Color(0xFF205072),
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: email,
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xFF205072),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          textHeightBehavior:
-                                              TextHeightBehavior(
-                                                  applyHeightToFirstAscent:
-                                                      false),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  (nin == "")
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text.rich(
-                                              TextSpan(
-                                                style: TextStyle(
-                                                  color: Color(0xFF205072),
-                                                  fontSize: 15.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                children: [
-                                                  TextSpan(
-                                                    text: 'NIN: ',
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: Color(0xFF205072),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              textHeightBehavior:
-                                                  TextHeightBehavior(
-                                                      applyHeightToFirstAscent:
-                                                          false),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            _isnincontactLoading
-                                                ? SizedBox(
-                                                    height: 15.0,
-                                                    width: 15.0,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: Colors.blue,
-                                                      strokeWidth: 2.0,
-                                                    ),
-                                                  )
-                                                : InkWell(
-                                                    onTap: () {
-                                                      showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        backgroundColor:
-                                                            Color(0xFFebf5f5),
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return SingleChildScrollView(
-                                                            child: Container(
-                                                              padding: EdgeInsets.only(
-                                                                  bottom: MediaQuery.of(
-                                                                          context)
-                                                                      .viewInsets
-                                                                      .bottom),
-                                                              child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        20.0,
-                                                                        20.0,
-                                                                        20.0,
-                                                                        0.0),
-                                                                // content padding
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    InkWell(
-                                                                      onTap:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.end,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.end,
-                                                                        children: [
-                                                                          Text(
-                                                                              ' Close',
-                                                                              textAlign: TextAlign.center,
-                                                                              style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.red)),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          5.h,
-                                                                    ),
-                                                                    Text(
-                                                                        'Add National Identification Number',
-                                                                        textAlign:
-                                                                            TextAlign
-                                                                                .center,
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontSize:
-                                                                                15.sp,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            color: Colors.teal)),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          5.h,
-                                                                    ),
-                                                                    Container(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      child:
-                                                                          SizedBox(
-                                                                        child:
-                                                                            Divider(
-                                                                          color:
-                                                                              Colors.teal,
-                                                                          thickness:
-                                                                              1,
-                                                                        ),
-                                                                        height:
-                                                                            5.h,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          5.h,
-                                                                    ),
-                                                                    Form(
-                                                                      key:
-                                                                          _formKey,
-                                                                      child:
-                                                                          Column(
-                                                                        children: [
-                                                                          TextFormField(
-                                                                            keyboardType:
-                                                                                TextInputType.text,
-                                                                            style:
-                                                                                TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat'),
-                                                                            controller:
-                                                                                ninCtrl,
-                                                                            decoration: InputDecoration(
-                                                                                labelText: 'National Identification Number',
-                                                                                hintText: 'Enter National Identification Number',
-                                                                                labelStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat'),
-                                                                                hintStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat')),
-                                                                          ),
-                                                                          SizedBox(
-                                                                              height: 10.h),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      child: ElevatedButton(
-                                                                          child: Text('Add NIN', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
-                                                                          style: TextButton.styleFrom(
-                                                                            primary:
-                                                                                Colors.white,
-                                                                            backgroundColor:
-                                                                                Color(0xff389e9d),
-                                                                          ),
-                                                                          onPressed: () async {
-                                                                            if (_formKey.currentState!.validate()) {
-                                                                              Navigator.pop(context);
-                                                                              if (await getInternetUsingInternetConnectivity()) {
-                                                                                setState(() {
-                                                                                  _isnincontactLoading = true;
-                                                                                });
-                                                                                nincontactdetailsupdate();
-                                                                              } else {
-                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                                  content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
-                                                                                  backgroundColor: Color(0xFFE02020),
-                                                                                  behavior: SnackBarBehavior.fixed,
-                                                                                  duration: const Duration(seconds: 10),
-                                                                                  // duration: Duration(seconds: 3),
-                                                                                ));
-                                                                              }
-                                                                            }
-                                                                          }),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          15.h,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.add,
-                                                          color: Colors.blue,
-                                                          size: 15,
-                                                        ),
-                                                        SizedBox(width: 5.h),
-                                                        Text('add NIN',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: GoogleFonts
-                                                                .montserrat(
-                                                                    fontSize:
-                                                                        12.sp,
-                                                                    color: Colors
-                                                                        .blue)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                          ],
-                                        )
-                                      : Text.rich(
-                                          TextSpan(
-                                            style: TextStyle(
-                                              color: Color(0xFF205072),
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text: 'NIN: ',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Color(0xFF205072),
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: nin,
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xFF205072),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          textHeightBehavior:
-                                              TextHeightBehavior(
-                                                  applyHeightToFirstAscent:
-                                                      false),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Address: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: address,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Ethnicity: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: ethnicity,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'District: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: district,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: Container(
-                              padding: EdgeInsets.all(10.r),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFebf5f5),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text(
-                                    "Blood Details",
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xff389e9d)),
-                                  ),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Blood Group: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: bloodtype,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Color(0xFF205072),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Previous Donation: ',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: prevdonation,
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF205072),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  (prevdonation == "Yes")
-                                      ? Text.rich(
-                                          TextSpan(
-                                            style: TextStyle(
-                                              color: Color(0xFF205072),
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text:
-                                                    'Number of Previous Donation: ',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Color(0xFF205072),
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: prevdonationamt,
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xFF205072),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          textHeightBehavior:
-                                              TextHeightBehavior(
-                                                  applyHeightToFirstAscent:
-                                                      false),
-                                          textAlign: TextAlign.left,
-                                        )
-                                      : SizedBox(
-                                          height: 0.h,
-                                        ),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
-                                  (bloodtype == "Not Known")
-                                      ? Column(
-                                          children: [
-                                            Container(
-                                              width: double.infinity,
-                                              child: TextButton(
-                                                child: _isLoading
-                                                    ? SizedBox(
-                                                        height: 15.0,
-                                                        width: 15.0,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          color: Colors.white,
-                                                          strokeWidth: 2.0,
-                                                        ),
-                                                      )
-                                                    : Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(
-                                                            Icons.edit,
-                                                            color: Colors.white,
-                                                            size: 15,
-                                                          ),
-                                                          SizedBox(width: 5.h),
-                                                          Text(
-                                                              'Update Blood Details',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: GoogleFonts
-                                                                  .montserrat(
-                                                                      fontSize:
-                                                                          14.sp,
-                                                                      color: Colors
-                                                                          .white)),
-                                                        ],
-                                                      ),
-                                                style: TextButton.styleFrom(
-                                                  primary: Colors.white,
-                                                  backgroundColor:
-                                                      Color(0xFF205072),
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10))),
-                                                ),
-                                                onPressed: () {
-                                                  showModalBottomSheet(
-                                                    isScrollControlled: true,
-                                                    backgroundColor:
-                                                        Color(0xFFebf5f5),
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return SingleChildScrollView(
-                                                        child: Container(
-                                                          padding: EdgeInsets.only(
-                                                              bottom: MediaQuery
-                                                                      .of(context)
-                                                                  .viewInsets
-                                                                  .bottom),
-                                                          child: Padding(
-                                                            padding: EdgeInsets
-                                                                .fromLTRB(
-                                                                    20.0,
-                                                                    20.0,
-                                                                    20.0,
-                                                                    0.0),
-                                                            // content padding
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .end,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .end,
-                                                                    children: [
-                                                                      Text(
-                                                                          ' Close',
-                                                                          textAlign: TextAlign
-                                                                              .center,
-                                                                          style: GoogleFonts.montserrat(
-                                                                              fontSize: 13.sp,
-                                                                              color: Colors.red)),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 5.h,
-                                                                ),
-                                                                Text(
-                                                                    'Update Blood Details',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style: GoogleFonts.montserrat(
-                                                                        fontSize: 15
-                                                                            .sp,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        color: Colors
-                                                                            .teal)),
-                                                                SizedBox(
-                                                                  height: 5.h,
-                                                                ),
-                                                                Container(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  child:
-                                                                      SizedBox(
-                                                                    child:
-                                                                        Divider(
-                                                                      color: Colors
-                                                                          .teal,
-                                                                      thickness:
-                                                                          1,
-                                                                    ),
-                                                                    height: 5.h,
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 5.h,
-                                                                ),
-                                                                Form(
-                                                                  key: _formKey,
-                                                                  autovalidateMode:
-                                                                      AutovalidateMode
-                                                                          .always,
-                                                                  child: Column(
-                                                                    children: [
-                                                                      SizedBox(
-                                                                          height:
-                                                                              5.h),
-                                                                      DropdownButtonFormField(
-                                                                        //button height
-                                                                        decoration:
-                                                                            InputDecoration(
-                                                                          labelText:
-                                                                              'Blood Group',
-                                                                          //Add isDense true and zero Padding.
-                                                                          //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                                                                          isDense:
-                                                                              true,
-                                                                          contentPadding:
-                                                                              EdgeInsets.only(left: 5),
-                                                                          border:
-                                                                              OutlineInputBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(5),
-                                                                          ),
-                                                                          //Add more decoration as you want here
-                                                                          //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                                                                        ),
-                                                                        icon:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .arrow_drop_down,
-                                                                          color:
-                                                                              Colors.black45,
-                                                                        ),
-                                                                        iconSize:
-                                                                            30,
-                                                                        
-                                                                       
-                                                                        items: bloodgrouplist
-                                                                            .map((item) => DropdownMenuItem<String>(
-                                                                                  value: item,
-                                                                                  child: Text(
-                                                                                    item,
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 14.sp,
-                                                                                    ),
-                                                                                  ),
-                                                                                ))
-                                                                            .toList(),
-                                                                        validator:
-                                                                            (value) {
-                                                                          if (value ==
-                                                                              null) {
-                                                                            return 'Please select an option.';
-                                                                          }
-                                                                        },
-                                                                        onChanged:
-                                                                            (String?
-                                                                                value) {
-                                                                          setState(
-                                                                              () {
-                                                                            selectedBloodType =
-                                                                                value;
-                                                                          });
-                                                                        },
-                                                                        onSaved:
-                                                                            (value) {
-                                                                          selectedBloodType =
-                                                                              value.toString();
-                                                                        },
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              5.h),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 5.h,
-                                                                ),
-                                                                SizedBox(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  child: ElevatedButton(
-                                                                      child: Text('Update Details', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
-                                                                      style: TextButton.styleFrom(
-                                                                        primary:
-                                                                            Colors.white,
-                                                                        backgroundColor:
-                                                                            Color(0xff389e9d),
-                                                                      ),
-                                                                      onPressed: () async {
-                                                                        if (_formKey
-                                                                            .currentState!
-                                                                            .validate()) {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                          if (await getInternetUsingInternetConnectivity()) {
-                                                                            setState(() {
-                                                                              _isLoading = true;
-                                                                            });
-                                                                            blooddetailsupdate();
-                                                                          } else {
-                                                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                              content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
-                                                                              backgroundColor: Color(0xFFE02020),
-                                                                              behavior: SnackBarBehavior.fixed,
-                                                                              duration: const Duration(seconds: 10),
-                                                                              // duration: Duration(seconds: 3),
-                                                                            ));
-                                                                          }
-                                                                        }
-                                                                      }),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 15.h,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            Container(
-                                              width: double.infinity,
-                                              child: TextButton(
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.bloodtype_rounded,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    SizedBox(width: 5.h),
-                                                    Text(
-                                                        'Schedule Blood Group Test',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                                fontSize: 14.sp,
-                                                                color: Colors
-                                                                    .white)),
-                                                  ],
-                                                ),
-                                                style: TextButton.styleFrom(
-                                                  foregroundColor: Colors.white,
-                                                  backgroundColor: Colors.teal,
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10))),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    new MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          scheduletypebody(),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : SizedBox(
-                                          height: 0,
-                                        )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-            ],
-          ),
-        ));
   }
 
   Widget _buildGenderSelector({
@@ -2059,6 +582,1045 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+  // void scheduleAlarm() async{
+  //   var tz;
+  //   await flutterLocalNotificationsPlugin.zonedSchedule(
+  //       0,
+  //       'LifeBlood',
+  //       'Thank You For Regisering, You Have Saved A Life',
+  //       tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
+  //       const NotificationDetails(
+  //         android: AndroidNotificationDetails(
+  //           'alarm_notify',
+  //           'alarm_notify',
+  //           channelDescription: 'Channel For Registeration',
+  //           icon: 'lifeblood',
+  //           sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
+  //           largeIcon: DrawableResourceAndroidBitmap('lifeblood'),),
+  //         iOS: IOSNotificationDetails(
+  //             sound: 'a_long_cold_sting.wav',
+  //             presentAlert: true,
+  //             presentBadge: true,
+  //             presentSound: true),),
+  //       androidAllowWhileIdle: true,
+  //       uiLocalNotificationDateInterpretation:
+  //       UILocalNotificationDateInterpretation.absoluteTime);
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.teal,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => HomePageScreen(pageIndex: 3),
+                  ),
+                );
+              },
+              icon: Icon(Icons.arrow_back)),
+          elevation: 0,
+          title: Text(
+            "$ufname $umname\u0027s Profile",
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 13.sp),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 10),
+              SizedBox(
+                width: 80,
+                height: 80,
+                child: CircleAvatar(
+                  backgroundImage: AssetImage(
+                    "assets/images/man1.png",
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "Joseph David Koroma",
+                style: GoogleFonts.montserrat(
+                    fontSize: 13.sp,
+                    letterSpacing: 0,
+                    fontWeight: FontWeight.bold,
+                    color: kLifeBloodBlue),
+              ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CountryFlag.fromCountryCode(
+                    'sl',
+                    height: 20,
+                    width: 35,
+                    borderRadius: 5,
+                  ),
+                  5.horizontalSpace,
+                  Text(
+                    "Sierra Leone",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.normal,
+                        color: kLifeBloodBlue),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Container(
+                              padding: EdgeInsets.all(10.r),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFebf5f5),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Personal Details",
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff389e9d)),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        color: Color(0xFF205072),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Birth Date: ',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: agecategory,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    textHeightBehavior: TextHeightBehavior(
+                                        applyHeightToFirstAscent: false),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        color: Color(0xFF205072),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Age Category: ',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: agecategory,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    textHeightBehavior: TextHeightBehavior(
+                                        applyHeightToFirstAscent: false),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text.rich(
+                                        TextSpan(
+                                          style: TextStyle(
+                                            color: Color(0xFF205072),
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: 'Gender: ',
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.normal,
+                                                color: Color(0xFF205072),
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: gender,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF205072),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        textHeightBehavior: TextHeightBehavior(
+                                            applyHeightToFirstAscent: false),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      (gender == "Male")
+                                          ? Icon(
+                                              Icons.male_outlined,
+                                              color: Color(0xFF205072),
+                                            )
+                                          : Icon(Icons.female_outlined),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Container(
+                              padding: EdgeInsets.all(10.r),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFebf5f5),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Contact Details",
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff389e9d)),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        color: Color(0xFF205072),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Phone Number: ',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: phonenumber,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    textHeightBehavior: TextHeightBehavior(
+                                        applyHeightToFirstAscent: false),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  (email == "")
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text.rich(
+                                              TextSpan(
+                                                style: TextStyle(
+                                                  color: Color(0xFF205072),
+                                                  fontSize: 15.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Email: ',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Color(0xFF205072),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              textHeightBehavior:
+                                                  TextHeightBehavior(
+                                                      applyHeightToFirstAscent:
+                                                          false),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            _isemailcontactLoading
+                                                ? SizedBox(
+                                                    height: 15.0,
+                                                    width: 15.0,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: Colors.blue,
+                                                      strokeWidth: 2.0,
+                                                    ),
+                                                  )
+                                                : InkWell(
+                                                    onTap: () {
+                                                      showModalBottomSheet(
+                                                        isScrollControlled:
+                                                            true,
+                                                        backgroundColor:
+                                                            Color(0xFFebf5f5),
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return SingleChildScrollView(
+                                                            child: Container(
+                                                              padding: EdgeInsets.only(
+                                                                  bottom: MediaQuery.of(
+                                                                          context)
+                                                                      .viewInsets
+                                                                      .bottom),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .fromLTRB(
+                                                                        20.0,
+                                                                        20.0,
+                                                                        20.0,
+                                                                        0.0),
+                                                                // content padding
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.end,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.end,
+                                                                        children: [
+                                                                          Text(
+                                                                              ' Close',
+                                                                              textAlign: TextAlign.center,
+                                                                              style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.red)),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    Text(
+                                                                        'Add Email Address',
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style: GoogleFonts.montserrat(
+                                                                            fontSize:
+                                                                                15.sp,
+                                                                            fontWeight: FontWeight.bold,
+                                                                            color: Colors.teal)),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    Container(
+                                                                      width: double
+                                                                          .infinity,
+                                                                      child:
+                                                                          SizedBox(
+                                                                        child:
+                                                                            Divider(
+                                                                          color:
+                                                                              Colors.teal,
+                                                                          thickness:
+                                                                              1,
+                                                                        ),
+                                                                        height:
+                                                                            5,
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    Form(
+                                                                      key:
+                                                                          _formKey,
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          TextFormField(
+                                                                            keyboardType:
+                                                                                TextInputType.text,
+                                                                            style:
+                                                                                TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat'),
+                                                                            controller:
+                                                                                ninCtrl,
+                                                                            decoration: InputDecoration(
+                                                                                labelText: 'Email Address',
+                                                                                hintText: 'Enter Email Address',
+                                                                                labelStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat'),
+                                                                                hintStyle: TextStyle(fontSize: 15.sp, fontFamily: 'Montserrat')),
+                                                                          ),
+                                                                          SizedBox(
+                                                                              height: 10),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: double
+                                                                          .infinity,
+                                                                      child: ElevatedButton(
+                                                                          child: Text('Add Email Address', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
+                                                                          style: TextButton.styleFrom(
+                                                                            foregroundColor:
+                                                                                Colors.white,
+                                                                            backgroundColor:
+                                                                                Color(0xff389e9d),
+                                                                          ),
+                                                                          onPressed: () async {
+                                                                            if (_formKey.currentState!.validate()) {
+                                                                              Navigator.pop(context);
+                                                                              if (await getInternetUsingInternetConnectivity()) {
+                                                                                setState(() {
+                                                                                  _isemailcontactLoading = true;
+                                                                                });
+                                                                                emailcontactdetailsupdate();
+                                                                              } else {
+                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                  content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
+                                                                                  backgroundColor: Color(0xFFE02020),
+                                                                                  behavior: SnackBarBehavior.fixed,
+                                                                                  duration: const Duration(seconds: 10),
+                                                                                  // duration: Duration(seconds: 3),
+                                                                                ));
+                                                                              }
+                                                                            }
+                                                                          }),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          15,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.add,
+                                                          color: Colors.blue,
+                                                          size: 15,
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Text('add Email',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: GoogleFonts
+                                                                .montserrat(
+                                                                    fontSize:
+                                                                        12.sp,
+                                                                    color: Colors
+                                                                        .blue)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                          ],
+                                        )
+                                      : Text.rich(
+                                          TextSpan(
+                                            style: TextStyle(
+                                              color: Color(0xFF205072),
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: 'Email: ',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Color(0xFF205072),
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: email,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xFF205072),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          textHeightBehavior:
+                                              TextHeightBehavior(
+                                                  applyHeightToFirstAscent:
+                                                      false),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        color: Color(0xFF205072),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Address: ',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: address,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    textHeightBehavior: TextHeightBehavior(
+                                        applyHeightToFirstAscent: false),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Container(
+                              padding: EdgeInsets.all(10.r),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFebf5f5),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Blood Details",
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff389e9d)),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        color: Color(0xFF205072),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Blood Group: ',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: bloodtype,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    textHeightBehavior: TextHeightBehavior(
+                                        applyHeightToFirstAscent: false),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        color: Color(0xFF205072),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Previous Donation: ',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: prevdonation,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF205072),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    textHeightBehavior: TextHeightBehavior(
+                                        applyHeightToFirstAscent: false),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  (prevdonation == "Yes")
+                                      ? Text.rich(
+                                          TextSpan(
+                                            style: TextStyle(
+                                              color: Color(0xFF205072),
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text:
+                                                    'Number of Previous Donation: ',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Color(0xFF205072),
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: prevdonationamt,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xFF205072),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          textHeightBehavior:
+                                              TextHeightBehavior(
+                                                  applyHeightToFirstAscent:
+                                                      false),
+                                          textAlign: TextAlign.left,
+                                        )
+                                      : SizedBox(
+                                          height: 0.h,
+                                        ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        child: TextButton(
+                                          child: _isLoading
+                                              ? SizedBox(
+                                                  height: 15.0,
+                                                  width: 15.0,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Colors.white,
+                                                    strokeWidth: 2.0,
+                                                  ),
+                                                )
+                                              : Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    FaIcon(
+                                                      FontAwesomeIcons
+                                                          .penToSquare,
+                                                      size: 15,
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Text('Update Blood Details',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 14.sp,
+                                                                color: Colors
+                                                                    .white)),
+                                                  ],
+                                                ),
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            backgroundColor: Color(0xFF205072),
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                          ),
+                                          onPressed: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    Dialog(
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10),
+                                                          ),
+                                                        ),
+                                                        child: IntrinsicHeight(
+                                                            child: Container(
+                                                                width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width <=
+                                                                        768
+                                                                    ? 0.7.sw
+                                                                    : 0.65.sw,
+                                                                // padding: EdgeInsets.all(10.r),
+                                                                decoration: const BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            10))),
+                                                                child: Column(
+                                                                    children: [
+                                                                      Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(10.r),
+                                                                        decoration: BoxDecoration(
+                                                                            color:
+                                                                                kPrimaryColor,
+                                                                            borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(10),
+                                                                                topRight: Radius.circular(10),
+                                                                                bottomLeft: Radius.zero,
+                                                                                bottomRight: Radius.zero)),
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Update Blood Details',
+                                                                              style: TextStyle(
+                                                                                color: Colors.white,
+                                                                                fontSize: 15,
+                                                                                fontFamily: 'Montserrat',
+                                                                                fontWeight: FontWeight.bold,
+                                                                                letterSpacing: 0,
+                                                                              ),
+                                                                            ),
+                                                                            InkWell(
+                                                                                onTap: () {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                child: Icon(
+                                                                                  Icons.close,
+                                                                                  color: kWhiteColor,
+                                                                                ))
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      10.verticalSpace,
+                                                                      Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              10),
+                                                                          child: Expanded(
+                                                                              child: SingleChildScrollView(
+                                                                            child:
+                                                                                Form(
+                                                                              key: _formKey,
+                                                                              autovalidateMode: AutovalidateMode.always,
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  SizedBox(height: 5),
+                                                                                  DropdownButtonFormField(
+                                                                                    //button height
+                                                                                    decoration: InputDecoration(
+                                                                                      labelText: 'Blood Group',
+                                                                                      labelStyle: TextStyle(fontFamily: 'Montserrat', letterSpacing: 0, fontSize: 14),
+                                                                                      //Add isDense true and zero Padding.
+                                                                                      //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                                                                                      isDense: false,
+                                                                                      contentPadding: EdgeInsets.only(left: 5),
+                                                                                      border: OutlineInputBorder(
+                                                                                        borderRadius: BorderRadius.circular(5),
+                                                                                      ),
+                                                                                      //Add more decoration as you want here
+                                                                                      //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                                                                                    ),
+                                                                                    icon: const Icon(
+                                                                                      Icons.arrow_drop_down,
+                                                                                      color: Colors.black45,
+                                                                                    ),
+                                                                                    iconSize: 30,
+
+                                                                                    items: bloodgrouplist
+                                                                                        .map((item) => DropdownMenuItem<String>(
+                                                                                              value: item,
+                                                                                              child: Text(
+                                                                                                item,
+                                                                                                style: TextStyle(
+                                                                                                  fontSize: 14.sp,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ))
+                                                                                        .toList(),
+                                                                                    validator: (value) {
+                                                                                      if (value == null) {
+                                                                                        return 'Please select an option.';
+                                                                                      }
+                                                                                    },
+                                                                                    onChanged: (String? value) {
+                                                                                      setState(() {
+                                                                                        selectedBloodType = value;
+                                                                                      });
+                                                                                    },
+                                                                                    onSaved: (value) {
+                                                                                      selectedBloodType = value.toString();
+                                                                                    },
+                                                                                  ),
+                                                                                  SizedBox(height: 5),
+                                                                                  SizedBox(
+                                                                                    height: 5,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    width: double.infinity,
+                                                                                    child: ElevatedButton(
+                                                                                        child: Text('Update Details', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
+                                                                                        style: TextButton.styleFrom(
+                                                                                          foregroundColor: Colors.white,
+                                                                                          backgroundColor: Color(0xff389e9d),
+                                                                                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                                                        ),
+                                                                                        onPressed: () async {
+                                                                                          if (_formKey.currentState!.validate()) {
+                                                                                            Navigator.pop(context);
+                                                                                            if (await getInternetUsingInternetConnectivity()) {
+                                                                                              setState(() {
+                                                                                                _isLoading = true;
+                                                                                              });
+                                                                                              blooddetailsupdate();
+                                                                                            } else {
+                                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                                content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
+                                                                                                backgroundColor: Color(0xFFE02020),
+                                                                                                behavior: SnackBarBehavior.fixed,
+                                                                                                duration: const Duration(seconds: 10),
+                                                                                                // duration: Duration(seconds: 3),
+                                                                                              ));
+                                                                                            }
+                                                                                          }
+                                                                                        }),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          )))
+                                                                    ])))));
+                                          },
+                                        ),
+                                      ),
+                                      Container(
+                                        width: double.infinity,
+                                        child: TextButton(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.bloodtype_rounded,
+                                                color: Colors.white,
+                                                size: 20,
+                                              ),
+                                              SizedBox(width: 5),
+                                              Text('Schedule Blood Group Test',
+                                                  textAlign: TextAlign.center,
+                                                  style: GoogleFonts.montserrat(
+                                                      fontSize: 14.sp,
+                                                      color: Colors.white)),
+                                            ],
+                                          ),
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            backgroundColor: Colors.teal,
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              new MaterialPageRoute(
+                                                builder: (context) =>
+                                                    scheduletypebody(),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ));
+  }
 }
 
 // class UpdateProfileScreen extends StatelessWidget {
@@ -2071,7 +1633,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //
 //             title: 'Lifeblood Registration',
 //             theme: ThemeData(
-//               primarySwatch: Colors.teal,
+//               foregroundColorSwatch: Colors.teal,
 //               visualDensity: VisualDensity.adaptivePlatformDensity,
 //               fontFamily: GoogleFonts.montserrat().fontFamily,
 //             ),
@@ -2188,7 +1750,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //     } else {
 //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
 //         content: Container(
-//           height: 20.h,
+//           height: 10,
 //           child: Row(
 //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //             crossAxisAlignment: CrossAxisAlignment.center,
@@ -2280,7 +1842,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //
 //                 controller: _ageCtrl,
 //               ),
-//               SizedBox(  height: 20.h),
+//               SizedBox(  height: 10),
 //
 //
 //
@@ -2341,7 +1903,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //                 labelText: 'Home Address',
 //                 controller: _addressCtrl,
 //               ),
-//               SizedBox(  height: 15.h),
+//               SizedBox(  height: 15),
 //
 //
 //               FormBuilderRadioGroup(
@@ -2547,7 +2109,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //                     .map((selectedBloodType) => FormBuilderFieldOption(value: selectedBloodType))
 //                     .toList(growable: false),
 //               ),
-//               SizedBox(  height: 10.h),
+//               SizedBox(  height: 10),
 //               FormBuilderRadioGroup(
 //
 //                 orientation: OptionsOrientation.vertical,
@@ -2570,7 +2132,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //                     .map((selectedPrevDonation) => FormBuilderFieldOption(value: selectedPrevDonation))
 //                     .toList(growable: false),
 //               ),
-//               SizedBox(  height: 10.h),
+//               SizedBox(  height: 10),
 //               TextFormField(
 //
 //                 validator: (value) {
@@ -2703,7 +2265,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //         duration: Duration(milliseconds: 200),
 //         curve: Curves.easeInOut,
 //         decoration: BoxDecoration(
-//           color: isActive ? Theme.of(context!).primaryColor : null,
+//           color: isActive ? Theme.of(context!).PrimaryColor : null,
 //           border: Border.all(
 //             width: 0,
 //           ),
@@ -2743,7 +2305,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //         duration: Duration(milliseconds: 200),
 //         curve: Curves.easeInOut,
 //         decoration: BoxDecoration(
-//           color: isActive ? Theme.of(context!).primaryColor : null,
+//           color: isActive ? Theme.of(context!).PrimaryColor : null,
 //           border: Border.all(
 //             width: 0,
 //           ),

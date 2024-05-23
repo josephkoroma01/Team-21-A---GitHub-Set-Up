@@ -154,7 +154,6 @@ class _scheduletestState extends State<scheduletest> {
   String? selectedTimeslot = '';
   TextEditingController _firstnameCtrl = TextEditingController();
 
-
   Future findfacility() async {
     var response = await http
         .get(Uri.parse("https://community.lifebloodsl.com/findfacility.php"));
@@ -308,7 +307,7 @@ class _scheduletestState extends State<scheduletest> {
                                 ),
                               ),
                               style: TextButton.styleFrom(
-                                primary: Colors.teal,
+                                foregroundColor: Colors.teal,
                                 backgroundColor: Colors.white,
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
@@ -351,7 +350,7 @@ class _scheduletestState extends State<scheduletest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+          backgroundColor: kPrimaryColor,
           leading: IconButton(
               onPressed: () {
                 Navigator.push(
@@ -361,18 +360,24 @@ class _scheduletestState extends State<scheduletest> {
                   ),
                 );
               },
-              icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+              icon: FaIcon(
+                FontAwesomeIcons.arrowLeft,
+                color: kWhiteColor,
+              )),
           elevation: 0,
           title: Text(
             widget.title!,
-            style: TextStyle(fontSize: 14.sp, letterSpacing: 0, color: kWhiteColor, fontFamily: 'Montserrat'),
+            style: TextStyle(
+                fontSize: 14.sp,
+                letterSpacing: 0,
+                color: kWhiteColor,
+                fontFamily: 'Montserrat'),
           )),
       body: SingleChildScrollView(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Form(
@@ -451,160 +456,168 @@ class _scheduletestState extends State<scheduletest> {
                           ],
                         ),
                       ),
-                      
-                      TextFormField(
-  validator: (value) {
-    if (value!.isEmpty) {
-      return 'Date is required';
-    }
-    return null;
-  },
-  controller: dateinput,
-  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-  //editing controller of this TextField
-  decoration: InputDecoration(
-    isDense: true,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(5),
-    ),
-    labelText: "Select Date",
-    labelStyle: TextStyle(
-                                      fontSize: 14.sp,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-    // label text of field
-  ),
-  readOnly: true, //set it true, so that the user will not be able to edit text
-  onTap: () async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(), // Next day
-      lastDate: DateTime(2101),
-    );
 
-    if (pickedDate != null) {
-      print(pickedDate);
-      final String formattedDate = DateFormat('d MMM yyyy').format(pickedDate);
-      print(formattedDate);
-      setState(() {
-        dateinput.text = formattedDate;
-      });
-    } else {
-      print("Date is not selected");
-    }
-  },
-),
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Date is required';
+                          }
+                          return null;
+                        },
+                        controller: dateinput,
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            letterSpacing: 0,
+                            fontFamily: 'Montserrat'),
+                        //editing controller of this TextField
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          labelText: "Select Date",
+                          labelStyle: TextStyle(
+                              fontSize: 14.sp,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                          // label text of field
+                        ),
+                        readOnly:
+                            true, //set it true, so that the user will not be able to edit text
+                        onTap: () async {
+                          final DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(), // Next day
+                            lastDate: DateTime(2101),
+                          );
+
+                          if (pickedDate != null) {
+                            print(pickedDate);
+                            final String formattedDate =
+                                DateFormat('d MMM yyyy').format(pickedDate);
+                            print(formattedDate);
+                            setState(() {
+                              dateinput.text = formattedDate;
+                            });
+                          } else {
+                            print("Date is not selected");
+                          }
+                        },
+                      ),
 
                       SizedBox(
                         height: 10.h,
                       ),
 
-                      
                       TextFormField(
-  validator: (value) {
-    if (value!.isEmpty) {
-      return 'Time is required';
-    }
-    return null;
-  },
-  controller: timeinput,
-  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-  //editing controller of this TextField
-  decoration: InputDecoration(
-    isDense: true,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(5),
-    ),
-    labelText: "Select Time",
-    labelStyle: TextStyle(
-                                      fontSize: 14.sp,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-    // label text of field
-  ),
-  readOnly: true, //set it true, so that the user will not be able to edit text
-  onTap: () async {
-    TimeOfDay initialTime = TimeOfDay.now();
-    TimeOfDay? selectedTime = await showTimePicker(
-      context: context,
-      initialTime: initialTime,
-      builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-          child: child!,
-        );
-      },
-    );
-
-    if (selectedTime != null) {
-      if (selectedTime.hour < now.hour || (selectedTime.hour == now.hour && selectedTime.minute <= now.minute)) {
-        // If selected time is before or equal to the current time
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Please select a time after the current time'),
-          ),
-        );
-      } else {
-        setState(() {
-          timeinput.text = selectedTime.format(context);
-        });
-      }
-      if (selectedTime.hour < 9 || selectedTime.hour >= 18) {
-        // If selected time is before 9:00 or after 18:00
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Please select a time between 9:00 and 18:00'),
-          ),
-        );
-      } else {
-        setState(() {
-          timeinput.text = selectedTime.format(context);
-        });
-      }
-    } else {
-      print("Time is not selected");
-    }
-  },
-),
-FormBuilderRadioGroup(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          labelText: 'Appointment Type',
-                          labelStyle: TextStyle(
-                              fontSize: 18, fontFamily: 'Montserrat')),
-                      name: 'Appointment Type',
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          // selectedSCategory =
-                          //     newValue; // Update the state variable
-                        });
-                      },
-                      validator: FormBuilderValidators.required(
-                        errorText: 'Kindly Select an option',
-                      ),
-                      options: ["Doctor's Request", "General Checkup"]
-                          .map((option) {
-                        return FormBuilderFieldOption(
-                          value: option,
-                          child: Text(
-                            option,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Montserrat',
-                                fontSize: 14),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Time is required';
+                          }
+                          return null;
+                        },
+                        controller: timeinput,
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            letterSpacing: 0,
+                            fontFamily: 'Montserrat'),
+                        //editing controller of this TextField
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                        );
-                      }).toList(growable: false),
-                    ),
+                          labelText: "Select Time",
+                          labelStyle: TextStyle(
+                              fontSize: 14.sp,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                          // label text of field
+                        ),
+                        readOnly:
+                            true, //set it true, so that the user will not be able to edit text
+                        onTap: () async {
+                          TimeOfDay initialTime = TimeOfDay.now();
+                          TimeOfDay? selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: initialTime,
+                            builder: (BuildContext context, Widget? child) {
+                              return MediaQuery(
+                                data: MediaQuery.of(context)
+                                    .copyWith(alwaysUse24HourFormat: false),
+                                child: child!,
+                              );
+                            },
+                          );
 
-TextFormField(
+                          if (selectedTime != null) {
+                            if (selectedTime.hour < now.hour ||
+                                (selectedTime.hour == now.hour &&
+                                    selectedTime.minute <= now.minute)) {
+                              // If selected time is before or equal to the current time
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Please select a time after the current time'),
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                timeinput.text = selectedTime.format(context);
+                              });
+                            }
+                            if (selectedTime.hour < 9 ||
+                                selectedTime.hour >= 18) {
+                              // If selected time is before 9:00 or after 18:00
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Please select a time between 9:00 and 18:00'),
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                timeinput.text = selectedTime.format(context);
+                              });
+                            }
+                          } else {
+                            print("Time is not selected");
+                          }
+                        },
+                      ),
+                      FormBuilderRadioGroup(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: 'Appointment Type',
+                            labelStyle: TextStyle(
+                                fontSize: 18, fontFamily: 'Montserrat')),
+                        name: 'Appointment Type',
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            // selectedSCategory =
+                            //     newValue; // Update the state variable
+                          });
+                        },
+                        validator: FormBuilderValidators.required(
+                          errorText: 'Kindly Select an option',
+                        ),
+                        options: ["Doctor's Request", "General Checkup"]
+                            .map((option) {
+                          return FormBuilderFieldOption(
+                            value: option,
+                            child: Text(
+                              option,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 14),
+                            ),
+                          );
+                        }).toList(growable: false),
+                      ),
+
+                      TextFormField(
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -624,7 +637,6 @@ TextFormField(
                         height: 10.h,
                       ),
 
-                      
                       // DropdownButtonFormField2(
                       //   decoration: InputDecoration(
                       //     //Add isDense true and zero Padding.
@@ -671,24 +683,24 @@ TextFormField(
                       //     timeslot = value.toString();
                       //   },
                       // ),
-                     
+
                       SizedBox(
                         height: 10.h,
                       ),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  backgroundColor: Colors.teal,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 20),
-                                  textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
+                            style: ElevatedButton.styleFrom(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                                backgroundColor: Colors.teal,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 20),
+                                textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500)),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 if (await getInternetUsingInternetConnectivity()) {
@@ -825,9 +837,15 @@ TextFormField(
                                       strokeWidth: 2.0,
                                     ),
                                   )
-                                : Text('Schedule Laboratory Test', style: TextStyle(color: Colors.white, fontFamily: 'Montserrat', letterSpacing: 0),)),
+                                : Text(
+                                    'Schedule Laboratory Test',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Montserrat',
+                                        letterSpacing: 0),
+                                  )),
                       ),
-                      
+
                       SizedBox(
                         height: 10.h,
                       ),

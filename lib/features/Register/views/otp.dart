@@ -74,10 +74,12 @@ class _OTPScreenPageState extends State<OTPScreenPage> {
     _passwordVisible = false;
   }
 
+  
+
   Future<bool> getInternetUsingInternetConnectivity() async {
-  bool result = await InternetConnectionChecker().hasConnection;
-  return result;
-}
+    bool result = await InternetConnectionChecker().hasConnection;
+    return result;
+  }
 
   Future forgotpassword() async {
     var data = {
@@ -177,10 +179,9 @@ class _OTPScreenPageState extends State<OTPScreenPage> {
                                   child: Text('Create Now',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 14,
-                                          color: Colors.white)),
+                                          fontSize: 14, color: Colors.white)),
                                   style: TextButton.styleFrom(
-                                    primary: Colors.white,
+                                    foregroundColor: Colors.white,
                                     backgroundColor: Color(0xff389e9d),
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -204,10 +205,9 @@ class _OTPScreenPageState extends State<OTPScreenPage> {
                                   child: Text('Close',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 14,
-                                          color: Colors.white)),
+                                          fontSize: 14, color: Colors.white)),
                                   style: TextButton.styleFrom(
-                                    primary: Colors.white,
+                                    foregroundColor: Colors.white,
                                     backgroundColor: Color(0xFFE02020),
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -547,8 +547,9 @@ class _OTPScreenPageState extends State<OTPScreenPage> {
                                                                     TextButton(
                                                                         child:
                                                                             Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.all(5),
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              5),
                                                                           child: Text(
                                                                               'Copy',
                                                                               textAlign: TextAlign.center,
@@ -556,7 +557,7 @@ class _OTPScreenPageState extends State<OTPScreenPage> {
                                                                         ),
                                                                         style: TextButton
                                                                             .styleFrom(
-                                                                          primary:
+                                                                          foregroundColor:
                                                                               Colors.white,
                                                                           backgroundColor:
                                                                               Color(0xff389e9d),

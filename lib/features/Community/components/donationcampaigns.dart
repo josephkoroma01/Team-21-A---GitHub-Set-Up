@@ -19,7 +19,6 @@ import 'package:lifebloodworld/features/Welcome/onboarding.dart';
 import 'package:lifebloodworld/widgets/text_field_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class DonationCampaigns extends StatefulWidget {
   const DonationCampaigns({Key? key}) : super(key: key);
 
@@ -43,7 +42,8 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
 
       //Starting Web API Call.
       var response = await http.post(
-          Uri.parse("http://lifebloodsl.com/communityapi/reftrackerdonationcampaignreview.php"),
+          Uri.parse(
+              "http://lifebloodsl.com/communityapi/reftrackerdonationcampaignreview.php"),
           body: json.encode(data));
       if (response.statusCode == 200) {
         //Server response into variable
@@ -94,7 +94,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                             SizedBox(
                               height: 15.h,
                             ),
-                             Text.rich(
+                            Text.rich(
                               TextSpan(
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
@@ -148,7 +148,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               fontSize: 14.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xFFE02020),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -211,7 +211,8 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                             ),
                             SizedBox(
                               height: 15.h,
-                            ), Text.rich(
+                            ),
+                            Text.rich(
                               TextSpan(
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
@@ -238,7 +239,6 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                               textAlign: TextAlign.center,
                               softWrap: true,
                             ),
-
                             SizedBox(
                               height: 5.h,
                             ),
@@ -265,7 +265,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               fontSize: 14.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xFFE02020),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -328,7 +328,8 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                             ),
                             SizedBox(
                               height: 15.h,
-                            ), Text.rich(
+                            ),
+                            Text.rich(
                               TextSpan(
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
@@ -355,7 +356,6 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                               textAlign: TextAlign.center,
                               softWrap: true,
                             ),
-
                             SizedBox(
                               height: 5.h,
                             ),
@@ -382,7 +382,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               fontSize: 14.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xFFE02020),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -403,7 +403,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                     ),
                   );
                 });
-          } else if (msg['scheduleInfo']["status"] == "Rejected"){
+          } else if (msg['scheduleInfo']["status"] == "Rejected") {
             showModalBottomSheet(
                 backgroundColor: Color(0xFFebf5f5),
                 context: context,
@@ -445,7 +445,8 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                             ),
                             SizedBox(
                               height: 15.h,
-                            ), Text.rich(
+                            ),
+                            Text.rich(
                               TextSpan(
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
@@ -472,7 +473,6 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                               textAlign: TextAlign.center,
                               softWrap: true,
                             ),
-
                             SizedBox(
                               height: 5.h,
                             ),
@@ -499,7 +499,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               fontSize: 14.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xFFE02020),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -520,8 +520,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                     ),
                   );
                 });
-          }
-            else{
+          } else {
             showModalBottomSheet(
                 backgroundColor: Color(0xFFebf5f5),
                 context: context,
@@ -667,7 +666,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                               children: [
                                 TextSpan(
                                   text:
-                                  'Donation Campaign Reference Code  not found!!!\n',
+                                      'Donation Campaign Reference Code  not found!!!\n',
                                 ),
                                 TextSpan(
                                   text: 'Do not worry, Try Creating a Campaign',
@@ -699,7 +698,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                             fontSize: 14.sp,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -727,7 +726,7 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                             fontSize: 14.sp,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xFFE02020),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -799,8 +798,6 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -812,7 +809,9 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                  builder: (context) => HomePageScreen(pageIndex: 3,),
+                  builder: (context) => HomePageScreen(
+                    pageIndex: 3,
+                  ),
                 ),
               );
             },
@@ -829,7 +828,6 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-
             SizedBox(
               height: 15.h,
             ),
@@ -838,7 +836,8 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                         child: Padding(
@@ -854,42 +853,56 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset('assets/icons/add.png', height: 40.h, width: 40.w,),
+                                Image.asset(
+                                  'assets/icons/add.png',
+                                  height: 40.h,
+                                  width: 40.w,
+                                ),
                                 SizedBox(
                                   height: 5.h,
                                 ),
-                                Text('Create Donation\nCampaign', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 14.sp, color: Color(0xff406986))),
+                                Text('Create Donation\nCampaign',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 14.sp,
+                                        color: Color(0xff406986))),
                                 SizedBox(
                                   height: 5.h,
                                 ),
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
-                                    child: Text('Create', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
+                                    child: Text('Create',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 12.sp,
+                                            color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
-                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
                                     ),
-                                    onPressed: () async{
+                                    onPressed: () async {
                                       if (await getInternetUsingInternetConnectivity()) {
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateDonationCampaignsScreen()));
-                                        
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CreateDonationCampaignsScreen()));
                                       } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                      content: Text(
-                                      'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat(
-                                      fontSize: 10.sp)),
-                                      backgroundColor:
-                                      Color(0xFFE02020),
-                                      behavior: SnackBarBehavior.fixed,
-                                      duration:
-                                      const Duration(seconds: 5),
-                                      // duration: Duration(seconds: 3),
-                                      ));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                              'You are offline, Kindly turn on Wifi or Mobile Data to continue',
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 10.sp)),
+                                          backgroundColor: Color(0xFFE02020),
+                                          behavior: SnackBarBehavior.fixed,
+                                          duration: const Duration(seconds: 5),
+                                          // duration: Duration(seconds: 3),
+                                        ));
                                       }
                                     },
                                   ),
@@ -899,11 +912,14 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                           ),
                         ),
                       ),
-                    ),),),
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                         child: Padding(
@@ -919,27 +935,43 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset('assets/icons/search.png', height: 40.h, width: 40.h,),
+                                Image.asset(
+                                  'assets/icons/search.png',
+                                  height: 40.h,
+                                  width: 40.h,
+                                ),
                                 SizedBox(
                                   height: 5.h,
                                 ),
-                                Text('Find Donation \nCampaigns', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 14.sp, color: Color(0xff406986))),
+                                Text('Find Donation \nCampaigns',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 14.sp,
+                                        color: Color(0xff406986))),
                                 SizedBox(
                                   height: 5.h,
                                 ),
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
-                                    child: Text('Find More', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
+                                    child: Text('Find More',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 12.sp,
+                                            color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
-                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
                                     ),
-                                    onPressed: () async{
+                                    onPressed: () async {
                                       if (await getInternetUsingInternetConnectivity()) {
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => findDonationCampaigns()));
-
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    findDonationCampaigns()));
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
@@ -948,11 +980,9 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 10.sp)),
-                                          backgroundColor:
-                                          Color(0xFFE02020),
+                                          backgroundColor: Color(0xFFE02020),
                                           behavior: SnackBarBehavior.fixed,
-                                          duration:
-                                          const Duration(seconds: 5),
+                                          duration: const Duration(seconds: 5),
                                           // duration: Duration(seconds: 3),
                                         ));
                                       }
@@ -969,7 +999,6 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                 ),
               ],
             ),
-
             SizedBox(
               height: 20.h,
             ),
@@ -978,7 +1007,8 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                         child: Padding(
@@ -994,27 +1024,43 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset('assets/icons/user.png', height: 40.h, width: 40.h,),
+                                Image.asset(
+                                  'assets/icons/user.png',
+                                  height: 40.h,
+                                  width: 40.h,
+                                ),
                                 SizedBox(
                                   height: 5.h,
                                 ),
-                                Text('My Donation \nCampaigns', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 14.sp, color: Color(0xff406986))),
+                                Text('My Donation \nCampaigns',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 14.sp,
+                                        color: Color(0xff406986))),
                                 SizedBox(
                                   height: 5.h,
                                 ),
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
-                                    child: Text('Manage', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
+                                    child: Text('Manage',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 12.sp,
+                                            color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
-                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
                                     ),
-                                    onPressed: () async{
+                                    onPressed: () async {
                                       if (await getInternetUsingInternetConnectivity()) {
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => myDonationCampaigns()));
-
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    myDonationCampaigns()));
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
@@ -1023,11 +1069,9 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.montserrat(
                                                   fontSize: 10.sp)),
-                                          backgroundColor:
-                                          Color(0xFFE02020),
+                                          backgroundColor: Color(0xFFE02020),
                                           behavior: SnackBarBehavior.fixed,
-                                          duration:
-                                          const Duration(seconds: 5),
+                                          duration: const Duration(seconds: 5),
                                           // duration: Duration(seconds: 3),
                                         ));
                                       }
@@ -1045,7 +1089,8 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                         child: Padding(
@@ -1061,22 +1106,36 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset('assets/icons/track.png', height: 40.h, width: 40.w,),
+                                Image.asset(
+                                  'assets/icons/track.png',
+                                  height: 40.h,
+                                  width: 40.w,
+                                ),
                                 SizedBox(
                                   height: 5.h,
                                 ),
-                                Text('Track Campaigns\nReview Status', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 14.sp, color: Color(0xff406986))),
+                                Text('Track Campaigns\nReview Status',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 14.sp,
+                                        color: Color(0xff406986))),
                                 SizedBox(
                                   height: 5.h,
                                 ),
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
-                                    child: Text('Track', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
+                                    child: Text('Track',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 12.sp,
+                                            color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
-                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
                                     ),
                                     onPressed: () {
                                       showModalBottomSheet(
@@ -1098,9 +1157,9 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                                     0.0), // content padding
                                                 child: Column(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                      MainAxisAlignment.center,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                                      CrossAxisAlignment.center,
                                                   children: [
                                                     SizedBox(
                                                       height: 5.h,
@@ -1113,14 +1172,18 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                                     SizedBox(
                                                       height: 5.h,
                                                     ),
-                                                    Text('Track Campaign \nReview Process',
-                                                        textAlign: TextAlign.center,
-                                                        style: GoogleFonts.montserrat(
-                                                            fontSize: 18.sp,
-                                                            fontWeight:
-                                                            FontWeight.bold,
-                                                            color:
-                                                            Color(0xff406986))),
+                                                    Text(
+                                                        'Track Campaign \nReview Process',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 18.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Color(
+                                                                    0xff406986))),
                                                     SizedBox(
                                                       height: 10.h,
                                                     ),
@@ -1129,25 +1192,30 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                                         key: _formKey,
                                                         child: TextFormField(
                                                           controller: refcode,
-                                                          cursorColor: kPrimaryColor,
-                                                          decoration: InputDecoration(
-                                                            focusColor: Colors.teal,
+                                                          cursorColor:
+                                                              kPrimaryColor,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            focusColor:
+                                                                Colors.teal,
                                                             labelStyle: GoogleFonts
                                                                 .montserrat(
-                                                                color:
-                                                                Colors.teal,
-                                                                fontSize: 13.sp),
+                                                                    color: Colors
+                                                                        .teal,
+                                                                    fontSize:
+                                                                        13.sp),
                                                             labelText:
-                                                            'Enter Reference Code',
+                                                                'Enter Reference Code',
                                                             // icon: Icon(
                                                             //   Icons.email,
                                                             //   color: Color(0xFF205072),
                                                             // ),
                                                             hintText:
-                                                            'Reference Code',
+                                                                'Reference Code',
                                                             hintStyle: GoogleFonts
                                                                 .montserrat(),
-                                                            border: InputBorder.none,
+                                                            border: InputBorder
+                                                                .none,
                                                           ),
                                                         ),
                                                       ),
@@ -1157,32 +1225,38 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                                     ),
                                                     Row(
                                                       mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: [
                                                         Container(
-                                                          width: size.width * 0.8,
+                                                          width:
+                                                              size.width * 0.8,
                                                           child: TextButton(
-                                                              child: Text('Track Now',
-                                                                  textAlign: TextAlign
-                                                                      .center,
-                                                                  style: GoogleFonts
-                                                                      .montserrat(
+                                                              child: Text(
+                                                                  'Track Now',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: GoogleFonts.montserrat(
                                                                       fontSize:
-                                                                      14.sp,
+                                                                          14.sp,
                                                                       color: Colors
                                                                           .white)),
                                                               style: TextButton
                                                                   .styleFrom(
-                                                                primary: Colors.white,
+                                                                foregroundColor:
+                                                                    Colors
+                                                                        .white,
                                                                 backgroundColor:
-                                                                Color(0xff389e9d),
+                                                                    Color(
+                                                                        0xff389e9d),
                                                                 shape: const RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius
-                                                                        .all(Radius
-                                                                        .circular(
-                                                                        5))),
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5))),
                                                               ),
-                                                              onPressed: () async {
+                                                              onPressed:
+                                                                  () async {
                                                                 if (await getInternetUsingInternetConnectivity()) {
                                                                   Navigator.pop(
                                                                       context);
@@ -1190,31 +1264,29 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                                                                 } else {
                                                                   Navigator.pop(
                                                                       context);
-                                                                  ScaffoldMessenger
-                                                                      .of(context)
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
                                                                       .showSnackBar(
-                                                                      SnackBar(
-                                                                        content: Text(
-                                                                            'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                                                                            textAlign:
+                                                                          SnackBar(
+                                                                    content: Text(
+                                                                        'You are offline, Kindly turn on Wifi or Mobile Data to continue',
+                                                                        textAlign:
                                                                             TextAlign
                                                                                 .center,
-                                                                            style: GoogleFonts
-                                                                                .montserrat(
-                                                                                fontSize:
+                                                                        style: GoogleFonts.montserrat(
+                                                                            fontSize:
                                                                                 10.sp)),
-                                                                        backgroundColor:
+                                                                    backgroundColor:
                                                                         Color(
                                                                             0xFFE02020),
-                                                                        behavior:
+                                                                    behavior:
                                                                         SnackBarBehavior
                                                                             .fixed,
-                                                                        duration:
-                                                                        const Duration(
-                                                                            seconds:
+                                                                    duration: const Duration(
+                                                                        seconds:
                                                                             10),
-                                                                        // duration: Duration(seconds: 3),
-                                                                      ));
+                                                                    // duration: Duration(seconds: 3),
+                                                                  ));
                                                                 }
 
                                                                 // Navigator.push(
@@ -1250,7 +1322,6 @@ class _DonationCampaignsState extends State<DonationCampaigns> {
                 ),
               ],
             ),
-
             SizedBox(
               height: 20.h,
             ),

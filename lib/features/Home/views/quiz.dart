@@ -25,8 +25,7 @@ class _MyQuizState extends State<MyQuiz> {
     startTimer();
   }
 
-
- Future<void> fetchQuestions() async {
+  Future<void> fetchQuestions() async {
     // Make your API call here to fetch questions
     // Replace 'YourAPI.fetchQuestions()' with your actual API call
     List<Question> fetchedQuestions = await TriviaAPI.fetchQuestions();
@@ -36,14 +35,11 @@ class _MyQuizState extends State<MyQuiz> {
     });
   }
 
-
-
   @override
   void dispose() {
     timer!.cancel();
     super.dispose();
   }
-
 
   PageController? _controller = PageController(initialPage: 0);
   bool isPressed = false;
@@ -53,7 +49,7 @@ class _MyQuizState extends State<MyQuiz> {
   int score = 0;
   int timespent = 0;
   int seconds = 180;
-  List<Question> questions = []; 
+  List<Question> questions = [];
 
   Timer? timer;
   startTimer() {
@@ -104,7 +100,8 @@ class _MyQuizState extends State<MyQuiz> {
                         child: CircularProgressIndicator(
                           value: seconds / 60,
                           strokeWidth: 1,
-                          valueColor: AlwaysStoppedAnimation(kPrimaryColor),
+                          valueColor:
+                              AlwaysStoppedAnimation(kPrimaryColor),
                         ),
                       ),
                       10.verticalSpace,
@@ -159,17 +156,22 @@ class _MyQuizState extends State<MyQuiz> {
                                     .value
                                 ? isTrue
                                 : iswrong
-                            : kPrimaryColor.shade100,
-                        onPressed: isPressed ? (){} : (){
-                          setState(() {
-                          isPressed = true;
-                        });
-                      if(questions[index].answers!.entries.toList()[i].value){
-                        score+=1;
-                        print(score);
-                       
-                      }
-                        },
+                            : Colors.teal.shade100,
+                        onPressed: isPressed
+                            ? () {}
+                            : () {
+                                setState(() {
+                                  isPressed = true;
+                                });
+                                if (questions[index]
+                                    .answers!
+                                    .entries
+                                    .toList()[i]
+                                    .value) {
+                                  score += 1;
+                                  print(score);
+                                }
+                              },
                         child: Text(
                           questions[index].answers!.keys.toList()[i],
                           style: TextStyle(
@@ -185,18 +187,28 @@ class _MyQuizState extends State<MyQuiz> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       OutlinedButton(
-                        onPressed: isPressed ? index + 1 == questions.length? (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> ResultScreen(score, (180 - seconds))));
-                        } : (){
-                          _controller!.nextPage(duration: Duration(microseconds: 500), curve: Curves.linear);
-                        } : null,
-                        style: ButtonStyle(
-
-                        ),
-
-                        child: Text(
-                          index + 1 == questions.length ? "View result" : "Next Question",
-                        )),
+                          onPressed: isPressed
+                              ? index + 1 == questions.length
+                                  ? () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ResultScreen(
+                                                      score, (180 - seconds))));
+                                    }
+                                  : () {
+                                      _controller!.nextPage(
+                                          duration: Duration(microseconds: 500),
+                                          curve: Curves.linear);
+                                    }
+                              : null,
+                          style: ButtonStyle(),
+                          child: Text(
+                            index + 1 == questions.length
+                                ? "View result"
+                                : "Next Question",
+                          )),
                     ],
                   )
                 ],
@@ -214,40 +226,37 @@ class _MyQuizState extends State<MyQuiz> {
 
     Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => ResultScreen(calculatedScore, timeremaing)),
+        MaterialPageRoute(
+            builder: (context) => ResultScreen(calculatedScore, timeremaing)),
         (route) => false);
   }
 }
 
-
-
-class TriviaAPI{
+class TriviaAPI {
   static Future<List<Question>> fetchQuestions() async {
-    final url = Uri.parse('http://api.famcaresl.com/communityapp/index.php?route=lifebloodtrivia'); // Replace with your API endpoint
+    final url = Uri.parse(
+        'http://api.famcaresl.com/communityapp/index.php?route=lifebloodtrivia'); // Replace with your API endpoint
 
-  // Perform the API request
-  final response = await http.post(
-    url,
-    body: jsonEncode({
-      "week": '1',
-      "status": 'active',
-    }),
-    headers: {'Content-Type': 'application/json'},
-  );
+    // Perform the API request
+    final response = await http.post(
+      url,
+      body: jsonEncode({
+        "week": '1',
+        "status": 'active',
+      }),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-  // Handle the API response
-  if (response.statusCode == 200) {
-    // Decode the response body
-    final List<dynamic> jsonResponse = json.decode(response.body);
+    // Handle the API response
+    if (response.statusCode == 200) {
+      // Decode the response body
+      final List<dynamic> jsonResponse = json.decode(response.body);
 
-    // Map JSON data to Question objects and return it
-    return jsonResponse.map((json) => Question.fromJson(json)).toList();
-  } else {
-    // If the request was not successful, throw an exception
-    throw Exception('Failed to load questions');
+      // Map JSON data to Question objects and return it
+      return jsonResponse.map((json) => Question.fromJson(json)).toList();
+    } else {
+      // If the request was not successful, throw an exception
+      throw Exception('Failed to load questions');
+    }
   }
-   
-  
-}
-
 }

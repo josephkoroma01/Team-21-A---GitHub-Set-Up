@@ -82,7 +82,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
               // labbody(),
               CommunityPageScreen(),
               notification(),
-              // memorebody(),
+              memorebody(),
             ],
           ),
         ),
@@ -119,15 +119,21 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
             activeIcon: FaIcon(FontAwesomeIcons.peopleGroup),
             label: '',
           ),
-         BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.bell),
-            activeIcon: FaIcon(FontAwesomeIcons.solidBell),
+            activeIcon: FaIcon(FontAwesomeIcons.bell),
             label: '',
           ),
-         
-          
-          
-        ],
+         BottomNavigationBarItem(
+            icon: CircleAvatar(
+                  backgroundImage: AssetImage("assets/images/man1.png"),
+                ),
+                activeIcon: CircleAvatar(
+                  backgroundImage: AssetImage("assets/images/man1.png"),
+                ),
+            label: '',
+          ),
+          ],
         currentIndex: pageIndex,
         onTap: (int index) {
           setState(

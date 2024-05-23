@@ -39,7 +39,10 @@ class bloodtypebodyState extends State<bloodtypebody> {
                 ),
               );
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('Know About Your Blood Type',
             textAlign: TextAlign.center,
@@ -83,24 +86,18 @@ class bloodtypebodyState extends State<bloodtypebody> {
                                   height: size.height * 0.05,
                                   width: size.height * 0.05,
                                 ),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('A(+ve) \nBlood Group',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 14.h,
                                         letterSpacing: 0,
                                         color: Color(0xff406986))),
-                                SizedBox(
-                                  height: 5.h
-                                ),
+                                SizedBox(height: 5.h),
                                 Text('Blood Type Facts',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
-                                        fontSize: 11.h,
-                                        color: Colors.grey)),
-                                
+                                        fontSize: 11.h, color: Colors.grey)),
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
@@ -108,10 +105,10 @@ class bloodtypebodyState extends State<bloodtypebody> {
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10.sp,
-letterSpacing: 0,
+                                            letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -160,25 +157,20 @@ letterSpacing: 0,
                                   height: size.height * 0.05,
                                   width: size.height * 0.05,
                                 ),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('A(-ve) \nBlood Group',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
-                                        fontSize:14.h,
-letterSpacing: 0,
+                                        fontSize: 14.h,
+                                        letterSpacing: 0,
                                         color: Color(0xff406986))),
-                                SizedBox(
-                                  height: 5.h
-                                ),
+                                SizedBox(height: 5.h),
                                 Text('Blood Type Facts',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 10.sp,
-letterSpacing: 0,
+                                        letterSpacing: 0,
                                         color: Colors.grey)),
-                                
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
@@ -186,10 +178,10 @@ letterSpacing: 0,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10.sp,
-letterSpacing: 0,
+                                            letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -245,25 +237,20 @@ letterSpacing: 0,
                                   height: size.height * 0.05,
                                   width: size.height * 0.05,
                                 ),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('AB(+ve) \nBlood Group',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
-                                        fontSize:14.h,
-letterSpacing: 0,
+                                        fontSize: 14.h,
+                                        letterSpacing: 0,
                                         color: Color(0xff406986))),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('Universal Recepient',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 10.sp,
-letterSpacing: 0,
+                                        letterSpacing: 0,
                                         color: Colors.grey)),
-                                
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
@@ -271,10 +258,10 @@ letterSpacing: 0,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10.sp,
-letterSpacing: 0,
+                                            letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -324,25 +311,20 @@ letterSpacing: 0,
                                   height: size.height * 0.05,
                                   width: size.height * 0.05,
                                 ),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('AB(-ve) \nBlood Group',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
-                                        fontSize:14.h,
-letterSpacing: 0,
+                                        fontSize: 14.h,
+                                        letterSpacing: 0,
                                         color: Color(0xff406986))),
-                                SizedBox(
-                                  height: 5.h
-                                ),
+                                SizedBox(height: 5.h),
                                 Text('Blood Type Facts',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 10.sp,
-letterSpacing: 0,
+                                        letterSpacing: 0,
                                         color: Colors.grey)),
-                                
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
@@ -350,10 +332,10 @@ letterSpacing: 0,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10.sp,
-letterSpacing: 0,
+                                            letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -410,25 +392,20 @@ letterSpacing: 0,
                                   height: size.height * 0.05,
                                   width: size.height * 0.05,
                                 ),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('B(+ve) \nBlood Group',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
-                                        fontSize:14.h,
-letterSpacing: 0,
+                                        fontSize: 14.h,
+                                        letterSpacing: 0,
                                         color: Color(0xff406986))),
-                                SizedBox(
-                                  height: 5.h
-                                ),
+                                SizedBox(height: 5.h),
                                 Text('Least Common',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 10.sp,
-letterSpacing: 0,
+                                        letterSpacing: 0,
                                         color: Colors.grey)),
-                                
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
@@ -436,10 +413,10 @@ letterSpacing: 0,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10.sp,
-letterSpacing: 0,
+                                            letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -488,25 +465,20 @@ letterSpacing: 0,
                                   height: size.height * 0.05,
                                   width: size.height * 0.05,
                                 ),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('B(-ve) \nBlood Group',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
-                                        fontSize:14.h,
-letterSpacing: 0,
+                                        fontSize: 14.h,
+                                        letterSpacing: 0,
                                         color: Color(0xff406986))),
-                                SizedBox(
-                                  height: 5.h
-                                ),
+                                SizedBox(height: 5.h),
                                 Text('Blood Type Facts',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 10.sp,
-letterSpacing: 0,
+                                        letterSpacing: 0,
                                         color: Colors.grey)),
-                                
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
@@ -514,10 +486,10 @@ letterSpacing: 0,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10.sp,
-letterSpacing: 0,
+                                            letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -573,25 +545,20 @@ letterSpacing: 0,
                                   height: size.height * 0.05,
                                   width: size.height * 0.05,
                                 ),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('O(+ve) \nBlood Group',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
-                                        fontSize:14.h,
-letterSpacing: 0,
+                                        fontSize: 14.h,
+                                        letterSpacing: 0,
                                         color: Color(0xff406986))),
-                                SizedBox(
-                                  height: 5.h
-                                ),
+                                SizedBox(height: 5.h),
                                 Text('Most Common',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 10.sp,
-letterSpacing: 0,
+                                        letterSpacing: 0,
                                         color: Colors.grey)),
-                               
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
@@ -599,10 +566,10 @@ letterSpacing: 0,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10.sp,
-letterSpacing: 0,
+                                            letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -651,25 +618,20 @@ letterSpacing: 0,
                                   height: size.height * 0.05,
                                   width: size.height * 0.05,
                                 ),
-                                SizedBox(
-                                  height: 10.h
-                                ),
+                                SizedBox(height: 10.h),
                                 Text('0(-ve) \nBlood Group',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
-                                        fontSize:14.h,
-letterSpacing: 0,
+                                        fontSize: 14.h,
+                                        letterSpacing: 0,
                                         color: Color(0xff406986))),
-                                SizedBox(
-                                  height: 5.h
-                                ),
+                                SizedBox(height: 5.h),
                                 Text('Universal Donor',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.montserrat(
                                         fontSize: 10.sp,
-letterSpacing: 0,
+                                        letterSpacing: 0,
                                         color: Colors.grey)),
-                                
                                 Container(
                                   width: double.infinity,
                                   child: TextButton(
@@ -677,10 +639,10 @@ letterSpacing: 0,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10.sp,
-letterSpacing: 0,
+                                            letterSpacing: 0,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -716,7 +678,6 @@ letterSpacing: 0,
   }
 }
 
-
 class apovbloodtype extends StatefulWidget {
   @override
   State createState() {
@@ -740,7 +701,10 @@ class apovbloodtypeState extends State<apovbloodtype> {
                 ),
               );
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('A(+ve) Blood Group',
             textAlign: TextAlign.center,
@@ -908,7 +872,10 @@ class anegbloodtypeState extends State<anegbloodtype> {
                 ),
               );
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('A(-ve) Blood Group',
             textAlign: TextAlign.center,
@@ -1076,7 +1043,10 @@ class abnegbloodtypeState extends State<abnegbloodtype> {
                 ),
               );
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('AB(-ve) Blood Group',
             textAlign: TextAlign.center,
@@ -1244,7 +1214,10 @@ class abpovbloodtypeState extends State<abpovbloodtype> {
                 ),
               );
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('AB(+ve) Blood Group',
             textAlign: TextAlign.center,
@@ -1412,7 +1385,10 @@ class bpovbloodtypeState extends State<bpovbloodtype> {
                 ),
               );
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('B(+ve) Blood Group',
             textAlign: TextAlign.center,
@@ -1580,7 +1556,10 @@ class bnegbloodtypeState extends State<bnegbloodtype> {
                 ),
               );
             },
-           icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('B(-ve) Blood Group',
             textAlign: TextAlign.center,
@@ -1748,7 +1727,10 @@ class opovbloodtypeState extends State<opovbloodtype> {
                 ),
               );
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('O(+ve) Blood Group',
             textAlign: TextAlign.center,
@@ -1916,7 +1898,10 @@ class onegbloodtypeState extends State<onegbloodtype> {
                 ),
               );
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+            icon: FaIcon(
+              FontAwesomeIcons.arrowLeft,
+              color: kWhiteColor,
+            )),
         elevation: 0,
         title: Text('O(-ve) Blood Group',
             textAlign: TextAlign.center,

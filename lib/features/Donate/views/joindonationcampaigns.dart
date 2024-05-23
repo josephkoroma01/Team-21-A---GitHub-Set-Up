@@ -11,6 +11,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:lifebloodworld/constants/colors.dart';
+import 'package:lifebloodworld/constants/colors.dart';
 import 'package:lifebloodworld/features/Donate/views/finddonationdrives.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
 import 'package:random_string/random_string.dart';
@@ -25,49 +27,49 @@ class JoinDrives extends StatefulWidget {
   JoinDrives({
     Key? key,
     required this.campaignname,
-    required this.campaignid,
-    required this.campaigndescription,
-    required this.campaigncontact,
-    required this.campaigndate,
-    required this.campaignaddress,
-    required this.campaignfacility,
-    required this.campaigncreator,
-    required this.campaignemail,
-    required this.campaigndatecreated,
-    required this.facility,
-    required this.campaignlocation,
-    required this.campaigndistrict,
+    // required this.campaignid,
+    // required this.campaigndescription,
+    // required this.campaigncontact,
+    // required this.campaigndate,
+    // required this.campaignaddress,
+    // required this.campaignfacility,
+    // required this.campaigncreator,
+    // required this.campaignemail,
+    // required this.campaigndatecreated,
+    // required this.facility,
+    // required this.campaignlocation,
+    // required this.campaigndistrict,
   }) : super(key: key);
 
   final String? campaignname;
-  final String? campaignid;
-  final String? campaigndescription;
-  final String? campaigncontact;
-  final String? campaigndate;
-  final String? campaignaddress;
-  final String? campaignfacility;
-  final String? campaigncreator;
-  final String? campaignemail;
-  final String? campaigndatecreated;
-  final String? facility;
-  final String? campaignlocation;
-  final String? campaigndistrict;
+  // final String? campaignid;
+  // final String? campaigndescription;
+  // final String? campaigncontact;
+  // final String? campaigndate;
+  // final String? campaignaddress;
+  // final String? campaignfacility;
+  // final String? campaigncreator;
+  // final String? campaignemail;
+  // final String? campaigndatecreated;
+  // final String? facility;
+  // final String? campaignlocation;
+  // final String? campaigndistrict;
 
   @override
   State<JoinDrives> createState() => _JoinDrivesState(
-        campaignid: campaignid,
+        // campaignid: campaignid,
         campaignname: campaignname,
-        campaignaddress: campaignaddress,
-        campaigndate: campaigndate,
-        campaigndescription: campaigndescription,
-        campaigncontact: campaigncontact,
-        campaignfacility: campaignfacility,
-        campaigncreator: campaigncreator,
-        campaignemail: campaignemail,
-        campaigndatecreated: campaigndatecreated,
-        facility: facility,
-        campaignlocation: campaignlocation,
-        campaigndistrict: campaigndistrict,
+        // campaignaddress: campaignaddress,
+        // campaigndate: campaigndate,
+        // campaigndescription: campaigndescription,
+        // campaigncontact: campaigncontact,
+        // campaignfacility: campaignfacility,
+        // campaigncreator: campaigncreator,
+        // campaignemail: campaignemail,
+        // campaigndatecreated: campaigndatecreated,
+        // facility: facility,
+        // campaignlocation: campaignlocation,
+        // campaigndistrict: campaigndistrict,
       );
 }
 
@@ -75,18 +77,18 @@ class _JoinDrivesState extends State<JoinDrives> {
   _JoinDrivesState({
     Key? key,
     required this.campaignname,
-    required this.campaignid,
-    required this.campaigndescription,
-    required this.campaigncontact,
-    required this.campaigndate,
-    required this.campaignaddress,
-    required this.campaignfacility,
-    required this.campaigncreator,
-    required this.campaignemail,
-    required this.campaigndatecreated,
-    required this.facility,
-    required this.campaignlocation,
-    required this.campaigndistrict,
+    // required this.campaignid,
+    // required this.campaigndescription,
+    // required this.campaigncontact,
+    // required this.campaigndate,
+    // required this.campaignaddress,
+    // required this.campaignfacility,
+    // required this.campaigncreator,
+    // required this.campaignemail,
+    // required this.campaigndatecreated,
+    // required this.facility,
+    // required this.campaignlocation,
+    // required this.campaigndistrict,
   });
 
   final _formKey = GlobalKey<FormState>();
@@ -312,12 +314,13 @@ class _JoinDrivesState extends State<JoinDrives> {
       ));
       await Future.delayed(Duration(seconds: 2));
       // scheduleAlarm()
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => findDonationDrives(),
-        ),
-      );
+      // await
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => findDonationDrives(),
+      //   ),
+      // );
     } else {
       setState(() {
         campaigndonation = "Yes";
@@ -418,13 +421,13 @@ class _JoinDrivesState extends State<JoinDrives> {
                                       style: GoogleFonts.montserrat()),
                                 ));
                                 // scheduleAlarm()
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                       JoinDonationDrive()
-                                  ),
-                                );
+                                // await Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>
+                                //        JoinDonationDrive()
+                                //   ),
+                                // );
                                 Navigator.pop(context);
                               }),
                         ],
@@ -483,10 +486,10 @@ class _JoinDrivesState extends State<JoinDrives> {
           backgroundColor: Colors.teal,
           leading: IconButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => JoinDonationDrive()));
+                // Navigator.push(
+                //     context,
+                //     new MaterialPageRoute(
+                //         builder: (context) => JoinDonationDrive()));
               },
               icon: Icon(Icons.arrow_back)),
           elevation: 0,
@@ -509,7 +512,6 @@ class _JoinDrivesState extends State<JoinDrives> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        
                         Row(
                           children: [
                             Text('Join ',
@@ -518,7 +520,7 @@ class _JoinDrivesState extends State<JoinDrives> {
                                     fontSize: 17.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFF205072))),
-                                     Text('$campaignname',
+                            Text('$campaignname',
                                 textAlign: TextAlign.left,
                                 style: GoogleFonts.montserrat(
                                     fontSize: 17.sp,
@@ -907,23 +909,23 @@ class _JoinDrivesState extends State<JoinDrives> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: maritalstatusItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
@@ -980,23 +982,23 @@ class _JoinDrivesState extends State<JoinDrives> {
                         ),
                         isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 0, left: 0),
-              ),
-              iconStyleData: const IconStyleData(
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-              ),
-              dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-              ),
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                         items: idItems
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,

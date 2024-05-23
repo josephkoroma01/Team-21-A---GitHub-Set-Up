@@ -72,6 +72,9 @@ dependencies:
   path_provider:
   path: 
   quiz: ^0.0.2
+  geolocator: ^11.0.0
+  baseflow_plugin_template: ^2.1.2
+  geocoding: ^3.0.0
 
 dev_dependencies:
   flutter_test:

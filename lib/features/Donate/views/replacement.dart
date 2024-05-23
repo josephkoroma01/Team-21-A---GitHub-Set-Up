@@ -14,8 +14,7 @@ class ReplacementScreen extends StatelessWidget {
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
       debugShowCheckedModeBanner: false,
-      home:
-      ReplacementDonation(title: 'Schedule Replacement Donation'),
+      home: ReplacementDonation(title: 'Schedule Replacement Donation'),
     );
   }
 }

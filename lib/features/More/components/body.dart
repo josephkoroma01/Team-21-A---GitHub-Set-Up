@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:lifebloodworld/features/FAQ/welcome_screen.dart';
+import 'package:lifebloodworld/features/More/components/profilebody.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:timezone/timezone.dart' as tz;
@@ -993,7 +994,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
     });
   }
 
-   Future<void> share() async {
+  Future<void> share() async {
     await FlutterShare.share(
         title: 'Join Me and Save Lives',
         text:
@@ -1399,41 +1400,41 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                 ),
               ],
             ),
-             Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 0, left: 8, right: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        child: Row(children: [
-                          Icon(
-                            Icons.group_add_rounded,
-                            color: Colors.white,
-                            size: 18,
-                          ),
-                          SizedBox(
-                            width: 5.h,
-                          ),
-                          Text('Tell a Friend',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 12.sp, color: Colors.white)),
-                        ]),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.teal,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))),
-                        ),
-                        onPressed: () {
-                          share();
-                        },
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 8, bottom: 0, left: 8, right: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextButton(
+                    child: Row(children: [
+                      Icon(
+                        Icons.group_add_rounded,
+                        color: Colors.white,
+                        size: 18,
                       ),
-                    ],
+                      SizedBox(
+                        width: 5.h,
+                      ),
+                      Text('Tell a Friend',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.montserrat(
+                              fontSize: 12.sp, color: Colors.white)),
+                    ]),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.teal,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                    ),
+                    onPressed: () {
+                      share();
+                    },
                   ),
-                ),
-                
+                ],
+              ),
+            ),
             Row(children: <Widget>[
               Expanded(
                 child: SingleChildScrollView(
@@ -1458,100 +1459,89 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(height: 20.h),
-              Image.asset(
-                (gender == "Female")
-                    ? "assets/icons/woman.png"
-                    : "assets/icons/man.png",
-                height: 60.h,
-                // width: size.width * 0.4,
-              ),
-              SizedBox(height: 10.h),
-              Text(
-                "Hi, ""Joseph David Koroma",
-                style: GoogleFonts.montserrat(
-                    fontSize: 13.sp,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF205072)),
-              ),
-              SizedBox(height: 2.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CountryFlag.fromCountryCode(
-            'sl',
-            height: 20,
-            width: 35,
-            borderRadius: 5,
-          ),
-          5.horizontalSpace,
-                  Text(
-                    "Sierra Leone",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 14.sp,
-                        letterSpacing: 0,
-                        fontWeight: FontWeight.normal,
-                        color: Color(0xFF205072)),
-                  ),
-                ],
-              ),
-             
-              SizedBox(
-                height: 15.h,
-              ),
-                
-              TextButton(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .center,
-                                    children: [
-                                      Text('Manage Account',
-                                          textAlign:
-                                              TextAlign
-                                                  .center,
-                                          style: GoogleFonts
-                                              .montserrat(
-                                            fontSize: 13.sp,
-                                            letterSpacing:
-                                                0,
-                                            fontWeight:
-                                                FontWeight
-                                                    .w400,
-                                            color:
-                                                kPrimaryColor,
-                                          )),
-                                    ],
+                                SizedBox(
+                                  width: 80,
+                                  height: 80,
+                                  child: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                      "assets/images/man1.png",
+                                    ),
                                   ),
-                                  style:
-                                      TextButton.styleFrom(
-                                    foregroundColor:
-                                        Colors.white,
-                                    backgroundColor:
-                                        kPrimaryColor
-                                            .shade100,
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius
-                                                .all(Radius
-                                                    .circular(
-                                                        10))),
-                                  ),
-                                  onPressed: () {
-                                    // Navigator.push(
-                                    //         context,
-                                    //         MaterialPageRoute(
-                                    //             builder:
-                                    //                 (context) =>
-                                    //                     labtestbody()));
-                                     
-                                  },
                                 ),
-                                  
+                                SizedBox(height: 10.h),
+                                Text(
+                                  "Hi, " "Joseph David Koroma",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 13.sp,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF205072)),
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CountryFlag.fromCountryCode(
+                                      'sl',
+                                      height: 20,
+                                      width: 35,
+                                      borderRadius: 5,
+                                    ),
+                                    5.horizontalSpace,
+                                    Text(
+                                      "Sierra Leone",
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 14.sp,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.normal,
+                                          color: Color(0xFF205072)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                IntrinsicWidth(
+                                  child: TextButton(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('Manage your LifeBlood Account',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 13,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w400,
+                                              color: kPrimaryColor,
+                                            )),
+                                      ],
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: Colors.transparent,
+                                      shape: const RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              width: 1.0,
+                                              color: kPrimaryColor),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProfilePage()));
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
                               ],
                             ),
-                           
                           ],
                         ),
                       ),
@@ -1564,32 +1554,207 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
               height: 5.h,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
+              padding:
+                  const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
               child: Container(
                 padding:
-                    EdgeInsets.only(
-                        top: 15,
-                        left: 15,
-                        right: 15,
-                        bottom: 15),
+                    EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
                 decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                10),
-                    color:Color(0xFFebf5f5),
-                    shape: BoxShape
-                        .rectangle),
-                child: Row(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFebf5f5),
+                    shape: BoxShape.rectangle),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FaIcon(FontAwesomeIcons.circleInfo, size: 15,color: kPrimaryColor),
-                    10.horizontalSpace,
-                    Expanded(child: Text('About LifeBlood ', 
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(fontFamily: 'Montserrat', color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 13.sp, 
-                    letterSpacing: 0),)),
-                    
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Stay connected with us on our socials!',
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              letterSpacing: 0,
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 13),
+                        ),
+                      ],
+                    ),
+                    15.verticalSpace,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            //To remove the keyboard when button is pressed
+                            FocusManager.instance.primaryFocus
+                                ?.unfocus();
+                            var facebookUrl =
+                                "https://www.facebook.com/lifebloodsl";
+                            try {
+                              launch(facebookUrl);
+                            } catch (e) {
+                              //To handle error and display error message
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Could Not Launch Facebook',
+                                    style: GoogleFonts.montserrat()),
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.fixed,
+                                duration: Duration(seconds: 4),
+                              ));
+                            }
+                          },
+                          child: FaIcon(FontAwesomeIcons.facebook,
+                              color: kPrimaryColor),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            //To remove the keyboard when button is pressed
+                            FocusManager.instance.primaryFocus
+                                ?.unfocus();
+                            var twitterUrl = "https://twitter.com/LifeBloodSL";
+                            try {
+                              launch(twitterUrl);
+                            } catch (e) {
+                              //To handle error and display error message
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Could Not Launch Twitter',
+                                    style: GoogleFonts.montserrat()),
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.fixed,
+                                duration: Duration(seconds: 4),
+                              ));
+                            }
+                          },
+                          child: FaIcon(FontAwesomeIcons.xTwitter,
+                              color: kPrimaryColor),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            //To remove the keyboard when button is pressed
+                            FocusManager.instance.primaryFocus
+                                ?.unfocus();
+                            var instaUrl =
+                                "https://www.instagram.com/lifeblood232/";
+                            try {
+                              launch(instaUrl);
+                            } catch (e) {
+                              //To handle error and display error message
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Could Not Launch Instagram',
+                                    style: GoogleFonts.montserrat()),
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.fixed,
+                                duration: Duration(seconds: 4),
+                              ));
+                            }
+                          },
+                          child: FaIcon(FontAwesomeIcons.instagram,
+                              color: kPrimaryColor),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            //To remove the keyboard when button is pressed
+                            FocusManager.instance.primaryFocus
+                                ?.unfocus();
+                            var instaUrl =
+                                "https://www.linkedin.com/company/lifebloodsl/about/";
+                            try {
+                              launch(instaUrl);
+                            } catch (e) {
+                              //To handle error and display error message
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Could Not Launch LinkedIn',
+                                    style: GoogleFonts.montserrat()),
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.fixed,
+                                duration: Duration(seconds: 4),
+                              ));
+                            }
+                          },
+                          child: FaIcon(FontAwesomeIcons.linkedin,
+                              color: kPrimaryColor),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            //To remove the keyboard when button is pressed
+                            FocusManager.instance.primaryFocus
+                                ?.unfocus();
+                            var instaUrl =
+                                "https://www.linkedin.com/company/lifebloodsl/about/";
+                            try {
+                              launch(instaUrl);
+                            } catch (e) {
+                              //To handle error and display error message
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Could Not Launch LinkedIn',
+                                    style: GoogleFonts.montserrat()),
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.fixed,
+                                duration: Duration(seconds: 4),
+                              ));
+                            }
+                          },
+                          child: FaIcon(FontAwesomeIcons.youtube,
+                              color: kPrimaryColor),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            //To remove the keyboard when button is pressed
+                            FocusManager.instance.primaryFocus
+                                ?.unfocus();
+                            var facebookUrl =
+                                "https://www.facebook.com/lifebloodsl";
+                            try {
+                              launch(facebookUrl);
+                            } catch (e) {
+                              //To handle error and display error message
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Could Not Launch Facebook',
+                                    style: GoogleFonts.montserrat()),
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.fixed,
+                                duration: Duration(seconds: 4),
+                              ));
+                            }
+                          },
+                          child: FaIcon(FontAwesomeIcons.tiktok,
+                              color: kPrimaryColor),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            //To remove the keyboard when button is pressed
+                            FocusManager.instance.primaryFocus
+                                ?.unfocus();
+                            var facebookUrl =
+                                "https://www.facebook.com/lifebloodsl";
+                            try {
+                              launch(facebookUrl);
+                            } catch (e) {
+                              //To handle error and display error message
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Could Not Launch Facebook',
+                                    style: GoogleFonts.montserrat()),
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.fixed,
+                                duration: Duration(seconds: 4),
+                              ));
+                            }
+                          },
+                          child: FaIcon(FontAwesomeIcons.whatsapp,
+                              color: kPrimaryColor),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -1598,31 +1763,32 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
               height: 5.h,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
+              padding:
+                  const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
               child: Container(
                 padding:
-                    EdgeInsets.only(
-                        top: 15,
-                        left: 15,
-                        right: 15,
-                        bottom: 15),
+                    EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
                 decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                10),
-                    color:Color(0xFFebf5f5),
-                    shape: BoxShape
-                        .rectangle),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFebf5f5),
+                    shape: BoxShape.rectangle),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FaIcon(FontAwesomeIcons.fileContract, size: 15,color: kPrimaryColor),
+                    FaIcon(FontAwesomeIcons.circleInfo,
+                        size: 15, color: kPrimaryColor),
                     10.horizontalSpace,
-                    Expanded(child: Text('Terms of Reference ', 
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(fontFamily: 'Montserrat', color: kPrimaryColor, letterSpacing: 0,fontWeight: FontWeight.bold, fontSize: 13.sp),)),
-                    
+                    Expanded(
+                        child: Text(
+                      'About LifeBlood ',
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.sp,
+                          letterSpacing: 0),
+                    )),
                   ],
                 ),
               ),
@@ -1631,31 +1797,32 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
               height: 5.h,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
+              padding:
+                  const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
               child: Container(
                 padding:
-                    EdgeInsets.only(
-                        top: 15,
-                        left: 15,
-                        right: 15,
-                        bottom: 15),
+                    EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
                 decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                10),
-                    color:Color(0xFFebf5f5),
-                    shape: BoxShape
-                        .rectangle),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFebf5f5),
+                    shape: BoxShape.rectangle),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FaIcon(FontAwesomeIcons.fileContract, size: 15,color: kPrimaryColor),
+                    FaIcon(FontAwesomeIcons.fileContract,
+                        size: 15, color: kPrimaryColor),
                     10.horizontalSpace,
-                    Expanded(child: Text('Privacy Policy ', 
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(fontFamily: 'Montserrat',letterSpacing: 0, color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 13.sp),)),
-                    
+                    Expanded(
+                        child: Text(
+                      'Terms of Reference ',
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: kPrimaryColor,
+                          letterSpacing: 0,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.sp),
+                    )),
                   ],
                 ),
               ),
@@ -1664,31 +1831,32 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
               height: 5.h,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
+              padding:
+                  const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
               child: Container(
                 padding:
-                    EdgeInsets.only(
-                        top: 15,
-                        left: 15,
-                        right: 15,
-                        bottom: 15),
+                    EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
                 decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                10),
-                    color:Color(0xFFebf5f5),
-                    shape: BoxShape
-                        .rectangle),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFebf5f5),
+                    shape: BoxShape.rectangle),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FaIcon(FontAwesomeIcons.fileContract, size: 15,color: kPrimaryColor),
+                    FaIcon(FontAwesomeIcons.fileContract,
+                        size: 15, color: kPrimaryColor),
                     10.horizontalSpace,
-                    Expanded(child: Text('LifeBlood User Guide', 
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(fontFamily: 'Montserrat',letterSpacing: 0, color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 13.sp),)),
-                    
+                    Expanded(
+                        child: Text(
+                      'Privacy Policy ',
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          letterSpacing: 0,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.sp),
+                    )),
                   ],
                 ),
               ),
@@ -1697,49 +1865,83 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
               height: 5.h,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
+              padding:
+                  const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
               child: Container(
                 padding:
-                    EdgeInsets.only(
-                        top: 15,
-                        left: 15,
-                        right: 15,
-                        bottom: 15),
+                    EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
                 decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                10),
-                    color:Color(0xFFebf5f5),
-                    shape: BoxShape
-                        .rectangle),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFebf5f5),
+                    shape: BoxShape.rectangle),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FaIcon(FontAwesomeIcons.headset, size: 15,color: kPrimaryColor),
+                    FaIcon(FontAwesomeIcons.fileContract,
+                        size: 15, color: kPrimaryColor),
                     10.horizontalSpace,
-                    Expanded(child: 
-                    Text('Contact Support', 
+                    Expanded(
+                        child: Text(
+                      'LifeBlood User Guide',
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          letterSpacing: 0,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.sp),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
+              child: Container(
+                padding:
+                    EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: kLifeBloodBlue,
+                    shape: BoxShape.rectangle),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FaIcon(FontAwesomeIcons.headset,
+                        size: 15, color: kWhiteColor),
+                    10.horizontalSpace,
+                    Expanded(
+                      child: Text(
+                        'Contact Support',
                         overflow: TextOverflow.clip,
-                        style: TextStyle(fontFamily: 'Montserrat', letterSpacing: 0, color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 13.sp),),
-                        
-
-                    
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            letterSpacing: 0,
+                            color: kWhiteColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.sp),
+                      ),
                     ),
                     Row(
-                          
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            FaIcon(FontAwesomeIcons.phoneFlip, size: 20,color: kPrimaryColor,),
-                            10.horizontalSpace,
-                            FaIcon(FontAwesomeIcons.whatsapp, size: 20,color: kPrimaryColor),
-                            10.horizontalSpace,
-                            FaIcon(FontAwesomeIcons.envelope, size: 20,color: kPrimaryColor),
-                           
-                            
-                          ],
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.phoneFlip,
+                          size: 20,
+                          color: kWhiteColor,
                         ),
-                    
+                        10.horizontalSpace,
+                        FaIcon(FontAwesomeIcons.whatsapp,
+                            size: 20, color: kWhiteColor),
+                        10.horizontalSpace,
+                        FaIcon(FontAwesomeIcons.envelope,
+                            size: 20, color: kWhiteColor),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -1748,35 +1950,54 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
               height: 5.h,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
+              padding:
+                  const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
               child: Container(
                 padding:
-                    EdgeInsets.only(
-                        top: 15,
-                        left: 15,
-                        right: 15,
-                        bottom: 15),
+                    EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
                 decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                10),
-                    color:Color(0xFFE02020),
-                    shape: BoxShape
-                        .rectangle),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFE02020),
+                    shape: BoxShape.rectangle),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FaIcon(FontAwesomeIcons.signOut, size: 15,color: kWhiteColor),
+                    FaIcon(FontAwesomeIcons.signOut,
+                        size: 15, color: kWhiteColor),
                     10.horizontalSpace,
-                    Expanded(child: Text('Log Out', 
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(fontFamily: 'Montserrat', letterSpacing: 0, color: kWhiteColor, fontWeight: FontWeight.bold, fontSize: 13.sp),)),
+                    Expanded(
+                        child: Text(
+                      'Log Out',
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          letterSpacing: 0,
+                          color: kWhiteColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.sp),
+                    )),
                   ],
                 ),
               ),
             ),
-            
+            SizedBox(
+              height: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('LifeBlood Version 3.0',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey)),
+              ],
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
             SizedBox(
               height: 15.h,
             ),

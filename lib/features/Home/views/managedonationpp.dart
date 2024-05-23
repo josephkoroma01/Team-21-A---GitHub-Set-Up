@@ -54,9 +54,9 @@ class _managedonationAppointmentsState
 
   final _formKey = GlobalKey<FormState>();
   Future<bool> getInternetUsingInternetConnectivity() async {
-  bool result = await InternetConnectionChecker().hasConnection;
-  return result;
-}
+    bool result = await InternetConnectionChecker().hasConnection;
+    return result;
+  }
 
   @override
   void dispose() {
@@ -253,18 +253,13 @@ class _managedonationAppointmentsState
             automaticallyImplyLeading: true,
             elevation: 0,
             backgroundColor: Colors.teal,
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-
-                }
+            leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {}
                 // Navigator.push(
                 //       context,
                 //       new MaterialPageRoute(
                 //         builder: (context) => managebloodtestAppointments(),
                 //       ))
-                      )
-                      ),
+                )),
         body: Column(children: <Widget>[
           builddonationSearch(),
           Expanded(
@@ -293,59 +288,75 @@ class _managedonationAppointmentsState
                               SizedBox(
                                 height: 10.h,
                               ),
-                               (totaldonationvolp == "0" || totaldonationrep == "0" || totaldonationvold == "0")?Text(
-                                "No blood donation schedule found..",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 12.sp,
-                                    color: Color(0xFFE02020)),
-                              ):Column(
-                                children: [
-                                  Text(
-                                    "No blood donation schedule found..\nPlease check your internet connection",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 12.sp,
-                                        color: Color(0xFFE02020)),
-                                  ),
-                                  Padding(
-                                padding: EdgeInsets.only(
-                                    top: 5.r, right: 15.r, left: 15.r),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: TextButton(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                              (totaldonationvolp == "0" ||
+                                      totaldonationrep == "0" ||
+                                      totaldonationvold == "0")
+                                  ? Text(
+                                      "No blood donation schedule found..",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 12.sp,
+                                          color: Color(0xFFE02020)),
+                                    )
+                                  : Column(
                                       children: [
-                                        Icon(Icons.refresh, color: Colors.teal,),
-                                        Text('Refresh Page',
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 12.sp,
-                                                color: Colors.teal)),
+                                        Text(
+                                          "No blood donation schedule found..\nPlease check your internet connection",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 12.sp,
+                                              color: Color(0xFFE02020)),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 5.r,
+                                              right: 15.r,
+                                              left: 15.r),
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: TextButton(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.refresh,
+                                                    color: Colors.teal,
+                                                  ),
+                                                  Text('Refresh Page',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                              fontSize: 12.sp,
+                                                              color:
+                                                                  Colors.teal)),
+                                                ],
+                                              ),
+                                              style: TextButton.styleFrom(
+                                                foregroundColor: Colors.white,
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10))),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            super.widget));
+                                              },
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                    style: TextButton.styleFrom(
-                                      primary: Colors.white,
-                                     
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => super.widget));
-                                    },
-                                  ),
-                                ),
-                              ),
-                                ],
-                              ),
-                              
                               SizedBox(
                                 height: 10.h,
                               ),
@@ -390,7 +401,6 @@ class _managedonationAppointmentsState
                                     fontSize: 13.sp,
                                     color: Color(0xFF205072)),
                               ),
-                              
                               Padding(
                                 padding: EdgeInsets.only(
                                     top: 5.r, right: 15.r, left: 15.r),
@@ -403,7 +413,7 @@ class _managedonationAppointmentsState
                                             fontSize: 12.sp,
                                             color: Colors.white)),
                                     style: TextButton.styleFrom(
-                                      primary: Colors.white,
+                                      foregroundColor: Colors.white,
                                       backgroundColor: Color(0xff389e9d),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -1063,7 +1073,6 @@ class _managedonationAppointmentsState
                           ]);
                     }
                   }))
-        
         ]));
   }
 }

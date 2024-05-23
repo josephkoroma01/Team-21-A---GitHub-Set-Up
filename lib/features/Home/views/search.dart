@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lifebloodworld/constants/colors.dart';
 
 class SearchWidget extends StatefulWidget {
   final String text;
@@ -28,29 +29,33 @@ class _SearchWidgetState extends State<SearchWidget> {
 
     return Container(
       height: 42,
-      margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+      margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
-        border: Border.all(color: Colors.black26),
+        border: Border.all(color: kPrimaryColor, width: 0.5),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          icon: FaIcon(FontAwesomeIcons.search, size: 16,),
+          icon: FaIcon(
+            FontAwesomeIcons.magnifyingGlass,
+            size: 16,
+          ),
           suffixIcon: widget.text.isNotEmpty
               ? GestureDetector(
-            child: Icon(Icons.close, color: style.color),
-            onTap: () {
-              controller.clear();
-              widget.onChanged('');
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-          )
+                  child: Icon(Icons.close, color: style.color),
+                  onTap: () {
+                    controller.clear();
+                    widget.onChanged('');
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                )
               : null,
           hintText: widget.hintText,
-          hintStyle: TextStyle(fontFamily: 'Montserrat', fontSize: 14, letterSpacing: 0),
+          hintStyle: TextStyle(
+              fontFamily: 'Montserrat', fontSize: 14, letterSpacing: 0),
           border: InputBorder.none,
         ),
         style: style,

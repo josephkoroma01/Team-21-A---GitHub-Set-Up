@@ -9,6 +9,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
+import 'package:lifebloodworld/constants/colors.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,9 +51,9 @@ class tourState extends State<tour> {
   }
 
   Future<bool> getInternetUsingInternetConnectivity() async {
-  bool result = await InternetConnectionChecker().hasConnection;
-  return result;
-}
+    bool result = await InternetConnectionChecker().hasConnection;
+    return result;
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -224,37 +225,33 @@ class tourState extends State<tour> {
                           ),
                           Text.rich(
                             TextSpan(
-                              style: TextStyle(
-                                  color: Colors.grey, fontSize: 12),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12),
                               children: [
                                 TextSpan(
                                   text:
                                       'Users can schedule and manage blood group tests (for self, friend, and family) as ',
                                   style: GoogleFonts.montserrat(
-                                    fontSize: 13,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.normal,
-                                   color: Color(0xff406986)
-                                  ),
+                                      fontSize: 13,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.normal,
+                                      color: Color(0xff406986)),
                                 ),
                                 TextSpan(
                                   text:
                                       '4 out of 5 Sierra Leoneans do not know their blood group.',
                                   style: GoogleFonts.montserrat(
-                                    fontSize: 13,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.bold,
-                                   color: Color(0xff406986)
-                                  ),
+                                      fontSize: 13,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xff406986)),
                                 ),
-                               
-                                   ],
+                              ],
                             ),
                             textHeightBehavior: TextHeightBehavior(
                                 applyHeightToFirstAscent: false),
                             textAlign: TextAlign.left,
                           ),
-                         
                           SizedBox(
                             height: 5.h,
                           ),
@@ -284,7 +281,6 @@ class tourState extends State<tour> {
                                 height: 200.h,
                                 width: 200.h,
                               ),
-                             
                             ],
                           ),
                           Text(
@@ -324,12 +320,9 @@ class tourState extends State<tour> {
                                 height: 200.h,
                                 width: 200.h,
                               ),
-                             
                             ],
                           ),
-                         
-                          Text(
-                              '\nUsers can know about their blood types',
+                          Text('\nUsers can know about their blood types',
                               softWrap: true,
                               style: GoogleFonts.montserrat(
                                   fontSize: 13,
@@ -357,7 +350,7 @@ class tourState extends State<tour> {
                           SizedBox(
                             height: 10.h,
                           ),
-                           Text(
+                          Text(
                               '\nUsers can join community donation drives and request community donors in cases of emergencies',
                               softWrap: true,
                               style: GoogleFonts.montserrat(
@@ -376,7 +369,6 @@ class tourState extends State<tour> {
                                 height: 200.h,
                                 width: 200.h,
                               ),
-                              
                             ],
                           ),
                           SizedBox(
@@ -418,7 +410,8 @@ class tourState extends State<tour> {
                               'View data, manage privileges and generate reports from all blood bank services.',
                               softWrap: true,
                               style: GoogleFonts.montserrat(
-                                  fontSize: 13,letterSpacing: 0,
+                                  fontSize: 13,
+                                  letterSpacing: 0,
                                   fontWeight: FontWeight.normal,
                                   color: Color(0xff406986))),
                           SizedBox(
@@ -503,7 +496,6 @@ class tourState extends State<tour> {
                                     ),
                                     onPressed: () async {
                                       if (await getInternetUsingInternetConnectivity()) {
-                                        
                                         Navigator.of(context)
                                             .pushAndRemoveUntil(
                                                 MaterialPageRoute(
@@ -515,11 +507,12 @@ class tourState extends State<tour> {
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
-                                          content: Text('Offline',
+                                          content: Text(
+                                              'You are offline, Kindly turn on Wifi or Mobile Data to continue',
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.montserrat(
-                                                  fontSize: 11)),
-                                          backgroundColor: Color(0xFFE02020),
+                                                  fontSize: 14)),
+                                          backgroundColor: kLifeBloodRed,
                                           behavior: SnackBarBehavior.fixed,
                                           duration: const Duration(seconds: 5),
                                           // duration: Duration(seconds: 3),

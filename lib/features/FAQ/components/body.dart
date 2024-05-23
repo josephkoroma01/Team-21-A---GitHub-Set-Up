@@ -194,7 +194,8 @@ class FAQBodyState extends State<FAQBody> {
                       Text('Send Us A WhatsApp Message',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.montserrat(
-                              fontSize: 12.sp, color: Colors.white, 
+                              fontSize: 12.sp,
+                              color: Colors.white,
                               letterSpacing: 0)),
                     ]),
                     style: TextButton.styleFrom(
@@ -272,7 +273,9 @@ class FAQBodyState extends State<FAQBody> {
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 12.sp, letterSpacing: 0,color: Colors.grey)),
+                                          fontSize: 12.sp,
+                                          letterSpacing: 0,
+                                          color: Colors.grey)),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -286,7 +289,7 @@ class FAQBodyState extends State<FAQBody> {
                                               letterSpacing: 0,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -357,7 +360,9 @@ class FAQBodyState extends State<FAQBody> {
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 12.sp, letterSpacing: 0,color: Colors.grey)),
+                                          fontSize: 12.sp,
+                                          letterSpacing: 0,
+                                          color: Colors.grey)),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -371,7 +376,7 @@ class FAQBodyState extends State<FAQBody> {
                                               letterSpacing: 0,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -447,7 +452,9 @@ class FAQBodyState extends State<FAQBody> {
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 12.sp,letterSpacing: 0, color: Colors.grey)),
+                                          fontSize: 12.sp,
+                                          letterSpacing: 0,
+                                          color: Colors.grey)),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -461,7 +468,7 @@ class FAQBodyState extends State<FAQBody> {
                                               letterSpacing: 0,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -528,7 +535,9 @@ class FAQBodyState extends State<FAQBody> {
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 12.sp, letterSpacing: 0,color: Colors.grey)),
+                                          fontSize: 12.sp,
+                                          letterSpacing: 0,
+                                          color: Colors.grey)),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -541,7 +550,7 @@ class FAQBodyState extends State<FAQBody> {
                                               fontSize: 12.sp,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -615,7 +624,9 @@ class FAQBodyState extends State<FAQBody> {
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 12.sp,letterSpacing: 0, color: Colors.grey)),
+                                          fontSize: 12.sp,
+                                          letterSpacing: 0,
+                                          color: Colors.grey)),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -629,7 +640,7 @@ class FAQBodyState extends State<FAQBody> {
                                               letterSpacing: 0,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -782,7 +793,9 @@ class FAQBodyState extends State<FAQBody> {
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 12.sp, letterSpacing: 0, color: Colors.grey)),
+                                          fontSize: 12.sp,
+                                          letterSpacing: 0,
+                                          color: Colors.grey)),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -796,7 +809,7 @@ class FAQBodyState extends State<FAQBody> {
                                               letterSpacing: 0,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -862,7 +875,9 @@ class FAQBodyState extends State<FAQBody> {
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.montserrat(
-                                          fontSize: 12.sp,letterSpacing: 0, color: Colors.grey)),
+                                          fontSize: 12.sp,
+                                          letterSpacing: 0,
+                                          color: Colors.grey)),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -876,7 +891,7 @@ class FAQBodyState extends State<FAQBody> {
                                               letterSpacing: 0,
                                               color: Colors.white)),
                                       style: TextButton.styleFrom(
-                                        primary: Colors.white,
+                                        foregroundColor: Colors.white,
                                         backgroundColor: Color(0xff389e9d),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(

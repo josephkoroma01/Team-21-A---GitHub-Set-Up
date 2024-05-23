@@ -299,13 +299,12 @@ class _BloodTestPageState extends State<BloodTestPage> {
                                     Text('Copy Code',
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
-                                            fontSize: 14,
-                                            color: Colors.teal)),
+                                            fontSize: 14, color: Colors.teal)),
                                   ],
                                 ),
                               ),
                               style: TextButton.styleFrom(
-                                primary: Colors.teal,
+                                foregroundColor: Colors.teal,
                                 backgroundColor: Colors.white,
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
@@ -348,7 +347,7 @@ class _BloodTestPageState extends State<BloodTestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+          backgroundColor: kPrimaryColor,
           leading: IconButton(
               onPressed: () {
                 Navigator.push(
@@ -358,11 +357,18 @@ class _BloodTestPageState extends State<BloodTestPage> {
                   ),
                 );
               },
-              icon: FaIcon(FontAwesomeIcons.arrowLeft, color: kWhiteColor,)),
+              icon: FaIcon(
+                FontAwesomeIcons.arrowLeft,
+                color: kWhiteColor,
+              )),
           elevation: 0,
           title: Text(
             widget.title!,
-            style: TextStyle(fontSize: 14, letterSpacing: 0, color: kWhiteColor, fontFamily: 'Montserrat'),
+            style: TextStyle(
+                fontSize: 14,
+                letterSpacing: 0,
+                color: kWhiteColor,
+                fontFamily: 'Montserrat'),
           )),
       body: SingleChildScrollView(
         child: Column(
@@ -385,11 +391,9 @@ class _BloodTestPageState extends State<BloodTestPage> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.teal)),
-                        
                         SizedBox(
                           height: 5.h,
                         ),
-                        
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -405,113 +409,106 @@ class _BloodTestPageState extends State<BloodTestPage> {
                               width: 5.h,
                             ),
                             GestureDetector(
-                              onTap: (){
-                                 
-                                                         showModalBottomSheet(
-                                      backgroundColor: Color(0xFFe0e9e4),
-                                      context: context,
-                                      builder: (context) {
-                                        return SingleChildScrollView(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  20.0,
-                                                  20.0,
-                                                  20.0,
-                                                  0.0), // content padding
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .end,
-                                                      children: [
-                                                        Text(' Close',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: GoogleFonts
-                                                                .montserrat(
-                                                                    fontSize:
-                                                                        13,
-                                                                    color: Colors
-                                                                        .red)),
-                                                      ],
-                                                    ),
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    backgroundColor: Color(0xFFe0e9e4),
+                                    context: context,
+                                    builder: (context) {
+                                      return SingleChildScrollView(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom),
+                                          child: Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                20.0,
+                                                20.0,
+                                                20.0,
+                                                0.0), // content padding
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      Text(' Close',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 13,
+                                                                  color: Colors
+                                                                      .red)),
+                                                    ],
                                                   ),
-                                                  SizedBox(
-                                                    height: 5.h,
+                                                ),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                Text(
+                                                    'Why Should You Know \nAbout Your Blood Type?',
+                                                    textAlign: TextAlign.center,
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.teal)),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                SizedBox(
+                                                  child: Container(
+                                                    color: Colors.teal,
+                                                    height: 0.5.h,
+                                                    width: double.infinity,
                                                   ),
-                                                  Text(
-                                                      'Why Should You Know \nAbout Your Blood Type?',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.teal)),
-                                                  SizedBox(
-                                                    height: 5.h,
-                                                  ),
-                                                  SizedBox(
-                                                    child: Container(
-                                                      color: Colors.teal,
-                                                      height: 0.5.h,
-                                                      width: double.infinity,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10.h,
-                                                  ),
-                                                  Text(
-                                                      'First, knowing your blood type can let you know if you are at risk for a variety of health conditions (and other random facts) such as these:\n\nType A increases risk of stomach cancer\nType O reduces fertility\nType AB, B, and A all increase risk of heart disease\nType AB, A, and B increases risk of blood clots\nType AB increases risk of dementia and memory loss\nType O has the lowest risk of heart disease and stroke\nMosquitoes like Type O blood\n\nSecond, knowing your blood type and the type of your significant other can prevent certain pregnancy risks. Knowing whether your blood type is positive or negative (also known as it\’s Rh factor) can indicate harmful Rh-incompatibility problems, which is where the mother\’s Rh blood type is different from the baby’s.\n\nKnowing your blood type can save your life in an emergency. If something happens and you are in sudden need of a blood transfusion, having your blood type in your medical file could save precious time.\n\nFinally, one of the most valuable reasons to know your blood type is to help others. Every 2 seconds, someone in the Sierra Loene needs blood, and there is no way to get blood and platelets other than through donations from volunteers.',
-                                                      textAlign: TextAlign.left,
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              color: Color(
-                                                                  0xff406986))),
-                                                  SizedBox(
-                                                    height: 10.h,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 20.h,
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10.h,
+                                                ),
+                                                Text(
+                                                    'First, knowing your blood type can let you know if you are at risk for a variety of health conditions (and other random facts) such as these:\n\nType A increases risk of stomach cancer\nType O reduces fertility\nType AB, B, and A all increase risk of heart disease\nType AB, A, and B increases risk of blood clots\nType AB increases risk of dementia and memory loss\nType O has the lowest risk of heart disease and stroke\nMosquitoes like Type O blood\n\nSecond, knowing your blood type and the type of your significant other can prevent certain pregnancy risks. Knowing whether your blood type is positive or negative (also known as it\’s Rh factor) can indicate harmful Rh-incompatibility problems, which is where the mother\’s Rh blood type is different from the baby’s.\n\nKnowing your blood type can save your life in an emergency. If something happens and you are in sudden need of a blood transfusion, having your blood type in your medical file could save precious time.\n\nFinally, one of the most valuable reasons to know your blood type is to help others. Every 2 seconds, someone in the Sierra Loene needs blood, and there is no way to get blood and platelets other than through donations from volunteers.',
+                                                    textAlign: TextAlign.left,
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Color(
+                                                                0xff406986))),
+                                                SizedBox(
+                                                  height: 10.h,
+                                                ),
+                                                SizedBox(
+                                                  height: 20.h,
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        );
-                                      },
-                                    ); // Single tapped.
-                                  
-                              },
-                              child: FaIcon(FontAwesomeIcons.squareArrowUpRight, size: 20, color: kLifeBloodBlue,
-                            ))
-                            
-                            
-                            
+                                        ),
+                                      );
+                                    },
+                                  ); // Single tapped.
+                                },
+                                child: FaIcon(
+                                  FontAwesomeIcons.squareArrowUpRight,
+                                  size: 20,
+                                  color: kLifeBloodBlue,
+                                ))
                           ],
                         ),
-                        
                       ],
                     ),
                   ),
@@ -596,159 +593,167 @@ class _BloodTestPageState extends State<BloodTestPage> {
                         ),
                       ),
                       TextFormField(
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'First Name';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-                                initialValue: widget.facility!,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Facility',
-                                  labelStyle: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'First Name';
+                          }
+                          return null;
+                        },
+                        style: TextStyle(
+                            fontSize: 14,
+                            letterSpacing: 0,
+                            fontFamily: 'Montserrat'),
+                        initialValue: widget.facility!,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(),
+                          labelText: 'Facility',
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Date is required';
+                          }
+                          return null;
+                        },
+                        controller: dateinput,
+                        style: TextStyle(
+                            fontSize: 14,
+                            letterSpacing: 0,
+                            fontFamily: 'Montserrat'),
+                        //editing controller of this TextField
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          labelText: "Select Date",
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                          // label text of field
+                        ),
+                        readOnly:
+                            true, //set it true, so that the user will not be able to edit text
+                        onTap: () async {
+                          final DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate:
+                                DateTime.now().add(const Duration(days: 1)),
+                            firstDate: DateTime.now()
+                                .add(const Duration(days: 1)), // Next day
+                            lastDate: DateTime(2101),
+                          );
+
+                          if (pickedDate != null) {
+                            print(pickedDate);
+                            final String formattedDate =
+                                DateFormat('d MMM yyyy').format(pickedDate);
+                            print(formattedDate);
+                            setState(() {
+                              dateinput.text = formattedDate;
+                            });
+                          } else {
+                            print("Date is not selected");
+                          }
+                        },
+                      ),
+
+                      SizedBox(
+                        height: 10.h,
+                      ),
+
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Time is required';
+                          }
+                          return null;
+                        },
+                        controller: timeinput,
+                        style: TextStyle(
+                            fontSize: 14,
+                            letterSpacing: 0,
+                            fontFamily: 'Montserrat'),
+                        //editing controller of this TextField
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          labelText: "Select Time",
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                          // label text of field
+                        ),
+                        readOnly:
+                            true, //set it true, so that the user will not be able to edit text
+                        onTap: () async {
+                          TimeOfDay initialTime = TimeOfDay.now();
+                          TimeOfDay? selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: initialTime,
+                            builder: (BuildContext context, Widget? child) {
+                              return MediaQuery(
+                                data: MediaQuery.of(context)
+                                    .copyWith(alwaysUse24HourFormat: false),
+                                child: child!,
+                              );
+                            },
+                          );
+
+                          if (selectedTime != null) {
+                            if (selectedTime.hour < now.hour ||
+                                (selectedTime.hour == now.hour &&
+                                    selectedTime.minute <= now.minute)) {
+                              // If selected time is before or equal to the current time
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Please select a time after the current time'),
                                 ),
-                                
-                              ),
-                              SizedBox(
-                        height: 10.h,
+                              );
+                            } else {
+                              setState(() {
+                                timeinput.text = selectedTime.format(context);
+                              });
+                            }
+                            if (selectedTime.hour < 9 ||
+                                selectedTime.hour >= 18) {
+                              // If selected time is before 9:00 or after 18:00
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Please select a time between 9:00 and 18:00'),
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                timeinput.text = selectedTime.format(context);
+                              });
+                            }
+                          } else {
+                            print("Time is not selected");
+                          }
+                        },
                       ),
-                      TextFormField(
-  validator: (value) {
-    if (value!.isEmpty) {
-      return 'Date is required';
-    }
-    return null;
-  },
-  controller: dateinput,
-  style: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-  //editing controller of this TextField
-  decoration: InputDecoration(
-    isDense: true,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(5),
-    ),
-    labelText: "Select Date",
-    labelStyle: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-    // label text of field
-  ),
-  readOnly: true, //set it true, so that the user will not be able to edit text
-  onTap: () async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now().add(const Duration(days: 1)),
-      firstDate: DateTime.now().add(const Duration(days: 1)), // Next day
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null) {
-      print(pickedDate);
-      final String formattedDate = DateFormat('d MMM yyyy').format(pickedDate);
-      print(formattedDate);
-      setState(() {
-        dateinput.text = formattedDate;
-      });
-    } else {
-      print("Date is not selected");
-    }
-  },
-),
 
                       SizedBox(
                         height: 10.h,
                       ),
 
-                      
-                      TextFormField(
-  validator: (value) {
-    if (value!.isEmpty) {
-      return 'Time is required';
-    }
-    return null;
-  },
-  controller: timeinput,
-  style: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-  //editing controller of this TextField
-  decoration: InputDecoration(
-    isDense: true,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(5),
-    ),
-    labelText: "Select Time",
-    labelStyle: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Montserrat'),
-    // label text of field
-  ),
-  readOnly: true, //set it true, so that the user will not be able to edit text
-  onTap: () async {
-    TimeOfDay initialTime = TimeOfDay.now();
-    TimeOfDay? selectedTime = await showTimePicker(
-      context: context,
-      initialTime: initialTime,
-      builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-          child: child!,
-        );
-      },
-    );
-
-    if (selectedTime != null) {
-      if (selectedTime.hour < now.hour || (selectedTime.hour == now.hour && selectedTime.minute <= now.minute)) {
-        // If selected time is before or equal to the current time
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Please select a time after the current time'),
-          ),
-        );
-      } else {
-        setState(() {
-          timeinput.text = selectedTime.format(context);
-        });
-      }
-      if (selectedTime.hour < 9 || selectedTime.hour >= 18) {
-        // If selected time is before 9:00 or after 18:00
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Please select a time between 9:00 and 18:00'),
-          ),
-        );
-      } else {
-        setState(() {
-          timeinput.text = selectedTime.format(context);
-        });
-      }
-    } else {
-      print("Time is not selected");
-    }
-  },
-),
-
-                      SizedBox(
-                        height: 10.h,
-                      ),
-
-                      
                       // DropdownButtonFormField2(
                       //   decoration: InputDecoration(
                       //     //Add isDense true and zero Padding.
@@ -795,24 +800,24 @@ class _BloodTestPageState extends State<BloodTestPage> {
                       //     timeslot = value.toString();
                       //   },
                       // ),
-                     
+
                       SizedBox(
                         height: 10.h,
                       ),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  backgroundColor: Colors.teal,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 20),
-                                  textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
+                            style: ElevatedButton.styleFrom(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                                backgroundColor: Colors.teal,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 20),
+                                textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500)),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 if (await getInternetUsingInternetConnectivity()) {
@@ -949,9 +954,15 @@ class _BloodTestPageState extends State<BloodTestPage> {
                                       strokeWidth: 2.0,
                                     ),
                                   )
-                                : Text('Schedule Blood Group Test', style: TextStyle(color: Colors.white, fontFamily: 'Montserrat', letterSpacing: 0),)),
+                                : Text(
+                                    'Schedule Blood Group Test',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Montserrat',
+                                        letterSpacing: 0),
+                                  )),
                       ),
-                      
+
                       SizedBox(
                         height: 10.h,
                       ),

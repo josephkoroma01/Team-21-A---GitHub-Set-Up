@@ -262,7 +262,8 @@ class _MyDonationDriveState extends State<MyDonationDrive> {
   Future sendrating() async {
     if (selectedRating!.isNotEmpty) {
       var response = await http.post(
-          Uri.parse("https://community.lifebloodsl.com/donationcampaignrating.php"),
+          Uri.parse(
+              "https://community.lifebloodsl.com/donationcampaignrating.php"),
           body: {
             "rating": selectedRating,
             "refcode": refcode,
@@ -979,7 +980,7 @@ class _MyDonationDriveState extends State<MyDonationDrive> {
                                                                                                               TextButton(
                                                                                                                   child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                   style: TextButton.styleFrom(
-                                                                                                                    primary: Colors.white,
+                                                                                                                    foregroundColor: Colors.white,
                                                                                                                     backgroundColor: Color(0xff389e9d),
                                                                                                                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                   ),
@@ -997,7 +998,7 @@ class _MyDonationDriveState extends State<MyDonationDrive> {
                                                                                                               TextButton(
                                                                                                                   child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                   style: TextButton.styleFrom(
-                                                                                                                    primary: Colors.white,
+                                                                                                                    foregroundColor: Colors.white,
                                                                                                                     backgroundColor: Color(0xFFE02020),
                                                                                                                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                   ),
@@ -1112,7 +1113,7 @@ class _MyDonationDriveState extends State<MyDonationDrive> {
                                                                                                                   TextButton(
                                                                                                                       child: Text('Yes', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                       style: TextButton.styleFrom(
-                                                                                                                        primary: Colors.white,
+                                                                                                                        foregroundColor: Colors.white,
                                                                                                                         backgroundColor: Color(0xff389e9d),
                                                                                                                         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                       ),
@@ -1130,7 +1131,7 @@ class _MyDonationDriveState extends State<MyDonationDrive> {
                                                                                                                   TextButton(
                                                                                                                       child: Text('No', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12.sp, color: Colors.white)),
                                                                                                                       style: TextButton.styleFrom(
-                                                                                                                        primary: Colors.white,
+                                                                                                                        foregroundColor: Colors.white,
                                                                                                                         backgroundColor: Color(0xFFE02020),
                                                                                                                         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                                                                                                       ),

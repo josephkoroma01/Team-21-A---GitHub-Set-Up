@@ -600,36 +600,35 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                                                   ),
                                                   Column(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
                                                             .start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                      'Connaught Hospital',
-                                                      style: GoogleFonts
-                                                                  .montserrat(
-                                                                fontSize: 13.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                letterSpacing:
-                                                                    0,
-                                                                color: Color(
-                                                                    0xFF205072),
-                                                              ),),
-                                                                  Text(
-                                                      '7 Lamina Sankoh Street',
-                                                      style: GoogleFonts
-                                                                  .montserrat(
-                                                                fontSize: 13.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                letterSpacing:
-                                                                    0,
-                                                                color: Color(
-                                                                    0xFF205072),
-                                                              ),),
+                                                        'Connaught Hospital',
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          letterSpacing: 0,
+                                                          color:
+                                                              Color(0xFF205072),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '7 Lamina Sankoh Street',
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          letterSpacing: 0,
+                                                          color:
+                                                              Color(0xFF205072),
+                                                        ),
+                                                      ),
                                                       Text.rich(
                                                         TextSpan(
                                                           style: TextStyle(
@@ -674,15 +673,12 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                                                       children: [
                                                         Text(
                                                             'View Laboratory Test Results',
-                                                            textAlign:
-                                                                TextAlign
-                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
                                                             style: GoogleFonts
                                                                 .montserrat(
-                                                              fontSize:
-                                                                  11.sp,
-                                                              letterSpacing:
-                                                                  0,
+                                                              fontSize: 11.sp,
+                                                              letterSpacing: 0,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
@@ -691,18 +687,18 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                                                             )),
                                                       ],
                                                     ),
-                                                    style: TextButton
-                                                        .styleFrom(
+                                                    style: TextButton.styleFrom(
                                                       foregroundColor:
                                                           Colors.white,
                                                       backgroundColor:
-                                                          kPrimaryColor
+                                                          Colors.teal
                                                               .shade100,
                                                       shape: const RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius
-                                                              .all(Radius
-                                                                  .circular(
-                                                                      10))),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                     ),
                                                     onPressed: () {
                                                       _showDialog(context);
@@ -777,7 +773,7 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                   //                               ],
                   //                             ),
                   //                             style: TextButton.styleFrom(
-                  //                               primary: Colors.white,
+                  //                               foregroundColor: Colors.white,
 
                   //                               shape: const RoundedRectangleBorder(
                   //                                   borderRadius: BorderRadius.all(
@@ -849,7 +845,7 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                   //                                             fontSize: 12.sp,
                   //                                             color: Colors.white)),
                   //                                     style: TextButton.styleFrom(
-                  //                                       primary: Colors.white,
+                  //                                       foregroundColor: Colors.white,
                   //                                       backgroundColor:
                   //                                           Color(0xff389e9d),
                   //                                       shape:
@@ -1848,7 +1844,7 @@ class labtestresultsbodyState extends State<labtestresultsbody> {
                                   fontSize: 12.sp, color: Colors.white)),
                         ]),
                         style: TextButton.styleFrom(
-                          primary: Colors.white,
+                          foregroundColor: Colors.white,
                           backgroundColor: Colors.teal,
                           shape: const RoundedRectangleBorder(
                               borderRadius:
@@ -1952,7 +1948,6 @@ class _DialogContentState extends State<DialogContent> {
         });
       });
 
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -1998,107 +1993,97 @@ class _DialogContentState extends State<DialogContent> {
                   ],
                 ),
               ),
-                Padding(
-                  padding: const EdgeInsets.only(top:5, left: 10, right: 10, bottom: 5),
-                  child: Row(
-                                        children: [
-                                          Flexible(
-                                            child: TextButton(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  FaIcon(FontAwesomeIcons.shareNodes, size: 15, color: kPrimaryColor,),
-                                                      5.horizontalSpace,
-                                                  Text('Share Result',
-                                                      textAlign: TextAlign.center,
-                                                      style:
-                                                          GoogleFonts.montserrat(
-                                                        fontSize: 11.sp,
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: kPrimaryColor,
-                                                      )),
-                                                ],
-                                              ),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.white,
-                                                backgroundColor:
-                                                    kPrimaryColor.shade100,
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10))),
-                                              ),
-                                              onPressed: () async{
-                                                await FlutterShare.share(
-        title: 'Laboratory Test Results',
-        text:
-            '',);
-                                                },
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Flexible(
-                                            child: TextButton(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      FaIcon(FontAwesomeIcons.download, size: 15, color: kPrimaryColor,),
-                                                      5.horizontalSpace,
-                                                      Text('Download',
-                                                          textAlign: TextAlign.center,
-                                                          style:
-                                                              GoogleFonts.montserrat(
-                                                            fontSize: 11.sp,
-                                                            letterSpacing: 0,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: kPrimaryColor,
-                                                          )),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.white,
-                                                backgroundColor:
-                                                    kPrimaryColor.shade100,
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10))),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            scheduletest(
-                                                              title:
-                                                                  'DAO (Histamin Intolerance)',
-                                                            )));
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5, left: 10, right: 10, bottom: 5),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FaIcon(
+                              FontAwesomeIcons.shareNodes,
+                              size: 15,
+                              color: kPrimaryColor,
+                            ),
+                            5.horizontalSpace,
+                            Text('Share Result',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 11.sp,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w400,
+                                  color: kPrimaryColor,
+                                )),
+                          ],
+                        ),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.teal.shade100,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                        ),
+                        onPressed: () async {
+                          await FlutterShare.share(
+                            title: 'Laboratory Test Results',
+                            text: '',
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Flexible(
+                      child: TextButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                FaIcon(
+                                  FontAwesomeIcons.download,
+                                  size: 15,
+                                  color: kPrimaryColor,
+                                ),
+                                5.horizontalSpace,
+                                Text('Download',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 11.sp,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w400,
+                                      color: kPrimaryColor,
+                                    )),
+                              ],
+                            ),
+                          ],
+                        ),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.teal.shade100,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => scheduletest(
+                                        title: 'DAO (Histamin Intolerance)',
+                                      )));
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                      
-              
+              ),
               Row(
                 children: <Widget>[
-                            
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.only(
@@ -2136,36 +2121,34 @@ class _DialogContentState extends State<DialogContent> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Flexible(
-                                          flex:3,
+                                          flex: 3,
                                           child: Expanded(
-                                                child: Text(
-                                                  'Hemoglobin, blood',
-                                                  overflow: TextOverflow.clip,
-                                                  style: GoogleFonts.montserrat(
-                                                    fontSize: 11.sp,
-                                                    fontWeight: FontWeight.normal,
-                                                    letterSpacing: 0,
-                                                    color: Color(0xFF205072),
-                                                  ),
-                                                ),
+                                            child: Text(
+                                              'Hemoglobin, blood',
+                                              overflow: TextOverflow.clip,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 11.sp,
+                                                fontWeight: FontWeight.normal,
+                                                letterSpacing: 0,
+                                                color: Color(0xFF205072),
                                               ),
+                                            ),
+                                          ),
                                         ),
-
-                                                Flexible(
-                                                  flex: 1,
-                                                  child: Text('5.0 g/dL', 
-                                                                                          style: GoogleFonts.montserrat(
-                                                    fontSize: 11.sp,
-                                                    fontWeight: FontWeight.normal,
-                                                    letterSpacing: 0,
-                                                    color: Colors.grey,
-                                                  ),),
-                                                ), 
-                                        
+                                        Flexible(
+                                          flex: 1,
+                                          child: Text(
+                                            '5.0 g/dL',
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 11.sp,
+                                              fontWeight: FontWeight.normal,
+                                              letterSpacing: 0,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                    
-                                    
                                   ],
                                 ),
                               ],
@@ -2179,7 +2162,6 @@ class _DialogContentState extends State<DialogContent> {
               ),
               Row(
                 children: <Widget>[
-                            
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.only(
@@ -2217,34 +2199,35 @@ class _DialogContentState extends State<DialogContent> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Flexible(
-                                          flex:3,
+                                          flex: 3,
                                           child: Expanded(
-                                                child: Text(
-                                                  'Hemoglobin, blood',
-                                                  overflow: TextOverflow.clip,
-                                                  style: GoogleFonts.montserrat(
-                                                    fontSize: 11.sp,
-                                                    fontWeight: FontWeight.normal,
-                                                    letterSpacing: 0,
-                                                    color: Color(0xFF205072),
-                                                  ),
-                                                ),
+                                            child: Text(
+                                              'Hemoglobin, blood',
+                                              overflow: TextOverflow.clip,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 11.sp,
+                                                fontWeight: FontWeight.normal,
+                                                letterSpacing: 0,
+                                                color: Color(0xFF205072),
                                               ),
+                                            ),
+                                          ),
                                         ),
-
-                                                Flexible(
-                                                  flex: 1,
-                                                  child: Text('5.0 g/dL', 
-                                                                                          style: GoogleFonts.montserrat(
-                                                    fontSize: 11.sp,
-                                                    fontWeight: FontWeight.normal,
-                                                    letterSpacing: 0,
-                                                    color: Colors.grey,
-                                                  ),),
-                                                ), 
-                                        
+                                        Flexible(
+                                          flex: 1,
+                                          child: Text(
+                                            '5.0 g/dL',
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 11.sp,
+                                              fontWeight: FontWeight.normal,
+                                              letterSpacing: 0,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
                                       ],
-                                    ),],
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -2255,7 +2238,6 @@ class _DialogContentState extends State<DialogContent> {
                   ),
                 ],
               ),
-              
               10.verticalSpace,
             ],
           ),
