@@ -1,12 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl_phone_field/countries.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:lifebloodworld/features/Login/views/login_screen.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
-import 'package:lifebloodworld/routes/route_config.dart';
-import 'package:geocoding/geocoding.dart';
 import 'firebase_options.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
