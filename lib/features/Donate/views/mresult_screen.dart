@@ -13,14 +13,14 @@ import 'package:lifebloodworld/features/Login/views/schedulebloodtest.dart';
 import 'package:lifebloodworld/models/bloodtestingfacilities.dart';
 import 'package:http/http.dart' as http;
 
-class AnalysisScreen extends StatefulWidget {
-  AnalysisScreen({Key? key}) : super(key: key);
+class MAnalysisScreen extends StatefulWidget {
+  MAnalysisScreen({Key? key}) : super(key: key);
 
   @override
-  State<AnalysisScreen> createState() => _AnalysisScreenState();
+  State<MAnalysisScreen> createState() => _MAnalysisScreenState();
 }
 
-class _AnalysisScreenState extends State<AnalysisScreen> {
+class _MAnalysisScreenState extends State<MAnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -907,7 +907,43 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
               child: Column(
                 children: [
-                 
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.arrowUpRightFromSquare,
+                            size: 15,
+                            color: kPrimaryColor,
+                          ),
+                          5.horizontalSpace,
+                          Text('Continue Blood Donation Appointment',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 13,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.w400,
+                                color: kPrimaryColor,
+                              )),
+                        ],
+                      ),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: kWhiteColor,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => blooddonationfacility()),
+                            (route) => false);
+                      },
+                    ),
+                  ),
                   SizedBox(
                     width: double.infinity,
                     child: TextButton(
@@ -920,10 +956,10 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                             color: kWhiteColor,
                           ),
                           5.horizontalSpace,
-                          Text('Go Home',
+                          Text('Go Back',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.montserrat(
-                                fontSize: 13.sp,
+                                fontSize: 14,
                                 letterSpacing: 0,
                                 fontWeight: FontWeight.w400,
                                 color: kWhiteColor,
@@ -940,9 +976,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                       onPressed: () {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => HomePageScreen(
-                                  pageIndex: 0,
-                                )),
+                                builder: (context) => LoginScreen()),
                             (route) => false);
                       },
                     ),
@@ -962,7 +996,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                           Text('Share Eligibility Analysis Data',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.montserrat(
-                                fontSize: 13.sp,
+                                fontSize: 13,
                                 letterSpacing: 0,
                                 fontWeight: FontWeight.w400,
                                 color: kPrimaryColor,

@@ -26,7 +26,8 @@
     "dob": "Date de naissance",
     "gender": "",
     "contactinformation": "Gender", 
-    "blooddonationrequest": "Demande de don de sang"
+    "blooddonationrequest": "Demande de don de sang", 
+    "schedulebloodgrouptest":"Programmer un test de groupe sanguin"
 
     
 }

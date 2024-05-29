@@ -395,7 +395,8 @@ class _BloodDonationState extends State<BloodDonation> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return 
+    Scaffold(
       appBar: AppBar(
           leading: IconButton(
               onPressed: () {

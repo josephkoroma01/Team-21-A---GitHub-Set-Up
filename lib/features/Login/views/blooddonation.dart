@@ -79,7 +79,7 @@ class EBloodDonation extends StatefulWidget {
 class _EBloodDonationState extends State<EBloodDonation> {
   // Convert AppCountry to Country
 
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormBuilderState>();
   String? selectedGender = '';
   String? selectedDistrict = '';
   String? selectedBloodType = '';
@@ -496,186 +496,40 @@ class _EBloodDonationState extends State<EBloodDonation> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-          backgroundColor: kPrimaryColor,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => blooddonationfacility(
-                       
-                      ),
-                    ));
-              },
-              icon: Icon(
-                Icons.arrow_back,
-                color: kWhiteColor,
-              )),
-          elevation: 0,
-          title: Text(
-            'Schedule Voluntary Blood Donation',
-            style: TextStyle(fontSize: 14, color: kWhiteColor),
-          )),
-      body: SingleChildScrollView(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+ Widget build(BuildContext context) {
+    
+    final steps = [
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: 
+        FormBuilder(
+          key: _formKey,
+          // autovalidateMode: AutovalidateMode.always,
+          child: Column(
             children: [
-              SizedBox(
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.teal[50],
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Why Should You Donate Blood?',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: kPrimaryColor)),
-                            SizedBox(
-                              width: 5.h,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    backgroundColor: Color(0xFFe0e9e4),
-                                    context: context,
-                                    builder: (context) {
-                                      return SingleChildScrollView(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom),
-                                          child: Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                20.0,
-                                                20.0,
-                                                20.0,
-                                                0.0), // content padding
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
-                                                    children: [
-                                                      Text(' Close',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                                  fontSize:
-                                                                      13.sp,
-                                                                  color: Colors
-                                                                      .red)),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 5.h,
-                                                ),
-                                                Text(
-                                                    'Why Should You Donate Blood?',
-                                                    textAlign: TextAlign.center,
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontSize: 15.sp,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.teal)),
-                                                SizedBox(
-                                                  height: 5.h,
-                                                ),
-                                                SizedBox(
-                                                  child: Container(
-                                                    color: Colors.teal,
-                                                    height: 0.5.h,
-                                                    width: double.infinity,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                Text(
-                                                    'Safe blood saves lives. Blood is needed by women with complications during pregnancy and childbirth, children with severe anaemia, often resulting from malaria or malnutrition, accident victims and surgical and cancer patients.\n\nThere is a constant need for a regular supply of blood because it can be stored only for a limited period of time before use. Regular blood donation by a sufficient number of healthy people is needed to ensure that blood will always be available whenever and wherever it is needed.\n\nBlood is the most precious gift that anyone can give to another person – the gift of life. A decision to donate your blood can save a life, or even several if your blood is separated into its components – red cells, platelets and plasma – which can be used individually for patients with specific conditions.',
-                                                    textAlign: TextAlign.left,
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            color: Color(
-                                                                0xff406986))),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                
-                                                ),
-                                                SizedBox(
-                                                  height: 20.h,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ); // Single tapped.
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.info_outline,
-                                      size: 15.h,
-                                      color: Colors.black,
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Text(
-                            'Every 2 seconds, someone in the Sierra Leone needs blood, and there is no way to get blood other than through donations from volunteers.',
-                            textAlign: TextAlign.left,
-                            style: GoogleFonts.montserrat(
-                                fontSize: 13,
-                                fontWeight: FontWeight.normal,
-                                color: kBlackColor)),
-                      ],
-                    ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 120.h,
+                    width: 120.w,
+                    // width: size.width * 0.4,
                   ),
-                ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
+              Text(
+                  'Every 2 seconds, someone in the Sierra Leone needs blood, and there is no way to get blood other than through donations from volunteers.',
+                  textAlign: TextAlign.left,
+                  style: GoogleFonts.montserrat(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.normal,
+                      color: kBlackColor)),
+          10.verticalSpace,
+               
                       Visibility(
                         visible: false,
                         child: Container(
@@ -702,7 +556,7 @@ class _EBloodDonationState extends State<EBloodDonation> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Personal Information',
+                            'Personal Information'.toUpperCase(),
                             style: TextStyle(
                                 fontSize: 15.sp, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.left,
@@ -932,9 +786,7 @@ class _EBloodDonationState extends State<EBloodDonation> {
                           children: [
                             Text(
                                 'Do you have Vaccination for Hepatitis B Virus (HBV)? '),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
+                            5.verticalSpace,
                             Row(
                               children: <Widget>[
                                 _buildHBVVaccincationSelector(
@@ -1005,7 +857,7 @@ class _EBloodDonationState extends State<EBloodDonation> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Contact Information',
+                            'Contact Information'.toUpperCase(),
                             style: TextStyle(
                                 fontSize: 15.sp, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.left,
@@ -1250,9 +1102,7 @@ class _EBloodDonationState extends State<EBloodDonation> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('I want my next of Kin to be informed?'),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
+                            5.verticalSpace,
                             Row(
                               children: <Widget>[
                                 _buildInformedNextOfKinSelector(
@@ -1678,13 +1528,127 @@ class _EBloodDonationState extends State<EBloodDonation> {
                       SizedBox(
                         height: 10.h,
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ]),
+                    
+              
+            
+            ],
+          ),
+        ),
+        validation: () {
+          if (!_formKey.currentState!.validate()) {
+            return 'Fill form correctly';
+          }
+          return null;
+        },
       ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Are you pregnant or recently given birth?',
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              
+            ],
+          ),
+        ),
+        validation: () {
+          if (!_formKey.currentState!.validate()) {
+            return 'Fill form correctly';
+          }
+          return null;
+        },
+      )
+    
+    ];
+    final stepper = CoolStepper(
+      config: CoolStepperConfig(
+        stepText: 'QUESTION',
+      ),
+
+      // contentPadding: EdgeInsets.all(10),
+      showErrorSnackbar: false,
+      onCompleted: () async {
+        if (await getInternetUsingInternetConnectivity()) {
+          // Navigator.of(context).pushAndRemoveUntil(
+          //     MaterialPageRoute(builder: (context) => AnalysisScreen()),
+          //     (route) => false);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                'You are offline, Kindly turn on Wifi or Mobile Data to continue',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(fontSize: 10.sp)),
+            backgroundColor: Color(0xFFE02020),
+            behavior: SnackBarBehavior.fixed,
+            duration: const Duration(seconds: 10),
+            // duration: Duration(seconds: 3),
+          ));
+        }
+      },
+      steps: steps,
     );
+
+  
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: kPrimaryColor,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => blooddonationfacility(
+                       
+                      ),
+                    ));
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: kWhiteColor,
+              )),
+          elevation: 0,
+          title: Text(
+            'Schedule Voluntary Blood Donation',
+            style: TextStyle(fontSize: 14, color: kWhiteColor),
+          )),
+      body: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              child: stepper,
+            ),
+       ),
+    );
+  
   }
 
   Widget _buildTextField({

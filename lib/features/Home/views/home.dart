@@ -2233,7 +2233,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                   fontFamily: 'Montserrat',
                                                   letterSpacing: 0,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
+                                                  fontSize: 12.sp,
                                                   color: Colors.white)),
                                         ],
                                       ),
@@ -2465,14 +2465,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                                     MainAxisAlignment
                                                                         .center,
                                                                 children: [
-                                                                  FaIcon(
-                                                                    FontAwesomeIcons
-                                                                        .whatsapp,
-                                                                    size: 15,
-                                                                    color:
-                                                                        kLifeBloodBlue,
-                                                                  ),
-                                                                  5.horizontalSpace,
+                                                                  
                                                                   Text(
                                                                       'Volunteer to Donate',
                                                                       textAlign:
@@ -2890,12 +2883,12 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                       color: kWhiteColor,
                                                     ),
                                                     5.horizontalSpace,
-                                                    Text('View All Requests',
+                                                    Text('View All Blood Donor Requests',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: GoogleFonts
                                                             .montserrat(
-                                                          fontSize: 11,
+                                                          fontSize: 11.sp,
                                                           letterSpacing: 0,
                                                           fontWeight:
                                                               FontWeight.w400,
@@ -3240,7 +3233,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                      builder: (context) => bloodtypebody(),
+                      builder: (context) => managebloodtestAppointments(),
                     ),
                   );
                 } else {
@@ -3352,12 +3345,12 @@ class _nameState extends State<home> with TickerProviderStateMixin {
             GestureDetector(
               onTap: () async {
                 if (await getInternetUsingInternetConnectivity()) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => bloodtypebody(),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   new MaterialPageRoute(
+                  //     builder: (context) => sendfeedback(),
+                  //   ),
+                  // );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
@@ -4909,11 +4902,8 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                           mainAxisAlignment:
                                                                               MainAxisAlignment.center,
                                                                           children: [
-                                                                            FaIcon(
-                                                                              FontAwesomeIcons.whatsapp,
-                                                                              size: 20,
-                                                                            ),
-                                                                            5.horizontalSpace,
+                                                                            
+                                                                           
                                                                             Text('Volunteer to Donate',
                                                                                 textAlign: TextAlign.center,
                                                                                 style: GoogleFonts.montserrat(

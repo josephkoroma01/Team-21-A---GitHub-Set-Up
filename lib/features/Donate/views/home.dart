@@ -1,7 +1,11 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lifebloodworld/features/Donate/views/joindonationcampaigns.dart';
+import 'package:lifebloodworld/features/Donate/views/meligibilityscreen.dart';
+import 'package:lifebloodworld/features/Donate/views/metrigger.dart';
 import 'package:lifebloodworld/features/FAQ/welcome_screen.dart';
 import 'package:lifebloodworld/models/bloodtestingfacilities.dart';
 import 'dart:async';
@@ -1838,7 +1842,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                               children: [
                                                                 FaIcon(
                                                                     FontAwesomeIcons
-                                                                        .droplet,
+                                                                        .history,
                                                                     size: 15,
                                                                     color: Colors
                                                                         .teal),
@@ -1846,7 +1850,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                                   width: 5,
                                                                 ),
                                                                 Text(
-                                                                    'Donation History',
+                                                                    'Blood Donation History',
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
@@ -1871,8 +1875,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                           foregroundColor:
                                                               Colors.white,
                                                           backgroundColor:
-                                                              Colors.teal
-                                                                  .shade100,
+                                                              Colors.white,
                                                           shape: const RoundedRectangleBorder(
                                                               borderRadius: BorderRadius
                                                                   .all(Radius
@@ -1925,7 +1928,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                   fontFamily: 'Montserrat',
                                                   letterSpacing: 0,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
+                                                  fontSize: 12.sp,
                                                   color: Colors.white)),
                                         ],
                                       ),
@@ -2151,98 +2154,14 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                             SizedBox(
                                                               height: 10.h,
                                                             ),
+                                                            
                                                             TextButton(
                                                               child: Row(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .center,
                                                                 children: [
-                                                                  FaIcon(
-                                                                    FontAwesomeIcons
-                                                                        .check,
-                                                                    size: 15,
-                                                                    color:
-                                                                        kWhiteColor,
-                                                                  ),
-                                                                  5.horizontalSpace,
-                                                                  Text(
-                                                                      'Confirm Donation',
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style: GoogleFonts
-                                                                          .montserrat(
-                                                                        fontSize:
-                                                                            12,
-                                                                        letterSpacing:
-                                                                            0,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        color:
-                                                                            kWhiteColor,
-                                                                      )),
-                                                                ],
-                                                              ),
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                backgroundColor:
-                                                                    kLifeBloodBlue,
-                                                                shape: const RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(10))),
-                                                              ),
-                                                              onPressed: () {
-                                                                FocusManager
-                                                                    .instance
-                                                                    .primaryFocus
-                                                                    ?.unfocus();
-                                                                var whatsappUrl =
-                                                                    "whatsapp://send?phone=${'+23278621647'}" +
-                                                                        "&text=${Uri.encodeComponent('Hi LifeBlood, I want to volunteer to donate')}";
-                                                                try {
-                                                                  launch(
-                                                                      whatsappUrl);
-                                                                } catch (e) {
-                                                                  //To handle error and display error message
-                                                                  ScaffoldMessenger.of(
-                                                                          context)
-                                                                      .showSnackBar(
-                                                                          SnackBar(
-                                                                    content: Text(
-                                                                        'Could Not Launch WhatsApp',
-                                                                        style: GoogleFonts
-                                                                            .montserrat()),
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .red,
-                                                                    behavior:
-                                                                        SnackBarBehavior
-                                                                            .fixed,
-                                                                    duration: Duration(
-                                                                        seconds:
-                                                                            3),
-                                                                  ));
-                                                                }
-                                                              },
-                                                            ),
-                                                            TextButton(
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  FaIcon(
-                                                                    FontAwesomeIcons
-                                                                        .whatsapp,
-                                                                    size: 15,
-                                                                    color:
-                                                                        kLifeBloodBlue,
-                                                                  ),
-                                                                  5.horizontalSpace,
+                                                                  
                                                                   Text(
                                                                       'Volunteer to Donate',
                                                                       textAlign:
@@ -2676,7 +2595,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                                           10))),
                                                 ),
                                                 onPressed: () {
-                                                  _showRequestsDialog(context);
+                                                  // _showRequestsDialog(context);
                                                 },
                                               ),
                                             ),
@@ -2757,174 +2676,291 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                 ),
               ),
             ]),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+            GestureDetector(
+              onTap: (){
+                 Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                metriggerScreen(
+                                                
+                                                )),
+                                        );
+              },
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          child: Container(
-                            padding: EdgeInsets.all(15.r),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: kWhiteColor,
-                              // border: Border.all(color: kLifeBloodRed),
-                              borderRadius: BorderRadius.circular(16),
-                              // color: Colors.green[200]
-                            ),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Image.asset(
-                                    'assets/images/alarm.png',
-                                    width: 45,
-                                    height: 45,
+                          padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Container(
+                              padding: EdgeInsets.all(15.r),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: kWhiteColor,
+                                // border: Border.all(color: kLifeBloodRed),
+                                borderRadius: BorderRadius.circular(16),
+                                // color: Colors.green[200]
+                              ),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Image.asset(
+                                      'assets/images/alarm.png',
+                                      width: 45,
+                                      height: 45,
+                                    ),
                                   ),
-                                ),
-                                20.horizontalSpace,
-                                Flexible(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('Make Emergency Trigger',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: kLifeBloodRed)),
-                                        ],
-                                      ),
-                                      2.verticalSpace,
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                                'Notify the blood banks early.',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    overflow: TextOverflow.clip,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: kBlackColor)),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                  20.horizontalSpace,
+                                  Flexible(
+                                    flex: 3,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 5.h,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text('Make Emergency Trigger',
+                                                textAlign: TextAlign.center,
+                                                style: GoogleFonts.montserrat(
+                                                   fontSize: 14.sp,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: kLifeBloodRed)),
+                                          ],
+                                        ),
+                                        2.verticalSpace,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                  'Notify the blood banks early.',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                    letterSpacing: 0,
+                                                      overflow: TextOverflow.clip,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: kGreyColor)),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+            
+            GestureDetector(
+              onTap:(){
+                Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MEligibilityScreen(
+                                                quiz: 'No',
+                                                )),
+                                        );
+              },
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          child: Container(
-                            padding: EdgeInsets.all(15.r),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFebf5f5),
-                              // border: Border.all(color: kLifeBloodBlue),
-                              borderRadius: BorderRadius.circular(16),
-                              // color: Colors.green[200]
-                            ),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Image.asset(
-                                    'assets/images/donation.png',
-                                    width: 45,
-                                    height: 45,
+                          padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Container(
+                              padding: EdgeInsets.all(15.r),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFebf5f5),
+                                // border: Border.all(color: kLifeBloodRed),
+                                borderRadius: BorderRadius.circular(16),
+                                // color: Colors.green[200]
+                              ),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Image.asset(
+                                      'assets/icons/checklist.png',
+                                      width: 45,
+                                      height: 45,
+                                    ),
                                   ),
-                                ),
-                                20.horizontalSpace,
-                                Flexible(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                                'Schedule Blood Donation',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    overflow: TextOverflow.clip,
+                                  20.horizontalSpace,
+                                  Flexible(
+                                    flex: 3,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 5.h,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text('Check Eligibility Status',
+                                                textAlign: TextAlign.center,
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 14.sp,
+                                                    letterSpacing: 0,
                                                     fontWeight: FontWeight.bold,
                                                     color: kLifeBloodBlue)),
-                                          ),
-                                        ],
-                                      ),
-                                      2.verticalSpace,
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                                'Your donation can save up to 3 lives',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    overflow: TextOverflow.clip,
-                                                    letterSpacing: 0,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: kGreyColor)),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                        2.verticalSpace,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                  'Not everyone can donate blood',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      letterSpacing: 0,
+                                                      overflow: TextOverflow.clip,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: kGreyColor)),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            ),
+            
+            GestureDetector(
+              onTap:(){
+                // if donate is not eligible
+                 _showEligibilityDialog(context);
+              },
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Container(
+                              padding: EdgeInsets.all(15.r),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFebf5f5),
+                                // border: Border.all(color: kLifeBloodBlue),
+                                borderRadius: BorderRadius.circular(16),
+                                // color: Colors.green[200]
+                              ),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Image.asset(
+                                      'assets/images/donation.png',
+                                      width: 45,
+                                      height: 45,
+                                    ),
+                                  ),
+                                  20.horizontalSpace,
+                                  Flexible(
+                                    flex: 3,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 5.h,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                  'Schedule Blood Donation',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                     fontSize: 14.sp,
+                                                    letterSpacing: 0,
+                                                      overflow: TextOverflow.clip,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: kLifeBloodBlue)),
+                                            ),
+                                          ],
+                                        ),
+                                        2.verticalSpace,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                  '1 donation can save up to 3 lives',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      overflow: TextOverflow.clip,
+                                                      letterSpacing: 0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: kGreyColor)),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Row(
               children: <Widget>[
@@ -2975,7 +3011,8 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                             child: Text('Blood Donation Drives',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                    fontSize: 14,
+                                                    fontSize: 14.sp,
+                                                  letterSpacing: 0,
                                                     overflow: TextOverflow.clip,
                                                     fontWeight: FontWeight.bold,
                                                     color: kLifeBloodBlue)),
@@ -2990,7 +3027,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                 'Join, create and support drives',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                    fontSize: 12,
+                                                    fontSize: 12.sp,
                                                     overflow: TextOverflow.clip,
                                                     letterSpacing: 0,
                                                     fontWeight:
@@ -3019,7 +3056,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
     );
   }
 
-  void _showRequestsDialog(BuildContext context) {
+  void _showEligibilityDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) => RequestDialogContent());

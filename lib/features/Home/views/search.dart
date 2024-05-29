@@ -55,7 +55,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               : null,
           hintText: widget.hintText,
           hintStyle: TextStyle(
-              fontFamily: 'Montserrat', fontSize: 14, letterSpacing: 0),
+              fontFamily: 'Montserrat', fontSize: 12, letterSpacing: 0),
           border: InputBorder.none,
         ),
         style: style,

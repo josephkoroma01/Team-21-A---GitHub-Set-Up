@@ -14,6 +14,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:lifebloodworld/constants/colors.dart';
+import 'package:lifebloodworld/features/Home/models/donorregistered.dart';
 import 'package:lifebloodworld/features/Login/views/login_screen.dart';
 import 'package:lifebloodworld/features/Register/views/tour.dart';
 import 'package:pinput/pinput.dart';
@@ -593,6 +594,43 @@ class _RegisterPageState extends State<RegisterPage> {
     // scheduleAlarm();
   }
 
+
+Future<List<DonorRegisterData>> findDonor(String query) async {
+    var data = {'rbtc_id': '1', 'tfs_id': '2', 'status': 'Pending'};
+
+    var response = await http.post(
+      Uri.parse(
+          "https://labtech.lifebloodsl.com/labtechapi/findregisterdonor.php"),
+      body: json.encode(data),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> donorRegisterJson = json.decode(response.body);
+
+      return donorRegisterJson
+          .map((json) => DonorRegisterData.fromJson(json))
+          .where((donor) {
+        final donorNameLower = donor.name.toLowerCase();
+        final donorPhoneNumberLower = donor.phonenumber.toLowerCase();
+        final donorAgeCategoryLower = donor.agecategory.toLowerCase();
+        final donorAddressLower = donor.address.toLowerCase();
+        final donorEmailAddressLower = donor.email.toLowerCase();
+        final donorBloodTypeLower = donor.bloodtype.toLowerCase();
+        final donorGenderLower = donor.gender.toLowerCase();
+        final searchLower = query.toLowerCase();
+
+        return donorNameLower.contains(searchLower) ||
+            donorAgeCategoryLower.contains(searchLower) ||
+            donorAddressLower.contains(searchLower) ||
+            donorEmailAddressLower.contains(searchLower) ||
+            donorGenderLower.contains(searchLower) ||
+            donorPhoneNumberLower.contains(searchLower) ||
+            donorBloodTypeLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception('Failed to load donors');
+    }
+  }
   Widget _buildTextField({
     String? labelText,
     FormFieldValidator<String>? validator,

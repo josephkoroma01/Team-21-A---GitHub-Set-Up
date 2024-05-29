@@ -157,7 +157,7 @@ class _communityState extends State<community> with TickerProviderStateMixin {
     super.initState();
     tz.initializeTimeZones();
     _startWeeklyResetTimer();
-    tabs = ['Donation Drives', 'Blood Donation'];
+    tabs = ['Activities', 'Communities'];
     tabController = TabController(length: tabs.length, vsync: this);
     tabController.addListener(_handleTabControllerTick);
     getBloodDonationData();
@@ -998,179 +998,285 @@ class _communityState extends State<community> with TickerProviderStateMixin {
     if (_currentIndex == 0) {
       return Column(
         children: [
-          (dataready == "Yes")
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                      Text.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color(0xFF205072),
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Donor Type: ',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "$donationtype",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color(0xFF205072),
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Facility: ',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "$facility",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color(0xFF205072),
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Time Slot: ',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "$timeslot",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color(0xFF205072),
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Status: ',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "$status",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      )
-                    ])
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'No Blood Donation Schedule',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 11),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.add_box_rounded,
-                                  color: Colors.white,
-                                ))
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          Padding(
+                                  padding: const EdgeInsets.only(top:0, right:8.0, left:8.0, bottom: 0.0),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.r),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                             Text('LifeLine Donors',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    letterSpacing: 0,
+                                                    fontSize: 13.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: kGreyColor)),
+                                                   5.verticalSpace,
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Flexible(
+                                                flex: 3,
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      padding: EdgeInsets.symmetric(
+                                                          vertical: 0, horizontal: 5),
+                                                      decoration: BoxDecoration(
+                                                          color: kIconBcgColor,
+                                                          borderRadius:
+                                                              BorderRadius.circular(0)),
+                                                      child: Text(
+                                                        'Bo',
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            color: kPrimaryColor,
+                                                            letterSpacing: 0,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                    ),
+                                                    5.horizontalSpace,
+                                              Text(dateinput.text,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    letterSpacing: 0,
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.normal,
+                                                    color: kBlackColor)),
+                                                  ],
+                                                ),
+                                              ),
+                                              Flexible(
+                                                flex: 1,
+                                                child: Container(
+                                                      padding: EdgeInsets.symmetric(
+                                                          vertical: 0, horizontal: 5),
+                                                      decoration: BoxDecoration(
+                                                          color: kIconBcgColor,
+                                                          borderRadius:
+                                                              BorderRadius.circular(0)),
+                                                      child: Text(
+                                                        'Ongoing',
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            color: kPrimaryColor,
+                                                            letterSpacing: 0,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                    ),)
+                                              
+                                            ],
+                                          ),
+                                          10.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text('There is a meeting on the 1 Jun 2024, at 7 Malama Thomas Street',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          fontFamily: 'Montserrat',
+                                                          letterSpacing: 0,
+                                                          overflow: TextOverflow.clip,
+                                                          fontSize: 11.sp,
+                                                          fontWeight: FontWeight.normal,
+                                                          color: kBlackColor)),
+                                              ),
+                                            ],
+                                          ),
+                                            
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+         
+          // (dataready == "Yes")
+          //     ? Column(
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //             Text.rich(
+          //               TextSpan(
+          //                 style: TextStyle(
+          //                   color: Color(0xFF205072),
+          //                   fontSize: 15,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //                 children: [
+          //                   TextSpan(
+          //                     text: 'Donor Type: ',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   TextSpan(
+          //                     text: "$donationtype",
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               textHeightBehavior:
+          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
+          //               textAlign: TextAlign.left,
+          //             ),
+          //             Text.rich(
+          //               TextSpan(
+          //                 style: TextStyle(
+          //                   color: Color(0xFF205072),
+          //                   fontSize: 12,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //                 children: [
+          //                   TextSpan(
+          //                     text: 'Facility: ',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   TextSpan(
+          //                     text: "$facility",
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               textHeightBehavior:
+          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
+          //               textAlign: TextAlign.left,
+          //             ),
+          //             Text.rich(
+          //               TextSpan(
+          //                 style: TextStyle(
+          //                   color: Color(0xFF205072),
+          //                   fontSize: 12,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //                 children: [
+          //                   TextSpan(
+          //                     text: 'Time Slot: ',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   TextSpan(
+          //                     text: "$timeslot",
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               textHeightBehavior:
+          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
+          //               textAlign: TextAlign.left,
+          //             ),
+          //             Text.rich(
+          //               TextSpan(
+          //                 style: TextStyle(
+          //                   color: Color(0xFF205072),
+          //                   fontSize: 12,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //                 children: [
+          //                   TextSpan(
+          //                     text: 'Status: ',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   TextSpan(
+          //                     text: "$status",
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               textHeightBehavior:
+          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
+          //               textAlign: TextAlign.left,
+          //             ),
+          //             SizedBox(
+          //               height: 5,
+          //             )
+          //           ])
+          //     : Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Column(
+          //             children: [
+          //               Row(
+          //                 children: [
+          //                   Text(
+          //                     'No Blood Donation Schedule',
+          //                     style: TextStyle(
+          //                         fontFamily: 'Montserrat',
+          //                         color: Colors.white,
+          //                         letterSpacing: 0,
+          //                         fontWeight: FontWeight.normal,
+          //                         fontSize: 11),
+          //                   ),
+          //                   IconButton(
+          //                       onPressed: () {},
+          //                       icon: Icon(
+          //                         Icons.add_box_rounded,
+          //                         color: Colors.white,
+          //                       ))
+          //                 ],
+          //               ),
+          //             ],
+          //           ),
+          //         ],
+          //       ),
         ],
       );
     } else if (_currentIndex == 1) {
@@ -1178,176 +1284,317 @@ class _communityState extends State<community> with TickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          (bgdataready == "Yes")
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                      Text.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color(0xFF205072),
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Blood Group For: ',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: '$bgbloodtestfor',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color(0xFF205072),
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Facility: ',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: '$bgfacility',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color(0xFF205072),
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Time Slot: ',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "$bgtimeslot",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color(0xFF205072),
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Status: ',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "$bgstatus",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                      ),
-                    ])
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'No Blood Group Test Schedule',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 11),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.add_box_rounded,
-                                  color: Colors.white,
-                                ))
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+           Padding(
+                                  padding: const EdgeInsets.only(top:0, right:8.0, left:8.0, bottom: 0.0),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.r),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                             Text('LifeLine Donors',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    letterSpacing: 0,
+                                                    fontSize: 13.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: kGreyColor)),
+                                                   5.verticalSpace,
+                                                   Container(
+                                                      padding: EdgeInsets.symmetric(
+                                                          vertical: 0, horizontal: 5),
+                                                      decoration: BoxDecoration(
+                                                          color: kIconBcgColor,
+                                                          borderRadius:
+                                                              BorderRadius.circular(0)),
+                                                      child: Expanded(
+                                                child: Text(
+                                                        'Blood Donation Community',
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            color: kPrimaryColor,
+                                                            letterSpacing: 0,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                    ),),
+                                                    5.verticalSpace,
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Flexible(
+                                                flex: 3,
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      padding: EdgeInsets.symmetric(
+                                                          vertical: 0, horizontal: 5),
+                                                      decoration: BoxDecoration(
+                                                          color: kIconBcgColor,
+                                                          borderRadius:
+                                                              BorderRadius.circular(0)),
+                                                      child: Expanded(
+                                                child: Text(
+                                                        'Western Area Urban',
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            color: kPrimaryColor,
+                                                            letterSpacing: 0,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),)
+                                                    ),
+                                                    5.horizontalSpace,
+                                                    Container(
+                                                      padding: EdgeInsets.symmetric(
+                                                          vertical: 0, horizontal: 5),
+                                                      decoration: BoxDecoration(
+                                                          color: kIconBcgColor,
+                                                          borderRadius:
+                                                              BorderRadius.circular(0)),
+                                                      child:  Expanded(
+                                                child: Text(
+                                                        'Lumley',
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            color: kPrimaryColor,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            letterSpacing: 0,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                    ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Flexible(
+                                                flex: 1,
+                                                child: Container(
+                                                      padding: EdgeInsets.symmetric(
+                                                          vertical: 0, horizontal: 5),
+                                                      decoration: BoxDecoration(
+                                                          color: kWhiteColor,
+                                                          border: Border.all(color: Colors.teal, width: 0.2),
+                                                          borderRadius:
+                                                              BorderRadius.circular(0)),
+                                                      child: Text(
+                                                        'Joined',
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            color: kPrimaryColor,
+                                                            letterSpacing: 0,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                    ),)
+                                              
+                                            ],
+                                          ),
+                                          10.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text('There is a meeting on the 1 Jun 2024, at 7 Malama Thomas Street',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          fontFamily: 'Montserrat',
+                                                          letterSpacing: 0,
+                                                          overflow: TextOverflow.clip,
+                                                          fontSize: 11.sp,
+                                                          fontWeight: FontWeight.normal,
+                                                          color: kBlackColor)),
+                                              ),
+                                            ],
+                                          ),
+                                            
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+         
+          // (bgdataready == "Yes")
+          //     ? Column(
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //             Text.rich(
+          //               TextSpan(
+          //                 style: TextStyle(
+          //                   color: Color(0xFF205072),
+          //                   fontSize: 15,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //                 children: [
+          //                   TextSpan(
+          //                     text: 'Blood Group For: ',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   TextSpan(
+          //                     text: '$bgbloodtestfor',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               textHeightBehavior:
+          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
+          //               textAlign: TextAlign.left,
+          //             ),
+          //             Text.rich(
+          //               TextSpan(
+          //                 style: TextStyle(
+          //                   color: Color(0xFF205072),
+          //                   fontSize: 15,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //                 children: [
+          //                   TextSpan(
+          //                     text: 'Facility: ',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   TextSpan(
+          //                     text: '$bgfacility',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               textHeightBehavior:
+          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
+          //               textAlign: TextAlign.left,
+          //             ),
+          //             Text.rich(
+          //               TextSpan(
+          //                 style: TextStyle(
+          //                   color: Color(0xFF205072),
+          //                   fontSize: 15,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //                 children: [
+          //                   TextSpan(
+          //                     text: 'Time Slot: ',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   TextSpan(
+          //                     text: "$bgtimeslot",
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               textHeightBehavior:
+          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
+          //               textAlign: TextAlign.left,
+          //             ),
+          //             Text.rich(
+          //               TextSpan(
+          //                 style: TextStyle(
+          //                   color: Color(0xFF205072),
+          //                   fontSize: 12,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //                 children: [
+          //                   TextSpan(
+          //                     text: 'Status: ',
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   TextSpan(
+          //                     text: "$bgstatus",
+          //                     style: TextStyle(
+          //                       fontFamily: 'Montserrat',
+          //                       letterSpacing: 0,
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               textHeightBehavior:
+          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
+          //               textAlign: TextAlign.left,
+          //             ),
+          //           ])
+          //     : Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Column(
+          //             children: [
+          //               Row(
+          //                 children: [
+          //                   Text(
+          //                     'No Blood Group Test Schedule',
+          //                     style: TextStyle(
+          //                         fontFamily: 'Montserrat',
+          //                         color: Colors.white,
+          //                         letterSpacing: 0,
+          //                         fontWeight: FontWeight.normal,
+          //                         fontSize: 11),
+          //                   ),
+          //                   IconButton(
+          //                       onPressed: () {},
+          //                       icon: Icon(
+          //                         Icons.add_box_rounded,
+          //                         color: Colors.white,
+          //                       ))
+          //                 ],
+          //               ),
+          //             ],
+          //           ),
+          //         ],
+          //       ),
+       
         ],
       );
     }
@@ -1392,315 +1639,511 @@ class _communityState extends State<community> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            // Row(children: <Widget>[
-            //   Expanded(
-            //     child: SingleChildScrollView(
-            //       child: Container(
-            //         padding: EdgeInsets.only(
-            //             bottom: MediaQuery.of(context).viewInsets.bottom),
-            //         child: Padding(
-            //           padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+            Row(children: <Widget>[
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        // padding: EdgeInsets.all(10.r),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFebf5f5),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                      bottomLeft: Radius.zero,
+                                      bottomRight: Radius.zero)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                   Text(
+                                    'Commmunity Updates',
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 13.sp,
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TabBar(
+                                                        indicatorColor:
+                                                            kPrimaryColor,
+                                                            indicatorSize: TabBarIndicatorSize.tab,
+                                                        labelColor:
+                                                          kPrimaryColor,
+                                                        labelStyle: GoogleFonts
+                                                            .montserrat(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize:
+                                                                    12.sp),
+                                                        unselectedLabelColor:
+                                                            Colors.grey,
+                                                        controller:
+                                                            tabController,
+                                                        tabs: tabs
+                                                            .map((e) => Tab(
+                                                                    child: Text(
+                                                                  e,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          10.sp),
+                                                                )))
+                                                            .toList(),
+                                                      ),
+                                                      SizedBox(
+                                              height: 8.h,
+                                            ),
+                                            5.verticalSpace,
+                                                      _tabsContent(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 5.0, bottom: 2, left: 8.0, right: 8.0),
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                child: SizedBox(
+                                                  height: 5.h,
+                                                  child: Divider(
+                                                    color: Colors.teal,
+                                                    thickness: 0.2,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:0, bottom: 5.0, right: 8.0, left: 8.0),
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                child: TextButton(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .feed_outlined,
+                                                        size: 15,
+                                                        color: kPrimaryColor,
+                                                      ),
+                                                      5.horizontalSpace,
+                                                      Text('Explore Communities',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                            fontSize: 11,
+                                                            letterSpacing: 0,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Colors.teal,
+                                                          )),
+                                                    ],
+                                                  ),
+                                                  style: TextButton.styleFrom(
+                                                    foregroundColor: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.teal
+                                                                    .shade100,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            10))),
+                                                  ),
+                                                  onPressed: () {
+                                                    // _showRequestsDialog(context);
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ]),
+            10.verticalSpace,
+
+            // GestureDetector(
+            //   onTap: () async {
+            //     if (await getInternetUsingInternetConnectivity()) {
+            //       Navigator.push(
+            //         context,
+            //         new MaterialPageRoute(
+            //           builder: (context) => wmerchandise(),
+            //         ),
+            //       );
+            //     } else {
+            //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //         content: Text(
+            //             'You are offline, Kindly turn on Wifi or Mobile Data to continue',
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(
+            //                 fontFamily: 'Montserrat',
+            //                 letterSpacing: 0,
+            //                 fontSize: 10)),
+            //         backgroundColor: Color(0xFFE02020),
+            //         behavior: SnackBarBehavior.fixed,
+            //         duration: const Duration(seconds: 5),
+            //         // duration: Duration(seconds: 3),
+            //       ));
+            //     }
+            //   },
+            //   child: Row(
+            //     children: <Widget>[
+            //       Expanded(
+            //         child: SingleChildScrollView(
             //           child: Container(
-            //             // padding: EdgeInsets.all(10.r),
-            //             width: double.infinity,
-            //             decoration: BoxDecoration(
-            //               color: Color(0xFFebf5f5),
-            //               borderRadius: BorderRadius.circular(16),
-            //             ),
-            //             child: Column(
-            //               crossAxisAlignment: CrossAxisAlignment.center,
-            //               mainAxisAlignment: MainAxisAlignment.center,
-            //               children: [
-            //                 Container(
-            //                   padding: EdgeInsets.all(10),
-            //                   decoration: BoxDecoration(
-            //                       color: kPrimaryColor,
-            //                       borderRadius: BorderRadius.only(
-            //                           topLeft: Radius.circular(10),
-            //                           topRight: Radius.circular(10),
-            //                           bottomLeft: Radius.zero,
-            //                           bottomRight: Radius.zero)),
-            //                   child: Row(
-            //                     mainAxisAlignment:
-            //                         MainAxisAlignment.spaceBetween,
-            //                     crossAxisAlignment: CrossAxisAlignment.start,
-            //                     children: [
-            //                       const Text(
-            //                         'Commmunity Updates',
-            //                         overflow: TextOverflow.clip,
-            //                         style: TextStyle(
-            //                           color: Colors.white,
-            //                           fontSize: 13,
-            //                           fontFamily: 'Montserrat',
-            //                           fontWeight: FontWeight.bold,
-            //                           letterSpacing: 0,
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //                 Column(
-            //                   mainAxisAlignment: MainAxisAlignment.center,
-            //                   crossAxisAlignment: CrossAxisAlignment.center,
+            //             padding: EdgeInsets.only(
+            //                 bottom: MediaQuery.of(context).viewInsets.bottom),
+            //             child: Padding(
+            //               padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+            //               child: Padding(
+            //                 padding: EdgeInsets.symmetric(horizontal: 5.w),
+            //                 child: Column(
             //                   children: [
-            //                     Padding(
-            //                       padding: const EdgeInsets.all(8.0),
-            //                       child: Container(
-            //                         padding: EdgeInsets.all(10.r),
-            //                         decoration: BoxDecoration(
-            //                           color: Colors.white,
-            //                           borderRadius: BorderRadius.circular(16),
-            //                         ),
-            //                         child: Column(
-            //                           children: [
-            //                             Row(
-            //                               mainAxisAlignment:
-            //                                   MainAxisAlignment.center,
-            //                               children: [
-            //                                 Text(dateinput.text,
-            //                                     textAlign: TextAlign.center,
-            //                                     style: TextStyle(
-            //                                         fontFamily: 'Montserrat',
-            //                                         letterSpacing: 0,
-            //                                         fontSize: 12,
-            //                                         fontWeight: FontWeight.bold,
-            //                                         color: kWhiteColor)),
-            //                               ],
+            //                     Container(
+            //                       height: 200,
+            //                       width: double.infinity,
+            //                       decoration: BoxDecoration(
+            //                         // border: Border.all(color: kLifeBloodRed),
+            //                         borderRadius: BorderRadius.circular(16),
+            //                       ),
+            //                       child: Stack(
+            //                         fit: StackFit.expand,
+            //                         children: [
+            //                           // Image
+            //                           Positioned.fill(
+            //                             child: ClipRRect(
+            //                               borderRadius:
+            //                                   BorderRadius.circular(16),
+            //                               child: Image.asset(
+            //                                 "assets/images/mer.jpg",
+            //                                 fit: BoxFit.cover,
+            //                               ),
             //                             ),
-            //                             Column(
-            //                               children: [
-            //                                 SizedBox(
-            //                                   height: 3.h,
+            //                           ),
+            //                           // Gradient
+            //                           Positioned.fill(
+            //                             child: Container(
+            //                               decoration: BoxDecoration(
+            //                                 gradient: LinearGradient(
+            //                                   begin: Alignment.topCenter,
+            //                                   end: Alignment.bottomCenter,
+            //                                   colors: [
+            //                                     Colors.white.withOpacity(0.9),
+            //                                     Colors.red.withOpacity(0.7),
+            //                                   ],
+            //                                   stops: [0.3, 0.9],
             //                                 ),
-            //                                 5.verticalSpace,
-            //                                 Column(
+            //                                 borderRadius:
+            //                                     BorderRadius.circular(16),
+            //                               ),
+            //                             ),
+            //                           ),
+            //                           Padding(
+            //                             padding: const EdgeInsets.all(8.0),
+            //                             child: Column(
+            //                               mainAxisAlignment:
+            //                                   MainAxisAlignment.start,
+            //                               crossAxisAlignment:
+            //                                   CrossAxisAlignment.start,
+            //                               children: [
+            //                                 10.verticalSpace,
+            //                                 Expanded(
+            //                                   child: Column(
+            //                                     crossAxisAlignment:
+            //                                         CrossAxisAlignment.start,
+            //                                     children: [
+            //                                       Text(
+            //                                           'Explore LifeBlood\nMerchandise',
+            //                                           textAlign: TextAlign.left,
+            //                                           style: TextStyle(
+            //                                               fontSize: 20,
+            //                                               height: 1.2,
+            //                                               letterSpacing: 0,
+            //                                               overflow:
+            //                                                   TextOverflow.clip,
+            //                                               fontWeight:
+            //                                                   FontWeight.bold,
+            //                                               color:
+            //                                                   kLifeBloodRed)),
+            //                                       10.verticalSpace,
+            //                                       IntrinsicWidth(
+            //                                         child: SizedBox(
+            //                                           height: 25,
+            //                                           child: ElevatedButton(
+            //                                             style: ElevatedButton
+            //                                                 .styleFrom(
+            //                                                     backgroundColor:
+            //                                                         kWhiteColor,
+            //                                                     elevation: 0,
+            //                                                     side:
+            //                                                         BorderSide(
+            //                                                       color: Color(
+            //                                                           0x19A2A1A8),
+            //                                                       width: 1.0,
+            //                                                     ),
+            //                                                     padding: EdgeInsets
+            //                                                         .symmetric(
+            //                                                             horizontal:
+            //                                                                 10,
+            //                                                             vertical:
+            //                                                                 0),
+            //                                                     shape:
+            //                                                         RoundedRectangleBorder(
+            //                                                       borderRadius:
+            //                                                           BorderRadius
+            //                                                               .circular(
+            //                                                                   10),
+            //                                                     )),
+            //                                             onPressed: () {},
+            //                                             child: Text(
+            //                                               'Buy One to gift a Blood Donor',
+            //                                               style: TextStyle(
+            //                                                 color:
+            //                                                     kLifeBloodRed,
+            //                                                 fontSize: 13,
+            //                                                 fontFamily:
+            //                                                     'Montserrat',
+            //                                                 fontWeight:
+            //                                                     FontWeight.w500,
+            //                                                 letterSpacing:
+            //                                                     -0.26,
+            //                                               ),
+            //                                             ),
+            //                                           ),
+            //                                         ),
+            //                                       ),
+            //                                     ],
+            //                                   ),
+            //                                 ),
+            //                                 Row(
             //                                   children: [
-            //                                     Row(
-            //                                       children: [
-            //                                         Flexible(
-            //                                           child: SizedBox(
-            //                                             width: double.infinity,
-            //                                             child: TextButton(
-            //                                               child: Row(
-            //                                                 mainAxisAlignment:
-            //                                                     MainAxisAlignment
-            //                                                         .center,
-            //                                                 children: [
-            //                                                   Row(
-            //                                                     children: [
-            //                                                       FaIcon(
-            //                                                         FontAwesomeIcons
-            //                                                             .idCard,
-            //                                                         color: Colors
-            //                                                             .teal,
-            //                                                         size: 20,
-            //                                                       ),
-            //                                                       SizedBox(
-            //                                                         width: 5,
-            //                                                       ),
-            //                                                       Text(
-            //                                                           'Donor Card',
-            //                                                           textAlign:
-            //                                                               TextAlign
-            //                                                                   .center,
-            //                                                           style: GoogleFonts
-            //                                                               .montserrat(
-            //                                                             fontSize:
-            //                                                                 11,
-            //                                                             letterSpacing:
-            //                                                                 0,
-            //                                                             fontWeight:
-            //                                                                 FontWeight.w400,
-            //                                                             color:
-            //                                                                 kPrimaryColor,
-            //                                                           )),
-            //                                                     ],
+            //                                     IntrinsicWidth(
+            //                                       child: SizedBox(
+            //                                         child: ElevatedButton(
+            //                                           style: ElevatedButton
+            //                                               .styleFrom(
+            //                                                   backgroundColor:
+            //                                                       kWhiteColor,
+            //                                                   elevation: 0,
+            //                                                   side: BorderSide(
+            //                                                     color: Color(
+            //                                                         0x19A2A1A8),
+            //                                                     width: 1.0,
             //                                                   ),
-            //                                                 ],
-            //                                               ),
-            //                                               style: TextButton
-            //                                                   .styleFrom(
-            //                                                 foregroundColor:
-            //                                                     Colors.white,
-            //                                                 backgroundColor:
-            //                                                     kWhiteColor,
-            //                                                 shape: const RoundedRectangleBorder(
-            //                                                     borderRadius: BorderRadius
-            //                                                         .all(Radius
+            //                                                   padding: EdgeInsets
+            //                                                       .symmetric(
+            //                                                           horizontal:
+            //                                                               10,
+            //                                                           vertical:
+            //                                                               0),
+            //                                                   shape:
+            //                                                       RoundedRectangleBorder(
+            //                                                     borderRadius:
+            //                                                         BorderRadius
             //                                                             .circular(
-            //                                                                 10))),
-            //                                               ),
-            //                                               onPressed: () {
-            //                                                 Navigator.push(
-            //                                                   context,
-            //                                                   new MaterialPageRoute(
-            //                                                       builder:
-            //                                                           (context) =>
-            //                                                               managebloodtestAppointments()),
-            //                                                 );
-            //                                               },
+            //                                                                 10),
+            //                                                   )),
+            //                                           onPressed: () {},
+            //                                           child: Text(
+            //                                             'T-Shirts',
+            //                                             style: TextStyle(
+            //                                               color: kLifeBloodRed,
+            //                                               fontSize: 13,
+            //                                               fontFamily:
+            //                                                   'Montserrat',
+            //                                               fontWeight:
+            //                                                   FontWeight.w500,
+            //                                               letterSpacing: -0.26,
             //                                             ),
             //                                           ),
             //                                         ),
-            //                                         5.horizontalSpace,
-            //                                         Flexible(
-            //                                           child: SizedBox(
-            //                                             width: double.infinity,
-            //                                             child: TextButton(
-            //                                               child: Row(
-            //                                                 mainAxisAlignment:
-            //                                                     MainAxisAlignment
-            //                                                         .center,
-            //                                                 children: [
-            //                                                   Row(
-            //                                                     children: [
-            //                                                       FaIcon(
-            //                                                           FontAwesomeIcons
-            //                                                               .comments,
-            //                                                           color: Colors
-            //                                                               .teal),
-            //                                                       SizedBox(
-            //                                                         width: 5,
-            //                                                       ),
-            //                                                       Text('FAQs',
-            //                                                           textAlign:
-            //                                                               TextAlign
-            //                                                                   .center,
-            //                                                           style: GoogleFonts
-            //                                                               .montserrat(
-            //                                                             fontSize:
-            //                                                                 11,
-            //                                                             letterSpacing:
-            //                                                                 0,
-            //                                                             fontWeight:
-            //                                                                 FontWeight.w400,
-            //                                                             color:
-            //                                                                 kPrimaryColor,
-            //                                                           )),
-            //                                                     ],
-            //                                                   ),
-            //                                                 ],
-            //                                               ),
-            //                                               style: TextButton
-            //                                                   .styleFrom(
-            //                                                 foregroundColor:
-            //                                                     Colors.white,
-            //                                                 backgroundColor:
-            //                                                     kWhiteColor,
-            //                                                 shape: const RoundedRectangleBorder(
-            //                                                     borderRadius: BorderRadius
-            //                                                         .all(Radius
-            //                                                             .circular(
-            //                                                                 10))),
-            //                                               ),
-            //                                               onPressed: () {
-            //                                                 Navigator.push(
-            //                                                   context,
-            //                                                   new MaterialPageRoute(
-            //                                                       builder:
-            //                                                           (context) =>
-            //                                                               FAQPageScreen()),
-            //                                                 );
-            //                                               },
-            //                                             ),
-            //                                           ),
-            //                                         ),
-            //                                       ],
+            //                                       ),
             //                                     ),
-            //                                     5.verticalSpace,
-            //                                     Row(
-            //                                       children: [
-            //                                         Flexible(
-            //                                           child: SizedBox(
-            //                                             width: double.infinity,
-            //                                             child: TextButton(
-            //                                               child: Row(
-            //                                                 mainAxisAlignment:
-            //                                                     MainAxisAlignment
-            //                                                         .center,
-            //                                                 children: [
-            //                                                   Row(
-            //                                                     children: [
-            //                                                       FaIcon(
-            //                                                           FontAwesomeIcons
-            //                                                               .droplet,
-            //                                                           size: 15,
-            //                                                           color: Colors
-            //                                                               .teal),
-            //                                                       SizedBox(
-            //                                                         width: 5,
-            //                                                       ),
-            //                                                       Text(
-            //                                                           'Donation History',
-            //                                                           textAlign:
-            //                                                               TextAlign
-            //                                                                   .center,
-            //                                                           style: GoogleFonts
-            //                                                               .montserrat(
-            //                                                             fontSize:
-            //                                                                 12,
-            //                                                             letterSpacing:
-            //                                                                 0,
-            //                                                             fontWeight:
-            //                                                                 FontWeight.w400,
-            //                                                             color:
-            //                                                                 kPrimaryColor,
-            //                                                           )),
-            //                                                     ],
+            //                                     5.horizontalSpace,
+            //                                     IntrinsicWidth(
+            //                                       child: SizedBox(
+            //                                         child: ElevatedButton(
+            //                                           style: ElevatedButton
+            //                                               .styleFrom(
+            //                                                   backgroundColor:
+            //                                                       kWhiteColor,
+            //                                                   elevation: 0,
+            //                                                   side: BorderSide(
+            //                                                     color: Color(
+            //                                                         0x19A2A1A8),
+            //                                                     width: 1.0,
             //                                                   ),
-            //                                                 ],
-            //                                               ),
-            //                                               style: TextButton
-            //                                                   .styleFrom(
-            //                                                 foregroundColor:
-            //                                                     Colors.white,
-            //                                                 backgroundColor:
-            //                                                     Colors.teal
-            //                                                         .shade100,
-            //                                                 shape: const RoundedRectangleBorder(
-            //                                                     borderRadius: BorderRadius
-            //                                                         .all(Radius
+            //                                                   padding: EdgeInsets
+            //                                                       .symmetric(
+            //                                                           horizontal:
+            //                                                               10,
+            //                                                           vertical:
+            //                                                               0),
+            //                                                   shape:
+            //                                                       RoundedRectangleBorder(
+            //                                                     borderRadius:
+            //                                                         BorderRadius
             //                                                             .circular(
-            //                                                                 10))),
-            //                                               ),
-            //                                               onPressed: () {
-            //                                                 Navigator.push(
-            //                                                   context,
-            //                                                   new MaterialPageRoute(
-            //                                                       builder:
-            //                                                           (context) =>
-            //                                                               FAQPageScreen()),
-            //                                                 );
-            //                                               },
+            //                                                                 10),
+            //                                                   )),
+            //                                           onPressed: () {},
+            //                                           child: Text(
+            //                                             'T-Shirts',
+            //                                             style: TextStyle(
+            //                                               color: kLifeBloodRed,
+            //                                               fontSize: 13,
+            //                                               fontFamily:
+            //                                                   'Montserrat',
+            //                                               fontWeight:
+            //                                                   FontWeight.w500,
+            //                                               letterSpacing: -0.26,
             //                                             ),
             //                                           ),
             //                                         ),
-            //                                       ],
+            //                                       ),
+            //                                     ),
+            //                                     5.horizontalSpace,
+            //                                     IntrinsicWidth(
+            //                                       child: SizedBox(
+            //                                         child: ElevatedButton(
+            //                                           style: ElevatedButton
+            //                                               .styleFrom(
+            //                                                   backgroundColor:
+            //                                                       kWhiteColor,
+            //                                                   elevation: 0,
+            //                                                   side: BorderSide(
+            //                                                     color: Color(
+            //                                                         0x19A2A1A8),
+            //                                                     width: 1.0,
+            //                                                   ),
+            //                                                   padding: EdgeInsets
+            //                                                       .symmetric(
+            //                                                           horizontal:
+            //                                                               10,
+            //                                                           vertical:
+            //                                                               0),
+            //                                                   shape:
+            //                                                       RoundedRectangleBorder(
+            //                                                     borderRadius:
+            //                                                         BorderRadius
+            //                                                             .circular(
+            //                                                                 10),
+            //                                                   )),
+            //                                           onPressed: () {},
+            //                                           child: Text(
+            //                                             'Bags',
+            //                                             style: TextStyle(
+            //                                               color: kLifeBloodRed,
+            //                                               fontSize: 13,
+            //                                               fontFamily:
+            //                                                   'Montserrat',
+            //                                               fontWeight:
+            //                                                   FontWeight.w500,
+            //                                               letterSpacing: -0.26,
+            //                                             ),
+            //                                           ),
+            //                                         ),
+            //                                       ),
+            //                                     ),
+            //                                     5.horizontalSpace,
+            //                                     IntrinsicWidth(
+            //                                       child: SizedBox(
+            //                                         child: ElevatedButton(
+            //                                           style: ElevatedButton
+            //                                               .styleFrom(
+            //                                                   backgroundColor:
+            //                                                       kWhiteColor,
+            //                                                   elevation: 0,
+            //                                                   side: BorderSide(
+            //                                                     color: Color(
+            //                                                         0x19A2A1A8),
+            //                                                     width: 1.0,
+            //                                                   ),
+            //                                                   padding: EdgeInsets
+            //                                                       .symmetric(
+            //                                                           horizontal:
+            //                                                               10,
+            //                                                           vertical:
+            //                                                               0),
+            //                                                   shape:
+            //                                                       RoundedRectangleBorder(
+            //                                                     borderRadius:
+            //                                                         BorderRadius
+            //                                                             .circular(
+            //                                                                 10),
+            //                                                   )),
+            //                                           onPressed: () {},
+            //                                           child: Text(
+            //                                             'Pens',
+            //                                             style: TextStyle(
+            //                                               color: kLifeBloodRed,
+            //                                               fontSize: 13,
+            //                                               fontFamily:
+            //                                                   'Montserrat',
+            //                                               fontWeight:
+            //                                                   FontWeight.w500,
+            //                                               letterSpacing: -0.26,
+            //                                             ),
+            //                                           ),
+            //                                         ),
+            //                                       ),
             //                                     ),
             //                                   ],
             //                                 ),
+            //                                 5.horizontalSpace,
             //                               ],
             //                             ),
-            //                             SizedBox(
-            //                               height: 2.h,
-            //                             ),
-            //                           ],
-            //                         ),
+            //                           ),
+            //                         ],
             //                       ),
-            //                     ),
+            //                     )
             //                   ],
             //                 ),
-            //               ],
+            //               ),
             //             ),
             //           ),
             //         ),
             //       ),
-            //     ),
+            //     ],
             //   ),
-            // ]),
-            // 10.verticalSpace,
-
+            // ),
+            
             GestureDetector(
+             
               onTap: () async {
                 if (await getInternetUsingInternetConnectivity()) {
                   Navigator.push(
@@ -1736,307 +2179,78 @@ class _communityState extends State<community> with TickerProviderStateMixin {
                           padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5.w),
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 200,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    // border: Border.all(color: kLifeBloodRed),
-                                    borderRadius: BorderRadius.circular(16),
+                            child: Container(
+                              padding: EdgeInsets.all(15.r),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFebf5f5),
+                                // border: Border.all(color: kLifeBloodBlue),
+                                borderRadius: BorderRadius.circular(16),
+                                // color: Colors.green[200]
+                              ),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Image.asset(
+                                      'assets/images/communities.png',
+                                      width: 45,
+                                      height: 45,
+                                    ),
                                   ),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      // Image
-                                      Positioned.fill(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: Image.asset(
-                                            "assets/images/mer.jpg",
-                                            fit: BoxFit.cover,
-                                          ),
+                                  20.horizontalSpace,
+                                  Flexible(
+                                    flex: 3,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 5.h,
                                         ),
-                                      ),
-                                      // Gradient
-                                      Positioned.fill(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white.withOpacity(0.9),
-                                                Colors.red.withOpacity(0.7),
-                                              ],
-                                              stops: [0.3, 0.9],
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          ),
+                                        
+                                        SizedBox(
+                                          height: 5.h,
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
+                                        Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            10.verticalSpace,
                                             Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      'Explore LifeBlood\nMerchandise',
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          height: 1.2,
-                                                          letterSpacing: 0,
-                                                          overflow:
-                                                              TextOverflow.clip,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color:
-                                                              kLifeBloodRed)),
-                                                  10.verticalSpace,
-                                                  IntrinsicWidth(
-                                                    child: SizedBox(
-                                                      height: 25,
-                                                      child: ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                backgroundColor:
-                                                                    kWhiteColor,
-                                                                elevation: 0,
-                                                                side:
-                                                                    BorderSide(
-                                                                  color: Color(
-                                                                      0x19A2A1A8),
-                                                                  width: 1.0,
-                                                                ),
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            10,
-                                                                        vertical:
-                                                                            0),
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                )),
-                                                        onPressed: () {},
-                                                        child: Text(
-                                                          'Buy One to gift a Blood Donor',
-                                                          style: TextStyle(
-                                                            color:
-                                                                kLifeBloodRed,
-                                                            fontSize: 13,
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            letterSpacing:
-                                                                -0.26,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                              child: Text(
+                                                  'Explore Communities on LifeBlood',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      overflow: TextOverflow.clip,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: kLifeBloodBlue)),
                                             ),
-                                            Row(
-                                              children: [
-                                                IntrinsicWidth(
-                                                  child: SizedBox(
-                                                    child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                              backgroundColor:
-                                                                  kWhiteColor,
-                                                              elevation: 0,
-                                                              side: BorderSide(
-                                                                color: Color(
-                                                                    0x19A2A1A8),
-                                                                width: 1.0,
-                                                              ),
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          0),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              )),
-                                                      onPressed: () {},
-                                                      child: Text(
-                                                        'T-Shirts',
-                                                        style: TextStyle(
-                                                          color: kLifeBloodRed,
-                                                          fontSize: 13,
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          letterSpacing: -0.26,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                5.horizontalSpace,
-                                                IntrinsicWidth(
-                                                  child: SizedBox(
-                                                    child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                              backgroundColor:
-                                                                  kWhiteColor,
-                                                              elevation: 0,
-                                                              side: BorderSide(
-                                                                color: Color(
-                                                                    0x19A2A1A8),
-                                                                width: 1.0,
-                                                              ),
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          0),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              )),
-                                                      onPressed: () {},
-                                                      child: Text(
-                                                        'T-Shirts',
-                                                        style: TextStyle(
-                                                          color: kLifeBloodRed,
-                                                          fontSize: 13,
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          letterSpacing: -0.26,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                5.horizontalSpace,
-                                                IntrinsicWidth(
-                                                  child: SizedBox(
-                                                    child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                              backgroundColor:
-                                                                  kWhiteColor,
-                                                              elevation: 0,
-                                                              side: BorderSide(
-                                                                color: Color(
-                                                                    0x19A2A1A8),
-                                                                width: 1.0,
-                                                              ),
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          0),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              )),
-                                                      onPressed: () {},
-                                                      child: Text(
-                                                        'Bags',
-                                                        style: TextStyle(
-                                                          color: kLifeBloodRed,
-                                                          fontSize: 13,
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          letterSpacing: -0.26,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                5.horizontalSpace,
-                                                IntrinsicWidth(
-                                                  child: SizedBox(
-                                                    child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                              backgroundColor:
-                                                                  kWhiteColor,
-                                                              elevation: 0,
-                                                              side: BorderSide(
-                                                                color: Color(
-                                                                    0x19A2A1A8),
-                                                                width: 1.0,
-                                                              ),
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          0),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              )),
-                                                      onPressed: () {},
-                                                      child: Text(
-                                                        'Pens',
-                                                        style: TextStyle(
-                                                          color: kLifeBloodRed,
-                                                          fontSize: 13,
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          letterSpacing: -0.26,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            5.horizontalSpace,
                                           ],
                                         ),
-                                      ),
-                                    ],
+                                        2.verticalSpace,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                  'Get connected with other donors',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      overflow: TextOverflow.clip,
+                                                      letterSpacing: 0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: kGreyColor)),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                )
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -2045,106 +2259,6 @@ class _communityState extends State<community> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          child: Container(
-                            padding: EdgeInsets.all(15.r),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFebf5f5),
-                              // border: Border.all(color: kLifeBloodBlue),
-                              borderRadius: BorderRadius.circular(16),
-                              // color: Colors.green[200]
-                            ),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Image.asset(
-                                    'assets/images/communities.png',
-                                    width: 45,
-                                    height: 45,
-                                  ),
-                                ),
-                                20.horizontalSpace,
-                                Flexible(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      // Row(
-                                      //   children: [
-                                      //     Text('Join Dono',
-                                      //         textAlign: TextAlign.center,
-                                      //         style: GoogleFonts.montserrat(
-                                      //             fontSize: 11,
-                                      //             fontWeight: FontWeight.normal,
-                                      //             color: kLifeBloodRed)),
-                                      //   ],
-                                      // ),
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                                'Explore Communities on LifeBlood',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    overflow: TextOverflow.clip,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: kLifeBloodBlue)),
-                                          ),
-                                        ],
-                                      ),
-                                      2.verticalSpace,
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                                'Get connected with other donors',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    overflow: TextOverflow.clip,
-                                                    letterSpacing: 0,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: kGreyColor)),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
             ),
             Row(
               children: <Widget>[

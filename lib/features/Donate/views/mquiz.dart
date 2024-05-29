@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lifebloodworld/features/Donate/views/mresult_screen.dart';
 import 'package:lifebloodworld/features/Login/views/result_screen.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
 import 'package:lifebloodworld/widgets/custom_button.dart';
@@ -58,8 +59,8 @@ String formattedNewDate = DateFormat('d LLLL yyyy').format(now);
 String formattedNewMonth = DateFormat('LLLL').format(now);
 String formattedNewYear = DateFormat('y').format(now);
 
-class MyEQuiz extends StatefulWidget {
-  MyEQuiz({
+class MMyEQuiz extends StatefulWidget {
+  MMyEQuiz({
     Key? key,
     required this.country,
     required this.quiz,
@@ -69,14 +70,14 @@ class MyEQuiz extends StatefulWidget {
   String? quiz;
 
   @override
-  State<MyEQuiz> createState() => MyEQuizState(
+  State<MMyEQuiz> createState() => MMyEQuizState(
         country: country,
         quiz: quiz,
       );
 }
 
-class MyEQuizState extends State<MyEQuiz> {
-  MyEQuizState({
+class MMyEQuizState extends State<MMyEQuiz> {
+  MMyEQuizState({
     Key? key,
     required this.country,
     required this.quiz,
@@ -500,7 +501,7 @@ class MyEQuizState extends State<MyEQuiz> {
       onCompleted: () async {
         if (await getInternetUsingInternetConnectivity()) {
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => AnalysisScreen()),
+              MaterialPageRoute(builder: (context) => MAnalysisScreen()),
               (route) => false);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -120,8 +120,8 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.bell),
-            activeIcon: FaIcon(FontAwesomeIcons.bell),
+            icon: FaIcon(FontAwesomeIcons.solidBell),
+            activeIcon: FaIcon(FontAwesomeIcons.solidBell),
             label: '',
           ),
          BottomNavigationBarItem(

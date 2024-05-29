@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:lifebloodworld/constants/colors.dart';
+import 'package:lifebloodworld/features/Community/components/communities.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,26 +62,28 @@ class wmerchandiseState extends State<wmerchandise> {
       appBar: AppBar(
           backgroundColor: Color(0xFFe0e9e4),
           leading: IconButton(
-            icon: Icon(Icons.cancel_rounded),
+            icon: Icon(
+              Icons.cancel_rounded,
+              color: kLifeBloodRed,
+            ),
             onPressed: () {},
           )),
-     body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: 200.h,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/lblb.jpg',
-                    ),
-                    fit: BoxFit.cover,
-                    opacity: 50),
-                color: Colors.teal,
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "assets/images/lifebloodlogo.png",
+                  height: 150.h,
+                  width: 150.w,
+                  // width: size.width * 0.4,
+                ),
+              ],
             ),
             Row(
               children: <Widget>[
@@ -93,7 +96,7 @@ class wmerchandiseState extends State<wmerchandise> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Column(
-                        mainAxisAlignment : MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text.rich(
@@ -102,30 +105,10 @@ class wmerchandiseState extends State<wmerchandise> {
                                   color: Color(0xff329d9c), fontSize: 15),
                               children: [
                                 TextSpan(
-                                  text: 'Hi $ufname, Welcome to LifeBlood.\n',
+                                  text:
+                                      'Welcome to the \nCommunities on LifeBlood!',
                                   style: GoogleFonts.montserrat(
-                                    fontSize: 15,
-                                    height: 1,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.teal,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            textHeightBehavior: TextHeightBehavior(
-                                applyHeightToFirstAscent: false),
-                            textAlign: TextAlign.left,
-                          ),
-                          Text.rich(
-                            TextSpan(
-                              style: TextStyle(
-                                  color: Color(0xff329d9c), fontSize: 15),
-                              children: [
-                                TextSpan(
-                                  text: 'Make A \nDifference Today !',
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 25,
+                                    fontSize: 20.sp,
                                     height: 1,
                                     letterSpacing: 0,
                                     fontWeight: FontWeight.bold,
@@ -489,7 +472,8 @@ class wmerchandiseState extends State<wmerchandise> {
                               SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                    child: Text('Start Using LifeBlood',
+                                    child: Text(
+                                        'Explore Communities on LifeBlood',
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.montserrat(
                                             fontSize: 13,
@@ -502,14 +486,12 @@ class wmerchandiseState extends State<wmerchandise> {
                                     ),
                                     onPressed: () async {
                                       if (await getInternetUsingInternetConnectivity()) {
-                                        Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomePageScreen(
-                                                          pageIndex: 0,
-                                                        )),
-                                                (route) => false);
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Communities(
+                                                      title: 'Communities on LifeBlood',
+                                                    )));
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
