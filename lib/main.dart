@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:lifebloodworld/features/Login/views/login_screen.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -13,20 +15,43 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'provider/prefs_provider.dart';
+import 'utils/cloud-messaging.dart';
+
+// @pragma('vm:entry-point')
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   // If you're going to use other Firebase services in the background, such as Firestore,
+//   // make sure you call `initializeApp` before using other Firebase services.
+//   await Firebase.initializeApp();
+//   print("Handling a background message: ${message.notification?.title}");
+//   print("Handling a body background message: ${message.notification?.body}");
+//   // print("Handling a background message: ${message.data}");
+// }
+
 String? id, email, onboarding;
+final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   // Use countryList as needed
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // await FirebaseServices().initNotif();
+
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   email = prefs.getString('email');
   onboarding = prefs.getString('onboarding');
 
-  runApp(const LifeBlood());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PrefsProvider()),
+      ],
+      child: const LifeBlood(),
+    ),
+  );
 }
 
 class LifeBlood extends StatefulWidget {
@@ -69,6 +94,10 @@ class _LifeBloodState extends State<LifeBlood> {
         builder: (BuildContext context, child) => MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'LifeBlood',
+              routes: {
+                '/home': (context) => HomePageScreen(pageIndex: 1),
+              },
+              navigatorKey: navigatorKey,
               theme: ThemeData(
                 fontFamily: 'Montserrat',
                 primaryColor: kPrimaryColor,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:lifebloodworld/features/FAQ/welcome_screen.dart';
 import 'package:lifebloodworld/features/More/components/profilebody.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:timezone/timezone.dart' as tz;
@@ -29,6 +30,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:country_flags/country_flags.dart';
 import '../../../main.dart';
 import '../../../constants/colors.dart';
+import '../../../provider/prefs_provider.dart';
+import '../../Login/views/login_screen.dart';
 
 class DonationCarddata {
   DonationCarddata({required this.donortype, required this.date});
@@ -152,41 +155,29 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _startTimer();
     getPref();
     super.initState();
     tz.initializeTimeZones();
-    _startWeeklyResetTimer();
     tabs = ['Donation Drives', 'Blood Donation'];
     tabController = TabController(length: tabs.length, vsync: this);
     tabController.addListener(_handleTabControllerTick);
     getBloodDonationData();
     getBloodGroupData();
     getData();
-    getCommunityNews();
-    getTotalDonations();
+
     getBgresult();
     getBgtsch();
     getBgtschmyself();
     getBgtschfriend();
     getBgtschfamily();
-    getTotalDonationsRep();
-    getTotalDonationsVol();
-    getTotalDonationsVold();
-    getTotalDonationsVolp();
-    getTotalDonationsVolcon();
-    getTotalDonationsVolr();
-    getTotalDonationsVolcan();
+
     _getBloodDonationDatatimer = Timer.periodic(
         const Duration(seconds: 2), (timer) => getBloodDonationData());
     _getBloodGroupDatatimer = Timer.periodic(
         const Duration(seconds: 2), (timer) => getBloodGroupData());
     _getDatatimer =
         Timer.periodic(const Duration(seconds: 2), (timer) => getData());
-    _getNewstimer = Timer.periodic(
-        const Duration(seconds: 1), (timer) => getCommunityNews());
-    _getTotalDonationstimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonations());
+
     _getBgresulttimer =
         Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
     _getBgtschtimer =
@@ -197,20 +188,6 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
         const Duration(seconds: 2), (timer) => getBgtschfriend());
     _getBgtschfamilytimer = Timer.periodic(
         const Duration(seconds: 2), (timer) => getBgtschfamily());
-    _getTotalDonationsReptimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonationsRep());
-    _getTotalDonationsVoltimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonationsVol());
-    _getTotalDonationsVoldtimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonationsVold());
-    _getTotalDonationsVolptimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonationsVolp());
-    _getTotalDonationsVolcontimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonationsVolcon());
-    _getTotalDonationsVolrtimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonationsVolr());
-    _getTotalDonationsVolcantimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonationsVolcan());
   }
 
   void dispose() {
@@ -243,50 +220,6 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
       _getTotalDonationsVolcantimer.cancel();
     tabController.dispose();
     super.dispose();
-  }
-
-  void _startWeeklyResetTimer() {
-    final now = tz.TZDateTime.now(tz.local);
-    final nextFriday = _nextFriday(now);
-    final difference = nextFriday.difference(now);
-    _weeklyResetTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        _remainingTime = nextFriday.difference(tz.TZDateTime.now(tz.local));
-      });
-      if (difference <= Duration.zero) {
-        timer.cancel();
-      }
-    });
-  }
-
-  tz.TZDateTime _nextFriday(tz.TZDateTime currentDate) {
-    var nextFriday = currentDate.add(Duration(days: 1));
-    while (nextFriday.weekday != DateTime.friday) {
-      nextFriday = nextFriday.add(Duration(days: 1));
-    }
-    return tz.TZDateTime(
-        tz.local, nextFriday.year, nextFriday.month, nextFriday.day, 20);
-  }
-
-  void _startTimer() {
-    _stopWatchTimer.onStartTimer();
-    setState(() {
-      _isRunning = true;
-    });
-  }
-
-  void _stopTimer() {
-    _stopWatchTimer.onStopTimer();
-    setState(() {
-      _isRunning = false;
-    });
-  }
-
-  void _resetTimer() {
-    _stopWatchTimer.onResetTimer();
-    setState(() {
-      _isRunning = false;
-    });
   }
 
   String _formatTime(int milliseconds) {
@@ -428,193 +361,30 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
     return dataready;
   }
 
-  Future getCommunityNews() async {
-    var data = {'status': 'Active'};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/communityappnews.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['commmuitynews'] == true) {
-      setState(() {
-        newsready = "Yes";
-        newstitle = msg['userInfo']["title"];
-        newsdescription = msg['userInfo']["description"];
-        newscalltoaction = msg['userInfo']["cta"];
-        newslink = msg['userInfo']["link"];
-      });
-      savenewsPref();
-    } else if (msg['commmuitynews'] == false) {
-      setState(() {
-        newsready = "No";
-      });
-      savenewsPref();
-    }
-    return newsready;
-  }
-
-  Future getTotalDonations() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonations.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonations'] == true) {
-      setState(() {
-        totaldonation = msg['userInfo'].toString();
-      });
-      savetdPref();
-    }
-    return totaldonation;
-  }
-
-  Future getTotalDonationsRep() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonationsrep.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonationsrep'] == true) {
-      setState(() {
-        totaldonationrep = msg['userInfo'].toString();
-      });
-      savetdrepPref();
-    }
-    return totaldonationrep;
-  }
-
-  Future getTotalDonationsVol() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonationsvol.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonationsvol'] == true) {
-      setState(() {
-        totaldonationvol = msg['userInfo'].toString();
-      });
-      savetdvolPref();
-    }
-    return totaldonationvol;
-  }
-
-  Future getTotalDonationsVold() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonationsvold.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonationsvold'] == true) {
-      setState(() {
-        totaldonationvold = msg['userInfo'].toString();
-      });
-      savetdvoldPref();
-    }
-    return totaldonationvold;
-  }
-
-  Future getTotalDonationsVolp() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonationsvolp.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonationsvolp'] == true) {
-      setState(() {
-        totaldonationvolp = msg['userInfo'].toString();
-      });
-      savetdvolpPref();
-    }
-    return totaldonationvolp;
-  }
-
-  Future getTotalDonationsVolcon() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonationsvolcon.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonationsvolcon'] == true) {
-      setState(() {
-        totaldonationvolcon = msg['userInfo'].toString();
-      });
-      savetdvolconPref();
-    }
-    return totaldonationvolcon;
-  }
-
-  Future getTotalDonationsVolr() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonationsvolr.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonationsvolr'] == true) {
-      setState(() {
-        totaldonationvolr = msg['userInfo'].toString();
-      });
-      savetdvolrPref();
-    }
-    return totaldonationvolr;
-  }
-
-  Future getTotalDonationsVolcan() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonationsvolcan.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonationsvolcan'] == true) {
-      setState(() {
-        totaldonationvolcan = msg['userInfo'].toString();
-      });
-      savetdvolcanPref();
-    }
-    return totaldonationvolcan;
-  }
-
-  savetdrepPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totaldonationrep', totaldonationrep!);
-  }
-
-  savetdvolPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totaldonationvol', totaldonationvol!);
-  }
-
-  savetdvoldPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totaldonationvold', totaldonationvold!);
-  }
-
-  savetdvolpPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totaldonationvolp', totaldonationvolp!);
-  }
-
-  savetdvolconPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totaldonationvolcon', totaldonationvolcon!);
-  }
-
-  savetdvolrPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totaldonationvolr', totaldonationvolr!);
-  }
-
-  savetdvolcanPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totaldonationvolcan', totaldonationvolcan!);
-  }
+  // Future getCommunityNews() async {
+  //   var data = {'status': 'Active'};
+  //   var response = await http.post(
+  //       Uri.parse("https://community.lifebloodsl.com/communityappnews.php"),
+  //       body: json.encode(data));
+  //   print(response.body);
+  //   var msg = jsonDecode(response.body);
+  //   if (msg['commmuitynews'] == true) {
+  //     setState(() {
+  //       newsready = "Yes";
+  //       newstitle = msg['userInfo']["title"];
+  //       newsdescription = msg['userInfo']["description"];
+  //       newscalltoaction = msg['userInfo']["cta"];
+  //       newslink = msg['userInfo']["link"];
+  //     });
+  //     savenewsPref();
+  //   } else if (msg['commmuitynews'] == false) {
+  //     setState(() {
+  //       newsready = "No";
+  //     });
+  //     savenewsPref();
+  //   }
+  //   return newsready;
+  // }
 
   Future getBloodGroupData() async {
     var data = {'phonenumber': phonenumber, 'date': dateinput.text};
@@ -813,6 +583,15 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
   final TextEditingController potentialdonorsdateinput =
       TextEditingController(text: formattedNewDate.toString());
 
+  void logout() async {
+    await Future.delayed(Duration(seconds: 5));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+        (route) => false);
+  }
+
   Future registerinterest() async {
     var response = await http.post(
         Uri.parse("https://community.lifebloodsl.com/potentialdonors.php"),
@@ -916,44 +695,35 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
     }
   }
 
+  String? countryId;
+  String? userId;
+  String? country;
+  String? name;
+  String? avartar;
+
   void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
+      name = prefs.getString('name');
+      // uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
       agecategory = prefs.getString('agecategory');
       gender = prefs.getString('gender');
+      // nin = prefs.getString('nin');
       phonenumber = prefs.getString('phonenumber');
       address = prefs.getString('address');
       district = prefs.getString('district');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
+      // ethnicity = prefs.getString('ethnicity');
       bloodtype = prefs.getString('bloodtype');
       prevdonation = prefs.getString('prevdonation');
       prevdonationamt = prefs.getString('prevdonationamt');
       community = prefs.getString('community');
       communitydonor = prefs.getString('communitydonor');
-      nextdonationdate = prefs.getString('nextdonationdate');
-      donorid = prefs.getString('donorid');
-      donated = prefs.getString('donated');
-      newsready = prefs.getString('newsready');
-      newstitle = prefs.getString('newstitle');
-      newsdescription = prefs.getString('newsdescription');
-      newslink = prefs.getString('newslink');
-      newscalltoaction = prefs.getString('newscalltoaction');
+      userId = prefs.getString('id');
       totaldonation = prefs.getString('totaldonation');
-      totalbgresult = prefs.getString('totalbgresult');
-      totalsch = prefs.getString('totalsch');
-      totalschmyself = prefs.getString('totalschmyself');
-      totalschfriend = prefs.getString('totalschfriend');
-      totalschfamily = prefs.getString('totalschfamily');
-      totaldonationrep = prefs.getString('totaldonationrep');
-      totaldonationvol = prefs.getString('totaldonationvol');
-      totaldonationvold = prefs.getString('totaldonationvold');
-      totaldonationvolp = prefs.getString('totaldonationvolp');
-      totaldonationvolcon = prefs.getString('totaldonationvolcon');
-      totaldonationvolr = prefs.getString('totaldonationvolr');
-      totaldonationvolcan = prefs.getString('totaldonationvolcan');
     });
   }
 
@@ -1363,7 +1133,8 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
+    // final prefsProvider = Provider.of<PrefsProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Color(0xFFe0e9e4),
@@ -1464,13 +1235,13 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                                   height: 80,
                                   child: CircleAvatar(
                                     backgroundImage: AssetImage(
-                                      "assets/images/man1.png",
+                                      avartar.toString(),
                                     ),
                                   ),
                                 ),
                                 SizedBox(height: 10.h),
                                 Text(
-                                  "Hi, " "Joseph David Koroma",
+                                  "Hi, $name",
                                   style: GoogleFonts.montserrat(
                                       fontSize: 13.sp,
                                       letterSpacing: 0,
@@ -1490,7 +1261,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                                     ),
                                     5.horizontalSpace,
                                     Text(
-                                      "Sierra Leone",
+                                      "$country",
                                       style: GoogleFonts.montserrat(
                                           fontSize: 14.sp,
                                           letterSpacing: 0,
@@ -1523,8 +1294,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                                       backgroundColor: Colors.transparent,
                                       shape: const RoundedRectangleBorder(
                                           side: BorderSide(
-                                              width: 1.0,
-                                              color: kPrimaryColor),
+                                              width: 1.0, color: kPrimaryColor),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(30))),
                                     ),
@@ -1589,8 +1359,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                         InkWell(
                           onTap: () async {
                             //To remove the keyboard when button is pressed
-                            FocusManager.instance.primaryFocus
-                                ?.unfocus();
+                            FocusManager.instance.primaryFocus?.unfocus();
                             var facebookUrl =
                                 "https://www.facebook.com/lifebloodsl";
                             try {
@@ -1613,8 +1382,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                         InkWell(
                           onTap: () async {
                             //To remove the keyboard when button is pressed
-                            FocusManager.instance.primaryFocus
-                                ?.unfocus();
+                            FocusManager.instance.primaryFocus?.unfocus();
                             var twitterUrl = "https://twitter.com/LifeBloodSL";
                             try {
                               launch(twitterUrl);
@@ -1636,8 +1404,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                         InkWell(
                           onTap: () async {
                             //To remove the keyboard when button is pressed
-                            FocusManager.instance.primaryFocus
-                                ?.unfocus();
+                            FocusManager.instance.primaryFocus?.unfocus();
                             var instaUrl =
                                 "https://www.instagram.com/lifeblood232/";
                             try {
@@ -1660,8 +1427,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                         InkWell(
                           onTap: () async {
                             //To remove the keyboard when button is pressed
-                            FocusManager.instance.primaryFocus
-                                ?.unfocus();
+                            FocusManager.instance.primaryFocus?.unfocus();
                             var instaUrl =
                                 "https://www.linkedin.com/company/lifebloodsl/about/";
                             try {
@@ -1684,8 +1450,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                         InkWell(
                           onTap: () async {
                             //To remove the keyboard when button is pressed
-                            FocusManager.instance.primaryFocus
-                                ?.unfocus();
+                            FocusManager.instance.primaryFocus?.unfocus();
                             var instaUrl =
                                 "https://www.linkedin.com/company/lifebloodsl/about/";
                             try {
@@ -1708,8 +1473,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                         InkWell(
                           onTap: () async {
                             //To remove the keyboard when button is pressed
-                            FocusManager.instance.primaryFocus
-                                ?.unfocus();
+                            FocusManager.instance.primaryFocus?.unfocus();
                             var facebookUrl =
                                 "https://www.facebook.com/lifebloodsl";
                             try {
@@ -1732,8 +1496,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                         InkWell(
                           onTap: () async {
                             //To remove the keyboard when button is pressed
-                            FocusManager.instance.primaryFocus
-                                ?.unfocus();
+                            FocusManager.instance.primaryFocus?.unfocus();
                             var facebookUrl =
                                 "https://www.facebook.com/lifebloodsl";
                             try {
@@ -1949,34 +1712,39 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
             SizedBox(
               height: 5.h,
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(right: 12, left: 12, top: 5, bottom: 1),
-              child: Container(
-                padding:
-                    EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xFFE02020),
-                    shape: BoxShape.rectangle),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    FaIcon(FontAwesomeIcons.signOut,
-                        size: 15, color: kWhiteColor),
-                    10.horizontalSpace,
-                    Expanded(
-                        child: Text(
-                      'Log Out',
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          letterSpacing: 0,
-                          color: kWhiteColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.sp),
-                    )),
-                  ],
+            InkWell(
+              onTap: () {
+                logout();
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    right: 12, left: 12, top: 5, bottom: 1),
+                child: Container(
+                  padding:
+                      EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xFFE02020),
+                      shape: BoxShape.rectangle),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      FaIcon(FontAwesomeIcons.signOut,
+                          size: 15, color: kWhiteColor),
+                      10.horizontalSpace,
+                      Expanded(
+                          child: Text(
+                        'Log Out',
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            letterSpacing: 0,
+                            color: kWhiteColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.sp),
+                      )),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -56,6 +56,7 @@ class facilitydata {
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d LLLL yyyy').format(now);
 String formattedNewMonth = DateFormat('LLLL').format(now);
+String formattedMonth = DateFormat('M').format(now);
 String formattedNewYear = DateFormat('y').format(now);
 
 class MyEQuiz extends StatefulWidget {
@@ -136,6 +137,7 @@ class MyEQuizState extends State<MyEQuiz> {
   @override
   void initState() {
     super.initState();
+
     _fileExtensionController
         .addListener(() => _extension = _fileExtensionController.text);
     dateinput.text = "";
@@ -216,17 +218,21 @@ class MyEQuizState extends State<MyEQuiz> {
 
   final List<String> reglist = ['Private', 'Public', 'Sole Prop'];
 
-  String? selectedFacility = '';
-  String? selectedTimeslot = '';
-  String? selectedFarmerType = '';
-  String? selectedRegType = '';
-  String? selectedGender = '';
-  String? selectedPOB = '';
-  String? selectedAddress = '';
-  String? selectedSP = '';
-  String? selectedFA = '';
+  String? selectedWeight = '';
+  String? selectedFeverColdFlu = '';
+  String? selectedWellandHealth = '';
+  String? selectedEaten = '';
+  String? selectedHospital = '';
+  String? selecteDisease = '';
+  String? selectedMedication = '';
+  String? selectedSurgical = '';
+  String? selectedTravel = '';
   String? selectedNaCSA = '';
-  String? response = '';
+  String? selectedDonated = '';
+  String? selectedDonatedLast = '';
+  String? selectedPreg = '';
+  String? selectedMens = '';
+  String? selectedTattoo = '';
   TextEditingController dateInput = TextEditingController();
   TextEditingController _nin = TextEditingController();
   TextEditingController _fruid = TextEditingController();
@@ -244,12 +250,14 @@ class MyEQuizState extends State<MyEQuiz> {
   TextEditingController _lgbusinesslicense = TextEditingController();
   int? selectedYear;
   int? selectedDay;
-  int? selectedMonth;
+  int? selectedMonths;
+  String? selectedMonth = '';
   final TextEditingController monthinput =
-      TextEditingController(text: formattedNewMonth.toString());
+      TextEditingController(text: formattedMonth.toString());
   final TextEditingController yearinput =
       TextEditingController(text: formattedNewYear.toString());
-  final TextEditingController dateinput =
+  final TextEditingController dateinput = TextEditingController();
+  final TextEditingController sdateinput =
       TextEditingController(text: formattedNewDate.toString());
   final TextEditingController dobdateinput =
       TextEditingController(text: formattedNewDate.toString());
@@ -263,43 +271,8 @@ class MyEQuizState extends State<MyEQuiz> {
   );
 
   String? selectedAgeCategory = '';
+  String? selectedGender = '';
   String? selectedAge = '';
-
-  String calculateAge() {
-    if (selectedYear != null && selectedMonth != null && selectedDay != null) {
-      DateTime selectedDate =
-          DateTime(selectedYear!, selectedMonth!, selectedDay!);
-      DateTime currentDate = DateTime.now();
-      Duration difference = currentDate.difference(selectedDate);
-      int age = (difference.inDays / 365).floor();
-      setState(() {
-        selectedAge = age.toString();
-      });
-      if (age < 18) {
-        setState(() {
-          selectedAgeCategory = "Teenager";
-        });
-      } else if (age >= 18 && age <= 24) {
-        setState(() {
-          selectedAgeCategory = "Young Adult";
-        });
-      } else if (age >= 25 && age <= 44) {
-        setState(() {
-          selectedAgeCategory = "Adult";
-        });
-      } else if (age >= 45 && age <= 64) {
-        setState(() {
-          selectedAgeCategory = "Middle Age";
-        });
-      } else {
-        setState(() {
-          selectedAgeCategory = "Old Age";
-        });
-      }
-      return '$age years';
-    }
-    return '';
-  }
 
   final TextEditingController textEditingController = TextEditingController();
   final TextEditingController _orgname = TextEditingController();
@@ -310,6 +283,162 @@ class MyEQuizState extends State<MyEQuiz> {
     final steps = [
       CoolStep(
         title: 'QUESTION ONE',
+        subtitle: 'GENDER',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Select Gender',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              overflow: TextOverflow.clip,
+                              fontSize: 14.spMax,
+                              letterSpacing: 0),
+                        ),
+                      )
+                    ],
+                  ),
+                  5.verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildGenderSelector(
+                              context: context,
+                              // assetname: 'assets/images/eman0.png',
+                              name: 'Male')),
+                    ],
+                  ),
+                  10.verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildGenderSelector(
+                              context: context,
+                              // assetname: 'assets/images/elady1.png',
+                              name: 'Female')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedGender!.isEmpty) {
+            return 'Please Select Gender';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION TWO',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Select Age Category',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildAgeCategorySelector(
+                              context: context, name: '<18')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildAgeCategorySelector(
+                              context: context, name: '18-24')),
+                    ],
+                  ),
+                  10.verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildAgeCategorySelector(
+                              context: context, name: '25-44')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildAgeCategorySelector(
+                              context: context, name: '45-64')),
+                    ],
+                  ),
+                  10.verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildAgeCategorySelector(
+                              context: context, name: '65+')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedAgeCategory!.isEmpty) {
+            return 'Please Select Age Category';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION THREE',
         subtitle: 'AGE',
         isHeaderEnabled: false,
         content: FormBuilder(
@@ -330,165 +459,900 @@ class MyEQuizState extends State<MyEQuiz> {
                 ],
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Are you 18-60 years old?',
+                  Expanded(
+                    child: Text(
+                      'Select Weight',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildWeightSelector(
+                              context: context, name: '<50kg')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildWeightSelector(
+                              context: context, name: '>50kg')),
+                    ],
+                  ),
+                  10.verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildWeightSelector(
+                              context: context, name: "No Idea")),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedWeight!.isEmpty) {
+            return 'Please Select Weight';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      'Have you had a fever, cold,\nor flu in the past week?',
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildFeverColdFluSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildFeverColdFluSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedFeverColdFlu!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Are you feeling well\nand in good health today?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildWellandHealthSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildWellandHealthSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedWellandHealth!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Have you eaten in the last 6 hours?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildEatenSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildEatenSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedEaten!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Have you recently been hospitalised or receieved blood transfusion ?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildHospitalSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildHospitalSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedHospital!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Do you have any of the\nfollowing diseases\nLung diseases, kidney diseases, tuberculosis, thyroid disorder, asthma, swollen glands, persistent cough, epilepsy, rheumatic fever, cancer, anaemia, shingles, circulation problems, skin rashes, low/high blood pressure, dizziness, night sweats/fever, excessive epistaxis, sleeping sickness, abdominal diseases, hepatitis/jaundice, brucellosis, prolonged diarrhoea, sexually transmitted diseases, diabetes, sickle cell diseases ?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildDiseaseSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildDiseaseSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selecteDisease!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Are you taking or have you recently taken any medication like aspirin, antibiotics, steroids, injections, or recent vaccination?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildMedicationSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildMedicationSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedMedication!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Have you had any\nsurgical operation recently?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildSurgicalSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildSurgicalSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedSurgical!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Have you had any tattoo\nor acupuncuture recently\n(In the last 4 month)?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildTattooSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildTattooSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedTattoo!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Any recent travel to endemic areas with high infectious disease\n(COVID-19, Ebola, Tuberculosis)\nor have you been in close contact with someone who has an infectious disease?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildTravelSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildTravelSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedTravel!.isEmpty) {
+            return 'Please select an option';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/lifebloodlogo.png",
+                    height: 150.h,
+                    width: 150.w,
+                    // width: size.width * 0.4,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Have you donated blood recently?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          overflow: TextOverflow.clip,
+                          fontSize: 14.spMax,
+                          letterSpacing: 0),
+                    ),
+                  )
+                ],
+              ),
+              10.verticalSpace,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: _buildDonatedSelector(
+                              context: context, name: 'Yes')),
+                      5.horizontalSpace,
+                      Expanded(
+                          child: _buildDonatedSelector(
+                              context: context, name: 'No')),
+                    ],
+                  ),
+                ],
+              ),
+              15.verticalSpace,
+              selectedDonated == "Yes"
+                  ? Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'When was the last time\nyou donated blood?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    overflow: TextOverflow.clip,
+                                    fontSize: 14.spMax,
+                                    letterSpacing: 0),
+                              ),
+                            )
+                          ],
+                        ),
+                        10.verticalSpace,
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: _buildDonatedLastSelector(
+                                        context: context, name: 'This Month')),
+                                5.horizontalSpace,
+                                Expanded(
+                                    child: _buildDonatedLastSelector(
+                                        context: context, name: 'Last Month'))
+                              ],
+                            ),
+                            10.verticalSpace,
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: _buildDonatedLastSelector(
+                                        context: context,
+                                        name: 'Last 3 Month')),
+                                5.horizontalSpace,
+                                Expanded(
+                                    child: _buildDonatedLastSelector(
+                                        context: context, name: 'Last 4 Month'))
+                              ],
+                            ),
+                            10.verticalSpace,
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: _buildDonatedLastSelector(
+                                        context: context,
+                                        name: 'Last 6 Month')),
+                                5.horizontalSpace,
+                                Expanded(
+                                    child: _buildDonatedLastSelector(
+                                        context: context, name: '> 6 Month'))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
+            ],
+          ),
+        ),
+        validation: () {
+          if (selectedDonated!.isEmpty) {
+            return 'Please select an option';
+          } else if (selectedDonated == "Yes" && selectedDonatedLast!.isEmpty) {
+            return 'Please select your last donation period';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'QUESTION ONE',
+        subtitle: 'AGE',
+        isHeaderEnabled: false,
+        content: FormBuilder(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/lifebloodlogo.png",
+                      height: 150.h,
+                      width: 150.w,
+                      // width: size.width * 0.4,
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(0)),
+                  child: Text(
+                    'Women-Specific Questions',
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 14,
-                        letterSpacing: 0),
-                  )
-                ],
-              ),
-              10.verticalSpace,
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          child: _buildNassitSelector(
-                              context: context, name: 'Yes')),
-                      5.horizontalSpace,
-                      Expanded(
-                          child: _buildNassitSelector(
-                              context: context, name: 'No')),
-                    ],
+                        fontSize: 15,
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
-            ],
+                ),
+                5.verticalSpace,
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(0)),
+                  child: Text(
+                    'Please Click Finish',
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                10.verticalSpace,
+                selectedGender == "Female"
+                    ? Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Are you currently pregnant, breastfeeding or recently given birth in the past six months?',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      overflow: TextOverflow.clip,
+                                      fontSize: 14.spMax,
+                                      letterSpacing: 0),
+                                ),
+                              )
+                            ],
+                          ),
+                          10.verticalSpace,
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: _buildPregnantSelector(
+                                          context: context, name: 'Yes')),
+                                  5.horizontalSpace,
+                                  Expanded(
+                                      child: _buildPregnantSelector(
+                                          context: context, name: 'No')),
+                                ],
+                              ),
+                            ],
+                          ),
+                          15.verticalSpace,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Are you on your period (menstrual cycle)?',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      overflow: TextOverflow.clip,
+                                      fontSize: 14.spMax,
+                                      letterSpacing: 0),
+                                ),
+                              )
+                            ],
+                          ),
+                          10.verticalSpace,
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: _buildMenstrualSelector(
+                                          context: context, name: 'Yes')),
+                                  5.horizontalSpace,
+                                  Expanded(
+                                      child: _buildMenstrualSelector(
+                                          context: context, name: 'No')),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : SizedBox(),
+              ],
+            ),
           ),
         ),
         validation: () {
-          if (!_formKey.currentState!.validate()) {
+          if (selectedGender == "Female" && selectedMens == null) {
             return 'Fill form correctly';
           }
           return null;
         },
       ),
-      CoolStep(
-        title: 'QUESTION ONE',
-        subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.always,
-          child: Column(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/lifebloodlogo.png",
-                    height: 150.h,
-                    width: 150.w,
-                    // width: size.width * 0.4,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Have you had a tattoo in the last 4 months?',
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          overflow: TextOverflow.clip,
-                          fontSize: 14,
-                          letterSpacing: 0),
-                    ),
-                  )
-                ],
-              ),
-              10.verticalSpace,
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          child: _buildNassitSelector(
-                              context: context, name: 'Yes')),
-                      5.horizontalSpace,
-                      Expanded(
-                          child: _buildNassitSelector(
-                              context: context, name: 'No')),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        validation: () {
-          if (!_formKey.currentState!.validate()) {
-            return 'Fill form correctly';
-          }
-          return null;
-        },
-      ),
-      CoolStep(
-        title: 'QUESTION ONE',
-        subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.always,
-          child: Column(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/lifebloodlogo.png",
-                    height: 150.h,
-                    width: 150.w,
-                    // width: size.width * 0.4,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Are you pregnant or recently given birth?',
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          overflow: TextOverflow.clip,
-                          fontSize: 14,
-                          letterSpacing: 0),
-                    ),
-                  )
-                ],
-              ),
-              10.verticalSpace,
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          child: _buildNassitSelector(
-                              context: context, name: 'Yes')),
-                      5.horizontalSpace,
-                      Expanded(
-                          child: _buildNassitSelector(
-                              context: context, name: 'No')),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        validation: () {
-          if (!_formKey.currentState!.validate()) {
-            return 'Fill form correctly';
-          }
-          return null;
-        },
-      )
-    
     ];
     final stepper = CoolStepper(
       config: CoolStepperConfig(
@@ -496,24 +1360,30 @@ class MyEQuizState extends State<MyEQuiz> {
       ),
 
       // contentPadding: EdgeInsets.all(10),
-      showErrorSnackbar: false,
+      showErrorSnackbar: true,
       onCompleted: () async {
-        if (await getInternetUsingInternetConnectivity()) {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => AnalysisScreen()),
-              (route) => false);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.montserrat(fontSize: 10.sp)),
-            backgroundColor: Color(0xFFE02020),
-            behavior: SnackBarBehavior.fixed,
-            duration: const Duration(seconds: 10),
-            // duration: Duration(seconds: 3),
-          ));
-        }
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => EAnalysisScreen(
+                      country: country,
+                      gender: selectedGender.toString(),
+                      agecategory: selectedAgeCategory.toString(),
+                      weight: selectedWeight.toString(),
+                      cold: selectedFeverColdFlu.toString(),
+                      goodhealth: selectedWellandHealth.toString(),
+                      eaten: selectedEaten.toString(),
+                      hospital: selectedHospital.toString(),
+                      disease: selecteDisease.toString(),
+                      medication: selectedMedication.toString(),
+                      surgical: selectedSurgical.toString(),
+                      tattoo: selectedTattoo.toString(),
+                      travel: selectedTravel.toString(),
+                      pdonated: selectedDonated.toString(),
+                      wdonated: selectedDonatedLast.toString(),
+                      pregnant: selectedPreg.toString(),
+                      mens: selectedMens,
+                    )),
+            (route) => false);
       },
       steps: steps,
     );
@@ -525,8 +1395,11 @@ class MyEQuizState extends State<MyEQuiz> {
           automaticallyImplyLeading: false,
           elevation: 0,
           title: Text(
-            'Eligibility Quiz',
-            style: TextStyle(color: kPrimaryColor, fontSize: 18),
+            'Blood Donation Eligibility Survey',
+            style: TextStyle(
+                color: kPrimaryColor,
+                fontSize: 15.spMax,
+                fontWeight: FontWeight.bold),
           )),
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -635,75 +1508,51 @@ class MyEQuizState extends State<MyEQuiz> {
     );
   }
 
-  Widget _buildFASelector({
+  Widget _buildGenderSelector({
     BuildContext? context,
     required String name,
+    // required String assetname,
   }) {
-    final isActive = name == fa;
-    final isActiveFilled = name == selectedFA;
-    return Expanded(
-      child: fa.toString().isNotEmpty
-          ? AnimatedContainer(
-              duration: Duration(milliseconds: 200),
-              curve: Curves.easeInOut,
-              decoration: BoxDecoration(
-                color: isActive ? Theme.of(context!).primaryColor : null,
-                border: Border.all(
-                  width: 0,
-                ),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: RadioListTile(
-                toggleable: false,
-                value: name,
-                activeColor: Colors.white,
-                groupValue: fa,
-                onChanged: null,
-                title: Text(
-                  name,
-                  style: TextStyle(
-                    color: isActive ? Colors.white : null,
-                    // fontSize: width * 0.035,
-                  ),
-                ),
-              ))
-          : AnimatedContainer(
-              duration: Duration(milliseconds: 200),
-              curve: Curves.easeInOut,
-              decoration: BoxDecoration(
-                color: isActiveFilled ? Theme.of(context!).primaryColor : null,
-                border: Border.all(
-                  width: 0,
-                ),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: RadioListTile(
-                value: name,
-                activeColor: Colors.white,
-                groupValue: selectedFA,
-                onChanged: (String? v) {
-                  setState(() {
-                    selectedFA = v;
-                  });
-                },
-                title: Text(
-                  name,
-                  style: TextStyle(
-                    color: isActiveFilled ? Colors.white : null,
-                    // fontSize: width * 0.035,
-                  ),
-                ),
-              ),
+    final isActive = name == selectedGender;
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 20, left: 20),
+      child: Expanded(
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          decoration: BoxDecoration(
+            color: isActive ? Theme.of(context!).primaryColor : null,
+            border: Border.all(
+              width: 0,
             ),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: RadioListTile(
+            value: name,
+            activeColor: Colors.white,
+            groupValue: selectedGender,
+            onChanged: (String? v) {
+              setState(() {
+                selectedGender = v;
+              });
+            },
+            title: Text(
+              name,
+              style: TextStyle(
+                  color: isActive ? Colors.white : null, fontSize: 14.spMax),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _buildNassitSelector({
+  Widget _buildAgeCategorySelector({
     BuildContext? context,
     required String name,
   }) {
-    final isActive = name == response;
-    ;
+    final isActive = name == selectedAgeCategory;
     return Expanded(
       child: AnimatedContainer(
         duration: Duration(milliseconds: 200),
@@ -718,18 +1567,566 @@ class MyEQuizState extends State<MyEQuiz> {
         child: RadioListTile(
           value: name,
           activeColor: Colors.white,
-          groupValue: response,
+          groupValue: selectedAgeCategory,
           onChanged: (String? v) {
             setState(() {
-              response = v;
+              selectedAgeCategory = v;
             });
           },
-          title: Text(
-            name,
-            style: TextStyle(
-              color: isActive ? Colors.white : null,
-              // fontSize: width * 0.035,
-            ),
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWeightSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedWeight;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedWeight,
+          onChanged: (String? v) {
+            setState(() {
+              selectedWeight = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeverColdFluSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedFeverColdFlu;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedFeverColdFlu,
+          onChanged: (String? v) {
+            setState(() {
+              selectedFeverColdFlu = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWellandHealthSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedWellandHealth;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedWellandHealth,
+          onChanged: (String? v) {
+            setState(() {
+              selectedWellandHealth = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEatenSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedEaten;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedEaten,
+          onChanged: (String? v) {
+            setState(() {
+              selectedEaten = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHospitalSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedHospital;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedHospital,
+          onChanged: (String? v) {
+            setState(() {
+              selectedHospital = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDiseaseSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selecteDisease;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selecteDisease,
+          onChanged: (String? v) {
+            setState(() {
+              selecteDisease = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMedicationSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedMedication;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedMedication,
+          onChanged: (String? v) {
+            setState(() {
+              selectedMedication = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSurgicalSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedSurgical;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedSurgical,
+          onChanged: (String? v) {
+            setState(() {
+              selectedSurgical = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTattooSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedTattoo;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedTattoo,
+          onChanged: (String? v) {
+            setState(() {
+              selectedTattoo = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTravelSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedTravel;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedTravel,
+          onChanged: (String? v) {
+            setState(() {
+              selectedTravel = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDonatedSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedDonated;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedDonated,
+          onChanged: (String? v) {
+            setState(() {
+              selectedDonated = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDonatedLastSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedDonatedLast;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedDonatedLast,
+          onChanged: (String? v) {
+            setState(() {
+              selectedDonatedLast = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPregnantSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedPreg;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedPreg,
+          onChanged: (String? v) {
+            setState(() {
+              selectedPreg = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenstrualSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedMens;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedMens,
+          onChanged: (String? v) {
+            setState(() {
+              selectedMens = v;
+            });
+          },
+          title: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
+              ),
+            ],
           ),
         ),
       ),

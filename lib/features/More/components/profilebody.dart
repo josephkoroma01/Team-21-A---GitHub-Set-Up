@@ -18,8 +18,11 @@ import 'package:lifebloodworld/constants/colors.dart';
 import 'package:lifebloodworld/features/Home/views/schedulebloodtest.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
+import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../provider/prefs_provider.dart';
 
 class UserData {
   UserData(
@@ -119,9 +122,9 @@ class _ProfilePageState extends State<ProfilePage> {
   String? prevdonation;
   String? prevdonationamt;
   String? selectedBloodType = '';
-  String? ufname;
-  String? ulname;
-  String? umname;
+  String? avartar;
+  String? uname;
+  String? name;
 
   final TextEditingController _ageCtrl = TextEditingController();
   final TextEditingController _emailCtrl = TextEditingController();
@@ -139,448 +142,35 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  String? countryId;
+  String? userId;
+  String? totaldonation;
+  String? country;
+
   void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
+      name = prefs.getString('name');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
       agecategory = prefs.getString('agecategory');
       gender = prefs.getString('gender');
-      nin = prefs.getString('nin');
+      // nin = prefs.getString('nin');
       phonenumber = prefs.getString('phonenumber');
       address = prefs.getString('address');
       district = prefs.getString('district');
-      ethnicity = prefs.getString('ethnicity');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
+      // ethnicity = prefs.getString('ethnicity');
       bloodtype = prefs.getString('bloodtype');
       prevdonation = prefs.getString('prevdonation');
       prevdonationamt = prefs.getString('prevdonationamt');
       community = prefs.getString('community');
       communitydonor = prefs.getString('communitydonor');
+      userId = prefs.getString('id');
+      totaldonation = prefs.getString('totaldonation');
     });
-  }
-
-  savebloodPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('bloodtype', selectedBloodType!);
-  }
-
-  savenincontactPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('nin', ninCtrl.text);
-  }
-
-  saveemailcontactPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('email', _emailCtrl.text);
-  }
-
-  Future register() async {
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/bloodtestschedule.php"),
-        body: {
-          "bloodtestfor": bloodtestfor,
-          "firstname": ufname,
-          "middlename": umname,
-          "lastname": ulname,
-        });
-    var data = json.decode(response.body);
-    if (data == "Error") {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Please Try Again, Schedule Already Exists, Try Tracking Schedule'),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 5),
-      ));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Container(
-          height: 50.h,
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  Text('Schedule Successful, You will be contacted shortly !!',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.montserrat(fontSize: 11.sp)),
-                ],
-              ),
-              Column(
-                children: [
-                  Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 12.sp,
-                        color: Colors.white,
-                        height: 1.3846153846153846,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'Your reference code to track Schedule is ',
-                        ),
-                        TextSpan(
-                          style: GoogleFonts.montserrat(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    textHeightBehavior:
-                        TextHeightBehavior(applyHeightToFirstAscent: false),
-                    textAlign: TextAlign.left,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        backgroundColor: Colors.teal,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 30),
-      ));
-      // scheduleAlarm()
-      // await Navigator.push(context, MaterialPageRoute(builder: (context)=>scheduletypebody(),),);
-    }
-  }
-
-  Future blooddetailsupdate() async {
-    await Future.delayed(Duration(seconds: 3));
-
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/updateblooddetails.php"),
-        body: {
-          "phonenumber": phonenumber,
-          "bloodtype": selectedBloodType,
-        });
-    var data = json.decode(response.body);
-    if (data == "Error") {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Please Try Again, Schedule Already Exists, Try Tracking Schedule'),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 3),
-      ));
-    } else {
-      setState(() {
-        bloodtype = selectedBloodType;
-      });
-      savebloodPref();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Container(
-          height: 15,
-          child: Column(
-            children: [
-              Text('Update Successful',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(fontSize: 13.sp)),
-            ],
-          ),
-        ),
-        backgroundColor: Colors.teal,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 3),
-      ));
-
-      setState(() {
-        _isLoading = false;
-      });
-      // scheduleAlarm()
-      // await Navigator.push(context, MaterialPageRoute(builder: (context)=>scheduletypebody(),),);
-    }
-  }
-
-  Future nincontactdetailsupdate() async {
-    await Future.delayed(Duration(seconds: 0));
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/updatenincontactdetails.php"),
-        body: {
-          "phonenumber": phonenumber,
-          "nin": ninCtrl.text,
-        });
-    var data = json.decode(response.body);
-    if (data == "Error") {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please Try Again'),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 3),
-      ));
-    } else {
-      setState(() {
-        nin = ninCtrl.text;
-      });
-      savenincontactPref();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('NIN Added Successfully',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(fontSize: 13.sp)),
-        backgroundColor: Colors.teal,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 3),
-      ));
-
-      setState(() {
-        _isnincontactLoading = false;
-      });
-      // scheduleAlarm()
-      // await Navigator.push(context, MaterialPageRoute(builder: (context)=>scheduletypebody(),),);
-    }
-  }
-
-  Future emailcontactdetailsupdate() async {
-    await Future.delayed(Duration(seconds: 0));
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/updatenincontactdetails.php"),
-        body: {
-          "phonenumber": phonenumber,
-          "email": _emailCtrl.text,
-        });
-    var data = json.decode(response.body);
-    if (data == "Error") {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please Try Again'),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 3),
-      ));
-    } else {
-      setState(() {
-        email = _emailCtrl.text;
-      });
-      saveemailcontactPref();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Email Added Successfully',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(fontSize: 13.sp)),
-        backgroundColor: Colors.teal,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 3),
-      ));
-
-      setState(() {
-        _isemailcontactLoading = false;
-      });
-      // scheduleAlarm()
-      // await Navigator.push(context, MaterialPageRoute(builder: (context)=>scheduletypebody(),),);
-    }
-  }
-
-  Future<List<UserData>> getUserDetails() async {
-    var data = {'phonenumber': phonenumber};
-
-    try {
-      var response = await http.post(
-          Uri.parse("https://community.lifebloodsl.com/readuser.php"),
-          body: json.encode(data));
-
-      if (response.statusCode == 200) {
-        print(response.statusCode);
-
-        final items = json.decode(response.body).cast<Map<String, dynamic>>();
-        List<UserData> userList = items.map<UserData>((json) {
-          return UserData.fromJson(json);
-        }).toList();
-        print(userList);
-        return userList;
-      } else {
-        print(response.statusCode.toString());
-        throw Exception(
-            'Failed load data with status code ${response.statusCode}');
-      }
-    } catch (e) {
-      print(e);
-      throw e;
-    }
-  }
-
-  Widget _buildGenderSelector({
-    BuildContext? context,
-    required String name,
-  }) {
-    final isActive = name == "$gender";
-
-    return Expanded(
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          color: isActive ? Colors.teal : null,
-          border: Border.all(
-            width: 0,
-          ),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: RadioListTile(
-          selected: false,
-          toggleable: false,
-          value: name,
-          activeColor: Colors.white,
-          groupValue: "$gender",
-          title: Text(
-            name,
-            style: TextStyle(
-                color: isActive ? Colors.white : null, fontFamily: 'Montserrat'
-                // fontSize: width * 0.035,
-                ),
-          ),
-          onChanged: (String? value) {},
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBloodTypeSelector({
-    BuildContext? context,
-    required String name,
-  }) {
-    final isActive = name == "$bloodtype";
-
-    return Expanded(
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          color: isActive ? Colors.teal : null,
-          border: Border.all(
-            width: 0,
-          ),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: RadioListTile(
-          selected: false,
-          toggleable: false,
-          value: name,
-          activeColor: Colors.white,
-          groupValue: "$bloodtype",
-          title: Text(
-            name,
-            style: TextStyle(
-                color: isActive ? Colors.white : null, fontFamily: 'Montserrat'
-                // fontSize: width * 0.035,
-                ),
-          ),
-          onChanged: (String? v) {
-            setState(() {});
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBloodNKTypeSelector({
-    BuildContext? context,
-    required String name,
-  }) {
-    final isActive = name == "$bloodtype";
-
-    return Expanded(
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          color: isActive ? Colors.teal : null,
-          border: Border.all(
-            width: 0,
-          ),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: RadioListTile(
-          selected: false,
-          toggleable: false,
-          value: name,
-          activeColor: Colors.white,
-          groupValue: "$bloodtype",
-          title: Text(
-            name,
-            style: TextStyle(
-                color: isActive ? Colors.white : null, fontFamily: 'Montserrat'
-                // fontSize: width * 0.035,
-                ),
-          ),
-          onChanged: (String? v) {},
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPrevDonationSelector({
-    BuildContext? context,
-    required String name,
-  }) {
-    final isActive = name == "$prevdonation";
-
-    return Expanded(
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          color: isActive ? Colors.teal : null,
-          border: Border.all(
-            width: 0,
-          ),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: RadioListTile(
-          selected: false,
-          toggleable: false,
-          value: name,
-          activeColor: Colors.white,
-          groupValue: "$prevdonation",
-          title: Text(
-            name,
-            style: TextStyle(
-                color: isActive ? Colors.white : null, fontFamily: 'Montserrat'
-                // fontSize: width * 0.035,
-                ),
-          ),
-          onChanged: (String? v) {},
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDistrictSelector({
-    BuildContext? context,
-    required String name,
-  }) {
-    final isActive = name == "$district";
-
-    return Expanded(
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          color: isActive ? Colors.teal : null,
-          border: Border.all(
-            width: 0,
-          ),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: RadioListTile(
-          selected: false,
-          toggleable: false,
-          value: name,
-          activeColor: Colors.white,
-          groupValue: "$district",
-          title: Text(
-            name,
-            style: TextStyle(
-                color: isActive ? Colors.white : null, fontFamily: 'Montserrat'
-                // fontSize: width * 0.035,
-                ),
-          ),
-          onChanged: (String? v) {},
-        ),
-      ),
-    );
   }
 
   // void scheduleAlarm() async{
@@ -614,21 +204,23 @@ class _ProfilePageState extends State<ProfilePage> {
         appBar: AppBar(
           backgroundColor: Colors.teal,
           leading: IconButton(
+              color: Colors.white,
               onPressed: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                    builder: (context) => HomePageScreen(pageIndex: 3),
+                  MaterialPageRoute(
+                    builder: (context) => HomePageScreen(pageIndex: 4),
                   ),
                 );
               },
-              icon: Icon(Icons.arrow_back)),
+              icon: const Icon(Icons.arrow_back)),
           elevation: 0,
           title: Text(
-            "$ufname $umname\u0027s Profile",
+            "$name\u0027s Profile",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 13.sp),
+            style: TextStyle(
+                fontFamily: 'Montserrat', fontSize: 13.sp, color: Colors.white),
           ),
         ),
         body: SingleChildScrollView(
@@ -648,7 +240,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               SizedBox(height: 10),
               Text(
-                "Joseph David Koroma",
+                "$name",
                 style: GoogleFonts.montserrat(
                     fontSize: 13.sp,
                     letterSpacing: 0,
@@ -668,7 +260,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   5.horizontalSpace,
                   Text(
-                    "Sierra Leone",
+                    " Sierra Leone",
                     style: GoogleFonts.montserrat(
                         fontSize: 14,
                         letterSpacing: 0,
@@ -725,7 +317,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: 'Birth Date: ',
+                                          text: 'Birth Date:  ',
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.normal,
@@ -733,7 +325,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: agecategory,
+                                          // text: agecategory,
+                                          text: "ehe",
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.bold,
@@ -758,7 +351,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: 'Age Category: ',
+                                          text: 'Age Category:  ',
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.normal,
@@ -766,7 +359,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: agecategory,
+                                          // text: agecategory,
+                                          text: "1-",
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.bold,
@@ -801,7 +395,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                             ),
                                             TextSpan(
-                                              text: gender,
+                                              text: gender ?? " ",
                                               style: GoogleFonts.montserrat(
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.bold,
@@ -810,19 +404,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                             ),
                                           ],
                                         ),
-                                        textHeightBehavior: TextHeightBehavior(
-                                            applyHeightToFirstAscent: false),
+                                        textHeightBehavior:
+                                            const TextHeightBehavior(
+                                                applyHeightToFirstAscent:
+                                                    false),
                                         textAlign: TextAlign.left,
                                       ),
                                       (gender == "Male")
-                                          ? Icon(
+                                          ? const Icon(
                                               Icons.male_outlined,
                                               color: Color(0xFF205072),
                                             )
-                                          : Icon(Icons.female_outlined),
+                                          : const Icon(Icons.female_outlined),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                 ],
@@ -835,7 +431,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -882,7 +478,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: 'Phone Number: ',
+                                          text: 'Phone Number:  ',
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.normal,
@@ -1073,7 +669,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                                 setState(() {
                                                                                   _isemailcontactLoading = true;
                                                                                 });
-                                                                                emailcontactdetailsupdate();
+                                                                                // emailcontactdetailsupdate();
                                                                               } else {
                                                                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                                                                   content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
@@ -1143,7 +739,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ),
                                               ),
                                               TextSpan(
-                                                text: email,
+                                                // text: email ?? " ",
+                                                text: " ",
                                                 style: GoogleFonts.montserrat(
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.bold,
@@ -1170,7 +767,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: 'Address: ',
+                                          text: 'Address: ${address ?? " "} ',
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.normal,
@@ -1259,7 +856,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: bloodtype,
+                                          text: bloodtype ?? " ",
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.bold,
@@ -1292,7 +889,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: prevdonation,
+                                          text: prevdonation ?? " ",
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.bold,
@@ -1394,171 +991,242 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                           onPressed: () {
                                             showDialog(
-                                                context: context,
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    Dialog(
-                                                        shape:
-                                                            const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(10),
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  Dialog(
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
+                                                ),
+                                                child: IntrinsicHeight(
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                    .size
+                                                                    .width <=
+                                                                768
+                                                            ? 0.7.sw
+                                                            : 0.65.sw,
+                                                    // padding: EdgeInsets.all(10.r),
+                                                    decoration: const BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10))),
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10.r),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  kPrimaryColor,
+                                                              borderRadius: BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          10),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          10),
+                                                                  bottomLeft:
+                                                                      Radius
+                                                                          .zero,
+                                                                  bottomRight:
+                                                                      Radius
+                                                                          .zero)),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'Update Blood Details',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 15,
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                ),
+                                                              ),
+                                                              InkWell(
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Icon(
+                                                                    Icons.close,
+                                                                    color:
+                                                                        kWhiteColor,
+                                                                  ))
+                                                            ],
                                                           ),
                                                         ),
-                                                        child: IntrinsicHeight(
-                                                            child: Container(
-                                                                width: MediaQuery.of(context)
-                                                                            .size
-                                                                            .width <=
-                                                                        768
-                                                                    ? 0.7.sw
-                                                                    : 0.65.sw,
-                                                                // padding: EdgeInsets.all(10.r),
-                                                                decoration: const BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    borderRadius:
-                                                                        BorderRadius.all(Radius.circular(
-                                                                            10))),
+                                                        10.verticalSpace,
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(10),
+                                                          child: Expanded(
+                                                            child:
+                                                                SingleChildScrollView(
+                                                              child: Form(
+                                                                key: _formKey,
+                                                                autovalidateMode:
+                                                                    AutovalidateMode
+                                                                        .always,
                                                                 child: Column(
-                                                                    children: [
-                                                                      Container(
-                                                                        padding:
-                                                                            EdgeInsets.all(10.r),
-                                                                        decoration: BoxDecoration(
-                                                                            color:
-                                                                                kPrimaryColor,
-                                                                            borderRadius: BorderRadius.only(
-                                                                                topLeft: Radius.circular(10),
-                                                                                topRight: Radius.circular(10),
-                                                                                bottomLeft: Radius.zero,
-                                                                                bottomRight: Radius.zero)),
-                                                                        child:
-                                                                            Row(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceBetween,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Text(
-                                                                              'Update Blood Details',
-                                                                              style: TextStyle(
-                                                                                color: Colors.white,
-                                                                                fontSize: 15,
-                                                                                fontFamily: 'Montserrat',
-                                                                                fontWeight: FontWeight.bold,
-                                                                                letterSpacing: 0,
-                                                                              ),
-                                                                            ),
-                                                                            InkWell(
-                                                                                onTap: () {
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                child: Icon(
-                                                                                  Icons.close,
-                                                                                  color: kWhiteColor,
-                                                                                ))
-                                                                          ],
+                                                                  children: [
+                                                                    SizedBox(
+                                                                        height:
+                                                                            5),
+                                                                    DropdownButtonFormField(
+                                                                      //button height
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        labelText:
+                                                                            'Blood Group',
+                                                                        labelStyle: TextStyle(
+                                                                            fontFamily:
+                                                                                'Montserrat',
+                                                                            letterSpacing:
+                                                                                0,
+                                                                            fontSize:
+                                                                                14),
+                                                                        //Add isDense true and zero Padding.
+                                                                        //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                                                                        isDense:
+                                                                            false,
+                                                                        contentPadding:
+                                                                            EdgeInsets.only(left: 5),
+                                                                        border:
+                                                                            OutlineInputBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(5),
                                                                         ),
+                                                                        //Add more decoration as you want here
+                                                                        //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                                                                       ),
-                                                                      10.verticalSpace,
-                                                                      Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .all(
-                                                                              10),
-                                                                          child: Expanded(
-                                                                              child: SingleChildScrollView(
-                                                                            child:
-                                                                                Form(
-                                                                              key: _formKey,
-                                                                              autovalidateMode: AutovalidateMode.always,
-                                                                              child: Column(
-                                                                                children: [
-                                                                                  SizedBox(height: 5),
-                                                                                  DropdownButtonFormField(
-                                                                                    //button height
-                                                                                    decoration: InputDecoration(
-                                                                                      labelText: 'Blood Group',
-                                                                                      labelStyle: TextStyle(fontFamily: 'Montserrat', letterSpacing: 0, fontSize: 14),
-                                                                                      //Add isDense true and zero Padding.
-                                                                                      //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                                                                                      isDense: false,
-                                                                                      contentPadding: EdgeInsets.only(left: 5),
-                                                                                      border: OutlineInputBorder(
-                                                                                        borderRadius: BorderRadius.circular(5),
-                                                                                      ),
-                                                                                      //Add more decoration as you want here
-                                                                                      //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                                                                                    ),
-                                                                                    icon: const Icon(
-                                                                                      Icons.arrow_drop_down,
-                                                                                      color: Colors.black45,
-                                                                                    ),
-                                                                                    iconSize: 30,
+                                                                      icon:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .arrow_drop_down,
+                                                                        color: Colors
+                                                                            .black45,
+                                                                      ),
+                                                                      iconSize:
+                                                                          30,
 
-                                                                                    items: bloodgrouplist
-                                                                                        .map((item) => DropdownMenuItem<String>(
-                                                                                              value: item,
-                                                                                              child: Text(
-                                                                                                item,
-                                                                                                style: TextStyle(
-                                                                                                  fontSize: 14.sp,
-                                                                                                ),
-                                                                                              ),
-                                                                                            ))
-                                                                                        .toList(),
-                                                                                    validator: (value) {
-                                                                                      if (value == null) {
-                                                                                        return 'Please select an option.';
-                                                                                      }
-                                                                                    },
-                                                                                    onChanged: (String? value) {
-                                                                                      setState(() {
-                                                                                        selectedBloodType = value;
-                                                                                      });
-                                                                                    },
-                                                                                    onSaved: (value) {
-                                                                                      selectedBloodType = value.toString();
-                                                                                    },
+                                                                      items: bloodgrouplist
+                                                                          .map((item) => DropdownMenuItem<String>(
+                                                                                value: item,
+                                                                                child: Text(
+                                                                                  item,
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 14.sp,
                                                                                   ),
-                                                                                  SizedBox(height: 5),
-                                                                                  SizedBox(
-                                                                                    height: 5,
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    width: double.infinity,
-                                                                                    child: ElevatedButton(
-                                                                                        child: Text('Update Details', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
-                                                                                        style: TextButton.styleFrom(
-                                                                                          foregroundColor: Colors.white,
-                                                                                          backgroundColor: Color(0xff389e9d),
-                                                                                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                                                                        ),
-                                                                                        onPressed: () async {
-                                                                                          if (_formKey.currentState!.validate()) {
-                                                                                            Navigator.pop(context);
-                                                                                            if (await getInternetUsingInternetConnectivity()) {
-                                                                                              setState(() {
-                                                                                                _isLoading = true;
-                                                                                              });
-                                                                                              blooddetailsupdate();
-                                                                                            } else {
-                                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                                                content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
-                                                                                                backgroundColor: Color(0xFFE02020),
-                                                                                                behavior: SnackBarBehavior.fixed,
-                                                                                                duration: const Duration(seconds: 10),
-                                                                                                // duration: Duration(seconds: 3),
-                                                                                              ));
-                                                                                            }
-                                                                                          }
-                                                                                        }),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          )))
-                                                                    ])))));
+                                                                                ),
+                                                                              ))
+                                                                          .toList(),
+                                                                      validator:
+                                                                          (value) {
+                                                                        if (value ==
+                                                                            null) {
+                                                                          return 'Please select an option.';
+                                                                        }
+                                                                      },
+                                                                      onChanged:
+                                                                          (String?
+                                                                              value) {
+                                                                        setState(
+                                                                            () {
+                                                                          selectedBloodType =
+                                                                              value;
+                                                                        });
+                                                                      },
+                                                                      onSaved:
+                                                                          (value) {
+                                                                        selectedBloodType =
+                                                                            value.toString();
+                                                                      },
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height:
+                                                                            5),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: double
+                                                                          .infinity,
+                                                                      child:
+                                                                          ElevatedButton(
+                                                                        child: Text(
+                                                                            'Update Details',
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
+                                                                        style: TextButton
+                                                                            .styleFrom(
+                                                                          foregroundColor:
+                                                                              Colors.white,
+                                                                          backgroundColor:
+                                                                              Color(0xff389e9d),
+                                                                          shape:
+                                                                              const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          if (_formKey
+                                                                              .currentState!
+                                                                              .validate()) {
+                                                                            Navigator.pop(context);
+                                                                            if (await getInternetUsingInternetConnectivity()) {
+                                                                              setState(() {
+                                                                                _isLoading = true;
+                                                                              });
+                                                                              // blooddetailsupdate();
+                                                                            } else {
+                                                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                                                SnackBar(
+                                                                                  content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
+                                                                                  backgroundColor: Color(0xFFE02020),
+                                                                                  behavior: SnackBarBehavior.fixed,
+                                                                                  duration: const Duration(seconds: 10),
+                                                                                  // duration: Duration(seconds: 3),
+                                                                                ),
+                                                                              );
+                                                                            }
+                                                                          }
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
                                           },
                                         ),
                                       ),
@@ -1594,7 +1262,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           onPressed: () {
                                             Navigator.push(
                                               context,
-                                              new MaterialPageRoute(
+                                              MaterialPageRoute(
                                                 builder: (context) =>
                                                     scheduletypebody(),
                                               ),

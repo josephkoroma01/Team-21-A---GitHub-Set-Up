@@ -1,33 +1,30 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lifebloodworld/constants/colors.dart';
+import 'package:lifebloodworld/features/Home/models/user_model.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:lifebloodworld/features/Login/views/bteligibilityscreen.dart';
 import 'package:lifebloodworld/features/Login/views/eligibilityscreen.dart';
 import 'package:lifebloodworld/features/Login/views/etrigger.dart';
 import 'package:lifebloodworld/features/Login/views/forgetpassword.dart';
 import 'package:lifebloodworld/features/Register/views/register.dart';
-import 'package:lifebloodworld/widgets/geo_location.dart';
-import 'package:lifebloodworld/widgets/network.dart';
+
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../../provider/prefs_provider.dart';
 
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d MMM yyyy').format(now);
@@ -189,79 +186,95 @@ class _LoginPageState extends State<LoginPage> {
 
   FocusNode focusNode = FocusNode();
 
-  savePref() async {
+  savePref(Users data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('email', email!);
-    prefs.setString('password', password!);
-    prefs.setString('ufname', ufname!);
-    prefs.setString('umname', umname!);
-    prefs.setString('ulname', ulname!);
-    prefs.setString('agecategory', agecategory!);
-    prefs.setString('gender', gender!);
-    prefs.setString('phonenumber', phonenumber!);
-    prefs.setString('address', address!);
-    prefs.setString('nin', nin!);
-    prefs.setString('district', district!);
-    // prefs.setString('ethnicity', ethnicity!);
-    prefs.setString('bloodtype', bloodtype!);
-    prefs.setString('prevdonation', prevdonation!);
-    prefs.setString('prevdonationamt', prevdonationamt!);
-    prefs.setString('community', community!);
-    prefs.setString('communitydonor', communitydonor!);
-    prefs.setString('id', myid);
+    prefs.setString('email', "${data.user!.email}");
+    prefs.setString('name', "${data.user!.name}");
+    prefs.setString('uname', "${data.user!.username}");
+    prefs.setString('avatar', "${data.user!.avartar}");
+    prefs.setString('gender', "${data.user!.gender}");
+    prefs.setString('agecategory', "${data.user!.ageCategory}");
+    prefs.setString('age', "${data.user!.age}");
+    prefs.setString('dob', "${data.user!.dob}");
+    prefs.setString('country', "${data.user!.country}");
+    prefs.setString('country_id', "${data.user!.countryId}");
+    prefs.setString('phonenumber', "${data.user!.phone}");
+    prefs.setString('address', "${data.user!.address}");
+    prefs.setString('district', "${data.user!.distict}");
+    prefs.setString('bloodtype', "${data.user!.bloodGroup}");
+    prefs.setString('prevdonation', "${data.user!.prvdonation}");
+    prefs.setString('prevdonationamt', "${data.user!.prvdonationNo}");
+    prefs.setString('totaldonation', "${data.user!.noOfDonation}");
+    prefs.setString('community', "${data.user!.community}");
+    prefs.setString('id', "${data.user!.id}");
   }
 
-  Future userLogin() async {
+  String? holdPhoneNo;
+
+  Future userLogin(context) async {
+    final prefsProvider = Provider.of<PrefsProvider>(context, listen: false);
     if (_phonenumber.text.isNotEmpty && _password.text.isNotEmpty) {
       // Getting username and password from Controller
-      var data = {'phonenumber': _phonenumber.text, 'password': _password.text};
-
-      await Future.delayed(Duration(seconds: 2));
+      var data = {
+        'phone': '+232${_phonenumber.text}',
+        'password': _password.text
+      };
+      print(_phonenumber.text);
       //Starting Web API Call.
-      var response = await http.post(
-          Uri.parse("https://community.lifebloodsl.com/login.php"),
-          body: json.encode(data));
 
-      if (response.statusCode == 200) {
-        //Server response into variable
-        print(response.body);
+      try {
+        var response = await http.post(
+          Uri.parse(
+              "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/login"),
+          body: json.encode(data),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        );
+        if (response.statusCode == 200) {
+          //Server response into variable
+          var msg = jsonDecode(response.body);
+          Users data = Users.fromJson(msg);
 
-        var msg = jsonDecode(response.body);
+          //Check Login Status
+          if (data.message == "Login successful") {
+            savePref(data);
+            prefsProvider.savePref(data.user!);
+            setState(() {
+              _isloginLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Login Successful',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.montserrat(fontSize: 10)),
+              backgroundColor: Colors.teal,
+              behavior: SnackBarBehavior.fixed,
+              duration: const Duration(seconds: 3),
+            ));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => HomePageScreen(
+                          pageIndex: 0,
+                        )),
+                (route) => false);
 
-        //Check Login Status
-        if (msg['loginStatus'] == true) {
-          setState(() {
-            email = msg['userInfo']["email"];
-            ufname = msg['userInfo']["firstname"];
-            umname = msg['userInfo']["middlename"];
-            ulname = msg['userInfo']["lastname"];
-            agecategory = msg['userInfo']["agecategory"];
-            gender = msg['userInfo']["gender"];
-            phonenumber = msg['userInfo']["phonenumber"];
-            email = msg['userInfo']["email"];
-            address = msg['userInfo']["address"];
-            nin = msg['userInfo']["nin"];
-            district = msg['userInfo']["district"];
-            bloodtype = msg['userInfo']["bloodtype"];
-            prevdonation = msg['userInfo']["prevdonation"];
-            prevdonationamt = msg['userInfo']["prevdonationamt"];
-            community = msg['userInfo']["community"];
-            communitydonor = msg['userInfo']["communitydonor"];
-            password = msg['userInfo']["password"];
-            id = msg['userInfo']["id"];
-          });
-          savePref();
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (context) => HomePageScreen(
-                        pageIndex: 0,
-                      )),
-              (route) => false);
-          // Navigate to Home Screen
+            // Navigate to Home Screen
+          } else if (response.body == "Invalid Credentials") {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  'Phone Number and Password is not correct, Please Try Again',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.montserrat(fontSize: 10)),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.fixed,
+              duration: const Duration(seconds: 3),
+            ));
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-                'Phone Number and Password is not correct, Please Try Again',
+                'Something went wrong. Please try again ${response.statusCode}',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.montserrat(fontSize: 10)),
             backgroundColor: Colors.red,
@@ -272,9 +285,9 @@ class _LoginPageState extends State<LoginPage> {
             _isloginLoading = false;
           });
         }
-      } else {
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error Connecting to Server',
+          content: Text('Something went wrong. Please try again $e',
               textAlign: TextAlign.center,
               style: GoogleFonts.montserrat(fontSize: 10)),
           backgroundColor: Colors.red,
@@ -549,7 +562,7 @@ class _LoginPageState extends State<LoginPage> {
     Size size = MediaQuery.of(context).size;
     var t = AppLocalizations.of(context)!;
     return Scaffold(
-      backgroundColor: Color(0xFFe0e9e4),
+      backgroundColor: const Color(0xFFe0e9e4),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -623,7 +636,9 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               languageCode: "en",
                               onChanged: (phone) {
-                                print(phone.completeNumber);
+                                // setState(() {
+                                //   holdPhoneNo = phone.completeNumber;
+                                // });
                               },
                               onCountryChanged: (country) {
                                 print('Country changed to: ' + country.name);
@@ -730,14 +745,17 @@ class _LoginPageState extends State<LoginPage> {
                                     setState(() {
                                       _isloginLoading = true;
                                     });
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                HomePageScreen(
-                                                  pageIndex: 0,
-                                                )),
-                                        (route) => false);
-                                    userLogin();
+                                    // Navigator.of(context).pushAndRemoveUntil(
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             HomePageScreen(
+                                    //               pageIndex: 0,
+                                    //             )),
+                                    //     (route) => false);
+                                    // setState(() {
+                                    //   holdPhoneNo = _phonenumber.text;
+                                    // });
+                                    userLogin(context);
                                   } else {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
@@ -796,39 +814,28 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              child: _isloginLoading
-                                  ? SizedBox(
-                                      height: 15.0,
-                                      width: 15.0,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 2.0,
-                                      ),
-                                    )
-                                  : Text(
-                                      'Create Account'.toUpperCase(),
-                                      style: GoogleFonts.montserrat(
-                                          color: kPrimaryColor,
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                              child: Text(
+                                'Create Account'.toUpperCase(),
+                                style: GoogleFonts.montserrat(
+                                    color: kPrimaryColor,
+                                    fontSize: 14,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   if (await getInternetUsingInternetConnectivity()) {
-                                    setState(() {
-                                      _isloginLoading = true;
-                                    });
-                                    Future.delayed(Duration(seconds: 2), () {
+                                    Future.delayed(const Duration(seconds: 0),
+                                        () {
                                       // _getLastKnownPosition();
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 RegisterScreen()),
                                       );
-                                      setState(() {
-                                        _isloginLoading = false;
-                                      });
+                                      // setState(() {
+                                      //   _isloginLoading = false;
+                                      // });
                                     });
                                   } else {
                                     ScaffoldMessenger.of(context)
@@ -878,23 +885,14 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              child: _isloginLoading
-                                  ? SizedBox(
-                                      height: 15.0,
-                                      width: 15.0,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 2.0,
-                                      ),
-                                    )
-                                  : Text(
-                                      'Schedule New Appointment'.toUpperCase(),
-                                      style: GoogleFonts.montserrat(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                              child: Text(
+                                'Schedule New Appointment'.toUpperCase(),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               onPressed: () async {
                                 showModalBottomSheet(
                                     isScrollControlled: true,
@@ -1289,13 +1287,10 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               onPressed: () async {
                                 Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                etriggerScreen(
-                                                
-                                                )),
-                                        );
-                                 },
+                                  MaterialPageRoute(
+                                      builder: (context) => etriggerScreen()),
+                                );
+                              },
                               style: ElevatedButton.styleFrom(
                                   shape: const RoundedRectangleBorder(
                                       borderRadius:

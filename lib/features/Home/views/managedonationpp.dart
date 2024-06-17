@@ -19,8 +19,7 @@ import '../../../models/blooddonationschedule.dart';
 import 'search.dart';
 
 class managedonationAppointments extends StatefulWidget {
-  const managedonationAppointments({Key? key}) : super(key: key);
-
+  const managedonationAppointments({Key? key, }) : super(key: key);
   @override
   State<managedonationAppointments> createState() =>
       _managedonationAppointmentsState();

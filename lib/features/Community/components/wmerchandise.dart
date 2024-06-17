@@ -34,10 +34,23 @@ class wmerchandiseState extends State<wmerchandise> {
   String? ufname;
   String? ulname;
   String? umname;
+  String? communityCheck;
   @override
   void initState() {
     super.initState();
     getPref();
+    communityCheckGet();
+  }
+
+  communityCheckCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('communityCheck', 'Yes');
+  }
+
+
+  communityCheckGet() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    communityCheck = prefs.getString('communityCheck');
   }
 
   void getPref() async {
@@ -45,7 +58,7 @@ class wmerchandiseState extends State<wmerchandise> {
     setState(() {
       email = prefs.getString('email');
       phonenumber = prefs.getString('phonenumber');
-      ufname = prefs.getString('ufname');
+      ufname = prefs.getString('name');
       umname = prefs.getString('umname');
       ulname = prefs.getString('ulname');
     });
@@ -101,7 +114,7 @@ class wmerchandiseState extends State<wmerchandise> {
                         children: [
                           Text.rich(
                             TextSpan(
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Color(0xff329d9c), fontSize: 15),
                               children: [
                                 TextSpan(
@@ -485,27 +498,30 @@ class wmerchandiseState extends State<wmerchandise> {
                                       backgroundColor: Colors.teal,
                                     ),
                                     onPressed: () async {
-                                      if (await getInternetUsingInternetConnectivity()) {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Communities(
-                                                      title: 'Communities on LifeBlood',
-                                                    )));
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                              'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 14)),
-                                          backgroundColor: kLifeBloodRed,
-                                          behavior: SnackBarBehavior.fixed,
-                                          duration: const Duration(seconds: 5),
-                                          // duration: Duration(seconds: 3),
-                                        ));
-                                      }
+                                      communityCheckCheck();
+                                      // if (await getInternetUsingInternetConnectivity()) {
+                                      // communityCheck ==  "Yes" ?
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => Communities(
+                                            title: 'Communities on LifeBlood',
+                                          ),
+                                        ),
+                                      );
+                                      // } else {
+                                      //   ScaffoldMessenger.of(context)
+                                      //       .showSnackBar(SnackBar(
+                                      //     content: Text(
+                                      //         'You are offline, Kindly turn on Wifi or Mobile Data to continue',
+                                      //         textAlign: TextAlign.center,
+                                      //         style: GoogleFonts.montserrat(
+                                      //             fontSize: 14)),
+                                      //     backgroundColor: kLifeBloodRed,
+                                      //     behavior: SnackBarBehavior.fixed,
+                                      //     duration: const Duration(seconds: 5),
+                                      //     // duration: Duration(seconds: 3),
+                                      //   ));
+                                      // }
                                     }),
                               ),
                             ],

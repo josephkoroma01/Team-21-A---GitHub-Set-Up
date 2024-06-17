@@ -18,11 +18,15 @@ import 'package:lifebloodworld/features/Home/models/donorregistered.dart';
 import 'package:lifebloodworld/features/Login/views/login_screen.dart';
 import 'package:lifebloodworld/features/Register/views/tour.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../provider/prefs_provider.dart';
+import '../../Home/models/user_model.dart';
 
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d LLLL yyyy').format(now);
@@ -56,26 +60,6 @@ class _RegisterPageState extends State<RegisterPage> {
     'Sierra Leone',
     'Benin',
   ];
-
-  String? id,
-      email,
-      password,
-      ufname,
-      umname,
-      ulname,
-      agecategory,
-      gender,
-      nin,
-      phonenumber,
-      address,
-      district,
-      bloodtype,
-      prevdonation,
-      prevdonationamt,
-      community,
-      date,
-      month,
-      year;
 
   final List<String> sldistrictlist = [
     'Bo',
@@ -368,6 +352,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String? selectedDistrict = '';
   String? selectedDepartment = '';
   String? selectedCountry;
+  String? selectedCountryId;
   String? selectedGender = '';
   String? selectedMiddleName = '';
   String? selectedPrevDonation = '';
@@ -411,6 +396,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String? fpassword = '';
   String? userphonenumber;
   String? usercommunity;
+  int _age = 0;
   final TextEditingController refCodeCtrl = TextEditingController(
     text: randomNumeric(6).toString(),
   );
@@ -436,11 +422,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> sendotp() async {
     try {
       final url = Uri.parse(
-          'http://api.famcaresl.com/communityapp/index.php?route=otp');
+          'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/sendOtpSms');
       final response = await http.post(
         url,
         body: jsonEncode({
-          'phonenumber': '$userphonenumber', // Additional data
+          'phone': '$userphonenumber', // Additional data
           'refcode': refCodeCtrl.text, // Additional data
         }),
         headers: {'Content-Type': 'application/json'},
@@ -471,6 +457,16 @@ class _RegisterPageState extends State<RegisterPage> {
           ));
         }
       } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'Phone Number Already Exist, \nTry Another Phone Number',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontFamily: 'Montserrat', fontSize: 12)),
+          backgroundColor: Color(0xFFE02020),
+          behavior: SnackBarBehavior.fixed,
+          duration: const Duration(seconds: 3),
+          // duration: Duration(seconds: 3),
+        ));
         // Request failed
         print('Request failed with status: ${response.statusCode}');
       }
@@ -480,157 +476,145 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  savePref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('email', email!);
-    prefs.setString('password', password!);
-    prefs.setString('ufname', ufname!);
-    prefs.setString('umname', umname!);
-    prefs.setString('ulname', ulname!);
-    prefs.setString('agecategory', agecategory!);
-    prefs.setString('gender', gender!);
-    prefs.setString('phonenumber', phonenumber!);
-    prefs.setString('address', address!);
-    prefs.setString('nin', nin!);
-    prefs.setString('district', district!);
-    prefs.setString('bloodtype', bloodtype!);
-    prefs.setString('prevdonation', prevdonation!);
-    prefs.setString('prevdonationamt', prevdonationamt!);
-    prefs.setString('community', community!);
-  }
+  // savePref(Users data) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('email', "${data.user!.email}");
+  //   prefs.setString('name', "${data.user!.name}");
+  //   prefs.setString('uname', "${data.user!.username}");
+  //   prefs.setString('avatar', "${data.user!.avartar}");
+  //   prefs.setString('gender', "${data.user!.gender}");
+  //   prefs.setString('agecategory', "${data.user!.ageCategory}");
+  //   prefs.setString('age', "${data.user!.age}");
+  //   prefs.setString('dob', "${data.user!.dob}");
+  //   prefs.setString('country', "${data.user!.country}");
+  //   prefs.setString('country_id', "${data.user!.countryId}");
+  //   prefs.setString('phonenumber', "${data.user!.phone}");
+  //   prefs.setString('address', "${data.user!.address}");
+  //   prefs.setString('district', "${data.user!.distict}");
+  //   prefs.setString('bloodtype', "${data.user!.bloodGroup}");
+  //   prefs.setString('prevdonation', "${data.user!.prvdonation}");
+  //   prefs.setString('prevdonationamt', "${data.user!.prvdonationNo}");
+  //   prefs.setString('community', "${data.user!.community}");
+  //   prefs.setString('id', "${data.user!.id}");
+  // }
 
   Future register() async {
+    final prefsProvider = Provider.of<PrefsProvider>(context, listen: false);
+    _calculateAge(dobdateinput.text);
     try {
       final url = Uri.parse(
-          'http://api.famcaresl.com/communityapp/index.php?route=register');
+          // 'http://api.famcaresl.com/communityapp/index.php?route=register');
+          'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/registerUser');
       final response = await http.post(
         url,
         body: jsonEncode({
           "name": _fullnameCtrl.text,
-          "dob": dobdateinput.text,
-          "age": '$selectedAge',
-          "agecategory": selectedAgeCategory,
-          "gender": selectedGender,
-          "avatar": selectedAvatar,
-          "phonenumber": '$userphonenumber',
-          "email": _emailCtrl.text,
-          "address": _addressCtrl.text,
-          "country": selectedCountry,
-          "section": selectedDistrict,
-          "bloodtype": selectedBloodType,
-          "prevdonation": selectedPrevDonation,
-          "donorid": _donoridCtrl.text,
-          "prevdonationamt": _prevdonationamtCtrl.text,
-          "community": 'true',
           "username": _usernameCtrl.text,
-          "trivia": 'No',
+          "dob": dobdateinput.text,
+          "ageCategory": "$selectedAgeCategory",
+          "gender": "$selectedGender",
+          "country": "$selectedCountry",
+          "country_id": selectedCountryId,
+          "distict": "$selectedDistrict",
+          "address": _addressCtrl.text,
+          "age": _age.toString(),
+          'avartar': "$selectedAvatar",
+          "email": _emailCtrl.text,
+          "phone": '$userphonenumber',
+          "prvdonation": "$selectedPrevDonation",
+          "prvdonationNo": _prevdonationamtCtrl.text,
+          "donorId": _donoridCtrl.text,
+          "bloodGroup": selectedBloodType,
           "password": _passwordCtrl.text,
+          "status": "active", // Assuming "active" is the default status
           "date": dateinput.text,
           "month": monthinput.text,
-          "year": yearinput.text, // Additional data
+          "year": yearinput.text,
+          "trivia": "No",
+          // Assuming OTP expiry is not available initially
+
+          // Additional data
         }),
         headers: {'Content-Type': 'application/json'},
       );
       if (response.statusCode == 409) {
         // Request was successful
-        var data = json.decode(response.body);
-        if (data == "User already exists") {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('User Already Exist, \nTry Different Phone Number.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 14,
-                )),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.fixed,
-            duration: Duration(seconds: 5),
-          ));
-        }
-      }
-      if (response.statusCode == 201) {
-        var data = json.decode(response.body);
-        if (data == "Success") {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.teal,
-            behavior: SnackBarBehavior.fixed,
-            duration: Duration(seconds: 3),
-            content: Text('Registration Successful',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold
-                )),
-          ));
-          Future.delayed(Duration(seconds: 3));
-          {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => tour()),
-                (route) => false);
-          }
-          ;
-        }
-      } else {
-        // Request failed
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.grey,
-          behavior: SnackBarBehavior.fixed,
-          duration: Duration(seconds: 3),
-          content: Text('Request failed with status:',
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('User Already Exist, \nTry Different Phone Number.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                fontSize: 13,
+                fontSize: 14,
               )),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.fixed,
+          duration: Duration(seconds: 5),
         ));
-        print('Request failed with status: ${response.statusCode}');
+      } else if (response.statusCode == 201) {
+        var data = json.decode(response.body);
+        User user = User.fromJson(data['user']);
+        debugPrint(user.toString());
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: Colors.teal,
+          behavior: SnackBarBehavior.fixed,
+          duration: Duration(seconds: 3),
+          content: Text('Registration Successful',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold)),
+        ));
+        prefsProvider.savePref(user);
+
+        Future.delayed(const Duration(seconds: 2));
+        {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => tour()),
+              (route) => false);
+        }
+      } else {
+        // Request failed
+        var data = json.decode(response.body);
+        print(data);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.grey,
+          behavior: SnackBarBehavior.fixed,
+          duration: const Duration(seconds: 3),
+          content: Text(
+            '${data['error']}',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 13,
+            ),
+          ),
+        ));
+        // print('Request failed with status: ${data['error']}');
       }
     } catch (e) {
       // Handle errors, including slow internet connection
       print('Error occurred: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.grey,
+        behavior: SnackBarBehavior.fixed,
+        duration: const Duration(seconds: 3),
+        content: Text(
+          '${e.toString()}',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 13,
+          ),
+        ),
+      ));
     }
 
     // scheduleAlarm();
   }
 
-
-Future<List<DonorRegisterData>> findDonor(String query) async {
-    var data = {'rbtc_id': '1', 'tfs_id': '2', 'status': 'Pending'};
-
-    var response = await http.post(
-      Uri.parse(
-          "https://labtech.lifebloodsl.com/labtechapi/findregisterdonor.php"),
-      body: json.encode(data),
-    );
-
-    if (response.statusCode == 200) {
-      final List<dynamic> donorRegisterJson = json.decode(response.body);
-
-      return donorRegisterJson
-          .map((json) => DonorRegisterData.fromJson(json))
-          .where((donor) {
-        final donorNameLower = donor.name.toLowerCase();
-        final donorPhoneNumberLower = donor.phonenumber.toLowerCase();
-        final donorAgeCategoryLower = donor.agecategory.toLowerCase();
-        final donorAddressLower = donor.address.toLowerCase();
-        final donorEmailAddressLower = donor.email.toLowerCase();
-        final donorBloodTypeLower = donor.bloodtype.toLowerCase();
-        final donorGenderLower = donor.gender.toLowerCase();
-        final searchLower = query.toLowerCase();
-
-        return donorNameLower.contains(searchLower) ||
-            donorAgeCategoryLower.contains(searchLower) ||
-            donorAddressLower.contains(searchLower) ||
-            donorEmailAddressLower.contains(searchLower) ||
-            donorGenderLower.contains(searchLower) ||
-            donorPhoneNumberLower.contains(searchLower) ||
-            donorBloodTypeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception('Failed to load donors');
-    }
-  }
   Widget _buildTextField({
     String? labelText,
     FormFieldValidator<String>? validator,
@@ -747,40 +731,58 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
   //       UILocalNotificationDateInterpretation.absoluteTime);
   // }
 
-  String calculateAge() {
-    if (selectedYear != null && selectedMonth != null && selectedDay != null) {
-      DateTime selectedDate =
-          DateTime(selectedYear!, selectedMonth!, selectedDay!);
-      DateTime currentDate = DateTime.now();
-      Duration difference = currentDate.difference(selectedDate);
-      int age = (difference.inDays / 365).floor();
-      setState(() {
-        selectedAge = age.toString();
-      });
+  void calculateAge(DateTime pickedDate) {
+    DateTime currentDate = DateTime.now();
+    _calculateAge(dobdateinput.text);
+    Duration difference = currentDate.difference(pickedDate);
+    int age = (difference.inDays / 365).floor();
+
+    setState(() {
+      selectedAge = age.toString();
       if (age < 18) {
-        setState(() {
-          selectedAgeCategory = "Teenager";
-        });
+        selectedAgeCategory = "Teenager";
       } else if (age >= 18 && age <= 24) {
-        setState(() {
-          selectedAgeCategory = "Young Adult";
-        });
+        selectedAgeCategory = "Young Adult";
       } else if (age >= 25 && age <= 44) {
-        setState(() {
-          selectedAgeCategory = "Adult";
-        });
+        selectedAgeCategory = "Adult";
       } else if (age >= 45 && age <= 64) {
-        setState(() {
-          selectedAgeCategory = "Middle Age";
-        });
+        selectedAgeCategory = "Middle Age";
       } else {
-        setState(() {
-          selectedAgeCategory = "Old Age";
-        });
+        selectedAgeCategory = "Old Age";
       }
-      return '$age years';
+    });
+  }
+
+  void _calculateAge(dobString) {
+    // String dobString = dobdateinput.text;
+    DateTime dob = DateFormat('d MMM yyyy').parse(dobString);
+    DateTime today = DateTime.now();
+    int age = today.year - dob.year;
+
+    if (today.month < dob.month ||
+        (today.month == dob.month && today.day < dob.day)) {
+      age--;
     }
-    return '';
+
+    setState(() {
+      _age = age;
+    });
+
+    setState(() {
+      if (age < 19) {
+        selectedAgeCategory = "Teenager";
+      } else if (age >= 19 && age <= 24) {
+        selectedAgeCategory = "Young Adult";
+      } else if (age >= 25 && age <= 44) {
+        selectedAgeCategory = "Adult";
+      } else if (age >= 45 && age <= 64) {
+        selectedAgeCategory = "Middle Age";
+      } else {
+        selectedAgeCategory = "Old Age";
+      }
+    });
+
+    print(_age);
   }
 
   final TextEditingController textEditingController = TextEditingController();
@@ -1038,8 +1040,10 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
                                             "Date of Birth" //label text of field
                                         ),
 
-                                    readOnly:
-                                        true, //set it true, so that user will not able to edit text
+                                    readOnly: true,
+                                    onChanged: (value) {
+                                      _calculateAge(dobdateinput.text);
+                                    }, //set it true, so that user will not able to edit text
                                     onTap: () async {
                                       DateTime? pickedDate =
                                           await showDatePicker(
@@ -1062,15 +1066,16 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
                                           selectedYear = pickedDate.year;
                                           selectedDay = pickedDate.day;
                                           selectedMonth = pickedDate.month;
+                                          dobdateinput.text =
+                                              formattedDate.toString();
                                           dateInput.text =
                                               DateFormat('d MMM yyyy')
                                                   .format(pickedDate);
-                                          calculateAge();
+
+                                          calculateAge(pickedDate);
                                         });
-                                        setState(() {
-                                          dobdateinput.text =
-                                              formattedDate; //set output date to TextField value.
-                                        });
+
+                                        print(_age);
                                       } else {
                                         print("Date is not selected");
                                       }
@@ -1282,7 +1287,7 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
                                                             String avatarPath;
 
                                                             avatarPath =
-                                                                'assets/images/man${index}.png';
+                                                                'assets/images/man$index.png';
 
                                                             return GestureDetector(
                                                               onTap: () {
@@ -1468,13 +1473,20 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
                                     onChanged: (String? value) {
                                       setState(() {
                                         selectedCountry = value;
+                                        if (value == "Sierra Leone") {
+                                          selectedCountryId = "1";
+                                        } else {
+                                          selectedCountryId = "2";
+                                        }
 
                                         // Reset selected city when district changes
                                         selectedDistrict = null;
                                       });
                                     },
                                     onSaved: (value) {
-                                      selectedCountry = value.toString();
+                                      setState(() {
+                                        selectedCountry = value.toString();
+                                      });
                                     },
                                   ),
                                   Column(
@@ -1542,10 +1554,12 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
                                           setState(() {
                                             selectedDistrict = beninvalue;
                                           });
+                                          print(selectedDistrict);
                                         },
                                         onSaved: (beninvalue) {
-                                          selectedDistrict =
-                                              beninvalue.toString();
+                                          setState(() {
+                                            selectedDistrict = beninvalue;
+                                          });
                                         },
                                       ),
                                     ],
@@ -2277,7 +2291,7 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
                                   height: 5.h,
                                 ),
                                 Text(
-                                    'A verification has been sent to:\n' +
+                                    'A verification code has been sent to:\n' +
                                         '$userphonenumber' +
                                         '\n' +
                                         'Kindly enter code.',
@@ -2539,6 +2553,7 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
                                                     Duration(seconds: 1),
                                                     () async {
                                                   register();
+                                                  print("emmie");
                                                 });
                                               } else {
                                                 ScaffoldMessenger.of(context)
@@ -2665,7 +2680,7 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
                                         ),
                                         onPressed: () async {
                                           //To remove the keyboard when button is pressed
-                                         launchUrl(Uri(
+                                          launchUrl(Uri(
                                             scheme: 'tel',
                                             path: '+232 79 230776',
                                           ));
@@ -2861,7 +2876,7 @@ Future<List<DonorRegisterData>> findDonor(String query) async {
     ;
     return Expanded(
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           color: isActive ? Theme.of(context!).primaryColor : null,

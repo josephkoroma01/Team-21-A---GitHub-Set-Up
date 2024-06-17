@@ -413,9 +413,9 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
       return donationschedule
           .map((json) => BloodTestingFacilities.fromJson(json))
           .where((donationschedule) {
-        final regionLower = donationschedule.region.toLowerCase();
-        final facilitynameLower = donationschedule.facilityname.toLowerCase();
-        final servicetypeLower = donationschedule.facilityname.toLowerCase();
+        final regionLower = donationschedule.district!.toLowerCase();
+        final facilitynameLower = donationschedule.name!.toLowerCase();
+        final servicetypeLower = donationschedule.name!.toLowerCase();
         final searchLower = donationquery.toLowerCase();
         return regionLower.contains(searchLower) ||
             facilitynameLower.contains(searchLower) ||
@@ -713,7 +713,7 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
                                                                               ),
                                                                               children: [
                                                                                 TextSpan(
-                                                                                  text: data.facilityname,
+                                                                                  text: data.name!,
                                                                                   style: GoogleFonts.montserrat(
                                                                                     fontSize: 13,
                                                                                     letterSpacing: 0,
@@ -742,7 +742,7 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
                                                                             child:
                                                                                 Expanded(
                                                                               child: Text(
-                                                                                data.address,
+                                                                                data.address!,
                                                                                 style: TextStyle(
                                                                                   fontSize: 13,
                                                                                   overflow: TextOverflow.clip,
@@ -770,7 +770,7 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
                                                                           ),
                                                                           children: [
                                                                             TextSpan(
-                                                                              text: data.region,
+                                                                              text: data.district,
                                                                               style: GoogleFonts.montserrat(
                                                                                 fontSize: 13,
                                                                                 letterSpacing: 0,

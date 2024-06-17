@@ -20,7 +20,7 @@
     "firstname": "First Name",
     "middlename": "Middle Name",
     "lastname": "Last Name",
-    "doyouwishtouseyourmiddlename":"Do you wish to use your Middle Name ?", 
+    "doyouwishtouseyourmiddlename":"Do you wish to use your Middle Name ?",
     "yes": "Yes",
     "no" : "No", 
     "dob": "Date de naissance",

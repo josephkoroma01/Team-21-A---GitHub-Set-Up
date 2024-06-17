@@ -412,9 +412,9 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
       return donationschedule
           .map((json) => BloodTestingFacilities.fromJson(json))
           .where((donationschedule) {
-        final regionLower = donationschedule.region.toLowerCase();
-        final facilitynameLower = donationschedule.facilityname.toLowerCase();
-        final servicetypeLower = donationschedule.facilityname.toLowerCase();
+        final regionLower = donationschedule.district!.toLowerCase();
+        final facilitynameLower = donationschedule.name!.toLowerCase();
+        final servicetypeLower = donationschedule.name!.toLowerCase();
         final searchLower = donationquery.toLowerCase();
         return regionLower.contains(searchLower) ||
             facilitynameLower.contains(searchLower) ||
@@ -534,8 +534,7 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
             },
             child: Text(
               'Go Home',
-              style:
-                  TextStyle(color: kWhiteColor, fontWeight: FontWeight.bold),
+              style: TextStyle(color: kWhiteColor, fontWeight: FontWeight.bold),
             )),
         leadingWidth: 100,
         title: Text('Schedule Blood Donation Appointment',
@@ -713,7 +712,7 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
                                                                               ),
                                                                               children: [
                                                                                 TextSpan(
-                                                                                  text: data.facilityname,
+                                                                                  text: data.name!,
                                                                                   style: GoogleFonts.montserrat(
                                                                                     fontSize: 13,
                                                                                     letterSpacing: 0,
@@ -742,7 +741,7 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
                                                                             child:
                                                                                 Expanded(
                                                                               child: Text(
-                                                                                data.address,
+                                                                                data.address!,
                                                                                 style: TextStyle(
                                                                                   fontSize: 13,
                                                                                   overflow: TextOverflow.clip,
@@ -770,7 +769,7 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
                                                                           ),
                                                                           children: [
                                                                             TextSpan(
-                                                                              text: data.region,
+                                                                              text: data.district,
                                                                               style: GoogleFonts.montserrat(
                                                                                 fontSize: 13,
                                                                                 letterSpacing: 0,

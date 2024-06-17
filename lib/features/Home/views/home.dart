@@ -9,6 +9,7 @@ import 'package:lifebloodworld/features/Home/views/quiz.dart';
 import 'package:lifebloodworld/features/Home/views/trivia.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
 import 'package:lifebloodworld/models/bloodtestingfacilities.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:timezone/timezone.dart' as tz;
@@ -35,6 +36,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../main.dart';
 import '../../../constants/colors.dart';
+import '../../../provider/prefs_provider.dart';
+import '../models/community_donor_request_model.dart';
 import 'search.dart';
 
 class DonationCarddata {
@@ -107,7 +110,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
   late List tabs;
   String? timeslot;
   String? totalbgresult;
-  String? totaldonation;
+  String? totaldonation = "0";
   String? totaldonationrep;
   String? totaldonationvol;
   String? totaldonationvolcan;
@@ -121,7 +124,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
   String? totalschmyself;
   String? ufname;
   String? ulname;
-  String? umname;
+  String? name;
   final TextEditingController yearinput =
       TextEditingController(text: formattedNewYear.toString());
 
@@ -173,6 +176,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     getTotalDonations();
     getBgresult();
     getBgtsch();
+    getCommunityNews();
     getBgtschmyself();
     getBgtschfriend();
     getBgtschfamily();
@@ -183,6 +187,8 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     getTotalDonationsVolcon();
     getTotalDonationsVolr();
     getTotalDonationsVolcan();
+    getCommunityNews();
+    communityDonorRequest.isEmpty ? getCommunityDonorRequest(context) : null;
     _getBloodDonationDatatimer = Timer.periodic(
         const Duration(seconds: 2), (timer) => getBloodDonationData());
     _getBloodGroupDatatimer = Timer.periodic(
@@ -338,6 +344,102 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     return totalsch;
   }
 
+  List<CommunityDonorRequest> communityDonorRequest = [];
+  Future<List<CommunityDonorRequest>> getCommunityDonorRequest(context) async {
+    try {
+      var response = await http.get(
+        Uri.parse(
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/communitydonorrequests"),
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> msg = jsonDecode(response.body);
+
+        List<CommunityDonorRequest> requests =
+            msg.map((e) => CommunityDonorRequest.fromJson(e)).toList();
+
+        setState(() {
+          communityDonorRequest = requests;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Sorry, Something went wrong. ${response.statusCode}',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(fontSize: 10)),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.fixed,
+          duration: const Duration(seconds: 3),
+        ));
+      }
+
+      return communityDonorRequest;
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            // 'Sorry, we are unable to fetch the data at the moment. Please try again later. ${e.toString()}',
+            e.toString(),
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(fontSize: 10)),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.fixed,
+        duration: const Duration(seconds: 30),
+      ));
+    }
+
+    return communityDonorRequest;
+  }
+
+  String? uname;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
+  void getPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = prefs.getString('email');
+      name = prefs.getString('name');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
+      agecategory = prefs.getString('agecategory');
+      gender = prefs.getString('gender');
+      phonenumber = prefs.getString('phonenumber');
+      address = prefs.getString('address');
+      district = prefs.getString('district');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
+      bloodtype = prefs.getString('bloodtype');
+      prevdonation = prefs.getString('prevdonation');
+      prevdonationamt = prefs.getString('prevdonationamt');
+      community = prefs.getString('community');
+      communitydonor = prefs.getString('communitydonor');
+      userId = prefs.getString('id');
+      totaldonation = prefs.getString('totaldonation');
+    });
+  }
+
+  // savePref(Users data) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('email', "${data.user!.email}");
+  //   prefs.setString('name', "${data.user!.name}");
+  //   prefs.setString('uname', "${data.user!.username}");
+  //   prefs.setString('avatar', "${data.user!.avartar}");
+  //   prefs.setString('gender', "${data.user!.gender}");
+  //   prefs.setString('agecategory', "${data.user!.ageCategory}");
+  //   prefs.setString('age', "${data.user!.age}");
+  //   prefs.setString('dob', "${data.user!.dob}");
+  //   prefs.setString('country', "${data.user!.country}");
+  //   prefs.setString('country_id', "${data.user!.countryId}");
+  //   prefs.setString('phonenumber', "${data.user!.phone}");
+  //   prefs.setString('address', "${data.user!.address}");
+  //   prefs.setString('district', "${data.user!.distict}");
+  //   prefs.setString('bloodtype', "${data.user!.bloodGroup}");
+  //   prefs.setString('prevdonation', "${data.user!.prvdonation}");
+  //   prefs.setString('prevdonationamt', "${data.user!.prvdonationNo}");
+  //   prefs.setString('community', "${data.user!.community}");
+  //   prefs.setString('id', "${data.user!.id}");
+  // }
+
   Future getBgtschmyself() async {
     var data = {'phonenumber': phonenumber, 'bloodtestfor': 'Myself'};
     var response = await http.post(
@@ -437,24 +539,24 @@ class _nameState extends State<home> with TickerProviderStateMixin {
   Future getCommunityNews() async {
     var data = {'status': 'Active'};
     var response = await http.post(
-        Uri.parse("http://community.lifebloodsl.com/communityappnews.php"),
+        Uri.parse(
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/newsfeed"),
         body: json.encode(data));
     print(response.body);
     var msg = jsonDecode(response.body);
-    if (msg['commmuitynews'] == true) {
+    if (response.statusCode == 200) {
       setState(() {
         newsready = "Yes";
-        newstitle = msg['userInfo']["title"];
-        newsdescription = msg['userInfo']["description"];
-        newscalltoaction = msg['userInfo']["cta"];
+        newstitle = msg[0]["title"];
+        newsdescription = msg[0]["description"];
+        newscalltoaction = msg[0]["cta"];
         newslink = msg['userInfo']["link"];
       });
       savenewsPref();
-    } else if (msg['commmuitynews'] == false) {
+    } else if (response.statusCode != 200) {
       setState(() {
         newsready = "No";
       });
-      savenewsPref();
     }
     return newsready;
   }
@@ -643,6 +745,8 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     return bgdataready;
   }
 
+  // Future com
+
   Future getData() async {
     var data = {'phonenumber': phonenumber};
     var response = await http.post(
@@ -784,46 +888,44 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     }
   }
 
-  void getPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      email = prefs.getString('email');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
-      agecategory = prefs.getString('agecategory');
-      gender = prefs.getString('gender');
-      phonenumber = prefs.getString('phonenumber');
-      address = prefs.getString('address');
-      district = prefs.getString('district');
-      bloodtype = prefs.getString('bloodtype');
-      prevdonation = prefs.getString('prevdonation');
-      prevdonationamt = prefs.getString('prevdonationamt');
-      community = prefs.getString('community');
-      communitydonor = prefs.getString('communitydonor');
-      nextdonationdate = prefs.getString('nextdonationdate');
-      donorid = prefs.getString('donorid');
-      donated = prefs.getString('donated');
-      newsready = prefs.getString('newsready');
-      newstitle = prefs.getString('newstitle');
-      newsdescription = prefs.getString('newsdescription');
-      newslink = prefs.getString('newslink');
-      newscalltoaction = prefs.getString('newscalltoaction');
-      totaldonation = prefs.getString('totaldonation');
-      totalbgresult = prefs.getString('totalbgresult');
-      totalsch = prefs.getString('totalsch');
-      totalschmyself = prefs.getString('totalschmyself');
-      totalschfriend = prefs.getString('totalschfriend');
-      totalschfamily = prefs.getString('totalschfamily');
-      totaldonationrep = prefs.getString('totaldonationrep');
-      totaldonationvol = prefs.getString('totaldonationvol');
-      totaldonationvold = prefs.getString('totaldonationvold');
-      totaldonationvolp = prefs.getString('totaldonationvolp');
-      totaldonationvolcon = prefs.getString('totaldonationvolcon');
-      totaldonationvolr = prefs.getString('totaldonationvolr');
-      totaldonationvolcan = prefs.getString('totaldonationvolcan');
-    });
-  }
+  // void getPref() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     email = prefs.getString('email');
+  //     name = prefs.getString('name');
+  //     agecategory = prefs.getString('agecategory');
+  //     gender = prefs.getString('gender');
+  //     phonenumber = prefs.getString('phonenumber');
+  //     address = prefs.getString('address');
+  //     district = prefs.getString('district');
+  //     bloodtype = prefs.getString('bloodtype');
+  //     prevdonation = prefs.getString('prevdonation');
+  //     prevdonationamt = prefs.getString('prevdonationamt');
+  //     community = prefs.getString('community');
+  //     // communitydonor = prefs.getString('communitydonor');
+  //     nextdonationdate = prefs.getString('nextdonationdate');
+  //     donorid = prefs.getString('donorid');
+  //     donated = prefs.getString('donated');
+  //     // newsready = prefs.getString('newsready');
+  //     newstitle = prefs.getString('newstitle');
+  //     newsdescription = prefs.getString('newsdescription');
+  //     newslink = prefs.getString('newslink');
+  //     newscalltoaction = prefs.getString('newscalltoaction');
+  //     totaldonation = prefs.getString('totaldonation');
+  //     totalbgresult = prefs.getString('totalbgresult');
+  //     totalsch = prefs.getString('totalsch');
+  //     totalschmyself = prefs.getString('totalschmyself');
+  //     totalschfriend = prefs.getString('totalschfriend');
+  //     totalschfamily = prefs.getString('totalschfamily');
+  //     totaldonationrep = prefs.getString('totaldonationrep');
+  //     totaldonationvol = prefs.getString('totaldonationvol');
+  //     totaldonationvold = prefs.getString('totaldonationvold');
+  //     totaldonationvolp = prefs.getString('totaldonationvolp');
+  //     totaldonationvolcon = prefs.getString('totaldonationvolcon');
+  //     totaldonationvolr = prefs.getString('totaldonationvolr');
+  //     totaldonationvolcan = prefs.getString('totaldonationvolcan');
+  //   });
+  // }
 
   savenextdonationPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1256,6 +1358,8 @@ class _nameState extends State<home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     var t = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
+    Provider.of<PrefsProvider>(context, listen: false).getPref();
+    final prefsProvider = Provider.of<PrefsProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Color(0xFFe0e9e4),
@@ -1269,70 +1373,72 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                 SizedBox(height: 30.h),
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Joseph David Koroma".toUpperCase(),
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF205072)),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  name.toString(),
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF205072)),
+                                ),
+                              ],
+                            ),
+                            const Row(
+                              children: [
+                                Text(
+                                  'Thanks for making a difference',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      letterSpacing: 0,
+                                      fontSize: 15,
+                                      color: kPrimaryColor),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomePageScreen(pageIndex: 4)));
+                              },
+                              child: Image.asset(
+                                "assets/images/bronze-medal.png",
+                                height: 40,
+                                // width: size.width * 0.4,
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Thanks for making a difference',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                    fontSize: 15,
-                                    color: kPrimaryColor),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomePageScreen(pageIndex: 4)));
-                            },
-                            child: Image.asset(
-                              "assets/images/bronze-medal.png",
-
+                            ),
+                            Container(
                               height: 40,
-                              // width: size.width * 0.4,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.amber.shade100,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Center(
+                                  child: FaIcon(FontAwesomeIcons.solidStar,
+                                      size: 25, color: Colors.amber)),
                             ),
-                          ),
-                          Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.amber.shade100,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                                child: FaIcon(FontAwesomeIcons.solidStar,
-                                    size: 25, color: Colors.amber)),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -1369,7 +1475,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                   ),
                                   child: Column(
                                     children: [
-                                      Row(
+                                      const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
@@ -1389,11 +1495,11 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                       SizedBox(
                                         width: double.infinity,
                                         child: SizedBox(
-                                          child: Divider(
+                                          height: 5.h,
+                                          child: const Divider(
                                             color: Colors.teal,
                                             thickness: 0.2,
                                           ),
-                                          height: 5.h,
                                         ),
                                       ),
                                       SizedBox(
@@ -1572,7 +1678,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                 )
                                               : Column(
                                                   children: [
-                                                    Text("No News Today",
+                                                    const Text("No News Today",
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -1592,12 +1698,34 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                             width:
                                                                 double.infinity,
                                                             child: TextButton(
+                                                              style: TextButton
+                                                                  .styleFrom(
+                                                                foregroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                backgroundColor:
+                                                                    kPrimaryColor,
+                                                                shape: const RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(10))),
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            const managebloodtestAppointments(),
+                                                                  ),
+                                                                );
+                                                              },
                                                               child: Row(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .center,
                                                                 children: [
-                                                                  FaIcon(
+                                                                  const FaIcon(
                                                                     FontAwesomeIcons
                                                                         .solidNewspaper,
                                                                     size: 15,
@@ -1623,27 +1751,6 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                                       )),
                                                                 ],
                                                               ),
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                backgroundColor:
-                                                                    kPrimaryColor,
-                                                                shape: const RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(10))),
-                                                              ),
-                                                              onPressed: () {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  new MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              managebloodtestAppointments()),
-                                                                );
-                                                              },
                                                             ),
                                                           ),
                                                         ),
@@ -1670,7 +1777,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                   ),
                                   child: Column(
                                     children: [
-                                      Row(
+                                      const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
@@ -1703,11 +1810,31 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                       Column(
                                         children: [
                                           TextButton(
+                                            style: TextButton.styleFrom(
+                                              foregroundColor: Colors.white,
+                                              backgroundColor:
+                                                  Colors.teal.shade100,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10))),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const MyQuiz(),
+                                                  ),
+                                                  (route) => false);
+                                            },
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                FaIcon(
+                                                const FaIcon(
                                                   FontAwesomeIcons.play,
                                                   size: 15,
                                                   color: kPrimaryColor,
@@ -1725,6 +1852,8 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                     )),
                                               ],
                                             ),
+                                          ),
+                                          TextButton(
                                             style: TextButton.styleFrom(
                                               foregroundColor: Colors.white,
                                               backgroundColor:
@@ -1737,21 +1866,13 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                                   10))),
                                             ),
                                             onPressed: () {
-                                              Navigator.pushAndRemoveUntil(
-                                                  context,
-                                                  new MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        MyQuiz(),
-                                                  ),
-                                                  (route) => false);
+                                              _showDialog(context);
                                             },
-                                          ),
-                                          TextButton(
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                FaIcon(
+                                                const FaIcon(
                                                   FontAwesomeIcons.peopleLine,
                                                   size: 15,
                                                   color: kPrimaryColor,
@@ -1769,20 +1890,6 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                     )),
                                               ],
                                             ),
-                                            style: TextButton.styleFrom(
-                                              foregroundColor: Colors.white,
-                                              backgroundColor:
-                                                  Colors.teal.shade100,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10))),
-                                            ),
-                                            onPressed: () {
-                                              _showDialog(context);
-                                            },
                                           ),
                                         ],
                                       ),
@@ -1791,7 +1898,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                           SizedBox(
                                             height: 3.h,
                                           ),
-                                          Text('Every Friday from 08:00',
+                                          const Text('Every Friday from 08:00',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontFamily: 'Montserrat',
@@ -1815,7 +1922,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                         _formatTime(value!);
                                                     return Text(
                                                       displayTime,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 24.0),
                                                     );
                                                   },
@@ -1831,7 +1938,8 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                     children: [
                                                       Container(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                .only(
                                                                 top: 10,
                                                                 left: 20,
                                                                 right: 20,
@@ -1855,7 +1963,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                                     14.h)),
                                                       ),
                                                       2.verticalSpace,
-                                                      Text(
+                                                      const Text(
                                                         'days',
                                                         style: TextStyle(
                                                             fontFamily:
@@ -1872,7 +1980,8 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                     children: [
                                                       Container(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                .only(
                                                                 top: 10,
                                                                 left: 20,
                                                                 right: 20,
@@ -1896,7 +2005,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                                     14.h)),
                                                       ),
                                                       2.verticalSpace,
-                                                      Text(
+                                                      const Text(
                                                         'hrs',
                                                         style: TextStyle(
                                                             fontFamily:
@@ -1913,7 +2022,8 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                     children: [
                                                       Container(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                .only(
                                                                 top: 10,
                                                                 left: 20,
                                                                 right: 20,
@@ -2240,7 +2350,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                       SizedBox(
                                         height: 5.h,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: double.infinity,
                                         child: SizedBox(
                                           child: Divider(
@@ -2249,45 +2359,14 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(1),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.only(
-                                                  bottom: MediaQuery.of(context)
-                                                      .viewInsets
-                                                      .bottom),
-                                              child: Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    .0, 5.0, 5.0, 5.0),
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10.w),
-                                                  child: Container(
-                                                    padding:
-                                                        EdgeInsets.all(10.r),
-                                                    width: double.infinity,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromARGB(
-                                                          255, 53, 87, 112),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Column(
+                                      communityDonorRequest.isNotEmpty
+                                          ? Column(
+                                              children: communityDonorRequest
+                                                  .map((e) => Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(1),
+                                                        child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
                                                                   .start,
@@ -2295,633 +2374,513 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                               MainAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            // Text('Blood Donor Request',
-                                                            //     textAlign: TextAlign.center,
-                                                            //     style: GoogleFonts.montserrat(fontSize: 10,
-                                                            //     letterSpacing: 0,
-                                                            //     color: kWhiteColor)),
-                                                            // SizedBox(
-                                                            //   height: 5.h,
-                                                            // ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Text.rich(
-                                                                  TextSpan(
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Color(
-                                                                          0xFF205072),
-                                                                      fontSize:
-                                                                          15,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
+                                                            Container(
+                                                              padding: EdgeInsets.only(
+                                                                  bottom: MediaQuery.of(
+                                                                          context)
+                                                                      .viewInsets
+                                                                      .bottom),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .fromLTRB(
+                                                                        .0,
+                                                                        5.0,
+                                                                        5.0,
+                                                                        5.0),
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              10.w),
+                                                                  child:
+                                                                      Container(
+                                                                    padding: EdgeInsets
+                                                                        .all(10
+                                                                            .r),
+                                                                    width: double
+                                                                        .infinity,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          53,
+                                                                          87,
+                                                                          112),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
                                                                     ),
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          children: [
+                                                                            // Text('Blood Donor Request',
+                                                                            //     textAlign: TextAlign.center,
+                                                                            //     style: GoogleFonts.montserrat(fontSize: 10,
+                                                                            //     letterSpacing: 0,
+                                                                            //     color: kWhiteColor)),
+                                                                            // SizedBox(
+                                                                            //   height: 5.h,
+                                                                            // ),
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Text.rich(
+                                                                                  TextSpan(
+                                                                                    style: TextStyle(
+                                                                                      color: Color(0xFF205072),
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                    ),
+                                                                                    children: [
+                                                                                      TextSpan(
+                                                                                        text: e.facility,
+                                                                                        style: GoogleFonts.montserrat(
+                                                                                          fontSize: 13,
+                                                                                          letterSpacing: 0,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          color: kWhiteColor,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                                  textAlign: TextAlign.left,
+                                                                                ),
+                                                                                Container(
+                                                                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                                                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: kWhiteColor),
+                                                                                  child: Text(
+                                                                                    e.bloodtype.toString(),
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 12,
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      fontFamily: 'Montserrat',
+                                                                                      letterSpacing: 0,
+                                                                                      color: kLifeBloodBlue,
+                                                                                    ),
+                                                                                    overflow: TextOverflow.clip,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 2.h,
+                                                                            ),
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Flexible(
+                                                                                  child: Expanded(
+                                                                                    child: Text(
+                                                                                      e.address.toString(),
+                                                                                      style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        overflow: TextOverflow.clip,
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontFamily: 'Montserrat',
+                                                                                        letterSpacing: 0,
+                                                                                        color: kWhiteColor,
+                                                                                      ),
+                                                                                      overflow: TextOverflow.clip,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            Text.rich(
+                                                                              TextSpan(
+                                                                                style: TextStyle(
+                                                                                  color: Color(0xFF205072),
+                                                                                  fontSize: 15,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                ),
+                                                                                children: [
+                                                                                  TextSpan(
+                                                                                    text: e.district,
+                                                                                    style: GoogleFonts.montserrat(
+                                                                                      fontSize: 13,
+                                                                                      letterSpacing: 0,
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      color: kWhiteColor,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                              textAlign: TextAlign.left,
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 10.h,
+                                                                            ),
+                                                                            TextButton(
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text('Volunteer to Donate',
+                                                                                      textAlign: TextAlign.center,
+                                                                                      style: GoogleFonts.montserrat(
+                                                                                        fontSize: 12,
+                                                                                        letterSpacing: 0,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        color: kLifeBloodBlue,
+                                                                                      )),
+                                                                                ],
+                                                                              ),
+                                                                              style: TextButton.styleFrom(
+                                                                                foregroundColor: Colors.white,
+                                                                                backgroundColor: kWhiteColor,
+                                                                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                                              ),
+                                                                              onPressed: () {
+                                                                                FocusManager.instance.primaryFocus?.unfocus();
+                                                                                var whatsappUrl = "whatsapp://send?phone=${'+23278621647'}" + "&text=${Uri.encodeComponent('Hi LifeBlood, I want to volunteer to donate')}";
+                                                                                try {
+                                                                                  launch(whatsappUrl);
+                                                                                } catch (e) {
+                                                                                  //To handle error and display error message
+                                                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                    content: Text('Could Not Launch WhatsApp', style: GoogleFonts.montserrat()),
+                                                                                    backgroundColor: Colors.red,
+                                                                                    behavior: SnackBarBehavior.fixed,
+                                                                                    duration: Duration(seconds: 3),
+                                                                                  ));
+                                                                                }
+                                                                              },
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            (dataready == "Yes")
+                                                                ? Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
                                                                     children: [
-                                                                      TextSpan(
-                                                                        text:
-                                                                            'PCMH',
-                                                                        style: GoogleFonts
-                                                                            .montserrat(
-                                                                          fontSize:
-                                                                              13,
-                                                                          letterSpacing:
-                                                                              0,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          color:
-                                                                              kWhiteColor,
+                                                                        Text.rich(
+                                                                          TextSpan(
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color(0xFF205072),
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                            children: [
+                                                                              TextSpan(
+                                                                                text: 'Facility: ',
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                              TextSpan(
+                                                                                text: "$facility",
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          textHeightBehavior:
+                                                                              TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                        ),
+                                                                        Text.rich(
+                                                                          TextSpan(
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color(0xFF205072),
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                            children: [
+                                                                              TextSpan(
+                                                                                text: 'Blood Group: ',
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                              TextSpan(
+                                                                                text: "$timeslot",
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          textHeightBehavior:
+                                                                              TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                        ),
+                                                                        Text.rich(
+                                                                          TextSpan(
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color(0xFF205072),
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                            children: [
+                                                                              TextSpan(
+                                                                                text: 'Units Required: ',
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                              TextSpan(
+                                                                                text: "$timeslot",
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          textHeightBehavior:
+                                                                              TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                        ),
+                                                                        Text.rich(
+                                                                          TextSpan(
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color(0xFF205072),
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                            children: [
+                                                                              TextSpan(
+                                                                                text: 'Date: ',
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                              TextSpan(
+                                                                                text: "$timeslot",
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          textHeightBehavior:
+                                                                              TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                        ),
+                                                                        Text.rich(
+                                                                          TextSpan(
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color(0xFF205072),
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                            children: [
+                                                                              TextSpan(
+                                                                                text: 'Status: ',
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                              TextSpan(
+                                                                                text: "$status",
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Montserrat',
+                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          textHeightBehavior:
+                                                                              TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              5,
+                                                                        )
+                                                                      ])
+                                                                : Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
+                                                                        child:
+                                                                            Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              children: [
+                                                                                Text(
+                                                                                  'No Pending Blood Donor Request',
+                                                                                  style: TextStyle(fontFamily: 'Montserrat', color: Colors.white, letterSpacing: 0, fontWeight: FontWeight.normal, fontSize: 11),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                  textHeightBehavior:
-                                                                      TextHeightBehavior(
-                                                                          applyHeightToFirstAscent:
-                                                                              false),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                ),
-                                                                Container(
-                                                                  padding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              10,
-                                                                          vertical:
-                                                                              2),
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              50),
-                                                                      color:
-                                                                          kWhiteColor),
-                                                                  child: Text(
-                                                                    'B+',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          12,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontFamily:
-                                                                          'Montserrat',
-                                                                      letterSpacing:
-                                                                          0,
-                                                                      color:
-                                                                          kLifeBloodBlue,
-                                                                    ),
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .clip,
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                            SizedBox(
+                                                              height: 8.h,
                                                             ),
                                                             SizedBox(
-                                                              height: 2.h,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Flexible(
-                                                                  child:
-                                                                      Expanded(
-                                                                    child: Text(
-                                                                      'data.address',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            13,
-                                                                        overflow:
-                                                                            TextOverflow.clip,
-                                                                        fontWeight:
-                                                                            FontWeight.normal,
-                                                                        fontFamily:
-                                                                            'Montserrat',
-                                                                        letterSpacing:
-                                                                            0,
-                                                                        color:
-                                                                            kWhiteColor,
-                                                                      ),
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .clip,
-                                                                    ),
-                                                                  ),
+                                                              width: double
+                                                                  .infinity,
+                                                              child: SizedBox(
+                                                                height: 5.h,
+                                                                child: Divider(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  thickness:
+                                                                      0.2,
                                                                 ),
-                                                              ],
+                                                              ),
                                                             ),
-                                                            Text.rich(
-                                                              TextSpan(
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF205072),
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text:
-                                                                        'data.region',
-                                                                    style: GoogleFonts
-                                                                        .montserrat(
-                                                                      fontSize:
-                                                                          13,
-                                                                      letterSpacing:
-                                                                          0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
+                                                            SizedBox(
+                                                              height: 5.h,
+                                                            ),
+                                                            SizedBox(
+                                                              width: double
+                                                                  .infinity,
+                                                              child: TextButton(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons
+                                                                          .view_agenda_outlined,
+                                                                      size: 15,
                                                                       color:
                                                                           kWhiteColor,
                                                                     ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              textHeightBehavior:
-                                                                  TextHeightBehavior(
-                                                                      applyHeightToFirstAscent:
-                                                                          false),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ),
-                                                            SizedBox(
-                                                              height: 10.h,
-                                                            ),
-                                                            TextButton(
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  
-                                                                  Text(
-                                                                      'Volunteer to Donate',
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style: GoogleFonts
-                                                                          .montserrat(
-                                                                        fontSize:
-                                                                            12,
-                                                                        letterSpacing:
-                                                                            0,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        color:
-                                                                            kLifeBloodBlue,
-                                                                      )),
-                                                                ],
-                                                              ),
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                backgroundColor:
-                                                                    kWhiteColor,
-                                                                shape: const RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(10))),
-                                                              ),
-                                                              onPressed: () {
-                                                                FocusManager
-                                                                    .instance
-                                                                    .primaryFocus
-                                                                    ?.unfocus();
-                                                                var whatsappUrl =
-                                                                    "whatsapp://send?phone=${'+23278621647'}" +
-                                                                        "&text=${Uri.encodeComponent('Hi LifeBlood, I want to volunteer to donate')}";
-                                                                try {
-                                                                  launch(
-                                                                      whatsappUrl);
-                                                                } catch (e) {
-                                                                  //To handle error and display error message
-                                                                  ScaffoldMessenger.of(
-                                                                          context)
-                                                                      .showSnackBar(
-                                                                          SnackBar(
-                                                                    content: Text(
-                                                                        'Could Not Launch WhatsApp',
+                                                                    5.horizontalSpace,
+                                                                    Text(
+                                                                        'View All Blood Donor Requests',
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
                                                                         style: GoogleFonts
-                                                                            .montserrat()),
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .red,
-                                                                    behavior:
-                                                                        SnackBarBehavior
-                                                                            .fixed,
-                                                                    duration: Duration(
-                                                                        seconds:
-                                                                            3),
-                                                                  ));
-                                                                }
-                                                              },
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            (dataready == "Yes")
-                                                ? Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                        Text.rich(
-                                                          TextSpan(
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF205072),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text:
-                                                                    'Facility: ',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: Colors
-                                                                      .white,
+                                                                            .montserrat(
+                                                                          fontSize:
+                                                                              11.sp,
+                                                                          letterSpacing:
+                                                                              0,
+                                                                          fontWeight:
+                                                                              FontWeight.w400,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        )),
+                                                                  ],
                                                                 ),
-                                                              ),
-                                                              TextSpan(
-                                                                text:
-                                                                    "$facility",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          textHeightBehavior:
-                                                              TextHeightBehavior(
-                                                                  applyHeightToFirstAscent:
-                                                                      false),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                        ),
-                                                        Text.rich(
-                                                          TextSpan(
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF205072),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text:
-                                                                    'Blood Group: ',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                              TextSpan(
-                                                                text:
-                                                                    "$timeslot",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          textHeightBehavior:
-                                                              TextHeightBehavior(
-                                                                  applyHeightToFirstAscent:
-                                                                      false),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                        ),
-                                                        Text.rich(
-                                                          TextSpan(
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF205072),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text:
-                                                                    'Units Required: ',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                              TextSpan(
-                                                                text:
-                                                                    "$timeslot",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          textHeightBehavior:
-                                                              TextHeightBehavior(
-                                                                  applyHeightToFirstAscent:
-                                                                      false),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                        ),
-                                                        Text.rich(
-                                                          TextSpan(
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF205072),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text: 'Date: ',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                              TextSpan(
-                                                                text:
-                                                                    "$timeslot",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          textHeightBehavior:
-                                                              TextHeightBehavior(
-                                                                  applyHeightToFirstAscent:
-                                                                      false),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                        ),
-                                                        Text.rich(
-                                                          TextSpan(
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF205072),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text:
-                                                                    'Status: ',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                              TextSpan(
-                                                                text: "$status",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  letterSpacing:
-                                                                      0,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          textHeightBehavior:
-                                                              TextHeightBehavior(
-                                                                  applyHeightToFirstAscent:
-                                                                      false),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        )
-                                                      ])
-                                                : Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Column(
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  'No Pending Blood Donor Request',
-                                                                  style: TextStyle(
-                                                                      fontFamily:
-                                                                          'Montserrat',
-                                                                      color: Colors
+                                                                style: TextButton
+                                                                    .styleFrom(
+                                                                  foregroundColor:
+                                                                      Colors
                                                                           .white,
-                                                                      letterSpacing:
-                                                                          0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontSize:
-                                                                          11),
+                                                                  backgroundColor:
+                                                                      Color.fromARGB(
+                                                                          255,
+                                                                          53,
+                                                                          87,
+                                                                          112),
+                                                                  shape: const RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(10))),
                                                                 ),
-                                                              ],
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                blooddonorrequest()),
+                                                                  );
+                                                                },
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                            SizedBox(
-                                              height: 8.h,
+                                                      ))
+                                                  .toList())
+                                          : Text(
+                                              'No Blood Donor Request Available',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  letterSpacing: 0,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white),
                                             ),
-                                            SizedBox(
-                                              width: double.infinity,
-                                              child: SizedBox(
-                                                height: 5.h,
-                                                child: Divider(
-                                                  color: Colors.white,
-                                                  thickness: 0.2,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 5.h,
-                                            ),
-                                            SizedBox(
-                                              width: double.infinity,
-                                              child: TextButton(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons
-                                                          .view_agenda_outlined,
-                                                      size: 15,
-                                                      color: kWhiteColor,
-                                                    ),
-                                                    5.horizontalSpace,
-                                                    Text('View All Blood Donor Requests',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                          fontSize: 11.sp,
-                                                          letterSpacing: 0,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Colors.white,
-                                                        )),
-                                                  ],
-                                                ),
-                                                style: TextButton.styleFrom(
-                                                  foregroundColor: Colors.white,
-                                                  backgroundColor:
-                                                      Color.fromARGB(
-                                                          255, 53, 87, 112),
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10))),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    new MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            blooddonorrequest()),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -2939,7 +2898,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                   children: [
                                     Column(
                                       children: [
-                                        Text("$bloodtype",
+                                        Text(bloodtype.toString(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily: 'Montserrat',
@@ -2967,15 +2926,15 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                     ),
                                     Column(
                                       children: [
-                                        Text('$totaldonation',
+                                        Text(totaldonation.toString(),
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontFamily: 'Montserrat',
                                                 letterSpacing: 0,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.teal)),
-                                        Text('Total Donations',
+                                        const Text('Total Donations',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontFamily: 'Montserrat',
@@ -2998,28 +2957,12 @@ class _nameState extends State<home> with TickerProviderStateMixin {
             ]),
             GestureDetector(
               onTap: () async {
-                if (await getInternetUsingInternetConnectivity()) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => scheduletypebody(),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            letterSpacing: 0,
-                            fontSize: 10)),
-                    backgroundColor: Color(0xFFE02020),
-                    behavior: SnackBarBehavior.fixed,
-                    duration: const Duration(seconds: 5),
-                    // duration: Duration(seconds: 3),
-                  ));
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => scheduletypebody(),
+                  ),
+                );
               },
               child: Row(
                 children: <Widget>[
@@ -3114,28 +3057,12 @@ class _nameState extends State<home> with TickerProviderStateMixin {
             ),
             GestureDetector(
               onTap: () async {
-                if (await getInternetUsingInternetConnectivity()) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => bloodtypebody(),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            letterSpacing: 0,
-                            fontSize: 10)),
-                    backgroundColor: Color(0xFFE02020),
-                    behavior: SnackBarBehavior.fixed,
-                    duration: const Duration(seconds: 5),
-                    // duration: Duration(seconds: 3),
-                  ));
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => bloodtypebody(),
+                  ),
+                );
               },
               child: Row(
                 children: <Widget>[
@@ -3179,7 +3106,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                         SizedBox(
                                           height: 5.h,
                                         ),
-                                        Row(
+                                        const Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
@@ -3197,7 +3124,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                           ],
                                         ),
                                         2.verticalSpace,
-                                        Row(
+                                        const Row(
                                           children: [
                                             Expanded(
                                               child: Text(
@@ -3228,29 +3155,13 @@ class _nameState extends State<home> with TickerProviderStateMixin {
               ),
             ),
             GestureDetector(
-              onTap: () async {
-                if (await getInternetUsingInternetConnectivity()) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => managebloodtestAppointments(),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            letterSpacing: 0,
-                            fontSize: 10)),
-                    backgroundColor: Color(0xFFE02020),
-                    behavior: SnackBarBehavior.fixed,
-                    duration: const Duration(seconds: 5),
-                    // duration: Duration(seconds: 3),
-                  ));
-                }
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const managebloodtestAppointments(),
+                  ),
+                );
               },
               child: Row(
                 children: <Widget>[
@@ -3294,7 +3205,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                         SizedBox(
                                           height: 5.h,
                                         ),
-                                        Row(
+                                        const Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
@@ -3312,7 +3223,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                           ],
                                         ),
                                         2.verticalSpace,
-                                        Row(
+                                        const Row(
                                           children: [
                                             Expanded(
                                               child: Text(
@@ -3409,7 +3320,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                         SizedBox(
                                           height: 5.h,
                                         ),
-                                        Row(
+                                        const Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
@@ -3427,7 +3338,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                           ],
                                         ),
                                         2.verticalSpace,
-                                        Row(
+                                        const Row(
                                           children: [
                                             Expanded(
                                               child: Text(
@@ -4055,7 +3966,7 @@ class _DialogContentState extends State<DialogContent> {
                                       }
                                     },
                                     child: _scheduling
-                                        ? SizedBox(
+                                        ? const SizedBox(
                                             height: 15.0,
                                             width: 15.0,
                                             child: CircularProgressIndicator(
@@ -4063,7 +3974,7 @@ class _DialogContentState extends State<DialogContent> {
                                               strokeWidth: 2.0,
                                             ),
                                           )
-                                        : Text(
+                                        : const Text(
                                             'Join LifeBlood Trivia',
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -4455,7 +4366,7 @@ class _TriviaDialogContentState extends State<TriviaDialogContent> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                             ],
@@ -4578,9 +4489,9 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
       return donationschedule
           .map((json) => BloodTestingFacilities.fromJson(json))
           .where((donationschedule) {
-        final regionLower = donationschedule.region.toLowerCase();
-        final facilitynameLower = donationschedule.facilityname.toLowerCase();
-        final servicetypeLower = donationschedule.facilityname.toLowerCase();
+        final regionLower = donationschedule.district!.toLowerCase();
+        final facilitynameLower = donationschedule.name!.toLowerCase();
+        final servicetypeLower = donationschedule.name!.toLowerCase();
         final searchLower = donationquery.toLowerCase();
         return regionLower.contains(searchLower) ||
             facilitynameLower.contains(searchLower) ||
@@ -4802,7 +4713,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                               ),
                                                                               children: [
                                                                                 TextSpan(
-                                                                                  text: data.facilityname,
+                                                                                  text: data.name!,
                                                                                   style: GoogleFonts.montserrat(
                                                                                     fontSize: 13,
                                                                                     letterSpacing: 0,
@@ -4824,7 +4735,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                                 BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(0xFF205072)),
                                                                             child:
                                                                                 Text(
-                                                                              data.servicetype,
+                                                                              data.status!,
                                                                               style: TextStyle(
                                                                                 fontSize: 12,
                                                                                 fontWeight: FontWeight.normal,
@@ -4849,7 +4760,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                             child:
                                                                                 Expanded(
                                                                               child: Text(
-                                                                                data.address,
+                                                                                data.address!,
                                                                                 style: TextStyle(
                                                                                   fontSize: 13,
                                                                                   overflow: TextOverflow.clip,
@@ -4877,7 +4788,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                           ),
                                                                           children: [
                                                                             TextSpan(
-                                                                              text: data.region,
+                                                                              text: data.district,
                                                                               style: GoogleFonts.montserrat(
                                                                                 fontSize: 13,
                                                                                 letterSpacing: 0,
@@ -4902,8 +4813,6 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                           mainAxisAlignment:
                                                                               MainAxisAlignment.center,
                                                                           children: [
-                                                                            
-                                                                           
                                                                             Text('Volunteer to Donate',
                                                                                 textAlign: TextAlign.center,
                                                                                 style: GoogleFonts.montserrat(

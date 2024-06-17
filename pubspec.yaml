@@ -75,6 +75,10 @@ dependencies:
   geolocator: ^11.0.0
   baseflow_plugin_template: ^2.1.2
   geocoding: ^3.0.0
+  fvm: ^3.1.5
+  firebase_messaging: ^14.9.4
+  provider: ^6.1.2
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

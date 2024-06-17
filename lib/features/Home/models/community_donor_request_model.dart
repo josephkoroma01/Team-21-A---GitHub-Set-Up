@@ -1,63 +1,57 @@
-class BloodTestingFacilities {
+class CommunityDonorRequest {
   int? id;
-  String? countryId;
+  int? countryId;
   String? country;
-  String? rbtc;
-  String? rbtcId;
+  int? districtId;
   String? district;
-  String? tfsId;
-  String? fullname;
-  String? name;
+  String? phonenumber;
   String? address;
-  String? communityname;
-  String? regionalcode;
-  String? testPrice;
-  String? status;
+  String? bloodtype;
+  String? facility;
+  String? ward;
+  double? bloodlitres;
   String? date;
   String? month;
   String? year;
+  String? status;
   String? createdAt;
   String? updatedAt;
 
-  BloodTestingFacilities(
+  CommunityDonorRequest(
       {this.id,
       this.countryId,
       this.country,
-      this.rbtc,
-      this.rbtcId,
+      this.districtId,
       this.district,
-      this.tfsId,
-      this.fullname,
-      this.name,
+      this.phonenumber,
       this.address,
-      this.communityname,
-      this.regionalcode,
-      this.testPrice,
-      this.status,
+      this.bloodtype,
+      this.facility,
+      this.ward,
+      this.bloodlitres,
       this.date,
       this.month,
       this.year,
+      this.status,
       this.createdAt,
       this.updatedAt});
 
-  BloodTestingFacilities.fromJson(Map<String, dynamic> json) {
+  CommunityDonorRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     countryId = json['country_id'];
     country = json['country'];
-    rbtc = json['rbtc'];
-    rbtcId = json['rbtc_id'];
+    districtId = json['district_id'];
     district = json['district'];
-    tfsId = json['tfs_id'];
-    fullname = json['fullname'];
-    name = json['name'];
+    phonenumber = json['phonenumber'];
     address = json['address'];
-    communityname = json['communityname'];
-    regionalcode = json['regionalcode'];
-    testPrice = json['test_price'];
-    status = json['status'];
+    bloodtype = json['bloodtype'];
+    facility = json['facility'];
+    ward = json['ward'];
+    bloodlitres = json['bloodlitres'];
     date = json['date'];
     month = json['month'];
     year = json['year'];
+    status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -67,20 +61,18 @@ class BloodTestingFacilities {
     data['id'] = this.id;
     data['country_id'] = this.countryId;
     data['country'] = this.country;
-    data['rbtc'] = this.rbtc;
-    data['rbtc_id'] = this.rbtcId;
+    data['district_id'] = this.districtId;
     data['district'] = this.district;
-    data['tfs_id'] = this.tfsId;
-    data['fullname'] = this.fullname;
-    data['name'] = this.name;
+    data['phonenumber'] = this.phonenumber;
     data['address'] = this.address;
-    data['communityname'] = this.communityname;
-    data['regionalcode'] = this.regionalcode;
-    data['test_price'] = this.testPrice;
-    data['status'] = this.status;
+    data['bloodtype'] = this.bloodtype;
+    data['facility'] = this.facility;
+    data['ward'] = this.ward;
+    data['bloodlitres'] = this.bloodlitres;
     data['date'] = this.date;
     data['month'] = this.month;
     data['year'] = this.year;
+    data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

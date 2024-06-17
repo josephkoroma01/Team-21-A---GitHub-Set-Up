@@ -2127,7 +2127,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                                 children: [
                                                                   TextSpan(
                                                                     text:
-                                                                        'data.region',
+                                                                        'data.district',
                                                                     style: GoogleFonts
                                                                         .montserrat(
                                                                       fontSize:
@@ -2154,14 +2154,13 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                             SizedBox(
                                                               height: 10.h,
                                                             ),
-                                                            
+
                                                             TextButton(
                                                               child: Row(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .center,
                                                                 children: [
-                                                                  
                                                                   Text(
                                                                       'Volunteer to Donate',
                                                                       textAlign:
@@ -2677,14 +2676,10 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
               ),
             ]),
             GestureDetector(
-              onTap: (){
-                 Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                metriggerScreen(
-                                                
-                                                )),
-                                        );
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => metriggerScreen()),
+                );
               },
               child: Row(
                 children: <Widget>[
@@ -2720,7 +2715,8 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                   Flexible(
                                     flex: 3,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -2734,7 +2730,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                             Text('Make Emergency Trigger',
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.montserrat(
-                                                   fontSize: 14.sp,
+                                                    fontSize: 14.sp,
                                                     letterSpacing: 0,
                                                     fontWeight: FontWeight.bold,
                                                     color: kLifeBloodRed)),
@@ -2749,8 +2745,9 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       fontSize: 12.sp,
-                                                    letterSpacing: 0,
-                                                      overflow: TextOverflow.clip,
+                                                      letterSpacing: 0,
+                                                      overflow:
+                                                          TextOverflow.clip,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       color: kGreyColor)),
@@ -2771,16 +2768,14 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            
             GestureDetector(
-              onTap:(){
+              onTap: () {
                 Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MEligibilityScreen(
-                                                quiz: 'No',
-                                                )),
-                                        );
+                  MaterialPageRoute(
+                      builder: (context) => MEligibilityScreen(
+                            quiz: 'No',
+                          )),
+                );
               },
               child: Row(
                 children: <Widget>[
@@ -2816,7 +2811,8 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                   Flexible(
                                     flex: 3,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -2846,7 +2842,8 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                   style: TextStyle(
                                                       fontSize: 12.sp,
                                                       letterSpacing: 0,
-                                                      overflow: TextOverflow.clip,
+                                                      overflow:
+                                                          TextOverflow.clip,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       color: kGreyColor)),
@@ -2867,11 +2864,10 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            
             GestureDetector(
-              onTap:(){
+              onTap: () {
                 // if donate is not eligible
-                 _showEligibilityDialog(context);
+                _showEligibilityDialog(context);
               },
               child: Row(
                 children: <Widget>[
@@ -2907,7 +2903,8 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                   Flexible(
                                     flex: 3,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -2923,10 +2920,12 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                   'Schedule Blood Donation',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
-                                                     fontSize: 14.sp,
-                                                    letterSpacing: 0,
-                                                      overflow: TextOverflow.clip,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 14.sp,
+                                                      letterSpacing: 0,
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       color: kLifeBloodBlue)),
                                             ),
                                           ],
@@ -2940,7 +2939,8 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       fontSize: 12.sp,
-                                                      overflow: TextOverflow.clip,
+                                                      overflow:
+                                                          TextOverflow.clip,
                                                       letterSpacing: 0,
                                                       fontWeight:
                                                           FontWeight.normal,
@@ -3012,7 +3012,7 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     fontSize: 14.sp,
-                                                  letterSpacing: 0,
+                                                    letterSpacing: 0,
                                                     overflow: TextOverflow.clip,
                                                     fontWeight: FontWeight.bold,
                                                     color: kLifeBloodBlue)),
@@ -3151,14 +3151,14 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
   Future<List<BloodTestingFacilities>> getBloodFacilities(
       String donationquery) async {
     final url = Uri.parse(
-        'http://api.famcaresl.com/communityapp/index.php?route=facilities');
-    final response = await http.post(
+        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfs');
+    final response = await http.get(
       url,
-      body: jsonEncode({
-        "country": 'Sierra Leone'
+      // body: jsonEncode({
+      //   "country": 'Sierra Leone'
 
-        // Additional data
-      }),
+      //   // Additional data
+      // }),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -3167,9 +3167,9 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
       return donationschedule
           .map((json) => BloodTestingFacilities.fromJson(json))
           .where((donationschedule) {
-        final regionLower = donationschedule.region.toLowerCase();
-        final facilitynameLower = donationschedule.facilityname.toLowerCase();
-        final servicetypeLower = donationschedule.facilityname.toLowerCase();
+        final regionLower = donationschedule.district!.toLowerCase();
+        final facilitynameLower = donationschedule.name!.toLowerCase();
+        final servicetypeLower = donationschedule.communityname!.toLowerCase();
         final searchLower = donationquery.toLowerCase();
         return regionLower.contains(searchLower) ||
             facilitynameLower.contains(searchLower) ||
@@ -3391,7 +3391,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                               ),
                                                                               children: [
                                                                                 TextSpan(
-                                                                                  text: data.facilityname,
+                                                                                  text: data.name,
                                                                                   style: GoogleFonts.montserrat(
                                                                                     fontSize: 13,
                                                                                     letterSpacing: 0,
@@ -3413,7 +3413,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                                 BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(0xFF205072)),
                                                                             child:
                                                                                 Text(
-                                                                              data.servicetype,
+                                                                              data.communityname!,
                                                                               style: TextStyle(
                                                                                 fontSize: 12,
                                                                                 fontWeight: FontWeight.normal,
@@ -3438,7 +3438,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                             child:
                                                                                 Expanded(
                                                                               child: Text(
-                                                                                data.address,
+                                                                                data.address!,
                                                                                 style: TextStyle(
                                                                                   fontSize: 13,
                                                                                   overflow: TextOverflow.clip,
@@ -3466,7 +3466,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                           ),
                                                                           children: [
                                                                             TextSpan(
-                                                                              text: data.region,
+                                                                              text: data.district,
                                                                               style: GoogleFonts.montserrat(
                                                                                 fontSize: 13,
                                                                                 letterSpacing: 0,

@@ -450,9 +450,9 @@ class leaderboardbodyState extends State<leaderboardbody> {
       return donationschedule
           .map((json) => BloodTestingFacilities.fromJson(json))
           .where((donationschedule) {
-        final regionLower = donationschedule.region.toLowerCase();
-        final facilitynameLower = donationschedule.facilityname.toLowerCase();
-        final servicetypeLower = donationschedule.facilityname.toLowerCase();
+        final regionLower = donationschedule.district!.toLowerCase();
+        final facilitynameLower = donationschedule.name!.toLowerCase();
+        final servicetypeLower = donationschedule.name!.toLowerCase();
         final searchLower = donationquery.toLowerCase();
         return regionLower.contains(searchLower) ||
             facilitynameLower.contains(searchLower) ||

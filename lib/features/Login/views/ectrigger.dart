@@ -1,8 +1,5 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:async';
@@ -11,16 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lifebloodworld/constants/colors.dart';
-import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
-import 'package:lifebloodworld/features/Login/views/forgetpassword.dart';
-import 'package:lifebloodworld/features/Login/views/quiz.dart';
-import 'package:lifebloodworld/features/Register/views/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d MMM yyyy').format(now);
@@ -463,7 +452,7 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                             //   new MaterialPageRoute(
                                             //     builder: (context) => BloodTestPage(
                                             //       title: 'Blood Group Test for Myself',
-                                            //       facility: data.facilityname,
+                                            //       facility: data.name!,
                                             //     ),
                                             //   ),
                                             // );
@@ -696,7 +685,7 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                             //   new MaterialPageRoute(
                                             //     builder: (context) => BloodTestPage(
                                             //       title: 'Blood Group Test for Myself',
-                                            //       facility: data.facilityname,
+                                            //       facility: data.name!,
                                             //     ),
                                             //   ),
                                             // );

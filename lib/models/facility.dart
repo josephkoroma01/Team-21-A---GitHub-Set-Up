@@ -1,4 +1,4 @@
-class BloodTestingFacilities {
+class Facility {
   int? id;
   String? countryId;
   String? country;
@@ -19,7 +19,7 @@ class BloodTestingFacilities {
   String? createdAt;
   String? updatedAt;
 
-  BloodTestingFacilities(
+  Facility(
       {this.id,
       this.countryId,
       this.country,
@@ -40,7 +40,7 @@ class BloodTestingFacilities {
       this.createdAt,
       this.updatedAt});
 
-  BloodTestingFacilities.fromJson(Map<String, dynamic> json) {
+  Facility.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     countryId = json['country_id'];
     country = json['country'];

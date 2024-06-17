@@ -19,36 +19,7 @@ import 'package:lifebloodworld/features/Welcome/onboarding.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class facilitydata {
-  String rbtc;
-  String rbtcid;
-  String name;
-  String communityname;
-  String district;
-
-  facilitydata(
-      {required this.rbtc,
-      required this.rbtcid,
-      required this.name,
-      required this.communityname,
-      required this.district});
-
-  factory facilitydata.fromJson(Map<String, dynamic> json) {
-    return facilitydata(
-        rbtc: json['rbtc'],
-        rbtcid: json['rbtcid'].toString(),
-        name: json['name'],
-        communityname: json['communityname'],
-        district: json['district']);
-  }
-
-  Map<String, dynamic> toJson() => {
-        'rbtc': rbtc,
-        'rbtcid': rbtcid,
-        'name': name,
-        'communityname': communityname
-      };
-}
+import '../../../models/facility.dart';
 
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d LLLL yyyy').format(now);
@@ -60,10 +31,12 @@ class BloodTestPage extends StatefulWidget {
     Key? key,
     required this.title,
     required this.facility,
+    required this.facilityId,
   }) : super(key: key);
 
   final String? title;
   final String? facility;
+  final String? facilityId;
 
   @override
 
@@ -96,23 +69,6 @@ class _BloodTestPageState extends State<BloodTestPage> {
     getPref();
   }
 
-  void getPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      email = prefs.getString('email');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
-      agecategory = prefs.getString('agecategory');
-      gender = prefs.getString('gender');
-      phonenumber = prefs.getString('phonenumber');
-      address = prefs.getString('address');
-      district = prefs.getString('district');
-      bloodtype = prefs.getString('bloodtype');
-      prevdonation = prefs.getString('prevdonation');
-    });
-  }
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController monthinput =
       TextEditingController(text: formattedNewMonth.toString());
@@ -120,61 +76,10 @@ class _BloodTestPageState extends State<BloodTestPage> {
       TextEditingController(text: formattedNewYear.toString());
   final TextEditingController dateinput = TextEditingController();
   final TextEditingController timeinput = TextEditingController();
-
-  final List<String> facilityItems = [
-    '34 Military Hospital',
-    'Cottage/PCMH',
-    'Connaught',
-    'Rokupa',
-  ];
-
-  final List<String> timeslotItems = [
-    '9:00 am - 9:30 am',
-    '9:30 am - 10:00 am',
-    '10:00 am - 10:30 am',
-    '10:30 am - 11:00 am',
-    '11:00 am - 11:30 am',
-    '11:30 am - 12:00',
-    '12:00 am - 12:30 am',
-    '12:30 pm - 1:00 pm',
-    '1:00 pm - 1:30 pm',
-    '1:30 pm - 2:00 pm',
-    '2:00 pm - 2:30 pm',
-    '2:30 pm - 3:00 pm',
-    '3:00 pm - 3:30 pm',
-    '3:30 pm - 4:00 pm',
-    '4:00 pm - 4:30 pm',
-    '4:30 pm - 5:00 pm',
-    '5:00 pm - 5:30 pm',
-    '5:30 pm - 6:00 pm'
-  ];
+  final TextEditingController facility = TextEditingController();
 
   String? selectedFacility = '';
   String? selectedTimeslot = '';
-
-  Future findfacility() async {
-    var response = await http
-        .get(Uri.parse("https://community.lifebloodsl.com/findfacility.php"));
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        facilityList = jsonData;
-      });
-    }
-    print(facilityList);
-  }
-
-  Future findtimeslots() async {
-    var response = await http
-        .get(Uri.parse("https://community.lifebloodsl.com/findtimeslots.php"));
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        timeslotList = jsonData;
-      });
-    }
-    print(timeslotList);
-  }
 
   String dropdownValue = 'Select Facility';
   String bloodtestfor = 'Myself';
@@ -183,163 +88,211 @@ class _BloodTestPageState extends State<BloodTestPage> {
   final TextEditingController refCodeCtrl = TextEditingController(
     text: randomAlphaNumeric(8).toString(),
   );
+  String? uname;
+  String? name;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
+  void getPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = prefs.getString('email');
+      name = prefs.getString('name');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
+      agecategory = prefs.getString('agecategory');
+      gender = prefs.getString('gender');
+      phonenumber = prefs.getString('phonenumber');
+      address = prefs.getString('address');
+      district = prefs.getString('district');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
+      bloodtype = prefs.getString('bloodtype');
+      prevdonation = prefs.getString('prevdonation');
+      // prevdonationamt = prefs.getString('prevdonationamt');
+      // community = prefs.getString('community');
+      // communitydonor = prefs.getString('communitydonor');
+      userId = prefs.getString('id');
+      // totaldonation = prefs.getString('totaldonation');
+    });
+  }
 
   Future register() async {
     setState(() {
       _scheduling = false;
     });
     await Future.delayed(Duration(seconds: 0));
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/bloodtestschedule.php"),
-        body: {
-          "bloodtestfor": bloodtestfor,
-          "firstname": ufname,
-          "middlename": umname,
-          "lastname": ulname,
-          "agecategory": agecategory,
-          "gender": gender,
-          "phonenumber": phonenumber,
-          "email": email,
-          "address": address,
-          "facility": selectedFacility,
-          "date": dateinput.text,
-          "month": monthinput.text,
-          "year": yearinput.text,
-          "timeslot": selectedTimeslot,
-          "refcode": refCodeCtrl.text,
-        });
-    var data = json.decode(response.body);
-    if (data == "Error") {
+
+    try {
+      var response = await http.post(
+          Uri.parse(
+              "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/bloodtestschedules"),
+          body: {
+            "country_id": countryId,
+            "facility_id": widget.facilityId,
+            "district_id": "0",
+            "country": country,
+            "user_id": userId,
+            "district": district,
+            "bloodtestfor": bloodtestfor,
+            "name": name,
+            "agecategory": agecategory,
+            "gender": gender,
+            "phone": phonenumber,
+            "email": email,
+            "schedulerphonenumber": phonenumber,
+            "address": address,
+            "facility": widget.facility,
+            "time":timeinput.text,
+            "date": dateinput.text,
+            "month": monthinput.text,
+            "year": yearinput.text,
+            "refcode": refCodeCtrl.text,
+            "onSite": "No"
+          });
+
+      var data = json.decode(response.body);
+      if (response.statusCode != 201) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Schedule Not Created. \n Please try again ${data}',
+              textAlign: TextAlign.center, style: GoogleFonts.montserrat()),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.fixed,
+          duration: Duration(seconds: 10),
+        ));
+        await Future.delayed(Duration(seconds: 1));
+        // scheduleAlarm();
+      } else {
+        showModalBottomSheet(
+            backgroundColor: Colors.teal,
+            context: context,
+            builder: (context) {
+              return SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        20.0, 20.0, 20.0, 0.0), // content padding
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                                'Schedule Successful, You will be contacted shortly !!',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 11.sp, color: Colors.white)),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text.rich(
+                              TextSpan(
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 12.sp,
+                                  color: Colors.white,
+                                  height: 1.3846153846153846,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        'Your reference code to track Schedule is ',
+                                  ),
+                                  TextSpan(
+                                    text: refCodeCtrl.text,
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              textHeightBehavior: TextHeightBehavior(
+                                  applyHeightToFirstAscent: false),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.copy,
+                                          size: 13, color: Colors.teal),
+                                      SizedBox(
+                                        width: 5.h,
+                                      ),
+                                      Text('Copy Code',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 14.sp,
+                                              color: Colors.teal)),
+                                    ],
+                                  ),
+                                ),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.teal,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5))),
+                                ),
+                                onPressed: () async {
+                                  await Clipboard.setData(
+                                      ClipboardData(text: refCodeCtrl.text));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    duration: Duration(seconds: 5),
+                                    content: Text('Copied to clipboard',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.montserrat()),
+                                  ));
+                                  // scheduleAlarm()
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => scheduletypebody(),
+                                    ),
+                                  );
+                                  Navigator.pop(context);
+                                }),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            });
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Schedule Already Exists, \nPlease Try Selecting A Different Date or Time Slot.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat()),
+        content: Text('$e',
+            textAlign: TextAlign.center, style: GoogleFonts.montserrat()),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.fixed,
         duration: Duration(seconds: 10),
       ));
-      await Future.delayed(Duration(seconds: 1));
-      // scheduleAlarm();
-    } else {
-      showModalBottomSheet(
-          backgroundColor: Colors.teal,
-          context: context,
-          builder: (context) {
-            return SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      20.0, 20.0, 20.0, 0.0), // content padding
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                              'Schedule Successful, You will be contacted shortly !!',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 11, color: Colors.white)),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text.rich(
-                            TextSpan(
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 12,
-                                color: Colors.white,
-                                height: 1.3846153846153846,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      'Your reference code to track Schedule is ',
-                                ),
-                                TextSpan(
-                                  text: refCodeCtrl.text,
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            textHeightBehavior: TextHeightBehavior(
-                                applyHeightToFirstAscent: false),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                              child: Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.copy,
-                                        size: 13, color: Colors.teal),
-                                    SizedBox(
-                                      width: 5.h,
-                                    ),
-                                    Text('Copy Code',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 14, color: Colors.teal)),
-                                  ],
-                                ),
-                              ),
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.teal,
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                              ),
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                    ClipboardData(text: refCodeCtrl.text));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  duration: Duration(seconds: 5),
-                                  content: Text('Copied to clipboard',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.montserrat()),
-                                ));
-                                // scheduleAlarm()
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => scheduletypebody(),
-                                  ),
-                                );
-                                Navigator.pop(context);
-                              }),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          });
     }
   }
 
@@ -350,12 +303,7 @@ class _BloodTestPageState extends State<BloodTestPage> {
           backgroundColor: kPrimaryColor,
           leading: IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => scheduletypebody(),
-                  ),
-                );
+                Navigator.pop(context);
               },
               icon: FaIcon(
                 FontAwesomeIcons.arrowLeft,
@@ -604,7 +552,9 @@ class _BloodTestPageState extends State<BloodTestPage> {
                             fontSize: 14,
                             letterSpacing: 0,
                             fontFamily: 'Montserrat'),
+                        readOnly: true,
                         initialValue: widget.facility!,
+                        // controller: facility,
                         decoration: InputDecoration(
                           isDense: true,
                           border: OutlineInputBorder(),
@@ -821,6 +771,7 @@ class _BloodTestPageState extends State<BloodTestPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 if (await getInternetUsingInternetConnectivity()) {
+                                  register();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         backgroundColor: Colors.teal,
@@ -874,8 +825,7 @@ class _BloodTestPageState extends State<BloodTestPage> {
                                                                 ..onTap = () {
                                                                   // Single tapped.
                                                                 },
-                                                          text:
-                                                              "$ufname $umname  $ulname",
+                                                          text: "$name",
                                                           style: GoogleFonts
                                                               .montserrat(
                                                             fontSize: 14,

@@ -13,6 +13,7 @@ import 'package:lifebloodworld/features/Home/views/bloodtestbodyfam.dart';
 import 'package:lifebloodworld/features/Home/views/famregister.dart';
 import 'package:lifebloodworld/features/Home/views/managedonationpp.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
+import 'package:lifebloodworld/models/facility.dart';
 import 'package:lifebloodworld/widgets/text_field_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -115,22 +116,55 @@ class scheduletypebodyState extends State<scheduletypebody> {
   String? selectedFacility = '';
   String? selectedCost = '';
 
-  Future findfacility() async {
-    var response = await http
-        .get(Uri.parse("https://community.lifebloodsl.com/findfacility.php"));
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        facilityList = jsonData;
-      });
-    }
-    print(facilityList);
-  }
+  // Future findfacility() async {
+  //   var response = await http.get(Uri.parse(
+  //       "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/login"));
+  //   if (response.statusCode == 200) {
+  //     List<dynamic> jsonData = json.decode(response.body);
+  //     List<Facility> data = jsonData.map((e) => Facility.fromJson(e)).toList();
+  //     setState(() {
+  //       facilityList = data;
+  //     });
+  //   }
+  //   print(facilityList);
+  // }
 
   @override
   void dispose() {
     debouncer?.cancel();
     super.dispose();
+  }
+
+  Future<List<BloodTestingFacilities>> getBloodFacilities(
+      String donationquery) async {
+    final url = Uri.parse(
+        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfs');
+    final response = await http.get(
+      url,
+      // body: jsonEncode({
+      //   "country": 'Sierra Leone'
+
+      //   // Additional data
+      // }),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      final List donationschedule = json.decode(response.body);
+      return donationschedule
+          .map((json) => BloodTestingFacilities.fromJson(json))
+          .where((donationschedule) {
+        final regionLower = donationschedule.district!.toLowerCase();
+        final facilitynameLower = donationschedule.name!.toLowerCase();
+        final servicetypeLower = donationschedule.communityname!.toLowerCase();
+        final searchLower = donationquery.toLowerCase();
+        return regionLower.contains(searchLower) ||
+            facilitynameLower.contains(searchLower) ||
+            servicetypeLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
   }
 
   @override
@@ -157,9 +191,11 @@ class scheduletypebodyState extends State<scheduletypebody> {
     super.initState();
     getRefPref();
     getBgresult();
+    // getBloodFacilities(donationquery);
+    // findfacility();
 
-    _getBgresulttimer =
-        Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
+    // _getBgresulttimer =
+    // Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
   }
 
   void getRefPref() async {
@@ -391,38 +427,6 @@ class scheduletypebodyState extends State<scheduletypebody> {
     }
   }
 
-  Future<List<BloodTestingFacilities>> getBloodFacilities(
-      String donationquery) async {
-    final url = Uri.parse(
-        'http://api.famcaresl.com/communityapp/index.php?route=facilities');
-    final response = await http.post(
-      url,
-      body: jsonEncode({
-        "country": 'Sierra Leone'
-
-        // Additional data
-      }),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode == 200) {
-      final List donationschedule = json.decode(response.body);
-      return donationschedule
-          .map((json) => BloodTestingFacilities.fromJson(json))
-          .where((donationschedule) {
-        final regionLower = donationschedule.region.toLowerCase();
-        final facilitynameLower = donationschedule.facilityname.toLowerCase();
-        final servicetypeLower = donationschedule.facilityname.toLowerCase();
-        final searchLower = donationquery.toLowerCase();
-        return regionLower.contains(searchLower) ||
-            facilitynameLower.contains(searchLower) ||
-            servicetypeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-
   void debounce(
     VoidCallback callback, {
     Duration duration = const Duration(milliseconds: 1000),
@@ -524,7 +528,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
           onPressed: () {
             Navigator.push(
               context,
-              new MaterialPageRoute(
+              MaterialPageRoute(
                 builder: (context) => HomePageScreen(pageIndex: 0),
               ),
             );
@@ -723,7 +727,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                     ),
                                                                                     children: [
                                                                                       TextSpan(
-                                                                                        text: data.facilityname,
+                                                                                        text: data.name!,
                                                                                         style: GoogleFonts.montserrat(
                                                                                           fontSize: 13,
                                                                                           letterSpacing: 0,
@@ -740,7 +744,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                                                                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(0xFF205072)),
                                                                                   child: Text(
-                                                                                    data.servicetype,
+                                                                                    data.status!,
                                                                                     style: TextStyle(
                                                                                       fontSize: 12,
                                                                                       fontWeight: FontWeight.normal,
@@ -762,7 +766,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                 Flexible(
                                                                                   child: Expanded(
                                                                                     child: Text(
-                                                                                      data.address,
+                                                                                      data.address!,
                                                                                       style: TextStyle(
                                                                                         fontSize: 13,
                                                                                         overflow: TextOverflow.clip,
@@ -786,7 +790,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                 ),
                                                                                 children: [
                                                                                   TextSpan(
-                                                                                    text: data.region,
+                                                                                    text: data.district,
                                                                                     style: GoogleFonts.montserrat(
                                                                                       fontSize: 13,
                                                                                       letterSpacing: 0,
@@ -848,10 +852,11 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                                         onTap: () {
                                                                                                           Navigator.push(
                                                                                                             context,
-                                                                                                            new MaterialPageRoute(
+                                                                                                            MaterialPageRoute(
                                                                                                               builder: (context) => BloodTestPage(
                                                                                                                 title: 'Blood Group Test for Myself',
-                                                                                                                facility: data.facilityname,
+                                                                                                                facility: data.name!,
+                                                                                                                facilityId: data.id.toString(),
                                                                                                               ),
                                                                                                             ),
                                                                                                           );
@@ -907,9 +912,11 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                                       onTap: () {
                                                                                                         Navigator.push(
                                                                                                           context,
-                                                                                                          new MaterialPageRoute(
+                                                                                                          MaterialPageRoute(
                                                                                                             builder: (context) => BloodTestPageFam(
-                                                                                                              title: 'Blood Group Test for Myself',
+                                                                                                              title: 'Blood Group Test for Others',
+                                                                                                              facility: data.name,
+                                                                                                              facilityId: data.id.toString(),
                                                                                                             ),
                                                                                                           ),
                                                                                                         );

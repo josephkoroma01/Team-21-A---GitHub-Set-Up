@@ -463,7 +463,7 @@ class _mectriggerScreenState extends State<mectriggerScreen> {
                                             //   new MaterialPageRoute(
                                             //     builder: (context) => BloodTestPage(
                                             //       title: 'Blood Group Test for Myself',
-                                            //       facility: data.facilityname,
+                                            //       facility: data.name!,
                                             //     ),
                                             //   ),
                                             // );
@@ -696,7 +696,7 @@ class _mectriggerScreenState extends State<mectriggerScreen> {
                                             //   new MaterialPageRoute(
                                             //     builder: (context) => BloodTestPage(
                                             //       title: 'Blood Group Test for Myself',
-                                            //       facility: data.facilityname,
+                                            //       facility: data.name!,
                                             //     ),
                                             //   ),
                                             // );

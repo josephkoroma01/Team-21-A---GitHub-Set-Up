@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lifebloodworld/features/Home/views/body.dart';
 import 'package:lifebloodworld/features/Home/views/managedonationpp.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
+import 'package:lifebloodworld/models/bhloodtestschedule_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,7 +31,7 @@ class managebloodtestAppointments extends StatefulWidget {
 class _managebloodtestAppointmentsState
     extends State<managebloodtestAppointments> {
   String? phonenumber;
-  List productList = [];
+  List<TestSchedule> bloodtestAppointments = [];
   String? status;
   String? totalbgresult;
   String? totaldonationrep;
@@ -47,6 +48,10 @@ class _managebloodtestAppointmentsState
   String? ufname;
   String? ulname;
   String? umname;
+  int? totalBloodTestSchedule = 0;
+  int? totalBloodTestScheduleMyself = 0;
+  int? totalBloodTestScheduleOthers = 0;
+  int? totalBloodTestScheduleResult = 0;
 
   final _formKey = GlobalKey<FormState>();
   late Timer _getRefPreftimer;
@@ -57,67 +62,127 @@ class _managebloodtestAppointmentsState
 
   @override
   void initState() {
-    getRefPref();
-    _getRefPreftimer =
-        Timer.periodic(const Duration(seconds: 2), (timer) => getRefPref());
+    // _getRefPreftimer =
+    //     Timer.periodic(const Duration(seconds: 2), (timer) => getRefPref());
     // TODO: implement initState
+    getPref();
+
+    getBloodTestAllAppointment(userId.toString());
     super.initState();
+  }
+
+  String? uname;
+  String? name;
+  String? agecategory;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
+  void getPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = prefs.getString('email');
+      name = prefs.getString('name');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
+      agecategory = prefs.getString('agecategory');
+      // gender = prefs.getString('gender');
+      phonenumber = prefs.getString('phonenumber');
+      // address = prefs.getString('address');
+      // district = prefs.getString('district');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
+      // bloodtype = prefs.getString('bloodtype');
+      // prevdonation = prefs.getString('prevdonation');
+      // prevdonationamt = prefs.getString('prevdonationamt');
+      // community = prefs.getString('community');
+      // communitydonor = prefs.getString('communitydonor');
+      userId = prefs.getString('id');
+      totalBloodTestSchedule = prefs.getInt('totalschedule');
+      totalBloodTestScheduleMyself = prefs.getInt('BcountMyself');
+      totalBloodTestScheduleOthers = prefs.getInt('BcountOther');
+      totalBloodTestSchedule = prefs.getInt('Bresult');
+      // totaldonation = prefs.getString('totaldonation');
+    });
   }
 
   void dispose() {
     if (_getRefPreftimer.isActive) _getRefPreftimer.cancel();
   }
 
-  void getRefPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      phonenumber = prefs.getString('phonenumber');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
-      totaldonationrep = prefs.getString('totaldonationrep');
-      totaldonationvol = prefs.getString('totaldonationvol');
-      totaldonationvold = prefs.getString('totaldonationvold');
-      totaldonationvolp = prefs.getString('totaldonationvolp');
-      totaldonationvolcon = prefs.getString('totaldonationvolcon');
-      totaldonationvolr = prefs.getString('totaldonationvolr');
-      totaldonationvolcan = prefs.getString('totaldonationvolcan');
-      totalbgresult = prefs.getString('totalbgresult');
-      totalsch = prefs.getString('totalsch');
-      totalschmyself = prefs.getString('totalschmyself');
-      totalschfriend = prefs.getString('totalschfriend');
-      totalschfamily = prefs.getString('totalschfamily');
-    });
-  }
-
-  savePref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('phonenumber', phonenumber!);
-    prefs.setString('status', status!);
-    prefs.setString('ufname', ufname!);
-    prefs.setString('umname', umname!);
-    prefs.setString('ulname', ulname!);
-  }
-
-  Future getAllAppointment() async {
+  Future getBloodTestAllAppointment(String userid) async {
     // Getting username and password from Controller
-    var data = {
-      'phonenumber': phonenumber,
-    };
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     //Starting Web API Call.
-    var response = await http.get(
-      Uri.parse("https://community.lifebloodsl.com/manageappointments.php"),
-    );
-    if (response.statusCode == 200) {
-      setState(() {
-        productList = json.decode(response.body);
-      });
-      print(productList);
-      return productList;
-    } else {
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //   content: Text('UserId: $userId',
+    //       textAlign: TextAlign.center,
+    //       style: GoogleFonts.montserrat(fontSize: 10.sp)),
+    //   backgroundColor: Colors.red,
+    //   behavior: SnackBarBehavior.fixed,
+    //   duration: Duration(seconds: 3),
+    // ));
+    try {
+      var response = await http.post(
+        Uri.parse(
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/getuserbloostestschedule/$userid"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body);
+        BloodTestSchedule data = BloodTestSchedule.fromJson(jsonData);
+
+        List<TestSchedule> schedules = data.schedule!;
+
+        print(data);
+
+        setState(() {
+          bloodtestAppointments = schedules;
+          totalBloodTestSchedule = bloodtestAppointments.length;
+          totalBloodTestScheduleMyself = bloodtestAppointments
+              .where((item) => item.bloodtestfor == 'Myself')
+              .length;
+          totalBloodTestScheduleOthers = bloodtestAppointments
+              .where((item) => item.bloodtestfor != 'Myself')
+              .length;
+          totalBloodTestScheduleResult = bloodtestAppointments
+              .where((item) => item.result != 'Yes')
+              .length;
+        });
+
+        setState(() {
+          prefs.setInt('totalschedule', totalBloodTestSchedule!);
+          prefs.setInt('BcountMyself', totalBloodTestScheduleMyself!);
+          prefs.setInt('BcountOther', totalBloodTestScheduleOthers!);
+          prefs.setInt('Bresult', totalBloodTestScheduleResult!);
+        });
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //   content: Text('ETotal  $totalBloodTestSchedule',
+        //       textAlign: TextAlign.center,
+        //       style: GoogleFonts.montserrat(fontSize: 10.sp)),
+        //   backgroundColor: Colors.red,
+        //   behavior: SnackBarBehavior.fixed,
+        //   duration: Duration(seconds: 3),
+        // ));
+
+        return bloodtestAppointments;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('${response.statusCode}',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(fontSize: 10.sp)),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.fixed,
+          duration: Duration(seconds: 3),
+        ));
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error Connecting to Server',
+        content: Text('$e',
             textAlign: TextAlign.center,
             style: GoogleFonts.montserrat(fontSize: 10.sp)),
         backgroundColor: Colors.red,
@@ -135,16 +200,9 @@ class _managebloodtestAppointmentsState
         backgroundColor: Colors.teal,
         leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => HomePageScreen(
-                    pageIndex: 0,
-                  ),
-                ),
-              );
+              Navigator.pop(context);
             },
-            icon: FaIcon(
+            icon: const FaIcon(
               FontAwesomeIcons.arrowLeft,
               color: kWhiteColor,
             )),
@@ -219,7 +277,7 @@ class _managebloodtestAppointmentsState
                                               letterSpacing: 0,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white)),
-                                      Text('$totalbgresult',
+                                      Text('$totalBloodTestScheduleResult',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.montserrat(
                                               fontSize: 14.sp,
@@ -255,7 +313,7 @@ class _managebloodtestAppointmentsState
                                               letterSpacing: 0,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white)),
-                                      Text('$totalsch',
+                                      Text('$totalBloodTestSchedule',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.montserrat(
                                               fontSize: 14.sp,
@@ -277,7 +335,7 @@ class _managebloodtestAppointmentsState
                                               letterSpacing: 0,
                                               fontWeight: FontWeight.w400,
                                               color: Colors.white)),
-                                      Text('$totalschmyself',
+                                      Text('$totalBloodTestScheduleMyself',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.montserrat(
                                               fontSize: 10.sp,
@@ -299,7 +357,7 @@ class _managebloodtestAppointmentsState
                                               fontSize: 10.sp,
                                               fontWeight: FontWeight.w400,
                                               color: Colors.white)),
-                                      Text('$totalschfamily',
+                                      Text('$totalBloodTestScheduleOthers',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.montserrat(
                                               fontSize: 10.sp,
@@ -503,7 +561,9 @@ class _managebloodtestAppointmentsState
                                             context,
                                             new MaterialPageRoute(
                                               builder: (context) =>
-                                                  manageAppointments(),
+                                                  manageAppointments(
+                                                schedule: bloodtestAppointments,
+                                              ),
                                             ),
                                           );
                                         } else {
