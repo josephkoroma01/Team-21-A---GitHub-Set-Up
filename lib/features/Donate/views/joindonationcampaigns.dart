@@ -152,20 +152,29 @@ class _JoinDrivesState extends State<JoinDrives> {
   String? campaignlocation;
   String? campaigndistrict;
 
-  getPref() async {
+  String? uname;
+  String? name;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
+  void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
+      name = prefs.getString('name');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
       agecategory = prefs.getString('agecategory');
       gender = prefs.getString('gender');
       phonenumber = prefs.getString('phonenumber');
       address = prefs.getString('address');
       district = prefs.getString('district');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
       bloodtype = prefs.getString('bloodtype');
       prevdonation = prefs.getString('prevdonation');
+      userId = prefs.getString('id');
     });
   }
 
@@ -202,55 +211,10 @@ class _JoinDrivesState extends State<JoinDrives> {
     'Rokupa',
   ];
 
-  final List<String> timeslotItems = [
-    '9:00 am - 9:30 am',
-    '9:30 am - 10:00 am',
-    '10:00 am - 10:30 am',
-    '10:30 am - 11:00 am',
-    '11:00 am - 11:30 am',
-    '11:30 am - 12:00',
-    '12:00 am - 12:30 am',
-    '12:30 pm - 1:00 pm',
-    '1:00 pm - 1:30 pm',
-    '1:30 pm - 2:00 pm',
-    '2:00 pm - 2:30 pm',
-    '2:30 pm - 3:00 pm',
-    '3:00 pm - 3:30 pm',
-    '3:30 pm - 4:00 pm',
-    '4:00 pm - 4:30 pm',
-    '4:30 pm - 5:00 pm',
-    '5:00 pm - 5:30 pm',
-    '5:30 pm - 6:00 pm'
-  ];
-
   String? selectedFacility = '';
   String? selectedTimeslot = '';
   String? campaigndonation;
   String? checkcampaignid;
-
-  Future findfacility() async {
-    var response = await http
-        .get(Uri.parse("https://community.lifebloodsl.com/findfacility.php"));
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        facilityList = jsonData;
-      });
-    }
-    print(facilityList);
-  }
-
-  Future findtimeslots() async {
-    var response = await http
-        .get(Uri.parse("https://community.lifebloodsl.com/findtimeslots.php"));
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        timeslotList = jsonData;
-      });
-    }
-    print(timeslotList);
-  }
 
   savecampaigndonation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -547,8 +511,7 @@ class _JoinDrivesState extends State<JoinDrives> {
   @override
   void initState() {
     _dateinput.text = "";
-    findfacility();
-    findtimeslots();
+
     getPref(); //set the initial value of text field
     super.initState();
   }
@@ -572,25 +535,7 @@ class _JoinDrivesState extends State<JoinDrives> {
             'Join $campaignname',
             style: GoogleFonts.montserrat(fontSize: 14.sp),
           )),
-      body: CoolStepper(
-        steps: [
-          CoolStep(
-            title: "Basic Information",
-            subtitle:
-                "Please fill some of the basic information to get started",
-            content: _donationProcessOne(context, size),
-            validation: () {}, // Add the widget to get basic info here
-          ),
-          CoolStep(
-            title: "Basic Information",
-            subtitle:
-                "Please fill some of the basic information to get started",
-            content: _donationQuestionnaire(),
-            validation: () {}, // Add the widget to get basic info here
-          ),
-        ],
-        onCompleted: () {},
-      ),
+      body: _donationProcessOne(context, size),
     );
   }
 
@@ -978,13 +923,13 @@ class _JoinDrivesState extends State<JoinDrives> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  DropdownButtonFormField2(
+                  DropdownButtonFormField(
                     decoration: InputDecoration(
                       labelText: 'Marital Status',
                       labelStyle: GoogleFonts.montserrat(fontSize: 14.sp),
                       //Add isDense true and zero Padding.
                       //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                      isDense: true,
+                      isDense: false,
                       contentPadding: EdgeInsets.only(left: 5),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
@@ -993,24 +938,6 @@ class _JoinDrivesState extends State<JoinDrives> {
                       //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                     ),
                     isExpanded: true,
-                    buttonStyleData: const ButtonStyleData(
-                      padding: EdgeInsets.only(right: 0, left: 0),
-                    ),
-                    iconStyleData: const IconStyleData(
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black45,
-                      ),
-                      iconSize: 30,
-                    ),
-                    dropdownStyleData: DropdownStyleData(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    menuItemStyleData: const MenuItemStyleData(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                    ),
                     items: maritalstatusItems
                         .map((item) => DropdownMenuItem<String>(
                               value: item,

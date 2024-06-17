@@ -921,44 +921,31 @@ class _donateState extends State<donate> with TickerProviderStateMixin {
     }
   }
 
+  String? uname;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
   void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
       agecategory = prefs.getString('agecategory');
       gender = prefs.getString('gender');
       phonenumber = prefs.getString('phonenumber');
       address = prefs.getString('address');
       district = prefs.getString('district');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
       bloodtype = prefs.getString('bloodtype');
       prevdonation = prefs.getString('prevdonation');
       prevdonationamt = prefs.getString('prevdonationamt');
       community = prefs.getString('community');
       communitydonor = prefs.getString('communitydonor');
-      nextdonationdate = prefs.getString('nextdonationdate');
-      donorid = prefs.getString('donorid');
-      donated = prefs.getString('donated');
-      newsready = prefs.getString('newsready');
-      newstitle = prefs.getString('newstitle');
-      newsdescription = prefs.getString('newsdescription');
-      newslink = prefs.getString('newslink');
-      newscalltoaction = prefs.getString('newscalltoaction');
+      userId = prefs.getString('id');
       totaldonation = prefs.getString('totaldonation');
-      totalbgresult = prefs.getString('totalbgresult');
-      totalsch = prefs.getString('totalsch');
-      totalschmyself = prefs.getString('totalschmyself');
-      totalschfriend = prefs.getString('totalschfriend');
-      totalschfamily = prefs.getString('totalschfamily');
-      totaldonationrep = prefs.getString('totaldonationrep');
-      totaldonationvol = prefs.getString('totaldonationvol');
-      totaldonationvold = prefs.getString('totaldonationvold');
-      totaldonationvolp = prefs.getString('totaldonationvolp');
-      totaldonationvolcon = prefs.getString('totaldonationvolcon');
-      totaldonationvolr = prefs.getString('totaldonationvolr');
-      totaldonationvolcan = prefs.getString('totaldonationvolcan');
     });
   }
 
@@ -3107,6 +3094,27 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
     'Account Name',
     'Username',
   ];
+  @override
+  void initState() {
+    getPref();
+    super.initState();
+  }
+
+  String? uname;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
+  void getPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = prefs.getString('email');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
+      countryId = prefs.getString('country_id');
+    });
+  }
+
   String? selectedrc = '';
   String? selectedrcsolved = '';
   String? selectedscsolved = '';
@@ -3151,7 +3159,7 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
   Future<List<BloodTestingFacilities>> getBloodFacilities(
       String donationquery) async {
     final url = Uri.parse(
-        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfs');
+        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfsbycountry/$countryId');
     final response = await http.get(
       url,
       // body: jsonEncode({
@@ -3366,18 +3374,18 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                         MainAxisAlignment
                                                                             .start,
                                                                     children: [
-                                                                      Text(
-                                                                          'Blood Donor Request',
-                                                                          textAlign: TextAlign
-                                                                              .center,
-                                                                          style: GoogleFonts.montserrat(
-                                                                              fontSize: 10,
-                                                                              letterSpacing: 0,
-                                                                              color: kGreyColor)),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            5.h,
-                                                                      ),
+                                                                      // Text(
+                                                                      //     'Blood Donor Request',
+                                                                      //     textAlign: TextAlign
+                                                                      //         .center,
+                                                                      //     style: GoogleFonts.montserrat(
+                                                                      //         fontSize: 10,
+                                                                      //         letterSpacing: 0,
+                                                                      //         color: kGreyColor)),
+                                                                      // SizedBox(
+                                                                      //   height:
+                                                                      //       5.h,
+                                                                      // ),
                                                                       Row(
                                                                         mainAxisAlignment:
                                                                             MainAxisAlignment.spaceBetween,
@@ -3406,24 +3414,24 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
                                                                             textAlign:
                                                                                 TextAlign.left,
                                                                           ),
-                                                                          Container(
-                                                                            padding:
-                                                                                EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                                                                            decoration:
-                                                                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(0xFF205072)),
-                                                                            child:
-                                                                                Text(
-                                                                              data.communityname!,
-                                                                              style: TextStyle(
-                                                                                fontSize: 12,
-                                                                                fontWeight: FontWeight.normal,
-                                                                                fontFamily: 'Montserrat',
-                                                                                letterSpacing: 0,
-                                                                                color: kWhiteColor,
-                                                                              ),
-                                                                              overflow: TextOverflow.clip,
-                                                                            ),
-                                                                          ),
+                                                                          // Container(
+                                                                          //   padding:
+                                                                          //       EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                                                                          //   decoration:
+                                                                          //       BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(0xFF205072)),
+                                                                          //   child:
+                                                                          //       Text(
+                                                                          //     data.!,
+                                                                          //     style: TextStyle(
+                                                                          //       fontSize: 12,
+                                                                          //       fontWeight: FontWeight.normal,
+                                                                          //       fontFamily: 'Montserrat',
+                                                                          //       letterSpacing: 0,
+                                                                          //       color: kWhiteColor,
+                                                                          //     ),
+                                                                          //     overflow: TextOverflow.clip,
+                                                                          //   ),
+                                                                          // ),
                                                                         ],
                                                                       ),
                                                                       SizedBox(

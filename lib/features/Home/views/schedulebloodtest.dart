@@ -135,17 +135,27 @@ class scheduletypebodyState extends State<scheduletypebody> {
     super.dispose();
   }
 
+  String? uname;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
+  void getPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = prefs.getString('email');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
+      countryId = prefs.getString('country_id');
+    });
+  }
+
   Future<List<BloodTestingFacilities>> getBloodFacilities(
       String donationquery) async {
     final url = Uri.parse(
-        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfs');
+        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfsbycountry/$countryId');
     final response = await http.get(
       url,
-      // body: jsonEncode({
-      //   "country": 'Sierra Leone'
-
-      //   // Additional data
-      // }),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -168,28 +178,9 @@ class scheduletypebodyState extends State<scheduletypebody> {
   }
 
   @override
-  void getPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      email = prefs.getString('email');
-      phonenumber = prefs.getString('phonenumber');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
-      totaldonationrep = prefs.getString('totaldonationrep');
-      totaldonationvol = prefs.getString('totaldonationvol');
-      totaldonationvold = prefs.getString('totaldonationvold');
-      totaldonationvolp = prefs.getString('totaldonationvolp');
-      totaldonationvolcon = prefs.getString('totaldonationvolcon');
-      totaldonationvolr = prefs.getString('totaldonationvolr');
-      totaldonationvolcan = prefs.getString('totaldonationvolcan');
-    });
-  }
-
-  @override
   void initState() {
     super.initState();
-    getRefPref();
+    getPref();
     getBgresult();
     // getBloodFacilities(donationquery);
     // findfacility();
@@ -744,7 +735,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                                                                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(0xFF205072)),
                                                                                   child: Text(
-                                                                                    data.status!,
+                                                                                    'Nle ${data.testPrice!}',
                                                                                     style: TextStyle(
                                                                                       fontSize: 12,
                                                                                       fontWeight: FontWeight.normal,

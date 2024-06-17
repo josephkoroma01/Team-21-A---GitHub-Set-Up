@@ -18,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../../main.dart';
 import '../../../constants/colors.dart';
+import '../../../models/donationschedule.dart';
 import 'search.dart';
 
 class managebloodtestAppointments extends StatefulWidget {
@@ -32,6 +33,7 @@ class _managebloodtestAppointmentsState
     extends State<managebloodtestAppointments> {
   String? phonenumber;
   List<TestSchedule> bloodtestAppointments = [];
+  List<Schedule> blooddonationAppointments = [];
   String? status;
   String? totalbgresult;
   String? totaldonationrep;
@@ -52,6 +54,8 @@ class _managebloodtestAppointmentsState
   int? totalBloodTestScheduleMyself = 0;
   int? totalBloodTestScheduleOthers = 0;
   int? totalBloodTestScheduleResult = 0;
+  int? totalBloodDonationReplacement = 0;
+  int? totalBloodDonationVolumtary = 0;
 
   final _formKey = GlobalKey<FormState>();
   late Timer _getRefPreftimer;
@@ -67,7 +71,8 @@ class _managebloodtestAppointmentsState
     // TODO: implement initState
     getPref();
 
-    getBloodTestAllAppointment(userId.toString());
+    getBloodTestAllAppointment();
+    getBloodDonationAllAppointment();
     super.initState();
   }
 
@@ -101,7 +106,9 @@ class _managebloodtestAppointmentsState
       totalBloodTestSchedule = prefs.getInt('totalschedule');
       totalBloodTestScheduleMyself = prefs.getInt('BcountMyself');
       totalBloodTestScheduleOthers = prefs.getInt('BcountOther');
-      totalBloodTestSchedule = prefs.getInt('Bresult');
+      totalBloodTestScheduleResult = prefs.getInt('Bresult');
+      totalBloodDonationReplacement = prefs.getInt('replacement');
+      totalBloodDonationVolumtary = prefs.getInt('voluntary');
       // totaldonation = prefs.getString('totaldonation');
     });
   }
@@ -110,23 +117,13 @@ class _managebloodtestAppointmentsState
     if (_getRefPreftimer.isActive) _getRefPreftimer.cancel();
   }
 
-  Future getBloodTestAllAppointment(String userid) async {
+  Future getBloodTestAllAppointment() async {
     // Getting username and password from Controller
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Starting Web API Call.
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //   content: Text('UserId: $userId',
-    //       textAlign: TextAlign.center,
-    //       style: GoogleFonts.montserrat(fontSize: 10.sp)),
-    //   backgroundColor: Colors.red,
-    //   behavior: SnackBarBehavior.fixed,
-    //   duration: Duration(seconds: 3),
-    // ));
     try {
-      var response = await http.post(
+      var response = await http.get(
         Uri.parse(
-            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/getuserbloostestschedule/$userid"),
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/getuserbloostestschedule/$userId"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -150,45 +147,74 @@ class _managebloodtestAppointmentsState
               .where((item) => item.bloodtestfor != 'Myself')
               .length;
           totalBloodTestScheduleResult = bloodtestAppointments
-              .where((item) => item.result != 'Yes')
+              .where((item) => item.result == 'Yes')
               .length;
         });
-
         setState(() {
           prefs.setInt('totalschedule', totalBloodTestSchedule!);
           prefs.setInt('BcountMyself', totalBloodTestScheduleMyself!);
           prefs.setInt('BcountOther', totalBloodTestScheduleOthers!);
           prefs.setInt('Bresult', totalBloodTestScheduleResult!);
         });
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   content: Text('ETotal  $totalBloodTestSchedule',
-        //       textAlign: TextAlign.center,
-        //       style: GoogleFonts.montserrat(fontSize: 10.sp)),
-        //   backgroundColor: Colors.red,
-        //   behavior: SnackBarBehavior.fixed,
-        //   duration: Duration(seconds: 3),
-        // ));
+
+        return bloodtestAppointments;
+      } else {}
+    } catch (e) {}
+  }
+
+  Future getBloodDonationAllAppointment() async {
+    // Getting username and password from Controller
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      var response = await http.get(
+        Uri.parse(
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/getuserbloosdonationschedule/$userId"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body);
+        DonationSchedule data = DonationSchedule.fromJson(jsonData);
+
+        List<Schedule> schedules = data.schedule!;
+        print(data);
+        setState(() {
+          blooddonationAppointments = schedules;
+          totalBloodTestSchedule = blooddonationAppointments.length;
+          totalBloodDonationReplacement = blooddonationAppointments
+              .where((item) => item.donorType == 'Replacement')
+              .length;
+          totalBloodDonationVolumtary = blooddonationAppointments
+              .where((item) => item.donorType == 'Voluntary')
+              .length;
+        });
+        setState(() {
+          prefs.setInt('replacement', totalBloodDonationReplacement!);
+          prefs.setInt('voluntary', totalBloodDonationVolumtary!);
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(jsonData.toString()),
+          ),
+        );
 
         return bloodtestAppointments;
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${response.statusCode}',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(fontSize: 10.sp)),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.fixed,
-          duration: Duration(seconds: 3),
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.statusCode.toString()),
+          ),
+        );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('$e',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(fontSize: 10.sp)),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 3),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
     }
   }
 
@@ -212,7 +238,7 @@ class _managebloodtestAppointmentsState
             style: GoogleFonts.montserrat(
                 fontSize: size.width * 0.045, color: Colors.white)),
       ),
-      backgroundColor: Color(0xFFe0e9e4),
+      backgroundColor: const Color(0xFFe0e9e4),
       body: SingleChildScrollView(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -437,7 +463,7 @@ class _managebloodtestAppointmentsState
                                               letterSpacing: 0,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white)),
-                                      Text('$totaldonationrep',
+                                      Text('$totalBloodDonationReplacement',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.montserrat(
                                               fontSize: 14.sp,
@@ -473,7 +499,7 @@ class _managebloodtestAppointmentsState
                                               letterSpacing: 0,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white)),
-                                      Text('$totaldonationvol',
+                                      Text('$totalBloodDonationVolumtary',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.montserrat(
                                               fontSize: 14.sp,
@@ -559,7 +585,7 @@ class _managebloodtestAppointmentsState
                                         if (await getInternetUsingInternetConnectivity()) {
                                           Navigator.push(
                                             context,
-                                            new MaterialPageRoute(
+                                            MaterialPageRoute(
                                               builder: (context) =>
                                                   manageAppointments(
                                                 schedule: bloodtestAppointments,
@@ -612,7 +638,7 @@ class _managebloodtestAppointmentsState
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  FaIcon(
+                                  const FaIcon(
                                     FontAwesomeIcons.calendarCheck,
                                     size: 40,
                                     color: Colors.grey,

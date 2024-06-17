@@ -173,7 +173,6 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     getBloodGroupData();
     getData();
     getCommunityNews();
-    getTotalDonations();
     getBgresult();
     getBgtsch();
     getCommunityNews();
@@ -197,8 +196,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
         Timer.periodic(const Duration(seconds: 2), (timer) => getData());
     _getNewstimer = Timer.periodic(
         const Duration(seconds: 1), (timer) => getCommunityNews());
-    _getTotalDonationstimer = Timer.periodic(
-        const Duration(seconds: 2), (timer) => getTotalDonations());
+ 
     _getBgresulttimer =
         Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
     _getBgtschtimer =
@@ -538,10 +536,10 @@ class _nameState extends State<home> with TickerProviderStateMixin {
 
   Future getCommunityNews() async {
     var data = {'status': 'Active'};
-    var response = await http.post(
-        Uri.parse(
-            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/newsfeed"),
-        body: json.encode(data));
+    var response = await http.get(
+      Uri.parse(
+          "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/newsfeed"),
+    );
     print(response.body);
     var msg = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -550,8 +548,9 @@ class _nameState extends State<home> with TickerProviderStateMixin {
         newstitle = msg[0]["title"];
         newsdescription = msg[0]["description"];
         newscalltoaction = msg[0]["cta"];
-        newslink = msg['userInfo']["link"];
+        newslink = msg[0]["link"];
       });
+
       savenewsPref();
     } else if (response.statusCode != 200) {
       setState(() {
@@ -561,21 +560,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     return newsready;
   }
 
-  Future getTotalDonations() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/totaldonations.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totaldonations'] == true) {
-      setState(() {
-        totaldonation = msg['userInfo'].toString();
-      });
-      savetdPref();
-    }
-    return totaldonation;
-  }
+  
 
   Future getTotalDonationsRep() async {
     var data = {'phonenumber': phonenumber};
@@ -1588,8 +1573,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                               var linkUrl =
                                                                   "$newslink";
                                                               try {
-                                                                // launch(
-                                                                //     linkUrl);
+                                                                launch(linkUrl);
                                                               } catch (e) {
                                                                 //To handle error and display error message
                                                                 ScaffoldMessenger.of(

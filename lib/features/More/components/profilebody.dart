@@ -23,6 +23,7 @@ import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../provider/prefs_provider.dart';
+import '../../Home/models/user_model.dart';
 
 class UserData {
   UserData(
@@ -171,6 +172,84 @@ class _ProfilePageState extends State<ProfilePage> {
       userId = prefs.getString('id');
       totaldonation = prefs.getString('totaldonation');
     });
+  }
+
+  savePref(Users data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', "${data.user!.email}");
+    prefs.setString('name', "${data.user!.name}");
+    prefs.setString('uname', "${data.user!.username}");
+    prefs.setString('avatar', "${data.user!.avartar}");
+    prefs.setString('gender', "${data.user!.gender}");
+    prefs.setString('agecategory', "${data.user!.ageCategory}");
+    prefs.setString('age', "${data.user!.age}");
+    prefs.setString('dob', "${data.user!.dob}");
+    prefs.setString('country', "${data.user!.country}");
+    prefs.setString('country_id', "${data.user!.countryId}");
+    prefs.setString('phonenumber', "${data.user!.phone}");
+    prefs.setString('address', "${data.user!.address}");
+    prefs.setString('district', "${data.user!.distict}");
+    prefs.setString('bloodtype', "${data.user!.bloodGroup}");
+    prefs.setString('prevdonation', "${data.user!.prvdonation}");
+    prefs.setString('prevdonationamt', "${data.user!.prvdonationNo}");
+    prefs.setString('totaldonation', "${data.user!.noOfDonation}");
+    prefs.setString('community', "${data.user!.community}");
+    prefs.setString('id', "${data.user!.id}");
+  }
+
+  Future updatUser() async {
+    var data = {
+      'bloodGroup': selectedBloodType,
+    };
+    try {
+      var response = await http.post(
+        Uri.parse(
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/updateUser/$userId"),
+        body: json.encode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        var msg = jsonDecode(response.body);
+        Users data = Users.fromJson(msg);
+
+        savePref(data);
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProfilePage(),
+          ),
+        );
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Column(
+              children: [
+                Text("${response.statusCode}"),
+                Text("${response.body}"),
+              ],
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Something went wrong. Please try again"),
+        ),
+      );
+    }
   }
 
   // void scheduleAlarm() async{
@@ -947,289 +1026,280 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   Column(
                                     children: [
-                                      Container(
-                                        width: double.infinity,
-                                        child: TextButton(
-                                          child: _isLoading
-                                              ? SizedBox(
-                                                  height: 15.0,
-                                                  width: 15.0,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: Colors.white,
-                                                    strokeWidth: 2.0,
-                                                  ),
-                                                )
-                                              : Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    FaIcon(
-                                                      FontAwesomeIcons
-                                                          .penToSquare,
-                                                      size: 15,
-                                                    ),
-                                                    SizedBox(width: 5),
-                                                    Text('Update Blood Details',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                                fontSize: 14.sp,
-                                                                color: Colors
-                                                                    .white)),
-                                                  ],
+                                      bloodtype != "A"
+                                          ? Container(
+                                              width: double.infinity,
+                                              child: TextButton(
+                                                child: _isLoading
+                                                    ? SizedBox(
+                                                        height: 15.0,
+                                                        width: 15.0,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color: Colors.white,
+                                                          strokeWidth: 2.0,
+                                                        ),
+                                                      )
+                                                    : Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          FaIcon(
+                                                            FontAwesomeIcons
+                                                                .penToSquare,
+                                                            size: 15,
+                                                          ),
+                                                          SizedBox(width: 5),
+                                                          Text(
+                                                              'Update Blood Details',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: GoogleFonts
+                                                                  .montserrat(
+                                                                      fontSize:
+                                                                          14.sp,
+                                                                      color: Colors
+                                                                          .white)),
+                                                        ],
+                                                      ),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      Color(0xFF205072),
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                 ),
-                                          style: TextButton.styleFrom(
-                                            foregroundColor: Colors.white,
-                                            backgroundColor: Color(0xFF205072),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10))),
-                                          ),
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  Dialog(
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(10),
-                                                  ),
-                                                ),
-                                                child: IntrinsicHeight(
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width <=
-                                                                768
-                                                            ? 0.7.sw
-                                                            : 0.65.sw,
-                                                    // padding: EdgeInsets.all(10.r),
-                                                    decoration: const BoxDecoration(
-                                                        color: Colors.white,
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        Dialog(
+                                                      shape:
+                                                          const RoundedRectangleBorder(
                                                         borderRadius:
                                                             BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10))),
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10.r),
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                                  kPrimaryColor,
-                                                              borderRadius: BorderRadius.only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          10),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          10),
-                                                                  bottomLeft:
-                                                                      Radius
-                                                                          .zero,
-                                                                  bottomRight:
-                                                                      Radius
-                                                                          .zero)),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                'Update Blood Details',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 15,
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  letterSpacing:
-                                                                      0,
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                  onTap: () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons.close,
-                                                                    color:
-                                                                        kWhiteColor,
-                                                                  ))
-                                                            ],
-                                                          ),
+                                                          Radius.circular(10),
                                                         ),
-                                                        10.verticalSpace,
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(10),
-                                                          child: Expanded(
-                                                            child:
-                                                                SingleChildScrollView(
-                                                              child: Form(
-                                                                key: _formKey,
-                                                                autovalidateMode:
-                                                                    AutovalidateMode
-                                                                        .always,
-                                                                child: Column(
+                                                      ),
+                                                      child: IntrinsicHeight(
+                                                        child: Container(
+                                                          width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width <=
+                                                                  768
+                                                              ? 0.7.sw
+                                                              : 0.65.sw,
+                                                          // padding: EdgeInsets.all(10.r),
+                                                          decoration: const BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10))),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(10
+                                                                            .r),
+                                                                decoration: BoxDecoration(
+                                                                    color:
+                                                                        kPrimaryColor,
+                                                                    borderRadius: BorderRadius.only(
+                                                                        topLeft:
+                                                                            Radius.circular(
+                                                                                10),
+                                                                        topRight:
+                                                                            Radius.circular(
+                                                                                10),
+                                                                        bottomLeft:
+                                                                            Radius
+                                                                                .zero,
+                                                                        bottomRight:
+                                                                            Radius.zero)),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
                                                                   children: [
-                                                                    SizedBox(
-                                                                        height:
-                                                                            5),
-                                                                    DropdownButtonFormField(
-                                                                      //button height
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        labelText:
-                                                                            'Blood Group',
-                                                                        labelStyle: TextStyle(
-                                                                            fontFamily:
-                                                                                'Montserrat',
-                                                                            letterSpacing:
-                                                                                0,
-                                                                            fontSize:
-                                                                                14),
-                                                                        //Add isDense true and zero Padding.
-                                                                        //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                                                                        isDense:
-                                                                            false,
-                                                                        contentPadding:
-                                                                            EdgeInsets.only(left: 5),
-                                                                        border:
-                                                                            OutlineInputBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(5),
-                                                                        ),
-                                                                        //Add more decoration as you want here
-                                                                        //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                                                                      ),
-                                                                      icon:
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .arrow_drop_down,
+                                                                    Text(
+                                                                      'Update Blood Details',
+                                                                      style:
+                                                                          TextStyle(
                                                                         color: Colors
-                                                                            .black45,
+                                                                            .white,
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontFamily:
+                                                                            'Montserrat',
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        letterSpacing:
+                                                                            0,
                                                                       ),
-                                                                      iconSize:
-                                                                          30,
-
-                                                                      items: bloodgrouplist
-                                                                          .map((item) => DropdownMenuItem<String>(
-                                                                                value: item,
-                                                                                child: Text(
-                                                                                  item,
-                                                                                  style: TextStyle(
-                                                                                    fontSize: 14.sp,
-                                                                                  ),
-                                                                                ),
-                                                                              ))
-                                                                          .toList(),
-                                                                      validator:
-                                                                          (value) {
-                                                                        if (value ==
-                                                                            null) {
-                                                                          return 'Please select an option.';
-                                                                        }
-                                                                      },
-                                                                      onChanged:
-                                                                          (String?
-                                                                              value) {
-                                                                        setState(
+                                                                    ),
+                                                                    InkWell(
+                                                                        onTap:
                                                                             () {
-                                                                          selectedBloodType =
-                                                                              value;
-                                                                        });
-                                                                      },
-                                                                      onSaved:
-                                                                          (value) {
-                                                                        selectedBloodType =
-                                                                            value.toString();
-                                                                      },
-                                                                    ),
-                                                                    SizedBox(
-                                                                        height:
-                                                                            5),
-                                                                    SizedBox(
-                                                                      height: 5,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      child:
-                                                                          ElevatedButton(
-                                                                        child: Text(
-                                                                            'Update Details',
-                                                                            textAlign:
-                                                                                TextAlign.center,
-                                                                            style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
-                                                                        style: TextButton
-                                                                            .styleFrom(
-                                                                          foregroundColor:
-                                                                              Colors.white,
-                                                                          backgroundColor:
-                                                                              Color(0xff389e9d),
-                                                                          shape:
-                                                                              const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                                                        ),
-                                                                        onPressed:
-                                                                            () async {
-                                                                          if (_formKey
-                                                                              .currentState!
-                                                                              .validate()) {
-                                                                            Navigator.pop(context);
-                                                                            if (await getInternetUsingInternetConnectivity()) {
-                                                                              setState(() {
-                                                                                _isLoading = true;
-                                                                              });
-                                                                              // blooddetailsupdate();
-                                                                            } else {
-                                                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                                                SnackBar(
-                                                                                  content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
-                                                                                  backgroundColor: Color(0xFFE02020),
-                                                                                  behavior: SnackBarBehavior.fixed,
-                                                                                  duration: const Duration(seconds: 10),
-                                                                                  // duration: Duration(seconds: 3),
-                                                                                ),
-                                                                              );
-                                                                            }
-                                                                          }
+                                                                          Navigator.pop(
+                                                                              context);
                                                                         },
-                                                                      ),
-                                                                    ),
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          color:
+                                                                              kWhiteColor,
+                                                                        ))
                                                                   ],
                                                                 ),
                                                               ),
-                                                            ),
+                                                              10.verticalSpace,
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        10),
+                                                                child: Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child: Form(
+                                                                      key:
+                                                                          _formKey,
+                                                                      autovalidateMode:
+                                                                          AutovalidateMode
+                                                                              .always,
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          SizedBox(
+                                                                              height: 5),
+                                                                          DropdownButtonFormField(
+                                                                            //button height
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              labelText: 'Blood Group',
+                                                                              labelStyle: TextStyle(fontFamily: 'Montserrat', letterSpacing: 0, fontSize: 14),
+                                                                              //Add isDense true and zero Padding.
+                                                                              //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                                                                              isDense: false,
+                                                                              contentPadding: EdgeInsets.only(left: 5),
+                                                                              border: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(5),
+                                                                              ),
+                                                                              //Add more decoration as you want here
+                                                                              //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                                                                            ),
+                                                                            icon:
+                                                                                const Icon(
+                                                                              Icons.arrow_drop_down,
+                                                                              color: Colors.black45,
+                                                                            ),
+                                                                            iconSize:
+                                                                                30,
+
+                                                                            items: bloodgrouplist
+                                                                                .map((item) => DropdownMenuItem<String>(
+                                                                                      value: item,
+                                                                                      child: Text(
+                                                                                        item,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 14.sp,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ))
+                                                                                .toList(),
+                                                                            validator:
+                                                                                (value) {
+                                                                              if (value == null) {
+                                                                                return 'Please select an option.';
+                                                                              }
+                                                                            },
+                                                                            onChanged:
+                                                                                (String? value) {
+                                                                              setState(() {
+                                                                                selectedBloodType = value;
+                                                                              });
+                                                                            },
+                                                                            onSaved:
+                                                                                (value) {
+                                                                              selectedBloodType = value.toString();
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                              height: 5),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                5,
+                                                                          ),
+                                                                          SizedBox(
+                                                                            width:
+                                                                                double.infinity,
+                                                                            child:
+                                                                                ElevatedButton(
+                                                                              style: TextButton.styleFrom(
+                                                                                backgroundColor: Color(0xff389e9d),
+                                                                                foregroundColor: Colors.white,
+                                                                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                                              ),
+                                                                              onPressed: () async {
+                                                                                if (_formKey.currentState!.validate()) {
+                                                                                  Navigator.pop(context);
+                                                                                  if (await getInternetUsingInternetConnectivity()) {
+                                                                                    setState(() {
+                                                                                      _isLoading = true;
+                                                                                    });
+                                                                                    updatUser();
+                                                                                    // blooddetailsupdate();
+                                                                                  } else {
+                                                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                                                      SnackBar(
+                                                                                        content: Text('You are offline, Kindly turn on Wifi or Mobile Data to continue', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 10.sp)),
+                                                                                        backgroundColor: Color(0xFFE02020),
+                                                                                        behavior: SnackBarBehavior.fixed,
+                                                                                        duration: const Duration(seconds: 10),
+                                                                                        // duration: Duration(seconds: 3),
+                                                                                      ),
+                                                                                    );
+                                                                                  }
+                                                                                }
+                                                                              },
+                                                                              child: Text('Update Details', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.sp, color: Colors.white)),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
+                                                  );
+                                                },
                                               ),
-                                            );
-                                          },
-                                        ),
-                                      ),
+                                            )
+                                          : Container(),
                                       Container(
                                         width: double.infinity,
                                         child: TextButton(
