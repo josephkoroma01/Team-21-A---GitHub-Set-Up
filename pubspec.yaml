@@ -79,6 +79,7 @@ dependencies:
   firebase_messaging: ^14.9.4
   provider: ^6.1.2
   shimmer: ^3.0.0
+  cool_stepper_reloaded: ^3.2.6
 
 dev_dependencies:
   flutter_test:

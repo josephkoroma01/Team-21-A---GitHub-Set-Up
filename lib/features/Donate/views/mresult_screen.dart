@@ -937,10 +937,10 @@ class _MAnalysisScreenState extends State<MAnalysisScreen> {
                                 BorderRadius.all(Radius.circular(10))),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => blooddonationfacility()),
-                            (route) => false);
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //     MaterialPageRoute(
+                        //         builder: (context) => blooddonationfacility()),
+                            // (route) => false);
                       },
                     ),
                   ),

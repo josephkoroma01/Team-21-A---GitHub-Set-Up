@@ -498,7 +498,9 @@ class _etriggerScreenState extends State<etriggerScreen> {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ectriggerScreen()),
+                                              ectriggerScreen(
+                                                
+                                              )),
                                     );
                                     setState(() {
                                       _isloginLoading = false;

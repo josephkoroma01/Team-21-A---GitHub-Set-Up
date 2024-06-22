@@ -195,26 +195,14 @@ class _managebloodtestAppointmentsState
           prefs.setInt('voluntary', totalBloodDonationVolumtary!);
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(jsonData.toString()),
-          ),
-        );
+       
 
         return bloodtestAppointments;
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(response.statusCode.toString()),
-          ),
-        );
+         
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
+      
     }
   }
 

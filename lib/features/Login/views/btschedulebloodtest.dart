@@ -64,6 +64,10 @@ class facilitydata {
 }
 
 class btblooddonationfacility extends StatefulWidget {
+  btblooddonationfacility({required this.country});
+
+  String country;
+
   @override
   State createState() {
     return btblooddonationfacilityState();
@@ -118,22 +122,52 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
   String? selectedFacility = '';
   String? selectedCost = '';
 
-  Future findfacility() async {
-    var response = await http
-        .get(Uri.parse("https://community.lifebloodsl.com/findfacility.php"));
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        facilityList = jsonData;
-      });
-    }
-    print(facilityList);
-  }
-
   @override
   void dispose() {
     debouncer?.cancel();
     super.dispose();
+  }
+
+  String countryId = '';
+
+  checkCountry() {
+    if (widget.country == 'Sierra Leone') {
+      setState(() {
+        countryId = '1';
+      });
+    } else {
+      setState(() {
+        countryId = '2';
+      });
+    }
+    ;
+  }
+
+  Future<List<BloodTestingFacilities>> getBloodFacilities(
+      String donationquery) async {
+    final url = Uri.parse(
+        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfsbycountry/$countryId');
+    final response = await http.get(
+      url,
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      final List donationschedule = json.decode(response.body);
+      return donationschedule
+          .map((json) => BloodTestingFacilities.fromJson(json))
+          .where((donationschedule) {
+        final regionLower = donationschedule.district!.toLowerCase();
+        final facilitynameLower = donationschedule.name!.toLowerCase();
+        final servicetypeLower = donationschedule.communityname!.toLowerCase();
+        final searchLower = donationquery.toLowerCase();
+        return regionLower.contains(searchLower) ||
+            facilitynameLower.contains(searchLower) ||
+            servicetypeLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
   }
 
   @override
@@ -158,11 +192,7 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
   @override
   void initState() {
     super.initState();
-    getRefPref();
-    getBgresult();
-
-    _getBgresulttimer =
-        Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
+    checkCountry();
   }
 
   void getRefPref() async {
@@ -193,7 +223,6 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
       setState(() {
         totalbgresult = msg['userInfo'].toString();
       });
-      savetbgrPref();
     }
     return totalbgresult;
   }
@@ -394,38 +423,6 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
     }
   }
 
-  Future<List<BloodTestingFacilities>> getBloodFacilities(
-      String donationquery) async {
-    final url = Uri.parse(
-        'http://api.famcaresl.com/communityapp/index.php?route=facilities');
-    final response = await http.post(
-      url,
-      body: jsonEncode({
-        "country": 'Sierra Leone'
-
-        // Additional data
-      }),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode == 200) {
-      final List donationschedule = json.decode(response.body);
-      return donationschedule
-          .map((json) => BloodTestingFacilities.fromJson(json))
-          .where((donationschedule) {
-        final regionLower = donationschedule.district!.toLowerCase();
-        final facilitynameLower = donationschedule.name!.toLowerCase();
-        final servicetypeLower = donationschedule.name!.toLowerCase();
-        final searchLower = donationquery.toLowerCase();
-        return regionLower.contains(searchLower) ||
-            facilitynameLower.contains(searchLower) ||
-            servicetypeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-
   void debounce(
     VoidCallback callback, {
     Duration duration = const Duration(milliseconds: 1000),
@@ -527,11 +524,7 @@ class btblooddonationfacilityState extends State<btblooddonationfacility> {
         elevation: 0,
         leading: TextButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ));
+              Navigator.pop(context);
             },
             child: Text(
               'Go Home',

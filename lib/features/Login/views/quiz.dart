@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:cool_stepper/cool_stepper.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -21,6 +19,7 @@ import 'package:intl/intl.dart';
 import 'package:lifebloodworld/constants/colors.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cool_stepper_reloaded/cool_stepper_reloaded.dart';
 
 class facilitydata {
   String rbtc;
@@ -137,10 +136,6 @@ class MyEQuizState extends State<MyEQuiz> {
   @override
   void initState() {
     super.initState();
-
-    _fileExtensionController
-        .addListener(() => _extension = _fileExtensionController.text);
-    dateinput.text = "";
   }
 
   // String? _fruid;
@@ -282,15 +277,10 @@ class MyEQuizState extends State<MyEQuiz> {
   Widget build(BuildContext context) {
     final steps = [
       CoolStep(
-        title: 'QUESTION ONE',
-        subtitle: 'GENDER',
-        isHeaderEnabled: false,
-        content: FormBuilder(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            children: [
-              Column(
+        content: Form(
+            key: _formKey,
+            child: Container(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -300,10 +290,6 @@ class MyEQuizState extends State<MyEQuiz> {
                     width: 150.w,
                     // width: size.width * 0.4,
                   ),
-                ],
-              ),
-              Column(
-                children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -321,34 +307,28 @@ class MyEQuizState extends State<MyEQuiz> {
                       )
                     ],
                   ),
-                  5.verticalSpace,
-                  Row(
-                    children: [
-                      Expanded(
-                          child: _buildGenderSelector(
-                              context: context,
-                              // assetname: 'assets/images/eman0.png',
-                              name: 'Male')),
-                    ],
-                  ),
                   10.verticalSpace,
-                  Row(
+                  Column(
                     children: [
-                      Expanded(
-                          child: _buildGenderSelector(
-                              context: context,
-                              // assetname: 'assets/images/elady1.png',
-                              name: 'Female')),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: _buildGenderSelector(
+                                  context: context, name: 'Male')),
+                          5.horizontalSpace,
+                          Expanded(
+                              child: _buildGenderSelector(
+                                  context: context, name: 'Female')),
+                        ],
+                      ),
                     ],
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
+            )),
         validation: () {
           if (selectedGender!.isEmpty) {
-            return 'Please Select Gender';
+            return 'Please Select Age Category';
           }
           return null;
         },
@@ -356,8 +336,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION TWO',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
@@ -440,8 +419,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION THREE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -512,8 +490,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -576,8 +553,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -640,8 +616,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -704,8 +679,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -768,8 +742,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -790,15 +763,61 @@ class MyEQuizState extends State<MyEQuiz> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Do you have any of the\nfollowing diseases\nLung diseases, kidney diseases, tuberculosis, thyroid disorder, asthma, swollen glands, persistent cough, epilepsy, rheumatic fever, cancer, anaemia, shingles, circulation problems, skin rashes, low/high blood pressure, dizziness, night sweats/fever, excessive epistaxis, sleeping sickness, abdominal diseases, hepatitis/jaundice, brucellosis, prolonged diarrhoea, sexually transmitted diseases, diabetes, sickle cell diseases ?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          overflow: TextOverflow.clip,
-                          fontSize: 14.spMax,
-                          letterSpacing: 0),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              'Do you have any of the following diseases?\n\n',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            overflow: TextOverflow.clip,
+                            fontSize: 14.spMax,
+                            letterSpacing: 0,
+                          ),
+                        ),
+                        TextSpan(
+                          children: [
+                            // Column 1 with bullet points
+                            TextSpan(
+                              text: '  • Lung diseases\n'
+                                  '  • Kidney diseases\n'
+                                  '  • Tuberculosis\n'
+                                  '  • Thyroid disorder\n'
+                                  '  • Asthma\n'
+                                  '  • Swollen glands\n'
+                                  '  • Persistent cough\n'
+                                  '  • Epilepsy\n'
+                                  '  • Rheumatic fever\n'
+                                  '  • Cancer\n'
+                                  '  • Anaemia\n'
+                                  '  • Shingles\n'
+                                  '  • Circulation problems\n'
+                                  '  • Low/high blood pressure\n'
+                                  '  • Dizziness\n'
+                                  '  • Excessive epistaxis (Nose Bleeding)\n'
+                                  '  • Sleeping sickness\n'
+                                  '  • Abdominal diseases\n'
+                                  '  • Hepatitis/jaundice\n'
+                                  '  • Brucellosis\n'
+                                  '  • Prolonged diarrhoea\n'
+                                  '  • Sexually transmitted disease\n'
+                                  '  • Diabetes\n'
+                                  '  • Sickle cell diseases\n',
+                              style: TextStyle(
+                                fontSize: 14.spMax,
+                              ),
+                            ),
+
+                            // Column 2 with bullet points and indentation
+
+                            // Continue with the remaining diseases in columns
+                          ],
+                          style: TextStyle(
+                              // Left-align each column
+                              ),
+                        ),
+                      ],
                     ),
                   )
                 ],
@@ -819,6 +838,7 @@ class MyEQuizState extends State<MyEQuiz> {
                   ),
                 ],
               ),
+              10.verticalSpace,
             ],
           ),
         ),
@@ -832,8 +852,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -896,8 +915,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -960,8 +978,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -1024,8 +1041,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -1088,8 +1104,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -1220,8 +1235,7 @@ class MyEQuizState extends State<MyEQuiz> {
       CoolStep(
         title: 'QUESTION ONE',
         subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
+        content: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Center(
@@ -1244,13 +1258,13 @@ class MyEQuizState extends State<MyEQuiz> {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                   decoration: BoxDecoration(
-                      color: kPrimaryColor,
+                      color: Colors.teal,
                       borderRadius: BorderRadius.circular(0)),
                   child: Text(
                     'Women-Specific Questions',
                     style: TextStyle(
                         fontSize: 15,
-                        color: kWhiteColor,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -1258,13 +1272,13 @@ class MyEQuizState extends State<MyEQuiz> {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                   decoration: BoxDecoration(
-                      color: kPrimaryColor,
+                      color: Colors.teal,
                       borderRadius: BorderRadius.circular(0)),
                   child: Text(
                     'Please Click Finish',
                     style: TextStyle(
                         fontSize: 15,
-                        color: kWhiteColor,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -1355,9 +1369,94 @@ class MyEQuizState extends State<MyEQuiz> {
       ),
     ];
     final stepper = CoolStepper(
+      isHeaderEnabled: false,
+
       config: CoolStepperConfig(
-        stepText: 'QUESTION',
-      ),
+          stepColor: Color(0xFFe0e9e4),
+          headerColor: Color(0xFFe0e9e4),
+          stepText: 'QUESTION',
+          nextButton: TextButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed)) {
+                  return RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.teal),
+                  ); // Define a different border shape for the pressed state
+                }
+                return RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  side: BorderSide(color: Colors.teal),
+                ); // Define the default border shape
+              }),
+              backgroundColor:
+                  MaterialStateColor.resolveWith((Set<MaterialState> states) {
+                return Colors
+                    .teal; // Always return white regardless of the button state
+              }),
+            ),
+            child: Text(
+              'Next',
+              style: TextStyle(fontFamily: 'Montserrat', color: kWhiteColor),
+            ),
+            onPressed: () {},
+          ),
+          backButton: TextButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed)) {
+                  return RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: kLifeBloodBlue),
+                  ); // Define a different border shape for the pressed state
+                }
+                return RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  side: BorderSide(color: kLifeBloodBlue),
+                ); // Define the default border shape
+              }),
+              backgroundColor:
+                  MaterialStateColor.resolveWith((Set<MaterialState> states) {
+                return kLifeBloodBlue; // Always return white regardless of the button state
+              }),
+            ),
+            child: Text(
+              'Back',
+              style: TextStyle(fontFamily: 'Montserrat', color: kWhiteColor),
+            ),
+            onPressed: () {},
+          ),
+          finishButton: TextButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed)) {
+                  return RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.green),
+                  ); // Define a different border shape for the pressed state
+                }
+                return RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  side: BorderSide(color: Colors.green),
+                ); // Define the default border shape
+              }),
+              backgroundColor:
+                  MaterialStateColor.resolveWith((Set<MaterialState> states) {
+                return Colors
+                    .green; // Always return white regardless of the button state
+              }),
+            ),
+            child: Text(
+              'Finish',
+              style: TextStyle(fontFamily: 'Montserrat', color: kWhiteColor),
+            ),
+            onPressed: () {},
+          ),
+          stepOfTextStyle:
+              TextStyle(color: kPrimaryColor, fontFamily: 'Montserrat')),
 
       // contentPadding: EdgeInsets.all(10),
       showErrorSnackbar: true,
@@ -1505,46 +1604,6 @@ class MyEQuizState extends State<MyEQuiz> {
                 ),
               ),
             ),
-    );
-  }
-
-  Widget _buildGenderSelector({
-    BuildContext? context,
-    required String name,
-    // required String assetname,
-  }) {
-    final isActive = name == selectedGender;
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20),
-      child: Expanded(
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeInOut,
-          decoration: BoxDecoration(
-            color: isActive ? Theme.of(context!).primaryColor : null,
-            border: Border.all(
-              width: 0,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: RadioListTile(
-            value: name,
-            activeColor: Colors.white,
-            groupValue: selectedGender,
-            onChanged: (String? v) {
-              setState(() {
-                selectedGender = v;
-              });
-            },
-            title: Text(
-              name,
-              style: TextStyle(
-                  color: isActive ? Colors.white : null, fontSize: 14.spMax),
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -1846,14 +1905,45 @@ class MyEQuizState extends State<MyEQuiz> {
               selectedMedication = v;
             });
           },
-          title: Column(
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                    color: isActive ? Colors.white : null, fontSize: 14.spMax),
-              ),
-            ],
+          title: Text(
+            name,
+            style: TextStyle(
+                color: isActive ? Colors.white : null, fontSize: 14.spMax),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGenderSelector({
+    BuildContext? context,
+    required String name,
+  }) {
+    final isActive = name == selectedGender;
+    return Expanded(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isActive ? Theme.of(context!).primaryColor : null,
+          border: Border.all(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: RadioListTile(
+          value: name,
+          activeColor: Colors.white,
+          groupValue: selectedGender,
+          onChanged: (String? v) {
+            setState(() {
+              selectedGender = v;
+            });
+          },
+          title: Text(
+            name,
+            style: TextStyle(
+                color: isActive ? Colors.white : null, fontSize: 14.spMax),
           ),
         ),
       ),

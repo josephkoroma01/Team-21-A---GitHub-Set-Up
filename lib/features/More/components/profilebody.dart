@@ -313,7 +313,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 80,
                 child: CircleAvatar(
                   backgroundImage: AssetImage(
-                    "assets/images/man1.png",
+                    avartar.toString(),
                   ),
                 ),
               ),
@@ -332,14 +332,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CountryFlag.fromCountryCode(
-                    'sl',
+                    country.toString() == 'Sierra Leone' ? 'sl' : 'bj',
                     height: 20,
                     width: 35,
                     borderRadius: 5,
                   ),
                   5.horizontalSpace,
                   Text(
-                    " Sierra Leone",
+                    country.toString(),
                     style: GoogleFonts.montserrat(
                         fontSize: 14,
                         letterSpacing: 0,
@@ -348,9 +348,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              SizedBox(
-                height: 15,
+              const SizedBox(
+                height: 25,
               ),
               Row(
                 children: <Widget>[
@@ -819,7 +818,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                               TextSpan(
                                                 // text: email ?? " ",
-                                                text: " ",
+                                                text: email ?? " ",
                                                 style: GoogleFonts.montserrat(
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.bold,
@@ -829,12 +828,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                             ],
                                           ),
                                           textHeightBehavior:
-                                              TextHeightBehavior(
+                                             const TextHeightBehavior(
                                                   applyHeightToFirstAscent:
                                                       false),
                                           textAlign: TextAlign.left,
                                         ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Text.rich(
@@ -846,7 +845,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: 'Address: ${address ?? " "} ',
+                                          text: 'Address: ',
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.normal,
@@ -854,7 +853,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: address,
+                                          text: address ?? "",
                                           style: GoogleFonts.montserrat(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.bold,
@@ -863,11 +862,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                       ],
                                     ),
-                                    textHeightBehavior: TextHeightBehavior(
+                                    textHeightBehavior:const TextHeightBehavior(
                                         applyHeightToFirstAscent: false),
                                     textAlign: TextAlign.left,
                                   ),
-                                  SizedBox(
+                                 const SizedBox(
                                     height: 5,
                                   ),
                                 ],

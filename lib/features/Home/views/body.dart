@@ -63,6 +63,29 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   HomePageState({Key? key, required this.pageIndex});
+  @override
+  void initState() {
+    // TODO: implement initState
+    getPref();
+    super.initState();
+  }
+
+  String? uname;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
+  void getPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = prefs.getString('email');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
+      userId = prefs.getString('id');
+    });
+  }
 
   int pageIndex = 0;
   @override
@@ -108,32 +131,32 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
         backgroundColor: const Color(0xFFebf5f5),
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.houseUser),
             activeIcon: FaIcon(FontAwesomeIcons.houseUser),
             label: '',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.droplet),
             activeIcon: FaIcon(FontAwesomeIcons.droplet),
             label: '',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.peopleGroup),
             activeIcon: FaIcon(FontAwesomeIcons.peopleGroup),
             label: '',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.solidBell),
             activeIcon: FaIcon(FontAwesomeIcons.solidBell),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
-              backgroundImage: AssetImage("assets/images/man1.png"),
+              backgroundImage: AssetImage(avartar.toString()),
             ),
             activeIcon: CircleAvatar(
-              backgroundImage: AssetImage("assets/images/man1.png"),
+              backgroundImage: AssetImage(avartar.toString()),
             ),
             label: '',
           ),
@@ -426,6 +449,7 @@ class _manageAppointmentsState extends State<manageAppointments> {
           leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back,
+                color: Colors.white,
               ),
               onPressed: () => Navigator.push(
                     context,
@@ -474,84 +498,89 @@ class _manageAppointmentsState extends State<manageAppointments> {
                         .map((data) => AppointmentCard(data: data))
                         .toList()
                     : [
-                        Column(children: [
-                         const  Text(
-                            "No Blood Group Test schedule found..\nPlease check your internet connection",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 12,
-                                color: Color(0xFFE02020)),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 5.r, right: 15.r, left: 15.r),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: TextButton(
-                                
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              super.widget));
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.refresh,
-                                      color: Colors.teal,
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "No Blood Group Test schedule found..\nPlease check your internet connection",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 12,
+                                    color: Color(0xFFE02020)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 5.r, right: 15.r, left: 15.r),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
                                     ),
-                                    Text('Refresh Page',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 12, color: Colors.teal)),
-                                  ],
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  super.widget));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.refresh,
+                                          color: Colors.teal,
+                                        ),
+                                        Text('Refresh Page',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 12,
+                                                color: Colors.teal)),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ]),
+                            ]),
                         SizedBox(
                           height: 10.h,
                         ),
-                        Text.rich(
-                          TextSpan(
-                            style: TextStyle(
-                              color: Color(0xFF205072),
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                        Center(
+                          child: Text.rich(
+                            TextSpan(
+                              style: TextStyle(
+                                color: Color(0xFF205072),
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Hi, ',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF205072),
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "$name",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF205072),
+                                  ),
+                                ),
+                              ],
                             ),
-                            children: [
-                              TextSpan(
-                                text: 'Hi, ',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF205072),
-                                ),
-                              ),
-                              TextSpan(
-                                text: "$name",
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF205072),
-                                ),
-                              ),
-                            ],
+                            textHeightBehavior: TextHeightBehavior(
+                                applyHeightToFirstAscent: false),
+                            textAlign: TextAlign.left,
                           ),
-                          textHeightBehavior: TextHeightBehavior(
-                              applyHeightToFirstAscent: false),
-                          textAlign: TextAlign.left,
                         ),
                         SizedBox(
                           height: 10.h,

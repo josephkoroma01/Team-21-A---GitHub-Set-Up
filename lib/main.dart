@@ -38,7 +38,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // await FirebaseServices().initNotif();
+  await FirebaseServices().initNotif();
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   email = prefs.getString('email');
@@ -95,7 +95,7 @@ class _LifeBloodState extends State<LifeBlood> {
               debugShowCheckedModeBanner: false,
               title: 'LifeBlood',
               routes: {
-                '/home': (context) => HomePageScreen(pageIndex: 1),
+                '/home': (context) => HomePageScreen(pageIndex: 3),
               },
               navigatorKey: navigatorKey,
               theme: ThemeData(

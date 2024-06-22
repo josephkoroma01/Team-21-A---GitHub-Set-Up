@@ -10,76 +10,38 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:intl/intl.dart';
-import 'package:lifebloodworld/features/Login/views/schedulebloodtest.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
-import 'package:lifebloodworld/main.dart';
-import 'package:lifebloodworld/widgets/custom_textfield.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl_phone_field/countries.dart';
-
-import '../../../constants/colors.dart';
 
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d MMM yyyy').format(now);
 String formattedNewMonth = DateFormat('LLLL').format(now);
 String formattedNewYear = DateFormat('y').format(now);
 
-class AppCountry {
-  final String name;
-  final Map<String, String> nameTranslations;
-  final String flag;
-  final String code;
-  final String dialCode;
-  final String regionCode;
-  final int minLength;
-  final int maxLength;
-
-  const AppCountry({
-    required this.name,
-    required this.flag,
-    required this.code,
-    required this.dialCode,
-    required this.nameTranslations,
-    required this.minLength,
-    required this.maxLength,
-    this.regionCode = "",
-  });
-}
-
-Country convertToCountry(AppCountry appCountry) {
-  return Country(
-    name: appCountry.name,
-    flag: appCountry.flag,
-    code: appCountry.code,
-    dialCode: appCountry.dialCode,
-    nameTranslations: appCountry.nameTranslations,
-    minLength: appCountry.minLength,
-    maxLength: appCountry.maxLength,
-    regionCode: appCountry.regionCode,
-  );
-}
-
 class EBloodDonation extends StatefulWidget {
-  EBloodDonation({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
+  EBloodDonation(
+      {Key? key,
+      required this.title,
+      required this.gender,
+      required this.agecategory})
+      : super(key: key);
 
   final String? title;
+  final String? gender;
+  final String? agecategory;
 
   @override
+
   //text editing controller for text field
+
   _EBloodDonationState createState() => _EBloodDonationState();
 }
 
 class _EBloodDonationState extends State<EBloodDonation> {
-  // Convert AppCountry to Country
-
-  final _formKey = GlobalKey<FormBuilderState>();
+  final _formKey = GlobalKey<FormState>();
   String? selectedGender = '';
   String? selectedDistrict = '';
   String? selectedBloodType = '';
@@ -112,20 +74,19 @@ class _EBloodDonationState extends State<EBloodDonation> {
   final TextEditingController _idnumberCtrl = TextEditingController();
   final TextEditingController _HBVwhendateinput = TextEditingController();
   final TextEditingController _dateinput = TextEditingController();
+  final TextEditingController timeinput = TextEditingController();
+  final TextEditingController phonenumber = TextEditingController();
+  final TextEditingController email = TextEditingController();
+
   final TextEditingController refCodeCtrl = TextEditingController(
     text: randomAlphaNumeric(6).toString(),
   );
-  final TextEditingController timeinput = TextEditingController();
 
-  // Your list of AppCountry instances
-
-  String? email;
   String? ufname;
   String? ulname;
   String? umname;
   String? agecategory;
   String? gender;
-  String? phonenumber;
   String? address;
   String? district;
   String? bloodtype;
@@ -134,13 +95,12 @@ class _EBloodDonationState extends State<EBloodDonation> {
   getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      email = prefs.getString('email');
       ufname = prefs.getString('ufname');
       umname = prefs.getString('umname');
       ulname = prefs.getString('ulname');
       agecategory = prefs.getString('agecategory');
       gender = prefs.getString('gender');
-      phonenumber = prefs.getString('phonenumber');
+
       address = prefs.getString('address');
       district = prefs.getString('district');
       bloodtype = prefs.getString('bloodtype');
@@ -230,22 +190,156 @@ class _EBloodDonationState extends State<EBloodDonation> {
     print(timeslotList);
   }
 
-  String bloodtestfor = 'Family';
-  bool _scheduling = false;
-  final List<String> bloodgrouplist = [
-    'Not Known',
-    'A+',
-    'A-',
-    'AB+',
-    'AB-',
-    'B+',
-    'B-',
-    'O+',
-    'O-'
+  final List<String> sldistrictlist = [
+    'Bo',
+    'Bombali',
+    'Bonthe',
+    'Falaba',
+    'Kailahun',
+    'Kambia',
+    'Karene',
+    'Kenema',
+    'Koindadugu',
+    'Kono',
+    'Moyamba',
+    'Port Loko',
+    'Pujehun',
+    'Tonkolili',
+    'Western Rural',
+    'Western Urban'
   ];
 
+  final List<String> lbdistrictlist = [
+    'Bomi',
+    'Bong',
+    'Gbarpolu',
+    'Grand',
+    'Bassa',
+    'Grand Gedeh',
+    'Grand Kru',
+    'Lofa',
+    'Margibi',
+    'Maryland',
+    'Montserrado',
+    'Nimba',
+    'Rivercess',
+    'River Gee'
+        'Sinoe'
+  ];
+
+  final List<String> cmdistrictlist = [
+    'Adamawa Region',
+    'Centre Region',
+    'East Region',
+    'Far North Region',
+    'Littoral Region',
+    'North Region',
+    'North West Region',
+    'West Region',
+    'South Region',
+    'South West Region'
+  ];
+
+  final List<String> bndistrictlist = [
+    'Alibori',
+    'Atakora',
+    'Atlantique',
+    'Borgou',
+    'Collines',
+    'Donga',
+    'Kouffo',
+    'Littoral Region',
+    'Mono',
+    'Ouémé',
+    'Plateau',
+    'Zou'
+  ];
+
+  String bloodtestfor = 'Family';
+  bool _scheduling = false;
+  Future uploadsupport() async {
+    try {
+      final url = Uri.parse(
+          'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/supportlifeblood');
+      final response = await http.post(
+        url,
+        body: jsonEncode({
+          "DonorType": 'Voluntary',
+          "agecategory": "${agecategory}",
+          "gender": "${gender}",
+          // "address": "${address}",
+          "district": "${selectedDistrict}",
+          "phonenumber": "${phonenumber.text}",
+          "maritalstatus": selectedMaritalStatus,
+          "occupation": _occupationCtrl.text,
+          "email": "${email.text}",
+          "nextofkin": "${_nextofkinCtrl.text}",
+          "informednextofkin": "${selectedInofkin}",
+          "nextofkinphonenumber": "${_nextofkinphoneCtrl.text}",
+          "personalID": "${selectedID}",
+          "IDnumber": "${_idnumberCtrl.text}",
+          "bloodgroup": "${bloodtype}",
+          "facility": "${selectedFacility}",
+          "timeslot": "${timeinput.text}",
+          "refcode": "${refCodeCtrl.text}",
+          "month": "${monthinput.text}",
+          "year": "${yearinput.text}",
+          "date": "${dateinput.text}"
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 201) {
+        setState(() {
+          _scheduling = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          showCloseIcon: true,
+          closeIconColor: Colors.white,
+          backgroundColor: Colors.teal,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 5),
+          content: Text('Support submitted successfully',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal)),
+        ));
+        await Future.delayed(Duration(seconds: 2), () {
+          Navigator.pop(context);
+        });
+      } else {
+        setState(() {
+          _scheduling = false;
+        });
+        // Request failed
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          showCloseIcon: true,
+          closeIconColor: Colors.white,
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.fixed,
+          duration: Duration(seconds: 60),
+          content: Text('Request failed with status: ${response.body}',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 13,
+              )),
+        ));
+
+        print('Request failed with status: ${response}');
+      }
+    } catch (e) {
+      // Handle errors, including slow internet connection
+      print('Error occurred: $e');
+    }
+  }
+
   Future register() async {
-    await Future.delayed(Duration(seconds: 2));
     var response = await http.post(
         Uri.parse(
             "https://community.lifebloodsl.com/blooddonationnewschedule.php"),
@@ -414,78 +508,7 @@ class _EBloodDonationState extends State<EBloodDonation> {
     }
   }
 
-  int? selectedYear;
-  int? selectedDay;
-  int? selectedMonth;
-  String? selectedAgeCategory = '';
-  String? selectedAge = '';
-  String? userphonenumber;
-  final TextEditingController dobdateinput =
-      TextEditingController(text: formattedNewDate.toString());
-
-  TextEditingController dateInput = TextEditingController();
-  FocusNode focusNode = FocusNode();
-
-  String calculateAge() {
-    if (selectedYear != null && selectedMonth != null && selectedDay != null) {
-      DateTime selectedDate =
-          DateTime(selectedYear!, selectedMonth!, selectedDay!);
-      DateTime currentDate = DateTime.now();
-      Duration difference = currentDate.difference(selectedDate);
-      int age = (difference.inDays / 365).floor();
-      setState(() {
-        selectedAge = age.toString();
-      });
-      if (age < 18) {
-        setState(() {
-          selectedAgeCategory = "Teenager";
-        });
-      } else if (age >= 18 && age <= 24) {
-        setState(() {
-          selectedAgeCategory = "Young Adult";
-        });
-      } else if (age >= 25 && age <= 44) {
-        setState(() {
-          selectedAgeCategory = "Adult";
-        });
-      } else if (age >= 45 && age <= 64) {
-        setState(() {
-          selectedAgeCategory = "Middle Age";
-        });
-      } else {
-        setState(() {
-          selectedAgeCategory = "Old Age";
-        });
-      }
-      return '$age years';
-    }
-    return '';
-  }
-
-  // void scheduleAlarm() async{
-  //   var tz;
-  //   await flutterLocalNotificationsPlugin.zonedSchedule(
-  //       0,
-  //       'LifeBlood',
-  //       'Thank You For Registering, You Have Saved A Life',
-  //       tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
-  //       const NotificationDetails(
-  //         android: AndroidNotificationDetails(
-  //           'alarm_notify',
-  //           'alarm_notify',
-  //           channelDescription: 'Channel For Registeration',
-  //           icon: 'lifeblood',
-  //           sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
-  //           largeIcon: DrawableResourceAndroidBitmap('lifeblood'),),
-  //         iOS: IOSNotificationDetails(
-  //             sound: 'a_long_cold_sting.wav',
-  //             presentAlert: true,
-  //             presentBadge: true,
-  //             presentSound: true),),
-  //       androidAllowWhileIdle: true,
-  //       uiLocalNotificationDateInterpretation:
-  //       UILocalNotificationDateInterpretation.absoluteTime);
-  // }
+ 
   @override
   void initState() {
     _dateinput.text = "";
@@ -496,40 +519,96 @@ class _EBloodDonationState extends State<EBloodDonation> {
   }
 
   @override
- Widget build(BuildContext context) {
-    
-    final steps = [
-      CoolStep(
-        title: 'QUESTION ONE',
-        subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: 
-        FormBuilder(
-          key: _formKey,
-          // autovalidateMode: AutovalidateMode.always,
-          child: Column(
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => HomePageScreen(
+                        pageIndex: 2,
+                      ),
+                    ));
+              },
+              icon: Icon(Icons.arrow_back)),
+          elevation: 0,
+          title: Text(
+            'Schedule Voluntary Blood Donation',
+            style: TextStyle(fontSize: 14.sp),
+          )),
+      body: SingleChildScrollView(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/lifebloodlogo.png",
-                    height: 120.h,
-                    width: 120.w,
-                    // width: size.width * 0.4,
+              SizedBox(
+                child: Container(
+                  width: double.infinity,
+                  color: Colors.teal[50],
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('Blood Donation \nAppointment Details',
+                            textAlign: TextAlign.left,
+                            style: GoogleFonts.montserrat(
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.teal)),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          child: SizedBox(
+                            child: Divider(
+                              color: Color(0xFF205072),
+                              thickness: 1,
+                            ),
+                            height: 5.h,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('Why Should You Donate Blood?',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF205072))),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Text(
+                            'Every 2 seconds, someone in the Sierra Leone needs blood, and there is no way to get blood and platelets other than through donations from volunteers.',
+                            textAlign: TextAlign.left,
+                            style: GoogleFonts.montserrat(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey)),
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
-              Text(
-                  'Every 2 seconds, someone in the Sierra Leone needs blood, and there is no way to get blood other than through donations from volunteers.',
-                  textAlign: TextAlign.left,
-                  style: GoogleFonts.montserrat(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.normal,
-                      color: kBlackColor)),
-          10.verticalSpace,
-               
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
                       Visibility(
                         visible: false,
                         child: Container(
@@ -550,34 +629,6 @@ class _EBloodDonationState extends State<EBloodDonation> {
                             controller: refCodeCtrl,
                           ),
                         ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Personal Information'.toUpperCase(),
-                            style: TextStyle(
-                                fontSize: 15.sp, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.left,
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: SizedBox(
-                              child: Divider(
-                                color: Colors.teal,
-                                thickness: 1,
-                              ),
-                              height: 5.h,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10.h,
                       ),
                       Visibility(
                         visible: false,
@@ -630,98 +681,42 @@ class _EBloodDonationState extends State<EBloodDonation> {
                           ],
                         ),
                       ),
-                      CustomFormTextField(
-                        name: 'Name',
-                        hinttext: 'Name',
-                        controller: _occupationCtrl,
-                      ),
-                      10.verticalSpace,
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Date of Birth is required';
-                          }
-                          return null;
-                        },
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0,
-                            fontFamily: 'Montserrat'),
-                        controller:
-                            dobdateinput, //editing controller of this TextField
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            isDense: false,
-                            contentPadding: EdgeInsets.all(10),
-                            labelStyle: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 0),
-                            // icon: Icon(Icons.calendar_today), //icon of text field
-                            labelText: "Date of Birth" //label text of field
-                            ),
-
-                        readOnly:
-                            true, //set it true, so that user will not able to edit text
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(
-                                  1900), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime.now());
-
-                          if (pickedDate != null) {
-                            print(
-                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                            String formattedDate =
-                                DateFormat('d MMM yyyy').format(pickedDate);
-                            print(
-                                formattedDate); //formatted date output using intl package =>  2021-03-16
-                            //you can implement different kind of Date Format here according to your requirement
-                            setState(() {
-                              selectedYear = pickedDate.year;
-                              selectedDay = pickedDate.day;
-                              selectedMonth = pickedDate.month;
-                              dateInput.text =
-                                  DateFormat('d MMM yyyy').format(pickedDate);
-                              calculateAge();
-                            });
-                            setState(() {
-                              dobdateinput.text =
-                                  formattedDate; //set output date to TextField value.
-                            });
-                          } else {
-                            print("Date is not selected");
-                          }
-                        },
-                      ),
-                      10.verticalSpace,
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: _buildGenderSelector(
-                                      context: context, name: 'Male')),
-                              5.horizontalSpace,
-                              Expanded(
-                                  child: _buildGenderSelector(
-                                      context: context, name: 'Female')),
-                            ],
+                          Text(
+                            'Contact Information',
+                            style: TextStyle(
+                                fontSize: 15.sp, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            child: SizedBox(
+                              child: Divider(
+                                color: Colors.teal,
+                                thickness: 1,
+                              ),
+                              height: 5.h,
+                            ),
                           ),
                         ],
                       ),
-                      10.verticalSpace,
+                      SizedBox(
+                        height: 10.h,
+                      ),
                       DropdownButtonFormField2(
+                        value: selectedDistrict,
                         decoration: InputDecoration(
                           labelStyle: TextStyle(
                               fontSize: 14,
                               letterSpacing: 0,
                               fontFamily: 'Montserrat'),
-                          labelText: 'Blood Group',
+                          labelText: 'District',
                           //Add isDense true and zero Padding.
                           //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
                           isDense: false,
@@ -753,14 +748,13 @@ class _EBloodDonationState extends State<EBloodDonation> {
                         menuItemStyleData: const MenuItemStyleData(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                         ),
-                        items: bloodgrouplist
+                        items: sldistrictlist
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
                                   child: Text(
                                     item,
                                     style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                 ))
@@ -772,248 +766,50 @@ class _EBloodDonationState extends State<EBloodDonation> {
                         },
                         onChanged: (String? value) {
                           setState(() {
-                            selectedBloodType = value;
+                            selectedDistrict = value;
                           });
                         },
                         onSaved: (value) {
-                          selectedBloodType = value.toString();
-                        },
-                      ),
-                      10.verticalSpace,
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                'Do you have Vaccination for Hepatitis B Virus (HBV)? '),
-                            5.verticalSpace,
-                            Row(
-                              children: <Widget>[
-                                _buildHBVVaccincationSelector(
-                                  context: context,
-                                  name: 'Yes',
-                                ),
-                                SizedBox(width: 5.0),
-                                _buildHBVVaccincationSelector(
-                                  context: context,
-                                  name: 'No',
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      (selectedHBVVaccination == "Yes")
-                          ? TextField(
-                              controller:
-                                  _HBVwhendateinput, //editing controller of this TextField
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                // icon: Icon(Icons.calendar_today), //icon of text field
-                                labelText: "Select Date",
-                                labelStyle: TextStyle(
-                                    fontSize: 14.sp), //label text of field
-                              ),
-                              readOnly:
-                                  true, //set it true, so that user will not able to edit text
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(
-                                        2000), //DateTime.now() - not to allow to choose before today.
-                                    lastDate: DateTime(2101));
-
-                                if (pickedDate != null) {
-                                  print(
-                                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                  String formattedDate =
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(pickedDate);
-                                  print(
-                                      formattedDate); //formatted date output using intl package =>  2021-03-16
-                                  //you can implement different kind of Date Format here according to your requirement
-
-                                  setState(() {
-                                    _HBVwhendateinput.text =
-                                        formattedDate; //set output date to TextField value.
-                                  });
-                                } else {
-                                  print("Date is not selected");
-                                }
-                              },
-                            )
-                          : SizedBox(
-                              height: 0,
-                            ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Contact Information'.toUpperCase(),
-                            style: TextStyle(
-                                fontSize: 15.sp, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.left,
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: SizedBox(
-                              child: Divider(
-                                color: Colors.teal,
-                                thickness: 1,
-                              ),
-                              height: 5.h,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      IntlPhoneField(
-                        initialCountryCode:
-                            'SL', // Initial country code for Sierra Leone
-                        countries: [
-                          Country(
-                            name: "Benin",
-                            nameTranslations: {
-                              "sk": "Benin",
-                              "se": "Benin",
-                              "pl": "Benin",
-                              "no": "Benin",
-                              "ja": "ベナン",
-                              "it": "Benin",
-                              "zh": "贝宁",
-                              "nl": "Benin",
-                              "de": "Benin",
-                              "fr": "Bénin",
-                              "es": "Benín",
-                              "en": "Benin",
-                              "pt_BR": "Benin",
-                              "sr-Cyrl": "Бенин",
-                              "sr-Latn": "Benin",
-                              "zh_TW": "貝南",
-                              "tr": "Benin",
-                              "ro": "Benin",
-                              "ar": "بنين",
-                              "fa": "بنين",
-                              "yue": "貝寧"
-                            },
-                            flag: "🇧🇯",
-                            code: "BJ",
-                            dialCode: "229",
-                            minLength: 8,
-                            maxLength: 8,
-                          ),
-                          Country(
-                            name: "Sierra Leone",
-                            nameTranslations: {
-                              "sk": "Sierra Leone",
-                              "se": "Sierra Leone",
-                              "pl": "Sierra Leone",
-                              "no": "Sierra Leone",
-                              "ja": "シエラレオネ",
-                              "it": "Sierra Leone",
-                              "zh": "塞拉利昂",
-                              "nl": "Sierra Leone",
-                              "de": "Sierra Leone",
-                              "fr": "Sierra Leone",
-                              "es": "Sierra Leona",
-                              "en": "Sierra Leone",
-                              "pt_BR": "Serra Leoa",
-                              "sr-Cyrl": "Сијера Леоне",
-                              "sr-Latn": "Sijera Leone",
-                              "zh_TW": "獅子山",
-                              "tr": "Sierra Leone",
-                              "ro": "Sierra Leone",
-                              "ar": "سيراليون",
-                              "fa": "سیرالئون",
-                              "yue": "塞拉利昂"
-                            },
-                            flag: "🇸🇱",
-                            code: "SL",
-                            dialCode: "232",
-                            minLength: 8,
-                            maxLength: 8,
-                          ),
-                        ],
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0,
-                            fontFamily: 'Montserrat'),
-                        focusNode: focusNode,
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Phone Number is required';
-                          }
-                          return null;
-                        },
-                        // controller: _phoneCtrl,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          counterText: '',
-                          labelText: 'Phone Number',
-                          labelStyle: TextStyle(
-                              fontSize: 14,
-                              letterSpacing: 0,
-                              fontFamily: 'Montserrat'),
-                          errorStyle: TextStyle(
-                              fontSize: 12,
-                              letterSpacing: 0,
-                              fontFamily: 'Montserrat'),
-                          helperStyle: TextStyle(
-                              fontSize: 12,
-                              letterSpacing: 0,
-                              fontFamily: 'Montserrat'),
-                          hintStyle: TextStyle(
-                              fontSize: 12,
-                              letterSpacing: 0,
-                              fontFamily: 'Montserrat'),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(),
-                          ),
-                        ),
-                        languageCode: "en",
-                        onChanged: (phone) {
                           setState(() {
-                            userphonenumber = phone.completeNumber.toString();
+                            selectedDistrict = value.toString();
                           });
-                          print(userphonenumber);
-                          // print();
-                        },
-                        onCountryChanged: (country) {
-                          print('Country changed to: ' + country.name);
                         },
                       ),
                       10.verticalSpace,
+                      TextField(
+                        controller: phonenumber,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Phone Number',
+                          labelStyle:
+                              TextStyle(fontFamily: 'Montserrat', fontSize: 14),
+                          prefixText: "+232",
+                          prefixStyle:
+                              TextStyle(fontFamily: 'Montserrat', fontSize: 15),
+                        ),
+                      ),
                       DropdownButtonFormField2(
+                        value: selectedMaritalStatus,
                         decoration: InputDecoration(
                           labelStyle: TextStyle(
                               fontSize: 14,
-                              fontFamily: 'Montserrat',
-                              letterSpacing: 0),
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
                           labelText: 'Marital Status',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
                           //Add isDense true and zero Padding.
                           //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
                           isDense: false,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                           contentPadding: EdgeInsets.all(10),
+                          // border: OutlineInputBorder(
+                          //   borderRadius: BorderRadius.circular(5),
+                          // ),
                           //Add more decoration as you want here
                           //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                         ),
-                        isExpanded: true,
                         buttonStyleData: const ButtonStyleData(
                           padding: EdgeInsets.only(right: 0, left: 0),
                         ),
@@ -1030,7 +826,7 @@ class _EBloodDonationState extends State<EBloodDonation> {
                           ),
                         ),
                         menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
                         ),
                         items: maritalstatusItems
                             .map((item) => DropdownMenuItem<String>(
@@ -1038,15 +834,14 @@ class _EBloodDonationState extends State<EBloodDonation> {
                                   child: Text(
                                     item,
                                     style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                 ))
                             .toList(),
                         validator: (value) {
                           if (value == null) {
-                            return 'Please select service provider.';
+                            return 'Please select an option.';
                           }
                         },
                         onChanged: (String? value) {
@@ -1055,19 +850,110 @@ class _EBloodDonationState extends State<EBloodDonation> {
                           });
                         },
                         onSaved: (value) {
-                          selectedMaritalStatus = value.toString();
+                          setState(() {
+                            selectedMaritalStatus = value.toString();
+                          });
                         },
                       ),
                       SizedBox(
                         height: 10.h,
                       ),
-                      CustomFormTextField(
-                        name: 'Occupation (optional)',
-                        hinttext: 'Enter Occuption',
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Occupation (optional)',
+                          labelStyle: TextStyle(fontSize: 14.sp),
+                        ),
                         controller: _occupationCtrl,
                       ),
                       SizedBox(
                         height: 10.h,
+                      ),
+                      DropdownButtonFormField2(
+                        value: selectedMaritalStatus,
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                          labelText: 'Personal ID Type',
+                          //Add isDense true and zero Padding.
+                          //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                          isDense: false,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          contentPadding: EdgeInsets.all(10),
+                          // border: OutlineInputBorder(
+                          //   borderRadius: BorderRadius.circular(5),
+                          // ),
+                          //Add more decoration as you want here
+                          //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                        ),
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                        items: idItems
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select an option.';
+                          }
+                        },
+                        onChanged: (String? value) {
+                          setState(() {
+                            selectedID = value;
+                          });
+                        },
+                        onSaved: (value) {
+                          setState(() {
+                            selectedID = value.toString();
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      (selectedID == "Not Available")
+                          ? SizedBox(
+                              height: 0.h,
+                            )
+                          : TextFormField(
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'ID Type Number',
+                                labelStyle: TextStyle(fontSize: 14.sp),
+                              ),
+                              controller: _idnumberCtrl,
+                            ),
+                      SizedBox(
+                        height: 15.h,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -1102,7 +988,9 @@ class _EBloodDonationState extends State<EBloodDonation> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('I want my next of Kin to be informed?'),
-                            5.verticalSpace,
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
                             Row(
                               children: <Widget>[
                                 _buildInformedNextOfKinSelector(
@@ -1180,14 +1068,9 @@ class _EBloodDonationState extends State<EBloodDonation> {
                           ),
                         ],
                       ),
-                      CustomFormTextField(
-                        name: 'Facility',
-                        hinttext: 'Facility',
-                        enabled: false,
-                        fillColor: Colors.grey.shade300,
-                        fill: true,
+                      SizedBox(
+                        height: 10.h,
                       ),
-                      10.verticalSpace,
                       TextFormField(
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -1196,42 +1079,36 @@ class _EBloodDonationState extends State<EBloodDonation> {
                           return null;
                         },
                         controller: dateinput,
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0,
-                            fontFamily: 'Montserrat'),
                         //editing controller of this TextField
                         decoration: InputDecoration(
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          labelText: "Select Date",
-                          labelStyle: TextStyle(
-                              fontSize: 14,
-                              letterSpacing: 0,
-                              fontFamily: 'Montserrat'),
-                          // label text of field
-                        ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            labelText: "Select Date" //
+                            // label text of field
+                            ),
                         readOnly:
-                            true, //set it true, so that the user will not be able to edit text
+                            true, //set it true, so that user will not able to edit text
                         onTap: () async {
-                          final DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate:
-                                DateTime.now().add(const Duration(days: 1)),
-                            firstDate: DateTime.now()
-                                .add(const Duration(days: 1)), // Next day
-                            lastDate: DateTime(2101),
-                          );
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime
+                                  .now(), //DateTime.now() - not to allow to choose before today.
+                              lastDate: DateTime(2101));
 
                           if (pickedDate != null) {
-                            print(pickedDate);
-                            final String formattedDate =
+                            print(
+                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate =
                                 DateFormat('d MMM yyyy').format(pickedDate);
-                            print(formattedDate);
+                            print(
+                                formattedDate); //formatted date output using intl package =>  2021-03-16
+                            //you can implement different kind of Date Format here according to your requirement
+
                             setState(() {
-                              dateinput.text = formattedDate;
+                              dateinput.text =
+                                  formattedDate; //set output date to TextField value.
                             });
                           } else {
                             print("Date is not selected");
@@ -1330,24 +1207,112 @@ class _EBloodDonationState extends State<EBloodDonation> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text.rich(TextSpan(
-                                    text: 'I ',
-                                    style: GoogleFonts.montserrat(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.grey),
-                                    children: <InlineSpan>[
+                                Text.rich(
+                                  TextSpan(
+                                    style: TextStyle(
+                                        color: Color(0xff329d9c),
+                                        fontSize: 15.sp),
+                                    children: [
                                       TextSpan(
-                                          text: "$ulname",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.teal)),
-                                      TextSpan(text: ' '),
+                                        text: 'Facility: ',
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14.sp,
+                                          height: 1,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF205072),
+                                        ),
+                                      ),
                                       TextSpan(
-                                          text: "$ufname $umname",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.teal)),
+                                        text: selectedFacility,
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  textHeightBehavior: TextHeightBehavior(
+                                      applyHeightToFirstAscent: false),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                Text.rich(
+                                  TextSpan(
+                                    style: TextStyle(
+                                        color: Color(0xff329d9c),
+                                        fontSize: 15.sp),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Date: ',
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14.sp,
+                                          height: 1,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF205072),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: dateinput.text,
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  textHeightBehavior: TextHeightBehavior(
+                                      applyHeightToFirstAscent: false),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                Text.rich(
+                                  TextSpan(
+                                    style: TextStyle(
+                                        color: Color(0xff329d9c),
+                                        fontSize: 15.sp),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Time: ',
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14.sp,
+                                          height: 1,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF205072),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: selectedTimeslot,
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  textHeightBehavior: TextHeightBehavior(
+                                      applyHeightToFirstAscent: false),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                Text.rich(
+
+// overflow: TextOverflow.clip,
+                                    TextSpan(
+                                        text: 'I',
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.grey),
+                                        children: <InlineSpan>[
                                       TextSpan(
                                         style: GoogleFonts.montserrat(
                                             fontSize: 12.sp,
@@ -1368,18 +1333,6 @@ class _EBloodDonationState extends State<EBloodDonation> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                                backgroundColor: kPrimaryColor,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 15),
-                                textStyle: TextStyle(
-                                    color: kWhiteColor,
-                                    fontSize: 14,
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w500)),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 if (await getInternetUsingInternetConnectivity()) {
@@ -1407,52 +1360,6 @@ class _EBloodDonationState extends State<EBloodDonation> {
                                                       color: Colors.white,
                                                       strokeWidth: 2.0,
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5.h,
-                                                  ),
-                                                  Text.rich(
-                                                    TextSpan(
-                                                      style: TextStyle(
-                                                          color:
-                                                              Color(0xff329d9c),
-                                                          fontSize: 15.sp),
-                                                      children: [
-                                                        TextSpan(
-                                                          text:
-                                                              'Scheduling for ',
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                        TextSpan(
-                                                          recognizer:
-                                                              TapGestureRecognizer()
-                                                                ..onTap = () {
-                                                                  // Single tapped.
-                                                                },
-                                                          text:
-                                                              "$ufname $umname $ulname",
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.amber,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    textHeightBehavior:
-                                                        TextHeightBehavior(
-                                                            applyHeightToFirstAscent:
-                                                                false),
-                                                    textAlign: TextAlign.left,
                                                   ),
                                                   SizedBox(
                                                     height: 5.h,
@@ -1487,7 +1394,7 @@ class _EBloodDonationState extends State<EBloodDonation> {
                                   setState(() {
                                     _scheduling = true;
                                   });
-                                  Future.delayed(Duration(seconds: 7),
+                                  Future.delayed(Duration(seconds: 0),
                                       () async {
                                     register();
                                   });
@@ -1516,139 +1423,18 @@ class _EBloodDonationState extends State<EBloodDonation> {
                                       strokeWidth: 2.0,
                                     ),
                                   )
-                                : Text(
-                                    'Agree and Schedule',
-                                    style: TextStyle(
-                                        color: kWhiteColor,
-                                        fontSize: 14,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.bold),
-                                  )),
+                                : Text('Agree and Schedule')),
                       ),
                       SizedBox(
                         height: 10.h,
                       ),
-                    
-              
-            
-            ],
-          ),
-        ),
-        validation: () {
-          if (!_formKey.currentState!.validate()) {
-            return 'Fill form correctly';
-          }
-          return null;
-        },
-      ),
-      CoolStep(
-        title: 'QUESTION ONE',
-        subtitle: 'AGE',
-        isHeaderEnabled: false,
-        content: FormBuilder(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.always,
-          child: Column(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/lifebloodlogo.png",
-                    height: 150.h,
-                    width: 150.w,
-                    // width: size.width * 0.4,
+                    ],
                   ),
-                ],
+                ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Are you pregnant or recently given birth?',
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          overflow: TextOverflow.clip,
-                          fontSize: 14,
-                          letterSpacing: 0),
-                    ),
-                  )
-                ],
-              ),
-              10.verticalSpace,
-              
-            ],
-          ),
-        ),
-        validation: () {
-          if (!_formKey.currentState!.validate()) {
-            return 'Fill form correctly';
-          }
-          return null;
-        },
-      )
-    
-    ];
-    final stepper = CoolStepper(
-      config: CoolStepperConfig(
-        stepText: 'QUESTION',
+            ]),
       ),
-
-      // contentPadding: EdgeInsets.all(10),
-      showErrorSnackbar: false,
-      onCompleted: () async {
-        if (await getInternetUsingInternetConnectivity()) {
-          // Navigator.of(context).pushAndRemoveUntil(
-          //     MaterialPageRoute(builder: (context) => AnalysisScreen()),
-          //     (route) => false);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                'You are offline, Kindly turn on Wifi or Mobile Data to continue',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.montserrat(fontSize: 10.sp)),
-            backgroundColor: Color(0xFFE02020),
-            behavior: SnackBarBehavior.fixed,
-            duration: const Duration(seconds: 10),
-            // duration: Duration(seconds: 3),
-          ));
-        }
-      },
-      steps: steps,
     );
-
-  
-    return Scaffold(
-      appBar: AppBar(
-          backgroundColor: kPrimaryColor,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => blooddonationfacility(
-                       
-                      ),
-                    ));
-              },
-              icon: Icon(
-                Icons.arrow_back,
-                color: kWhiteColor,
-              )),
-          elevation: 0,
-          title: Text(
-            'Schedule Voluntary Blood Donation',
-            style: TextStyle(fontSize: 14, color: kWhiteColor),
-          )),
-      body: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Container(
-              child: stepper,
-            ),
-       ),
-    );
-  
   }
 
   Widget _buildTextField({

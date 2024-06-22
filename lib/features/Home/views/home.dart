@@ -196,7 +196,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
         Timer.periodic(const Duration(seconds: 2), (timer) => getData());
     _getNewstimer = Timer.periodic(
         const Duration(seconds: 1), (timer) => getCommunityNews());
- 
+
     _getBgresulttimer =
         Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
     _getBgtschtimer =
@@ -559,8 +559,6 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     }
     return newsready;
   }
-
-  
 
   Future getTotalDonationsRep() async {
     var data = {'phonenumber': phonenumber};
@@ -1850,7 +1848,7 @@ class _nameState extends State<home> with TickerProviderStateMixin {
                                                                   10))),
                                             ),
                                             onPressed: () {
-                                              _showDialog(context);
+                                              _showDialog(context, uname);
                                             },
                                             child: Row(
                                               mainAxisAlignment:
@@ -3359,9 +3357,12 @@ class _nameState extends State<home> with TickerProviderStateMixin {
     );
   }
 
-  void _showDialog(BuildContext context) {
+  void _showDialog(BuildContext context, userName) {
     showDialog(
-        context: context, builder: (BuildContext context) => DialogContent());
+        context: context,
+        builder: (BuildContext context) => DialogContent(
+              username: userName,
+            ));
   }
 
   void _showTriviaRulesDialog(BuildContext context) {
@@ -3378,17 +3379,19 @@ class _nameState extends State<home> with TickerProviderStateMixin {
 }
 
 class DialogContent extends StatefulWidget {
-  DialogContent({
-    super.key,
-  });
+  DialogContent({super.key, required this.username});
+  String username;
 
   @override
-  State<DialogContent> createState() => _DialogContentState();
+  State<DialogContent> createState() => _DialogContentState(username: username);
 }
 
 class _DialogContentState extends State<DialogContent> {
-  Timer? debouncer;
+  _DialogContentState({required this.username});
   String donationquery = '';
+
+  String username;
+  Timer? debouncer;
 
   Future<List<BloodDonationSchAppdata>> getBloodDonationApp(
       String donationquery) async {
@@ -3416,7 +3419,8 @@ class _DialogContentState extends State<DialogContent> {
 
   @override
   final TextEditingController timeInput = TextEditingController();
-  final TextEditingController _usernameCtrl = TextEditingController();
+  final TextEditingController _usernameCtrl =
+      TextEditingController();
 
   final List<String> trivianameItems = [
     'Account Name',
@@ -3598,7 +3602,7 @@ class _DialogContentState extends State<DialogContent> {
                                           value: item,
                                           child: Text(
                                             item,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontFamily: 'Montserrat',
                                               fontSize: 14,
                                             ),
@@ -3607,7 +3611,7 @@ class _DialogContentState extends State<DialogContent> {
                                     .toList(),
                                 validator: (value) {
                                   if (value == null) {
-                                    return 'Please select gender.';
+                                    return 'Please select name to Use.';
                                   }
                                 },
                                 onChanged: (String? value) {
@@ -3633,7 +3637,10 @@ class _DialogContentState extends State<DialogContent> {
                                             }
                                             return null;
                                           },
-                                          decoration: InputDecoration(
+                                        
+                                          initialValue: username,
+                                          
+                                          decoration: const InputDecoration(
                                             isDense: true,
                                             border: OutlineInputBorder(),
                                             labelText: 'User Name',

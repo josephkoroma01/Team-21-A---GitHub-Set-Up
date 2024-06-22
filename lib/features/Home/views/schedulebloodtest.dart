@@ -517,14 +517,9 @@ class scheduletypebodyState extends State<scheduletypebody> {
         backgroundColor: Colors.teal,
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePageScreen(pageIndex: 0),
-              ),
-            );
+            Navigator.pop(context);
           },
-          icon: FaIcon(
+          icon: const FaIcon(
             FontAwesomeIcons.arrowLeft,
             color: kWhiteColor,
           ),
@@ -735,7 +730,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                                                                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(0xFF205072)),
                                                                                   child: Text(
-                                                                                    'Nle ${data.testPrice!}',
+                                                                                    '${data.testPrice!}',
                                                                                     style: TextStyle(
                                                                                       fontSize: 12,
                                                                                       fontWeight: FontWeight.normal,
@@ -929,7 +924,7 @@ class scheduletypebodyState extends State<scheduletypebody> {
                                                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                                                                                 children: [
-                                                                                                                  FaIcon(
+                                                                                                                  const FaIcon(
                                                                                                                     FontAwesomeIcons.peopleGroup,
                                                                                                                     color: kLifeBloodBlue,
                                                                                                                   ),

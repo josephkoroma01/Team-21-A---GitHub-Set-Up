@@ -464,77 +464,6 @@ class _BTEligibilityScreenState extends State<BTEligibilityScreen> {
                               selectedCountry = value.toString();
                             },
                           ),
-                          DropdownButtonFormField2(
-                            isExpanded: true,
-                            value: selectedCountry,
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                  fontSize: 14,
-                                  letterSpacing: 0,
-                                  fontFamily: 'Montserrat'),
-                              labelText: 'Residing Country',
-                              //Add isDense true and zero Padding.
-                              //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                              isDense: false,
-
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                borderSide:
-                                    BorderSide(width: 0.1, color: kGreyColor),
-                              ),
-                              contentPadding: EdgeInsets.all(10),
-                              // border: OutlineInputBorder(
-                              //   borderRadius: BorderRadius.circular(5),
-                              // ),
-                              //Add more decoration as you want here
-                              //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                            ),
-                            buttonStyleData: const ButtonStyleData(
-                              padding: EdgeInsets.only(right: 0, left: 0),
-                            ),
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.black45,
-                              ),
-                              iconSize: 30,
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                            ),
-                            items: countrylist.map((String item) {
-                              return DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      letterSpacing: 0),
-                                ),
-                              );
-                            }).toList(),
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Please select an option.';
-                              }
-                            },
-                            onChanged: (String? value) {
-                              setState(() {
-                                selectedCountry = value;
-
-                                // Reset selected city when district changes
-                                // selectedDistrict = null;
-                              });
-                            },
-                            onSaved: (value) {
-                              selectedCountry = value.toString();
-                            },
-                          ),
                           10.verticalSpace,
                           SizedBox(
                             width: double.infinity,
@@ -552,7 +481,7 @@ class _BTEligibilityScreenState extends State<BTEligibilityScreen> {
                                       'SCHEDULE BLOOD GROUP TEST'.toUpperCase(),
                                       style: GoogleFonts.montserrat(
                                           color: kPrimaryColor,
-                                          fontSize: 14,
+                                          fontSize: 12.spMax,
                                           letterSpacing: 0,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -561,18 +490,37 @@ class _BTEligibilityScreenState extends State<BTEligibilityScreen> {
                                   setState(() {
                                     _isloginLoading = true;
                                   });
-                                  Future.delayed(Duration(seconds: 2), () {
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                btblooddonationfacility(
-                                                    // country: '$selectedCountry',
-                                                    )),
-                                        (route) => false);
+                                  if (selectedCountry == "Benin") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                          'Blood Group Test is not available for\nBenin in this version of LifeBlood',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 12.spMax)),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.fixed,
+                                      duration: Duration(seconds: 3),
+                                    ));
                                     setState(() {
                                       _isloginLoading = false;
                                     });
-                                  });
+                                  } else {
+                                    Future.delayed(Duration(seconds: 2), () {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  btblooddonationfacility(
+                                                    country: "$selectedCountry",
+
+                                                    // country: '$selectedCountry',
+                                                  )),
+                                          (route) => false);
+                                      setState(() {
+                                        _isloginLoading = false;
+                                      });
+                                    });
+                                  }
                                 } else {
                                   _validate;
                                 }

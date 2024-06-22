@@ -1,5 +1,8 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:async';
@@ -8,8 +11,16 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lifebloodworld/constants/colors.dart';
+import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
+import 'package:lifebloodworld/features/Login/views/forgetpassword.dart';
+import 'package:lifebloodworld/features/Login/views/quiz.dart';
+import 'package:lifebloodworld/features/Register/views/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d MMM yyyy').format(now);
@@ -314,6 +325,17 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
   ];
 
   String? selectedCountry;
+  void sendSms(String message) {
+    String encodedMessage = Uri.encodeComponent(message);
+
+    Uri smsUri = Uri(
+      scheme: 'sms',
+      path: '+23272628329',
+      queryParameters: {'body': encodedMessage},
+    );
+
+    launchUrl(smsUri);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +345,7 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
-      backgroundColor: Color(0xFFe0e9e4),
+      backgroundColor: Colors.red.shade50,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -342,6 +364,7 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                   ),
                 ],
               ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -374,14 +397,281 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                       child: SingleChildScrollView(
                                           child: InkWell(
                                         onTap: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   new MaterialPageRoute(
-                                          //     builder: (context) => BloodTestPageFam(
-                                          //       title: 'Blood Group Test for Myself',
-                                          //     ),
-                                          //   ),
-                                          // );
+                                          showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Colors.red.shade50,
+                                              context: context,
+                                              builder: (context) {
+                                                return SingleChildScrollView(
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.fromLTRB(
+                                                          20.0,
+                                                          20.0,
+                                                          20.0,
+                                                          0.0), // content padding
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                'Choose communication channel',
+                                                                style: GoogleFonts.montserrat(
+                                                                    fontSize: 14
+                                                                        .spMax,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        kLifeBloodRed)),
+                                                            SizedBox(
+                                                              height: 10.h,
+                                                            ),
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                          child:
+                                                                              InkWell(
+                                                                    onTap: () {
+                                                                      sendSms(
+                                                                          'Hi LifeBlood,');
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      padding: EdgeInsets.only(
+                                                                          bottom: MediaQuery.of(context)
+                                                                              .viewInsets
+                                                                              .bottom),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsets.fromLTRB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(horizontal: 5.w),
+                                                                          child:
+                                                                              Container(
+                                                                            padding:
+                                                                                EdgeInsets.all(10.r),
+                                                                            width:
+                                                                                double.infinity,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: Colors.white,
+                                                                              borderRadius: BorderRadius.circular(16),
+                                                                            ),
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                FaIcon(
+                                                                                  FontAwesomeIcons.commentSms,
+                                                                                  color: kLifeBloodRed,
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 5.h,
+                                                                                ),
+                                                                                Text('SMS', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                SizedBox(
+                                                                                  height: 5.h,
+                                                                                ),
+                                                                                // Text('Know Your Blood Type',
+                                                                                //     textAlign: TextAlign.center,
+                                                                                //     style: GoogleFonts.montserrat(
+                                                                                //         fontSize: 10,
+                                                                                //         color: Colors.grey)),
+                                                                                // SizedBox(
+                                                                                //   height: 5.h,
+                                                                                // ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        launchUrl(
+                                                                            Uri(
+                                                                          scheme:
+                                                                              'tel',
+                                                                          path:
+                                                                              '+23272628329',
+                                                                        ));
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.white,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.phoneFlip,
+                                                                                    color: kLifeBloodRed,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('Phone Call', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  // Text('Know Your Blood Type',
+                                                                                  //     textAlign: TextAlign.center,
+                                                                                  //     style: GoogleFonts.montserrat(
+                                                                                  //         fontSize: 10,
+                                                                                  //         color: Colors.grey)),
+                                                                                  // SizedBox(
+                                                                                  //   height: 5.h,
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        FocusManager
+                                                                            .instance
+                                                                            .primaryFocus
+                                                                            ?.unfocus();
+                                                                        var whatsappUrl =
+                                                                            "whatsapp://send?phone=${'+23272628329'}" +
+                                                                                "&text=${Uri.encodeComponent('Hi LifeBlood, I am making an emergency trigger for a blood donor')}";
+                                                                        try {
+                                                                          launch(
+                                                                              whatsappUrl);
+                                                                        } catch (e) {
+                                                                          //To handle error and display error message
+                                                                          ScaffoldMessenger.of(context)
+                                                                              .showSnackBar(SnackBar(
+                                                                            content:
+                                                                                Text('Could Not Launch WhatsApp', style: GoogleFonts.montserrat()),
+                                                                            backgroundColor:
+                                                                                Colors.red,
+                                                                            behavior:
+                                                                                SnackBarBehavior.fixed,
+                                                                            duration:
+                                                                                Duration(seconds: 4),
+                                                                          ));
+                                                                        }
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: kLifeBloodRed,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.whatsapp,
+                                                                                    color: kWhiteColor,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('WhatsApp', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kWhiteColor)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  // Text('Know Your Blood Type',
+                                                                                  //     textAlign: TextAlign.center,
+                                                                                  //     style: GoogleFonts.montserrat(
+                                                                                  //         fontSize: 10,
+                                                                                  //         color: Colors.grey)),
+                                                                                  // SizedBox(
+                                                                                  //   height: 5.h,
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height: 25.h,
+                                                            ),
+                                                          ]),
+                                                    ),
+                                                  ),
+                                                );
+                                              });
                                         },
                                         child: Container(
                                           padding: EdgeInsets.only(
@@ -447,15 +737,264 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                       child: SingleChildScrollView(
                                         child: InkWell(
                                           onTap: () {
-                                            // Navigator.push(
-                                            //   context,
-                                            //   new MaterialPageRoute(
-                                            //     builder: (context) => BloodTestPage(
-                                            //       title: 'Blood Group Test for Myself',
-                                            //       facility: data.name!,
-                                            //     ),
-                                            //   ),
-                                            // );
+                                            showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.red.shade50,
+                                                context: context,
+                                                builder: (context) {
+                                                  return SingleChildScrollView(
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: MediaQuery.of(
+                                                                  context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                20.0,
+                                                                20.0,
+                                                                20.0,
+                                                                0.0), // content padding
+                                                        child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                  'Choose communication channel',
+                                                                  style: GoogleFonts.montserrat(
+                                                                      fontSize: 14
+                                                                          .spMax,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color:
+                                                                          kLifeBloodRed)),
+                                                              SizedBox(
+                                                                height: 10.h,
+                                                              ),
+                                                              Row(
+                                                                children: <Widget>[
+                                                                  Expanded(
+                                                                    child: SingleChildScrollView(
+                                                                        child: InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        sendSms(
+                                                                            'Hi LifeBlood,');
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.white,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.commentSms,
+                                                                                    color: kLifeBloodRed,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('SMS', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  // Text('Know Your Blood Type',
+                                                                                  //     textAlign: TextAlign.center,
+                                                                                  //     style: GoogleFonts.montserrat(
+                                                                                  //         fontSize: 10,
+                                                                                  //         color: Colors.grey)),
+                                                                                  // SizedBox(
+                                                                                  //   height: 5.h,
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    )),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child:
+                                                                        SingleChildScrollView(
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          launchUrl(
+                                                                              Uri(
+                                                                            scheme:
+                                                                                'tel',
+                                                                            path:
+                                                                                '+23272628329',
+                                                                          ));
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          padding:
+                                                                              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding: EdgeInsets.fromLTRB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                                                              child: Container(
+                                                                                padding: EdgeInsets.all(10.r),
+                                                                                width: double.infinity,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: Colors.white,
+                                                                                  borderRadius: BorderRadius.circular(16),
+                                                                                ),
+                                                                                child: Column(
+                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                  children: [
+                                                                                    FaIcon(
+                                                                                      FontAwesomeIcons.phoneFlip,
+                                                                                      color: kLifeBloodRed,
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      height: 5.h,
+                                                                                    ),
+                                                                                    Text('Phone Call', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                    SizedBox(
+                                                                                      height: 5.h,
+                                                                                    ),
+                                                                                    // Text('Know Your Blood Type',
+                                                                                    //     textAlign: TextAlign.center,
+                                                                                    //     style: GoogleFonts.montserrat(
+                                                                                    //         fontSize: 10,
+                                                                                    //         color: Colors.grey)),
+                                                                                    // SizedBox(
+                                                                                    //   height: 5.h,
+                                                                                    // ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child:
+                                                                        SingleChildScrollView(
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          FocusManager
+                                                                              .instance
+                                                                              .primaryFocus
+                                                                              ?.unfocus();
+                                                                          var whatsappUrl =
+                                                                              "whatsapp://send?phone=${'+23272628329'}" + "&text=${Uri.encodeComponent('Hi LifeBlood, I am making an emergency trigger for a fire incident')}";
+                                                                          try {
+                                                                            launch(whatsappUrl);
+                                                                          } catch (e) {
+                                                                            //To handle error and display error message
+                                                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                              content: Text('Could Not Launch WhatsApp', style: GoogleFonts.montserrat()),
+                                                                              backgroundColor: Colors.red,
+                                                                              behavior: SnackBarBehavior.fixed,
+                                                                              duration: Duration(seconds: 4),
+                                                                            ));
+                                                                          }
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          padding:
+                                                                              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding: EdgeInsets.fromLTRB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                                                              child: Container(
+                                                                                padding: EdgeInsets.all(10.r),
+                                                                                width: double.infinity,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: kLifeBloodRed,
+                                                                                  borderRadius: BorderRadius.circular(16),
+                                                                                ),
+                                                                                child: Column(
+                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                  children: [
+                                                                                    FaIcon(
+                                                                                      FontAwesomeIcons.whatsapp,
+                                                                                      color: kWhiteColor,
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      height: 5.h,
+                                                                                    ),
+                                                                                    Text('WhatsApp', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kWhiteColor)),
+                                                                                    SizedBox(
+                                                                                      height: 5.h,
+                                                                                    ),
+                                                                                    // Text('Know Your Blood Type',
+                                                                                    //     textAlign: TextAlign.center,
+                                                                                    //     style: GoogleFonts.montserrat(
+                                                                                    //         fontSize: 10,
+                                                                                    //         color: Colors.grey)),
+                                                                                    // SizedBox(
+                                                                                    //   height: 5.h,
+                                                                                    // ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                height: 25.h,
+                                                              ),
+                                                            ]),
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
                                           },
                                           child: Container(
                                             padding: EdgeInsets.only(
@@ -529,13 +1068,282 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                       child: SingleChildScrollView(
                                           child: InkWell(
                                         onTap: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   new MaterialPageRoute(
-                                          //     builder: (context) => BloodTestPageFam(
-                                          //       title: 'Blood Group Test for Myself',
-                                          //     ),
-                                          //   ),
+                                          showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Colors.red.shade50,
+                                              context: context,
+                                              builder: (context) {
+                                                return SingleChildScrollView(
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.fromLTRB(
+                                                          20.0,
+                                                          20.0,
+                                                          20.0,
+                                                          0.0), // content padding
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                'Choose communication channel',
+                                                                style: GoogleFonts.montserrat(
+                                                                    fontSize: 14
+                                                                        .spMax,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        kLifeBloodRed)),
+                                                            SizedBox(
+                                                              height: 10.h,
+                                                            ),
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                          child:
+                                                                              InkWell(
+                                                                    onTap: () {
+                                                                      sendSms(
+                                                                          'Hi LifeBlood,');
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      padding: EdgeInsets.only(
+                                                                          bottom: MediaQuery.of(context)
+                                                                              .viewInsets
+                                                                              .bottom),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsets.fromLTRB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(horizontal: 5.w),
+                                                                          child:
+                                                                              Container(
+                                                                            padding:
+                                                                                EdgeInsets.all(10.r),
+                                                                            width:
+                                                                                double.infinity,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: Colors.white,
+                                                                              borderRadius: BorderRadius.circular(16),
+                                                                            ),
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                FaIcon(
+                                                                                  FontAwesomeIcons.commentSms,
+                                                                                  color: kLifeBloodRed,
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 5.h,
+                                                                                ),
+                                                                                Text('SMS', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                SizedBox(
+                                                                                  height: 5.h,
+                                                                                ),
+                                                                                // Text('Know Your Blood Type',
+                                                                                //     textAlign: TextAlign.center,
+                                                                                //     style: GoogleFonts.montserrat(
+                                                                                //         fontSize: 10,
+                                                                                //         color: Colors.grey)),
+                                                                                // SizedBox(
+                                                                                //   height: 5.h,
+                                                                                // ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        launchUrl(
+                                                                            Uri(
+                                                                          scheme:
+                                                                              'tel',
+                                                                          path:
+                                                                              '+23272628329',
+                                                                        ));
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.white,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.phoneFlip,
+                                                                                    color: kLifeBloodRed,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('Phone Call', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  // Text('Know Your Blood Type',
+                                                                                  //     textAlign: TextAlign.center,
+                                                                                  //     style: GoogleFonts.montserrat(
+                                                                                  //         fontSize: 10,
+                                                                                  //         color: Colors.grey)),
+                                                                                  // SizedBox(
+                                                                                  //   height: 5.h,
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        FocusManager
+                                                                            .instance
+                                                                            .primaryFocus
+                                                                            ?.unfocus();
+                                                                        var whatsappUrl =
+                                                                            "whatsapp://send?phone=${'+23272628329'}" +
+                                                                                "&text=${Uri.encodeComponent('Hi LifeBlood, I am making an emergency trigger for a road traffic accident')}";
+                                                                        try {
+                                                                          launch(
+                                                                              whatsappUrl);
+                                                                        } catch (e) {
+                                                                          //To handle error and display error message
+                                                                          ScaffoldMessenger.of(context)
+                                                                              .showSnackBar(SnackBar(
+                                                                            content:
+                                                                                Text('Could Not Launch WhatsApp', style: GoogleFonts.montserrat()),
+                                                                            backgroundColor:
+                                                                                Colors.red,
+                                                                            behavior:
+                                                                                SnackBarBehavior.fixed,
+                                                                            duration:
+                                                                                Duration(seconds: 4),
+                                                                          ));
+                                                                        }
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: kLifeBloodRed,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.whatsapp,
+                                                                                    color: kWhiteColor,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('WhatsApp', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kWhiteColor)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  // Text('Know Your Blood Type',
+                                                                                  //     textAlign: TextAlign.center,
+                                                                                  //     style: GoogleFonts.montserrat(
+                                                                                  //         fontSize: 10,
+                                                                                  //         color: Colors.grey)),
+                                                                                  // SizedBox(
+                                                                                  //   height: 5.h,
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height: 25.h,
+                                                            ),
+                                                          ]),
+                                                    ),
+                                                  ),
+                                                );
+                                              });
+
                                           // );
                                         },
                                         child: Container(
@@ -602,14 +1410,273 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                       child: SingleChildScrollView(
                                           child: InkWell(
                                         onTap: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   new MaterialPageRoute(
-                                          //     builder: (context) => BloodTestPageFam(
-                                          //       title: 'Blood Group Test for Myself',
-                                          //     ),
-                                          //   ),
-                                          // );
+                                          showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Colors.red.shade50,
+                                              context: context,
+                                              builder: (context) {
+                                                return SingleChildScrollView(
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.fromLTRB(
+                                                          20.0,
+                                                          20.0,
+                                                          20.0,
+                                                          0.0), // content padding
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                'Choose communication channel',
+                                                                style: GoogleFonts.montserrat(
+                                                                    fontSize: 14
+                                                                        .spMax,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        kLifeBloodRed)),
+                                                            SizedBox(
+                                                              height: 10.h,
+                                                            ),
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                          child:
+                                                                              InkWell(
+                                                                    onTap: () {
+                                                                      sendSms(
+                                                                          'Hi LifeBlood,');
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      padding: EdgeInsets.only(
+                                                                          bottom: MediaQuery.of(context)
+                                                                              .viewInsets
+                                                                              .bottom),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsets.fromLTRB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(horizontal: 5.w),
+                                                                          child:
+                                                                              Container(
+                                                                            padding:
+                                                                                EdgeInsets.all(10.r),
+                                                                            width:
+                                                                                double.infinity,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: Colors.white,
+                                                                              borderRadius: BorderRadius.circular(16),
+                                                                            ),
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                FaIcon(
+                                                                                  FontAwesomeIcons.commentSms,
+                                                                                  color: kLifeBloodRed,
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 5.h,
+                                                                                ),
+                                                                                Text('SMS', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                SizedBox(
+                                                                                  height: 5.h,
+                                                                                ),
+                                                                                // Text('Know Your Blood Type',
+                                                                                //     textAlign: TextAlign.center,
+                                                                                //     style: GoogleFonts.montserrat(
+                                                                                //         fontSize: 10,
+                                                                                //         color: Colors.grey)),
+                                                                                // SizedBox(
+                                                                                //   height: 5.h,
+                                                                                // ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        launchUrl(
+                                                                            Uri(
+                                                                          scheme:
+                                                                              'tel',
+                                                                          path:
+                                                                              '+23272628329',
+                                                                        ));
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.white,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.phoneFlip,
+                                                                                    color: kLifeBloodRed,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('Phone Call', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  // Text('Know Your Blood Type',
+                                                                                  //     textAlign: TextAlign.center,
+                                                                                  //     style: GoogleFonts.montserrat(
+                                                                                  //         fontSize: 10,
+                                                                                  //         color: Colors.grey)),
+                                                                                  // SizedBox(
+                                                                                  //   height: 5.h,
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        FocusManager
+                                                                            .instance
+                                                                            .primaryFocus
+                                                                            ?.unfocus();
+                                                                        var whatsappUrl =
+                                                                            "whatsapp://send?phone=${'+23272628329'}" +
+                                                                                "&text=${Uri.encodeComponent('Hi LifeBlood, I am making an emergency trigger for a Sickle Cell Crisis')}";
+                                                                        try {
+                                                                          launch(
+                                                                              whatsappUrl);
+                                                                        } catch (e) {
+                                                                          //To handle error and display error message
+                                                                          ScaffoldMessenger.of(context)
+                                                                              .showSnackBar(SnackBar(
+                                                                            content:
+                                                                                Text('Could Not Launch WhatsApp', style: GoogleFonts.montserrat()),
+                                                                            backgroundColor:
+                                                                                Colors.red,
+                                                                            behavior:
+                                                                                SnackBarBehavior.fixed,
+                                                                            duration:
+                                                                                Duration(seconds: 4),
+                                                                          ));
+                                                                        }
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: kLifeBloodRed,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.whatsapp,
+                                                                                    color: kWhiteColor,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('WhatsApp', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kWhiteColor)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height: 25.h,
+                                                            ),
+                                                          ]),
+                                                    ),
+                                                  ),
+                                                );
+                                              });
                                         },
                                         child: Container(
                                           padding: EdgeInsets.only(
@@ -680,15 +1747,256 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                       child: SingleChildScrollView(
                                         child: InkWell(
                                           onTap: () {
-                                            // Navigator.push(
-                                            //   context,
-                                            //   new MaterialPageRoute(
-                                            //     builder: (context) => BloodTestPage(
-                                            //       title: 'Blood Group Test for Myself',
-                                            //       facility: data.name!,
-                                            //     ),
-                                            //   ),
-                                            // );
+                                            showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.red.shade50,
+                                                context: context,
+                                                builder: (context) {
+                                                  return SingleChildScrollView(
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: MediaQuery.of(
+                                                                  context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                20.0,
+                                                                20.0,
+                                                                20.0,
+                                                                0.0), // content padding
+                                                        child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                  'Choose communication channel',
+                                                                  style: GoogleFonts.montserrat(
+                                                                      fontSize: 14
+                                                                          .spMax,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color:
+                                                                          kLifeBloodRed)),
+                                                              SizedBox(
+                                                                height: 10.h,
+                                                              ),
+                                                              Row(
+                                                                children: <Widget>[
+                                                                  Expanded(
+                                                                    child: SingleChildScrollView(
+                                                                        child: InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        sendSms(
+                                                                            'Hi LifeBlood,');
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.white,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.commentSms,
+                                                                                    color: kLifeBloodRed,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('SMS', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  // Text('Know Your Blood Type',
+                                                                                  //     textAlign: TextAlign.center,
+                                                                                  //     style: GoogleFonts.montserrat(
+                                                                                  //         fontSize: 10,
+                                                                                  //         color: Colors.grey)),
+                                                                                  // SizedBox(
+                                                                                  //   height: 5.h,
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    )),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child:
+                                                                        SingleChildScrollView(
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          launchUrl(
+                                                                              Uri(
+                                                                            scheme:
+                                                                                'tel',
+                                                                            path:
+                                                                                '+23272628329',
+                                                                          ));
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          padding:
+                                                                              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding: EdgeInsets.fromLTRB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                                                              child: Container(
+                                                                                padding: EdgeInsets.all(10.r),
+                                                                                width: double.infinity,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: Colors.white,
+                                                                                  borderRadius: BorderRadius.circular(16),
+                                                                                ),
+                                                                                child: Column(
+                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                  children: [
+                                                                                    FaIcon(
+                                                                                      FontAwesomeIcons.phoneFlip,
+                                                                                      color: kLifeBloodRed,
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      height: 5.h,
+                                                                                    ),
+                                                                                    Text('Phone Call', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                    SizedBox(
+                                                                                      height: 5.h,
+                                                                                    ),
+                                                                                    // Text('Know Your Blood Type',
+                                                                                    //     textAlign: TextAlign.center,
+                                                                                    //     style: GoogleFonts.montserrat(
+                                                                                    //         fontSize: 10,
+                                                                                    //         color: Colors.grey)),
+                                                                                    // SizedBox(
+                                                                                    //   height: 5.h,
+                                                                                    // ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child:
+                                                                        SingleChildScrollView(
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          FocusManager
+                                                                              .instance
+                                                                              .primaryFocus
+                                                                              ?.unfocus();
+                                                                          var whatsappUrl =
+                                                                              "whatsapp://send?phone=${'+23272628329'}" + "&text=${Uri.encodeComponent('Hi LifeBlood, I am making an emergency trigger for Voilent Incident')}";
+                                                                          try {
+                                                                            launch(whatsappUrl);
+                                                                          } catch (e) {
+                                                                            //To handle error and display error message
+                                                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                              content: Text('Could Not Launch WhatsApp', style: GoogleFonts.montserrat()),
+                                                                              backgroundColor: Colors.red,
+                                                                              behavior: SnackBarBehavior.fixed,
+                                                                              duration: Duration(seconds: 4),
+                                                                            ));
+                                                                          }
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          padding:
+                                                                              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding: EdgeInsets.fromLTRB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                                                              child: Container(
+                                                                                padding: EdgeInsets.all(10.r),
+                                                                                width: double.infinity,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: kLifeBloodRed,
+                                                                                  borderRadius: BorderRadius.circular(16),
+                                                                                ),
+                                                                                child: Column(
+                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                  children: [
+                                                                                    FaIcon(
+                                                                                      FontAwesomeIcons.whatsapp,
+                                                                                      color: kWhiteColor,
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      height: 5.h,
+                                                                                    ),
+                                                                                    Text('WhatsApp', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kWhiteColor)),
+                                                                                    SizedBox(
+                                                                                      height: 5.h,
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                height: 25.h,
+                                                              ),
+                                                            ]),
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
                                           },
                                           child: Container(
                                             padding: EdgeInsets.only(
@@ -757,14 +2065,273 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                       child: SingleChildScrollView(
                                           child: InkWell(
                                         onTap: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   new MaterialPageRoute(
-                                          //     builder: (context) => BloodTestPageFam(
-                                          //       title: 'Blood Group Test for Myself',
-                                          //     ),
-                                          //   ),
-                                          // );
+                                          showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Colors.red.shade50,
+                                              context: context,
+                                              builder: (context) {
+                                                return SingleChildScrollView(
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.fromLTRB(
+                                                          20.0,
+                                                          20.0,
+                                                          20.0,
+                                                          0.0), // content padding
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                'Choose communication channel',
+                                                                style: GoogleFonts.montserrat(
+                                                                    fontSize: 14
+                                                                        .spMax,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        kLifeBloodRed)),
+                                                            SizedBox(
+                                                              height: 10.h,
+                                                            ),
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                          child:
+                                                                              InkWell(
+                                                                    onTap: () {
+                                                                      sendSms(
+                                                                          'Hi LifeBlood,');
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      padding: EdgeInsets.only(
+                                                                          bottom: MediaQuery.of(context)
+                                                                              .viewInsets
+                                                                              .bottom),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsets.fromLTRB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(horizontal: 5.w),
+                                                                          child:
+                                                                              Container(
+                                                                            padding:
+                                                                                EdgeInsets.all(10.r),
+                                                                            width:
+                                                                                double.infinity,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: Colors.white,
+                                                                              borderRadius: BorderRadius.circular(16),
+                                                                            ),
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                FaIcon(
+                                                                                  FontAwesomeIcons.commentSms,
+                                                                                  color: kLifeBloodRed,
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 5.h,
+                                                                                ),
+                                                                                Text('SMS', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                SizedBox(
+                                                                                  height: 5.h,
+                                                                                ),
+                                                                                // Text('Know Your Blood Type',
+                                                                                //     textAlign: TextAlign.center,
+                                                                                //     style: GoogleFonts.montserrat(
+                                                                                //         fontSize: 10,
+                                                                                //         color: Colors.grey)),
+                                                                                // SizedBox(
+                                                                                //   height: 5.h,
+                                                                                // ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        launchUrl(
+                                                                            Uri(
+                                                                          scheme:
+                                                                              'tel',
+                                                                          path:
+                                                                              '+23272628329',
+                                                                        ));
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.white,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.phoneFlip,
+                                                                                    color: kLifeBloodRed,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('Phone Call', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kLifeBloodRed)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  // Text('Know Your Blood Type',
+                                                                                  //     textAlign: TextAlign.center,
+                                                                                  //     style: GoogleFonts.montserrat(
+                                                                                  //         fontSize: 10,
+                                                                                  //         color: Colors.grey)),
+                                                                                  // SizedBox(
+                                                                                  //   height: 5.h,
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        FocusManager
+                                                                            .instance
+                                                                            .primaryFocus
+                                                                            ?.unfocus();
+                                                                        var whatsappUrl =
+                                                                            "whatsapp://send?phone=${'+23272628329'}" +
+                                                                                "&text=${Uri.encodeComponent('Hi LifeBlood, I am making an emergency trigger for Chemical Exposure')}";
+                                                                        try {
+                                                                          launch(
+                                                                              whatsappUrl);
+                                                                        } catch (e) {
+                                                                          //To handle error and display error message
+                                                                          ScaffoldMessenger.of(context)
+                                                                              .showSnackBar(SnackBar(
+                                                                            content:
+                                                                                Text('Could Not Launch WhatsApp', style: GoogleFonts.montserrat()),
+                                                                            backgroundColor:
+                                                                                Colors.red,
+                                                                            behavior:
+                                                                                SnackBarBehavior.fixed,
+                                                                            duration:
+                                                                                Duration(seconds: 4),
+                                                                          ));
+                                                                        }
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: 5.w),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(10.r),
+                                                                              width: double.infinity,
+                                                                              decoration: BoxDecoration(
+                                                                                color: kLifeBloodRed,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                              ),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  FaIcon(
+                                                                                    FontAwesomeIcons.whatsapp,
+                                                                                    color: kWhiteColor,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                  Text('WhatsApp', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 13.spMax, color: kWhiteColor)),
+                                                                                  SizedBox(
+                                                                                    height: 5.h,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height: 25.h,
+                                                            ),
+                                                          ]),
+                                                    ),
+                                                  ),
+                                                );
+                                              });
                                         },
                                         child: Container(
                                           padding: EdgeInsets.only(
@@ -830,23 +2397,37 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
                                 ),
                                 15.verticalSpace,
                               ]),
-                          Row(
+                          10.verticalSpace,
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text('Interact with our ',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 13,
-                                      color: kGreyColor)),
-                              Text('WhatsApp Manager',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                      color: kGreyColor)),
+                              Row(children: [
+                                Expanded(
+                                    child: Text('Interact with our\n',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            height: 0.5,
+                                            overflow: TextOverflow.clip,
+                                            fontSize: 13,
+                                            color: kGreyColor)))
+                              ]),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text('Emergency Response Team',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 13,
+                                            height: 1,
+                                            overflow: TextOverflow.clip,
+                                            fontWeight: FontWeight.bold,
+                                            color: kGreyColor)),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ],
@@ -1239,7 +2820,7 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
               //                                         if (_formKey.currentState!
               //                                             .validate()) {
               //                                          FocusManager.instance.foregroundColorFocus?.unfocus();
-              //         var whatsappUrl = "whatsapp://send?phone=${'+23278621647'}" +
+              //         var whatsappUrl = "whatsapp://send?phone=${'+23272628329'}" +
               //             "&text=${Uri.encodeComponent('Hi LifeBlood, I need a Blood Donor')}";
               //         try {
               //           launch(whatsappUrl);
@@ -1617,7 +3198,7 @@ class _ectriggerScreenState extends State<ectriggerScreen> {
               //                                         if (_formKey.currentState!
               //                                             .validate()) {
               //                                          FocusManager.instance.foregroundColorFocus?.unfocus();
-              //         var whatsappUrl = "whatsapp://send?phone=${'+23278621647'}" +
+              //         var whatsappUrl = "whatsapp://send?phone=${'+23272628329'}" +
               //             "&text=${Uri.encodeComponent('Hi LifeBlood, I need a Blood Donor')}";
               //         try {
               //           launch(whatsappUrl);

@@ -44,9 +44,8 @@ class tourState extends State<tour> {
     setState(() {
       email = prefs.getString('email');
       phonenumber = prefs.getString('phonenumber');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
+      ufname = prefs.getString('name');
+   
     });
   }
 

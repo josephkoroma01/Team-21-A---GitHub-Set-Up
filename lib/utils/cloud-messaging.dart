@@ -2,20 +2,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:lifebloodworld/features/Home/views/body.dart';
 import 'package:lifebloodworld/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:go_router/go_router.dart';
 // import 'package:lifebloodworld/features/Ho/me/views/body.dart';
 // import 'package:lifebloodworld/main.dart';
 
 // import '../main.dart';
 
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // If you're going to use other Firebase services in the background, such as Firestore,
-//   // make sure you call `initializeApp` before using other Firebase services.
-
-//   print("Handling a background message: ${message.notification!.title}");
-//   print("Handling a body background message: ${message.notification!.body}");
-//   print("Handling a background message: $message");
-// }
+//
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -34,15 +28,33 @@ class FirebaseServices {
 
   // function to initialize notification
   Future<void> initNotif() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? permissionRequested = prefs.getBool('permissionRequested');
+
+    if (permissionRequested == null || !permissionRequested) {
+      // Request permission from user to allow notification
+      FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler);
+      await _fbMessaging.requestPermission();
+
+      // Fetch FCM token for this device
+      final token = await _fbMessaging.getToken();
+
+      // Print token to see
+      debugPrint(token);
+
+      // Store that permission has been requested
+      await prefs.setBool('permissionRequested', true);
+    }
+
     // rewuest permission from user to allow notification
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    await _fbMessaging.requestPermission();
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // await _fbMessaging.requestPermission();
 
     // fetch FCM token for this device
-    final token = await _fbMessaging.getToken();
+    // final token = await _fbMessaging.getToken();
 
     // print token to see
-    debugPrint(token);
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
 // initialise flutter settings for push noti

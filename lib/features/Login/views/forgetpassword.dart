@@ -18,7 +18,7 @@ class ForgetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return const Scaffold(
       body: ForgetPasswordPage(),
     );
   }
@@ -83,7 +83,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   Future forgotpassword() async {
     var data = {
-      'phonenumber': '+232' + _forgetphonenumberCtrl.text,
+      'phonenumber': '+232${_forgetphonenumberCtrl.text}',
       'refcode': refCodeCtrl.text,
     };
     //Starting Web API Call.

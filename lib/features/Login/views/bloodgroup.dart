@@ -504,11 +504,7 @@ class _BloodGroupState extends State<BloodGroup> {
           backgroundColor: kPrimaryColor,
           leading: IconButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => btblooddonationfacility(),
-                    ));
+                Navigator.pop(context);
               },
               icon: Icon(
                 Icons.arrow_back,

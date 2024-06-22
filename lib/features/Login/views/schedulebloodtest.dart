@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lifebloodworld/features/Home/views/search.dart';
 import 'package:lifebloodworld/features/Login/views/blooddonation.dart';
-import 'package:lifebloodworld/features/Login/views/login_screen.dart';
 import 'package:lifebloodworld/models/blooddonationschedule.dart';
 import 'package:lifebloodworld/models/bloodtestingfacilities.dart';
 import 'package:lifebloodworld/features/Home/views/bgresults.dart';
@@ -16,6 +15,7 @@ import 'package:lifebloodworld/features/Home/views/bloodtestbodyfam.dart';
 import 'package:lifebloodworld/features/Home/views/famregister.dart';
 import 'package:lifebloodworld/features/Home/views/managedonationpp.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
+import 'package:lifebloodworld/models/blooddonationfacilities.dart';
 import 'package:lifebloodworld/widgets/text_field_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -63,6 +63,13 @@ class facilitydata {
 }
 
 class blooddonationfacility extends StatefulWidget {
+  blooddonationfacility(
+      {required this.gender, required this.agecategory, Key? key})
+      : super(key: key);
+
+  final String gender;
+  final String agecategory;
+
   @override
   State createState() {
     return blooddonationfacilityState();
@@ -117,17 +124,18 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
   String? selectedFacility = '';
   String? selectedCost = '';
 
-  Future findfacility() async {
-    var response = await http
-        .get(Uri.parse("https://community.lifebloodsl.com/findfacility.php"));
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        facilityList = jsonData;
-      });
-    }
-    print(facilityList);
-  }
+  // Future findfacility() async {
+  //   var response = await http.get(Uri.parse(
+  //       "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/login"));
+  //   if (response.statusCode == 200) {
+  //     List<dynamic> jsonData = json.decode(response.body);
+  //     List<Facility> data = jsonData.map((e) => Facility.fromJson(e)).toList();
+  //     setState(() {
+  //       facilityList = data;
+  //     });
+  //   }
+  //   print(facilityList);
+  // }
 
   @override
   void dispose() {
@@ -135,33 +143,58 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
     super.dispose();
   }
 
-  @override
+  String? uname;
+  String? avartar;
+  String? countryId;
+  String? country;
+  String? userId;
   void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
-      phonenumber = prefs.getString('phonenumber');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
-      totaldonationrep = prefs.getString('totaldonationrep');
-      totaldonationvol = prefs.getString('totaldonationvol');
-      totaldonationvold = prefs.getString('totaldonationvold');
-      totaldonationvolp = prefs.getString('totaldonationvolp');
-      totaldonationvolcon = prefs.getString('totaldonationvolcon');
-      totaldonationvolr = prefs.getString('totaldonationvolr');
-      totaldonationvolcan = prefs.getString('totaldonationvolcan');
+      uname = prefs.getString('uname');
+      avartar = prefs.getString('avatar');
+      countryId = prefs.getString('country_id');
     });
+  }
+
+  Future<List<BloodDonationFacilities>> getBloodFacilities(
+      String donationquery) async {
+    final url = Uri.parse(
+        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfsbycountry/1');
+    final response = await http.get(
+      url,
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      final List donationschedule = json.decode(response.body);
+      return donationschedule
+          .map((json) => BloodDonationFacilities.fromJson(json))
+          .where((donationschedule) {
+        final regionLower = donationschedule.district!.toLowerCase();
+        final facilitynameLower = donationschedule.name!.toLowerCase();
+        final servicetypeLower = donationschedule.communityname!.toLowerCase();
+        final searchLower = donationquery.toLowerCase();
+        return regionLower.contains(searchLower) ||
+            facilitynameLower.contains(searchLower) ||
+            servicetypeLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    getRefPref();
+    getPref();
     getBgresult();
+    // getBloodFacilities(donationquery);
+    // findfacility();
 
-    _getBgresulttimer =
-        Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
+    // _getBgresulttimer =
+    // Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
   }
 
   void getRefPref() async {
@@ -393,38 +426,6 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
     }
   }
 
-  Future<List<BloodTestingFacilities>> getBloodFacilities(
-      String donationquery) async {
-    final url = Uri.parse(
-        'http://api.famcaresl.com/communityapp/index.php?route=facilities');
-    final response = await http.post(
-      url,
-      body: jsonEncode({
-        "country": 'Sierra Leone'
-
-        // Additional data
-      }),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode == 200) {
-      final List donationschedule = json.decode(response.body);
-      return donationschedule
-          .map((json) => BloodTestingFacilities.fromJson(json))
-          .where((donationschedule) {
-        final regionLower = donationschedule.district!.toLowerCase();
-        final facilitynameLower = donationschedule.name!.toLowerCase();
-        final servicetypeLower = donationschedule.name!.toLowerCase();
-        final searchLower = donationquery.toLowerCase();
-        return regionLower.contains(searchLower) ||
-            facilitynameLower.contains(searchLower) ||
-            servicetypeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-
   void debounce(
     VoidCallback callback, {
     Duration duration = const Duration(milliseconds: 1000),
@@ -522,327 +523,320 @@ class blooddonationfacilityState extends State<blooddonationfacility> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: FaIcon(
+            FontAwesomeIcons.arrowLeft,
+            color: kWhiteColor,
+          ),
+        ),
         elevation: 0,
-        leading: TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ));
-            },
-            child: Text(
-              'Go Home',
-              style: TextStyle(color: kWhiteColor, fontWeight: FontWeight.bold),
-            )),
-        leadingWidth: 100,
-        title: Text('Schedule Blood Donation Appointment',
+        title: Text('Schedule A Blood Donation',
             textAlign: TextAlign.center,
             style: GoogleFonts.montserrat(fontSize: 14, color: Colors.white)),
       ),
       backgroundColor: Color(0xFFe0e9e4),
-      body: Padding(
-        padding: const EdgeInsets.all(5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            builddonationSearch(),
-            Expanded(
-                child: FutureBuilder<List<BloodTestingFacilities>>(
-                    future: getBloodFacilities(donationquery),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                            child: CircularProgressIndicator(
-                          color: Colors.teal,
-                        ));
-                      } else if (!snapshot.hasData) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                FaIcon(FontAwesomeIcons.faceSadCry),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-                                Text(
-                                  "No facility found",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 12,
-                                      color: Color(0xFFE02020)),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 5.r, right: 15.r, left: 15.r),
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: TextButton(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.refresh,
-                                            color: Colors.teal,
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          color: Color(0xFFF6F6F6),
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  builddonationSearch(),
+                  Expanded(
+                      child: FutureBuilder<List<BloodDonationFacilities>>(
+                          future: getBloodFacilities(donationquery),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                  child: CircularProgressIndicator(
+                                color: Colors.teal,
+                              ));
+                            } else if (!snapshot.hasData) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      FaIcon(FontAwesomeIcons.faceSadCry),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      Text(
+                                        "No facility found",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 12,
+                                            color: Color(0xFFE02020)),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5.r, right: 15.r, left: 15.r),
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: TextButton(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.refresh,
+                                                  color: Colors.teal,
+                                                ),
+                                                Text('Refresh Page',
+                                                    textAlign: TextAlign.center,
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 12,
+                                                            color:
+                                                                Colors.teal)),
+                                              ],
+                                            ),
+                                            style: TextButton.styleFrom(
+                                              foregroundColor: Colors.white,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10))),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          super.widget));
+                                            },
                                           ),
-                                          Text('Refresh Page',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.montserrat(
-                                                  fontSize: 12,
-                                                  color: Colors.teal)),
-                                        ],
+                                        ),
                                       ),
-                                      style: TextButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        super.widget));
-                                      },
-                                    ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      } else {
-                        return Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: ListView(
-                                  children: snapshot.data!
-                                      .map((data) => Column(
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child:
-                                                        SingleChildScrollView(
-                                                      child: Container(
-                                                        padding: EdgeInsets.only(
-                                                            bottom:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewInsets
-                                                                    .bottom),
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(.0, 5.0,
-                                                                  5.0, 5.0),
-                                                          child: Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        10.w),
+                                ],
+                              );
+                            } else {
+                              return Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: ListView(
+                                        children: snapshot.data!
+                                            .map((data) => Column(
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Expanded(
+                                                          child:
+                                                              SingleChildScrollView(
                                                             child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                          10.r),
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                border: Border.all(
-                                                                    color: Colors
-                                                                        .teal),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            16),
-                                                              ),
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                          'Blood Donation Facilties',
-                                                                          textAlign: TextAlign
-                                                                              .center,
-                                                                          style: GoogleFonts.montserrat(
-                                                                              fontSize: 10,
-                                                                              letterSpacing: 0,
-                                                                              color: Color(0xff389e9d))),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            5.h,
-                                                                      ),
-                                                                      Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Text.rich(
-                                                                            TextSpan(
-                                                                              style: TextStyle(
-                                                                                color: Color(0xFF205072),
-                                                                                fontSize: 15,
-                                                                                fontWeight: FontWeight.bold,
-                                                                              ),
+                                                              padding: EdgeInsets.only(
+                                                                  bottom: MediaQuery.of(
+                                                                          context)
+                                                                      .viewInsets
+                                                                      .bottom),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .fromLTRB(
+                                                                        .0,
+                                                                        5.0,
+                                                                        5.0,
+                                                                        5.0),
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              10.w),
+                                                                  child:
+                                                                      Container(
+                                                                    padding: EdgeInsets
+                                                                        .all(10
+                                                                            .r),
+                                                                    width: double
+                                                                        .infinity,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      border: Border.all(
+                                                                          color:
+                                                                              Colors.teal),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              16),
+                                                                    ),
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          children: [
+                                                                            Text('Blood Group Testing Facilties',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: GoogleFonts.montserrat(fontSize: 10, letterSpacing: 0, color: Color(0xff389e9d))),
+                                                                            SizedBox(
+                                                                              height: 5.h,
+                                                                            ),
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               children: [
-                                                                                TextSpan(
-                                                                                  text: data.name!,
-                                                                                  style: GoogleFonts.montserrat(
-                                                                                    fontSize: 13,
-                                                                                    letterSpacing: 0,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    color: Color(0xFF205072),
+                                                                                Text.rich(
+                                                                                  TextSpan(
+                                                                                    style: TextStyle(
+                                                                                      color: Color(0xFF205072),
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                    ),
+                                                                                    children: [
+                                                                                      TextSpan(
+                                                                                        text: data.name!,
+                                                                                        style: GoogleFonts.montserrat(
+                                                                                          fontSize: 13,
+                                                                                          letterSpacing: 0,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          color: Color(0xFF205072),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                                  textAlign: TextAlign.left,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 2.h,
+                                                                            ),
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Flexible(
+                                                                                  child: Expanded(
+                                                                                    child: Text(
+                                                                                      data.address!,
+                                                                                      style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        overflow: TextOverflow.clip,
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontFamily: 'Montserrat',
+                                                                                        letterSpacing: 0,
+                                                                                        color: Color(0xFF205072),
+                                                                                      ),
+                                                                                      overflow: TextOverflow.clip,
+                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                               ],
                                                                             ),
-                                                                            textHeightBehavior:
-                                                                                TextHeightBehavior(applyHeightToFirstAscent: false),
-                                                                            textAlign:
-                                                                                TextAlign.left,
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            2.h,
-                                                                      ),
-                                                                      Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Flexible(
-                                                                            child:
-                                                                                Expanded(
-                                                                              child: Text(
-                                                                                data.address!,
+                                                                            Text.rich(
+                                                                              TextSpan(
                                                                                 style: TextStyle(
-                                                                                  fontSize: 13,
-                                                                                  overflow: TextOverflow.clip,
-                                                                                  fontWeight: FontWeight.normal,
-                                                                                  fontFamily: 'Montserrat',
-                                                                                  letterSpacing: 0,
                                                                                   color: Color(0xFF205072),
-                                                                                ),
-                                                                                overflow: TextOverflow.clip,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Text.rich(
-                                                                        TextSpan(
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Color(0xFF205072),
-                                                                            fontSize:
-                                                                                15,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                          ),
-                                                                          children: [
-                                                                            TextSpan(
-                                                                              text: data.district,
-                                                                              style: GoogleFonts.montserrat(
-                                                                                fontSize: 13,
-                                                                                letterSpacing: 0,
-                                                                                fontWeight: FontWeight.normal,
-                                                                                color: Color(0xFF205072),
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                        textHeightBehavior:
-                                                                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                                                                        textAlign:
-                                                                            TextAlign.left,
-                                                                      ),
-                                                                      5.verticalSpace,
-                                                                      TextButton(
-                                                                        child:
-                                                                            Row(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          children: [
-                                                                            Text('Schedule Blood Donation',
-                                                                                textAlign: TextAlign.center,
-                                                                                style: GoogleFonts.montserrat(
-                                                                                  fontSize: 13,
-                                                                                  letterSpacing: 0,
+                                                                                  fontSize: 15,
                                                                                   fontWeight: FontWeight.bold,
-                                                                                  color: kPrimaryColor,
-                                                                                )),
+                                                                                ),
+                                                                                children: [
+                                                                                  TextSpan(
+                                                                                    text: data.district,
+                                                                                    style: GoogleFonts.montserrat(
+                                                                                      fontSize: 13,
+                                                                                      letterSpacing: 0,
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      color: Color(0xFF205072),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+                                                                              textAlign: TextAlign.left,
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 2.h,
+                                                                            ),
+                                                                            TextButton(
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text('Schedule Blood Donation',
+                                                                                      textAlign: TextAlign.center,
+                                                                                      style: GoogleFonts.montserrat(
+                                                                                        fontSize: 13,
+                                                                                        letterSpacing: 0,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        color: kPrimaryColor,
+                                                                                      )),
+                                                                                ],
+                                                                              ),
+                                                                              style: TextButton.styleFrom(
+                                                                                foregroundColor: Colors.white,
+                                                                                backgroundColor: Colors.teal.shade100,
+                                                                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                                              ),
+                                                                              onPressed: () {
+                                                                                Navigator.of(context).push(MaterialPageRoute(
+                                                                                    builder: (context) => EBloodDonation(
+                                                                                          gender: gender.toString(),
+                                                                                          agecategory: agecategory.toString(),
+                                                                                          title: 'Schedule Blood Donation',
+                                                                                        )));
+                                                                              },
+                                                                            ),
                                                                           ],
                                                                         ),
-                                                                        style: TextButton
-                                                                            .styleFrom(
-                                                                          foregroundColor:
-                                                                              Colors.white,
-                                                                          backgroundColor: Colors
-                                                                              .teal
-                                                                              .shade100,
-                                                                          shape:
-                                                                              const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                                                        ),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.push(
-                                                                              context,
-                                                                              new MaterialPageRoute(
-                                                                                builder: (context) => EBloodDonation(
-                                                                                  title: 'Schedule Blood Donation Appointment',
-                                                                                ),
-                                                                              ));
-                                                                        },
-                                                                      ),
-                                                                    ],
+                                                                      ],
+                                                                    ),
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ))
-                                      .toList(),
-                                ),
-                              )
-                            ]);
-                      }
-                    }))
-          ],
+                                                  ],
+                                                ))
+                                            .toList(),
+                                      ),
+                                    )
+                                  ]);
+                            }
+                          }))
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

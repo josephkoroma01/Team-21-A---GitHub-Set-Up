@@ -3162,11 +3162,6 @@ class _RequestDialogContentState extends State<RequestDialogContent> {
         'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/tfsbycountry/$countryId');
     final response = await http.get(
       url,
-      // body: jsonEncode({
-      //   "country": 'Sierra Leone'
-
-      //   // Additional data
-      // }),
       headers: {'Content-Type': 'application/json'},
     );
 
