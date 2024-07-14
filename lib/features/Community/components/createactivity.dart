@@ -15,8 +15,12 @@ import 'package:lifebloodworld/features/Community/components/communities.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
+import 'package:lifebloodworld/main.dart';
+import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../provider/prefs_provider.dart';
 
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d MMM yyyy').format(now);
@@ -24,12 +28,14 @@ String formattedNewMonth = DateFormat('LLLL').format(now);
 String formattedNewYear = DateFormat('y').format(now);
 
 class CreateActivity extends StatefulWidget {
-  CreateActivity({
+  const CreateActivity({
     Key? key,
     required this.title,
+    required this.donorGroupId,
   }) : super(key: key);
 
   final String? title;
+  final String? donorGroupId;
 
   @override
 
@@ -76,32 +82,30 @@ class _CreateActivityState extends State<CreateActivity> {
     text: randomAlphaNumeric(6).toString(),
   );
 
-  String? email;
-  String? ufname;
-  String? ulname;
-  String? umname;
-  String? agecategory;
-  String? gender;
-  String? phonenumber;
-  String? address;
-  String? district;
-  String? bloodtype;
-  String? prevdonation;
-
-  getPref() async {
+  String? uname;
+  String? countryId;
+  String? country;
+  String? userId;
+  void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      email = prefs.getString('email');
-      ufname = prefs.getString('ufname');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
-      agecategory = prefs.getString('agecategory');
-      gender = prefs.getString('gender');
-      phonenumber = prefs.getString('phonenumber');
-      address = prefs.getString('address');
-      district = prefs.getString('district');
-      bloodtype = prefs.getString('bloodtype');
-      prevdonation = prefs.getString('prevdonation');
+      // email = prefs.getString('email');
+      // name = prefs.getString('name');
+      uname = prefs.getString('uname');
+      // agecategory = prefs.getString('agecategory');
+      // gender = prefs.getString('gender');
+      // phonenumber = prefs.getString('phonenumber');
+      // address = prefs.getString('address');
+      // district = prefs.getString('district');
+      countryId = prefs.getString('country_id');
+      country = prefs.getString('country');
+      // bloodtype = prefs.getString('bloodtype');
+      // prevdonation = prefs.getString('prevdonation');
+      // prevdonationamt = prefs.getString('prevdonationamt');
+      // community = prefs.getString('community');
+      // communitydonor = prefs.getString('communitydonor');
+      userId = prefs.getString('id');
+      // totaldonation = prefs.getString('totaldonation');
     });
   }
 
@@ -139,44 +143,42 @@ class _CreateActivityState extends State<CreateActivity> {
     'Rokupa',
   ];
 
-  final List<String> commcat = [
-    'Blood Donation Community'
-  ];
+  final List<String> commcat = ['Blood Donation Community'];
   final List<String> sldistrict = [
-   'Bo',
-      'Bombali',
-      'Bonthe',
-      'Falaba',
-      'Kailahun',
-      'Kambia',
-      'Karene',
-      'Kenema',
-      'Koindadugu',
-      'Kono',
-      'Moyamba',
-      'Port Loko',
-      'Pujehun',
-      'Tonkolili',
-      'Western Rural',
-      'Western Urban'
+    'Bo',
+    'Bombali',
+    'Bonthe',
+    'Falaba',
+    'Kailahun',
+    'Kambia',
+    'Karene',
+    'Kenema',
+    'Koindadugu',
+    'Kono',
+    'Moyamba',
+    'Port Loko',
+    'Pujehun',
+    'Tonkolili',
+    'Western Rural',
+    'Western Urban'
   ];
 
   final List<String> bndistrict = [
     'Alibori',
-      'Atakora',
-      'Atlantique',
-      'Borgou',
-      'Collines',
-      'Donga',
-      'Kouffo',
-      'Littoral Region',
-      'Mono',
-      'Ouémé',
-      'Plateau',
-      'Zou'
+    'Atakora',
+    'Atlantique',
+    'Borgou',
+    'Collines',
+    'Donga',
+    'Kouffo',
+    'Littoral Region',
+    'Mono',
+    'Ouémé',
+    'Plateau',
+    'Zou'
   ];
 
-   Map<String, List<String>> districtCitiesMap = {
+  Map<String, List<String>> districtCitiesMap = {
     'Sierra Leone': [
       'Bo',
       'Bombali',
@@ -241,226 +243,112 @@ class _CreateActivityState extends State<CreateActivity> {
   String bloodtestfor = 'Family';
   bool _scheduling = false;
 
-  Future register() async {
-    await Future.delayed(Duration(seconds: 2));
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/blooddonationnewschedule.php"),
-        body: {
-          "DonorType": 'Voluntary',
-          "surname": ulname,
-          "middlename": umname,
-          "firstname": ufname,
-          "agecategory": agecategory,
-          "gender": gender,
-          "address": address,
-          "district": district,
-          "phonenumber": phonenumber,
-          "maritalstatus": selectedMaritalStatus,
-          "occupation": _occupationCtrl.text,
-          "email": email,
-          "nextofkin": _nextofkinCtrl.text,
-          "informednextofkin": selectedInofkin,
-          "nextofkinphonenumber": _nextofkinphoneCtrl.text,
-          "personalID": selectedID,
-          "IDnumber": _idnumberCtrl.text,
-          "bloodgroup": bloodtype,
-          "HBVvaccination": selectedHBVVaccination,
-          "HBVwhendateinput": _HBVwhendateinput.text,
-          "facility": selectedFacility,
-          "date": dateinput.text,
-          "month": monthinput.text,
-          "year": yearinput.text,
-          "timeslot": selectedTimeslot,
-          "refcode": refCodeCtrl.text
-        });
-    var data = json.decode(response.body);
-    if (data == "Error") {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Please Try Again, Schedule Already Exists, Try Tracking Schedule',
-            style: GoogleFonts.montserrat()),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 4),
-      ));
-      await Future.delayed(Duration(seconds: 2));
-      // scheduleAlarm()
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePageScreen(pageIndex: 2),
-        ),
-      );
-    } else {
-      showModalBottomSheet(
-          backgroundColor: Colors.teal,
-          context: context,
-          builder: (context) {
-            return SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      20.0, 20.0, 20.0, 0.0), // content padding
-                  child: Column(
-                    children: [
-                      Text(
-                          'Schedule Successful, You will be contacted shortly !!',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.montserrat(
-                              fontSize: 11.sp, color: Colors.white)),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text.rich(
-                            TextSpan(
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 12.sp,
-                                color: Colors.white,
-                                height: 1.3846153846153846,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      'Your reference code to track Schedule is ',
-                                ),
-                                TextSpan(
-                                  text: refCodeCtrl.text,
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            textHeightBehavior: TextHeightBehavior(
-                                applyHeightToFirstAscent: false),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                              child: Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.copy,
-                                        size: 13, color: Colors.teal),
-                                    SizedBox(
-                                      width: 5.h,
-                                    ),
-                                    Text('Copy Code',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 13.sp,
-                                            color: Colors.teal)),
-                                  ],
-                                ),
-                              ),
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.teal,
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                              ),
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                    ClipboardData(text: refCodeCtrl.text));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  duration: Duration(seconds: 5),
-                                  content: Text('Copied to clipboard',
-                                      style: GoogleFonts.montserrat()),
-                                ));
-                                // scheduleAlarm()
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomePageScreen(pageIndex: 2),
-                                  ),
-                                );
-                                Navigator.pop(context);
-                              }),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          });
-    }
-  }
-
-  // void scheduleAlarm() async{
-  //   var tz;
-  //   await flutterLocalNotificationsPlugin.zonedSchedule(
-  //       0,
-  //       'LifeBlood',
-  //       'Thank You For Registering, You Have Saved A Life',
-  //       tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
-  //       const NotificationDetails(
-  //         android: AndroidNotificationDetails(
-  //           'alarm_notify',
-  //           'alarm_notify',
-  //           channelDescription: 'Channel For Registeration',
-  //           icon: 'lifeblood',
-  //           sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
-  //           largeIcon: DrawableResourceAndroidBitmap('lifeblood'),),
-  //         iOS: IOSNotificationDetails(
-  //             sound: 'a_long_cold_sting.wav',
-  //             presentAlert: true,
-  //             presentBadge: true,
-  //             presentSound: true),),
-  //       androidAllowWhileIdle: true,
-  //       uiLocalNotificationDateInterpretation:
-  //       UILocalNotificationDateInterpretation.absoluteTime);
-  // }
-
   @override
   void initState() {
     _dateinput.text = "";
-    findfacility();
-    findtimeslots();
     getPref(); //set the initial value of text field
     super.initState();
   }
 
+  final TextEditingController _activityName = TextEditingController();
+  final TextEditingController _activityDate = TextEditingController();
+  final TextEditingController _activityLocation = TextEditingController();
+  final TextEditingController _activityPlace = TextEditingController();
+  final TextEditingController _activityDescription = TextEditingController();
+  bool isActivityLoading = false;
+
+  Future<void> _submitData() async {
+    setState(() {
+      _scheduling = true;
+    });
+    String apiUrl =
+        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/donorgroups/${widget.donorGroupId}/activities';
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "title": _activityName.text,
+          "description": _activityDescription.text,
+          "location": _activityLocation.text,
+          "place": _activityPlace.text,
+          "activity_date": _activityDate.text,
+          "created_by": userId.toString()
+        }),
+      );
+      if (response.statusCode == 201) {
+        setState(() {
+          _scheduling = false;
+        });
+        // Successfully created the donor group
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Activity created successfully',
+              style: GoogleFonts.montserrat()),
+          backgroundColor: Colors.teal,
+          behavior: SnackBarBehavior.fixed,
+          duration: const Duration(seconds: 4),
+        ));
+        Future.delayed(const Duration(seconds: 2));
+        // scheduleAlarm()
+        // refresh page
+
+        Navigator.pop(context);
+      } else {
+        var data = json.decode(response.body);
+        setState(() {
+          _scheduling = false;
+        });
+        // Failed to create the donor group
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(data['message'], style: GoogleFonts.montserrat()),
+          backgroundColor: Colors.teal,
+          behavior: SnackBarBehavior.fixed,
+          duration: const Duration(seconds: 80),
+        ));
+      }
+    } catch (e) {
+      setState(() {
+        _scheduling = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Something went wrong. Please check your internet and try again.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(fontSize: 11.sp)),
+        backgroundColor: const Color(0xFFE02020),
+        behavior: SnackBarBehavior.fixed,
+        duration: const Duration(seconds: 5),
+        // duration: Duration(seconds: 3),
+      ));
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Failed to create donor group $e')),
+      // );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return 
-    Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+          backgroundColor: kPrimaryColor,
           leading: IconButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => Communities(title: 'title')
-                    ));
+                Navigator.pop(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => Communities(
+                //       title: 'title',
+                //     ),
+                //   ),
+                // );
               },
-              icon: Icon(Icons.arrow_back, color: kWhiteColor,)),
+              icon: const Icon(
+                Icons.arrow_back,
+                color: kWhiteColor,
+              )),
           elevation: 0,
           title: Text(
             'Create Community Activity',
@@ -516,7 +404,7 @@ class _CreateActivityState extends State<CreateActivity> {
                             SizedBox(
                               width: 5.h,
                             ),
-                            ],
+                          ],
                         ),
                         SizedBox(
                           height: 5.h,
@@ -539,236 +427,162 @@ class _CreateActivityState extends State<CreateActivity> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      Visibility(
-                        visible: false,
-                        child: Container(
-                          child: TextFormField(
-                            enabled: false,
-                            keyboardType: TextInputType.number,
-                            maxLength: 8,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Phone Number is required';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Phone Number',
-                              labelStyle: TextStyle(fontSize: 15.sp),
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _activityName,
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(),
+                          labelText: 'Activity Name',
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                        ),
+                        // controller: _emailCtrl,
+                      ),
+                      10.verticalSpace,
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Date is required';
+                          }
+                          return null;
+                        },
+                        controller: _activityDate,
+                        //editing controller of this TextField
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                            controller: refCodeCtrl,
+                            labelText: "Select Date" //
+                            // label text of field
+                            ),
+                        readOnly:
+                            true, //set it true, so that user will not able to edit text
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime
+                                  .now(), //DateTime.now() - not to allow to choose before today.
+                              lastDate: DateTime(2101));
+
+                          if (pickedDate != null) {
+                            //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate =
+                                DateFormat('d MMM yyyy').format(pickedDate);
+                            setState(() {
+                              _activityDate.text =
+                                  formattedDate; //set output date to TextField value.
+                            });
+                          }
+                        },
+                      ),
+                      10.verticalSpace,
+                      DropdownButtonFormField2(
+                        decoration: InputDecoration(
+                          labelStyle: const TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                          labelText: 'Location',
+                          //Add isDense true and zero Padding.
+                          //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                          isDense: false,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          contentPadding: EdgeInsets.all(10),
+                        ),
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 0, left: 0),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                      ),
-                      
-                      Visibility(
-                        visible: false,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Select Date';
-                                }
-                                return null;
-                              },
-                              controller:
-                                  monthinput, //editing controller of this TextField
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Date",
-                                hintText: 'Enter Date',
-                                hintStyle: TextStyle(
-                                    fontSize: 11.sp, fontFamily: 'Montserrat'),
-                                labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 11.sp), //label text of field
-                              ),
-                              readOnly:
-                                  true, //set it true, so that user will not able to edit text
-                            ),
-                            TextFormField(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Select Date';
-                                }
-                                return null;
-                              },
-                              controller:
-                                  yearinput, //editing controller of this TextField
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Date",
-                                hintText: 'Enter Date',
-                                hintStyle: TextStyle(
-                                    fontSize: 11.sp, fontFamily: 'Montserrat'),
-                                labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 11.sp), //label text of field
-                              ),
-                              readOnly:
-                                  true, //set it true, so that user will not able to edit text
-                            ),
-                          ],
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
                         ),
+                        items: districtCitiesMap['Sierra Leone']
+                            ?.map((String city) {
+                          return DropdownMenuItem<String>(
+                            value: city,
+                            child: Text(city),
+                          );
+                        }).toList(),
+                        validator: (beininvalue) {
+                          if (beininvalue == null) {
+                            return 'Please select an option.';
+                          }
+                        },
+                        onChanged: (String? beninvalue) {
+                          setState(() {
+                            _activityLocation.text = beninvalue!;
+                          });
+                        },
+                        onSaved: (beninvalue) {},
                       ),
-                      
+                      10.verticalSpace,
                       TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      border: OutlineInputBorder(),
-                                      labelText: 'Activity Name',
-                                      labelStyle: TextStyle(
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontFamily: 'Montserrat'),
-                                    ),
-                                    // controller: _emailCtrl,
-                                  ),
-                                   
-                                  
-
-10.verticalSpace,
-                                  TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      border: OutlineInputBorder(),
-                                      labelText: 'Activity Description',
-                                      labelStyle: TextStyle(
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontFamily: 'Montserrat'),
-                                    ),
-                                    // controller: _emailCtrl,
-                                  ),
-                                  10.verticalSpace,
-                                  SizedBox(
+                        keyboardType: TextInputType.text,
+                        controller: _activityPlace,
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(),
+                          labelText: 'Activity Place',
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                        ),
+                        // controller: _emailCtrl,
+                      ),
+                      10.verticalSpace,
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        maxLines: 4,
+                        controller: _activityDescription,
+                        decoration: const InputDecoration(
+                          alignLabelWithHint: true,
+                          isDense: true,
+                          border: OutlineInputBorder(),
+                          labelText: 'Describe the Activity',
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 0,
+                              fontFamily: 'Montserrat'),
+                        ),
+                        // controller: _emailCtrl,
+                      ),
+                      10.verticalSpace,
+                      SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  backgroundColor: kPrimaryColor,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 10),
-                                  textStyle: TextStyle(
-                                      color: kWhiteColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
+                            style: ElevatedButton.styleFrom(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                                backgroundColor: kPrimaryColor,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 10),
+                                textStyle: TextStyle(
+                                    color: kWhiteColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500)),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 if (await getInternetUsingInternetConnectivity()) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        backgroundColor: Colors.teal,
-                                        content: SingleChildScrollView(
-                                            child: Container(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom),
-                                          child: Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                3.0, 3.0, 3.0, 0.0),
-                                            child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 15.0,
-                                                    width: 15.0,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: Colors.white,
-                                                      strokeWidth: 2.0,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5.h,
-                                                  ),
-                                                  Text.rich(
-                                                    TextSpan(
-                                                      style: TextStyle(
-                                                          color:
-                                                              Color(0xff329d9c),
-                                                          fontSize: 15.sp),
-                                                      children: [
-                                                        TextSpan(
-                                                          text:
-                                                              'Scheduling for ',
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                        TextSpan(
-                                                          recognizer:
-                                                              TapGestureRecognizer()
-                                                                ..onTap = () {
-                                                                  // Single tapped.
-                                                                },
-                                                          text:
-                                                              "$ufname $umname $ulname",
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.amber,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    textHeightBehavior:
-                                                        TextHeightBehavior(
-                                                            applyHeightToFirstAscent:
-                                                                false),
-                                                    textAlign: TextAlign.left,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5.h,
-                                                  ),
-                                                  Container(
-                                                    width: double.infinity,
-                                                    child: SizedBox(
-                                                      child: Divider(
-                                                        color: Colors.white,
-                                                        thickness: 1,
-                                                      ),
-                                                      height: 5.h,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5.h,
-                                                  ),
-                                                  Text(
-                                                      'A single pint can save 3 lives, and a single gesture can create a million smiles. Give Blood. Save Lives.',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                        fontSize: 14.sp,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ))
-                                                ]),
-                                          ),
-                                        ))),
-                                  );
-                                  setState(() {
-                                    _scheduling = true;
-                                  });
-                                  Future.delayed(Duration(seconds: 7),
-                                      () async {
-                                    register();
-                                  });
+                                  _submitData();
                                 } else {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
@@ -786,7 +600,7 @@ class _CreateActivityState extends State<CreateActivity> {
                               }
                             },
                             child: _scheduling
-                                ? SizedBox(
+                                ? const SizedBox(
                                     height: 15.0,
                                     width: 15.0,
                                     child: CircularProgressIndicator(
@@ -794,7 +608,12 @@ class _CreateActivityState extends State<CreateActivity> {
                                       strokeWidth: 2.0,
                                     ),
                                   )
-                                : Text('Create Activity', style: TextStyle(color: kWhiteColor, fontFamily: 'Montserrat'),)),
+                                : const Text(
+                                    'Create Activity',
+                                    style: TextStyle(
+                                        color: kWhiteColor,
+                                        fontFamily: 'Montserrat'),
+                                  )),
                       ),
                       SizedBox(
                         height: 10.h,

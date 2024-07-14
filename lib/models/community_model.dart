@@ -6,7 +6,9 @@ class CommunityModel {
   String? name;
   String? description;
   String? location;
+  String? place;
   String? status;
+  String? category;
   String? createdAt;
   String? updatedAt;
 
@@ -18,7 +20,9 @@ class CommunityModel {
       this.name,
       this.description,
       this.location,
+      this.place,
       this.status,
+      this.category,
       this.createdAt,
       this.updatedAt});
 
@@ -30,7 +34,9 @@ class CommunityModel {
     name = json['name'];
     description = json['description'];
     location = json['location'];
+    place = json['place'];
     status = json['status'];
+    category = json['category'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -44,7 +50,9 @@ class CommunityModel {
     data['name'] = this.name;
     data['description'] = this.description;
     data['location'] = this.location;
+    data['place'] = this.place;
     data['status'] = this.status;
+    data['category'] = this.category;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

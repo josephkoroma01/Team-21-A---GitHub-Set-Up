@@ -51,6 +51,7 @@ class User {
   String? year;
   int? otp;
   String? otpExpiresAt;
+  String? deviceToken;
   String? createdAt;
   String? updatedAt;
 
@@ -83,6 +84,7 @@ class User {
       this.year,
       this.otp,
       this.otpExpiresAt,
+      this.deviceToken,
       this.createdAt,
       this.updatedAt});
 
@@ -115,6 +117,7 @@ class User {
     year = json['year'];
     otp = json['otp'];
     otpExpiresAt = json['otp_expires_at'];
+    otpExpiresAt = json['device_token'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -149,6 +152,7 @@ class User {
     data['year'] = this.year;
     data['otp'] = this.otp;
     data['otp_expires_at'] = this.otpExpiresAt;
+    data['device_token'] = this.deviceToken;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

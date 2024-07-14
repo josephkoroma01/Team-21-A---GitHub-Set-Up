@@ -9,7 +9,7 @@ class BloodTestSchedule {
     if (json['schedule'] != null) {
       schedule = <TestSchedule>[];
       json['schedule'].forEach((v) {
-        schedule!.add( TestSchedule.fromJson(v));
+        schedule!.add(TestSchedule.fromJson(v));
       });
     }
   }
@@ -26,7 +26,7 @@ class BloodTestSchedule {
 
 class TestSchedule {
   int? id;
-  Null? districtId;
+  String? districtId;
   int? countryId;
   int? facilityId;
   int? userId;
@@ -47,15 +47,15 @@ class TestSchedule {
   String? time;
   String? refcode;
   String? status;
-  Null? result;
+  String? result;
   String? onSite;
   String? bgroup;
-  Null? rh;
-  Null? bgrouprh;
-  Null? phenotype;
-  Null? kell;
-  Null? review;
-  Null? rating;
+  String? rh;
+  String? bgrouprh;
+  String? phenotype;
+  String? kell;
+  String? review;
+  String? rating;
   String? createdAt;
   String? updatedAt;
 

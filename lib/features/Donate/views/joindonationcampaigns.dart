@@ -277,14 +277,7 @@ class _JoinDrivesState extends State<JoinDrives> {
         duration: Duration(seconds: 4),
       ));
       await Future.delayed(Duration(seconds: 2));
-      // scheduleAlarm()
-      // await
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => findDonationDrives(),
-      //   ),
-      // );
+      
     } else {
       setState(() {
         campaigndonation = "Yes";

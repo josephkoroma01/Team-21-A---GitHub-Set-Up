@@ -7,6 +7,7 @@ import 'package:lifebloodworld/features/Home/views/body.dart';
 import 'package:lifebloodworld/features/Home/views/managedonationpp.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:lifebloodworld/models/bhloodtestschedule_model.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,7 @@ import 'package:http/http.dart' as http;
 import '../../../main.dart';
 import '../../../constants/colors.dart';
 import '../../../models/donationschedule.dart';
+import '../../../provider/manage_appointment_provider.dart';
 import 'search.dart';
 
 class managebloodtestAppointments extends StatefulWidget {
@@ -71,8 +73,6 @@ class _managebloodtestAppointmentsState
     // TODO: implement initState
     getPref();
 
-    getBloodTestAllAppointment();
-    getBloodDonationAllAppointment();
     super.initState();
   }
 
@@ -182,12 +182,11 @@ class _managebloodtestAppointmentsState
         print(data);
         setState(() {
           blooddonationAppointments = schedules;
-          totalBloodTestSchedule = blooddonationAppointments.length;
           totalBloodDonationReplacement = blooddonationAppointments
               .where((item) => item.donorType == 'Replacement')
               .length;
           totalBloodDonationVolumtary = blooddonationAppointments
-              .where((item) => item.donorType == 'Voluntary')
+              .where((item) => item.donorType == 'Volunteer')
               .length;
         });
         setState(() {
@@ -195,26 +194,24 @@ class _managebloodtestAppointmentsState
           prefs.setInt('voluntary', totalBloodDonationVolumtary!);
         });
 
-       
-
         return bloodtestAppointments;
-      } else {
-         
-      }
-    } catch (e) {
-      
-    }
+      } else {}
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // final testAppointmentProvider = Provider.of<ManageAppoiynmentProvider>(context, listen: false).getBloodTestAllAppointment();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomePageScreen(pageIndex: 0)));
             },
             icon: const FaIcon(
               FontAwesomeIcons.arrowLeft,

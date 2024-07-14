@@ -12,6 +12,8 @@ import 'package:intl/intl.dart';
 import 'package:lifebloodworld/constants/colors.dart';
 import 'package:lifebloodworld/features/Community/components/communities.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
+import 'package:lifebloodworld/provider/prefs_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class wmerchandise extends StatefulWidget {
@@ -47,7 +49,6 @@ class wmerchandiseState extends State<wmerchandise> {
     prefs.setString('communityCheck', 'Yes');
   }
 
-
   communityCheckGet() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     communityCheck = prefs.getString('communityCheck');
@@ -70,6 +71,7 @@ class wmerchandiseState extends State<wmerchandise> {
   }
 
   Widget build(BuildContext context) {
+    var id = Provider.of<PrefsProvider>(context, listen: false).userId;
     return Scaffold(
       backgroundColor: Color(0xFFe0e9e4),
       appBar: AppBar(
@@ -505,6 +507,7 @@ class wmerchandiseState extends State<wmerchandise> {
                                         MaterialPageRoute(
                                           builder: (context) => Communities(
                                             title: 'Communities on LifeBlood',
+                                            // userId: id.toString(),
                                           ),
                                         ),
                                       );

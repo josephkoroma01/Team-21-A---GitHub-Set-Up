@@ -26,6 +26,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../provider/prefs_provider.dart';
+import '../../../utils/cloud-messaging.dart';
 import '../../Home/models/user_model.dart';
 
 DateTime now = DateTime.now();
@@ -476,27 +477,29 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  // savePref(Users data) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('email', "${data.user!.email}");
-  //   prefs.setString('name', "${data.user!.name}");
-  //   prefs.setString('uname', "${data.user!.username}");
-  //   prefs.setString('avatar', "${data.user!.avartar}");
-  //   prefs.setString('gender', "${data.user!.gender}");
-  //   prefs.setString('agecategory', "${data.user!.ageCategory}");
-  //   prefs.setString('age', "${data.user!.age}");
-  //   prefs.setString('dob', "${data.user!.dob}");
-  //   prefs.setString('country', "${data.user!.country}");
-  //   prefs.setString('country_id', "${data.user!.countryId}");
-  //   prefs.setString('phonenumber', "${data.user!.phone}");
-  //   prefs.setString('address', "${data.user!.address}");
-  //   prefs.setString('district', "${data.user!.distict}");
-  //   prefs.setString('bloodtype', "${data.user!.bloodGroup}");
-  //   prefs.setString('prevdonation', "${data.user!.prvdonation}");
-  //   prefs.setString('prevdonationamt', "${data.user!.prvdonationNo}");
-  //   prefs.setString('community', "${data.user!.community}");
-  //   prefs.setString('id', "${data.user!.id}");
-  // }
+  savePref(User data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', "${data.email}");
+    prefs.setString('name', "${data.name}");
+    prefs.setString('uname', "${data.username}");
+    prefs.setString('avatar', "${data.avartar}");
+    prefs.setString('gender', "${data.gender}");
+    prefs.setString('agecategory', "${data.ageCategory}");
+    prefs.setString('age', "${data.age}");
+    prefs.setString('dob', "${data.dob}");
+    prefs.setString('country', "${data.country}");
+    prefs.setString('country_id', "${data.countryId}");
+    prefs.setString('phonenumber', "${data.phone}");
+    prefs.setString('address', "${data.address}");
+    prefs.setString('district', "${data.distict}");
+    prefs.setString('bloodtype', "${data.bloodGroup}");
+    prefs.setString('prevdonation', "${data.prvdonation}");
+    prefs.setString('prevdonationamt', "${data.prvdonationNo}");
+    prefs.setString('community', "${data.community}");
+    prefs.setString('id', "${data.id}");
+    prefs.setString('trivia', "${data.trivia}");
+
+  }
 
   Future register() async {
     final prefsProvider = Provider.of<PrefsProvider>(context, listen: false);
@@ -554,7 +557,6 @@ class _RegisterPageState extends State<RegisterPage> {
       } else if (response.statusCode == 201) {
         var data = json.decode(response.body);
         User user = User.fromJson(data['user']);
-        debugPrint(user.toString());
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.teal,
           behavior: SnackBarBehavior.fixed,
@@ -566,14 +568,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   fontSize: 14,
                   fontWeight: FontWeight.bold)),
         ));
+        savePref(user);
         prefsProvider.savePref(user);
-
-        Future.delayed(const Duration(seconds: 2));
-        {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => tour()),
-              (route) => false);
-        }
+        updateToken(user.id.toString());
+        Future.delayed(const Duration(seconds: 1));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => tour()), (route) => false);
       } else {
         // Request failed
         var data = json.decode(response.body);
@@ -613,6 +613,29 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     // scheduleAlarm();
+  }
+
+  Future updateToken(String Id) async {
+    String deviceToken =
+        Provider.of<FirebaseServices>(context, listen: false).deviceToken;
+
+    var data = {
+      'device_token': deviceToken,
+    };
+    //Starting Web API Call.
+    try {
+      var response = await http.post(
+        Uri.parse(
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/updateUser/$Id"),
+        body: json.encode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+
+      // print(response);
+    } catch (e) {}
   }
 
   Widget _buildTextField({

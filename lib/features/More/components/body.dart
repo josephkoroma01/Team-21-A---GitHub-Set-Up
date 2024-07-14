@@ -584,12 +584,15 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
       TextEditingController(text: formattedNewDate.toString());
 
   void logout() async {
-    await Future.delayed(Duration(seconds: 5));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-        (route) => false);
+    await Future.delayed(Duration(seconds: 1));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(),
+      ),
+    );
   }
 
   Future registerinterest() async {
@@ -1715,6 +1718,9 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
             InkWell(
               onTap: () {
                 logout();
+                // Navigator.of(context).pushAndRemoveUntil(
+                //     MaterialPageRoute(builder: (context) => LoginScreen()),
+                //     (route) => false);
               },
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -1729,7 +1735,7 @@ class _memorebodyState extends State<memorebody> with TickerProviderStateMixin {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      FaIcon(FontAwesomeIcons.signOut,
+                      const FaIcon(FontAwesomeIcons.signOut,
                           size: 15, color: kWhiteColor),
                       10.horizontalSpace,
                       Expanded(

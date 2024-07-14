@@ -91,40 +91,26 @@ class blooddonorrequestState extends State<blooddonorrequest> {
   String? schumname;
   String? selectedRating = '';
   String? status;
-  String? totalbgresult;
-  String? totaldonationrep;
-  String? totaldonationvol;
-  String? totaldonationvolcan;
-  String? totaldonationvolcon;
-  String? totaldonationvold;
-  String? totaldonationvolp;
-  String? totaldonationvolr;
-  String? totalsch;
-  String? totalschfamily;
-  String? totalschfriend;
-  String? totalschmyself;
+
   String? name;
   String? ulname;
   String? umname;
+  String? countryId;
 
-  final _formKey = GlobalKey<FormState>();
-  late Timer _getBgresulttimer;
-  late Timer _getTotalDonationstimer;
-  bool _validate = false;
-  List<Facility> facilityList = [];
-
-  final List<String> costlist = ['Free', 'Paid'];
-
-  String? selectedFacility = '';
-  String? selectedCost = '';
   @override
+  void initState() {
+    super.initState();
+    getPref();
+    // getCommunityDonorRequest(context);
+  }
+
   Future<List<CommunityDonorRequest>> getCommunityDonorRequest(context) async {
     List<CommunityDonorRequest> communityDonorRequest = [];
 
     try {
       var response = await http.get(
         Uri.parse(
-            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/communitydonorrequests"),
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/countrycommunitydonorrequests/$countryId"),
       );
 
       if (response.statusCode == 200) {
@@ -133,9 +119,7 @@ class blooddonorrequestState extends State<blooddonorrequest> {
         List<CommunityDonorRequest> requests =
             msg.map((e) => CommunityDonorRequest.fromJson(e)).toList();
 
-        setState(() {
-          communityDonorRequest = requests;
-        });
+        return requests;
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Sorry, Something went wrong. ${response.statusCode}',
@@ -145,10 +129,10 @@ class blooddonorrequestState extends State<blooddonorrequest> {
           behavior: SnackBarBehavior.fixed,
           duration: const Duration(seconds: 3),
         ));
+        return [];
       }
 
       // return communityDonorRequest;
-      return communityDonorRequest;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -160,9 +144,8 @@ class blooddonorrequestState extends State<blooddonorrequest> {
         behavior: SnackBarBehavior.fixed,
         duration: const Duration(seconds: 30),
       ));
+      return [];
     }
-
-    return communityDonorRequest;
   }
 
   @override
@@ -171,294 +154,19 @@ class blooddonorrequestState extends State<blooddonorrequest> {
     super.dispose();
   }
 
-  @override
   void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
       phonenumber = prefs.getString('phonenumber');
       name = prefs.getString('name');
-      umname = prefs.getString('umname');
-      ulname = prefs.getString('ulname');
-      totaldonationrep = prefs.getString('totaldonationrep');
-      totaldonationvol = prefs.getString('totaldonationvol');
-      totaldonationvold = prefs.getString('totaldonationvold');
-      totaldonationvolp = prefs.getString('totaldonationvolp');
-      totaldonationvolcon = prefs.getString('totaldonationvolcon');
-      totaldonationvolr = prefs.getString('totaldonationvolr');
-      totaldonationvolcan = prefs.getString('totaldonationvolcan');
+      countryId = prefs.getString('country_id');
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getRefPref();
-    getBgresult();
-    getCommunityDonorRequest(context);
-
-    _getBgresulttimer =
-        Timer.periodic(const Duration(seconds: 2), (timer) => getBgresult());
-  }
-
-  void getRefPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      email = prefs.getString('email');
-      name = prefs.getString('name');
-      ulname = prefs.getString('ulname');
-      phonenumber = prefs.getString('phonenumber');
-      totalbgresult = prefs.getString('totalbgresult');
-      totalsch = prefs.getString('totalsch');
-      totalschmyself = prefs.getString('totalschmyself');
-      totalschfriend = prefs.getString('totalschfriend');
-      totalschfamily = prefs.getString('totalschfamily');
-    });
-  }
-
-  Future getBgresult() async {
-    var data = {'phonenumber': phonenumber};
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/totalbloodgroupresult.php"),
-        body: json.encode(data));
-    print(response.body);
-    var msg = jsonDecode(response.body);
-    if (msg['totalbgresults'] == true) {
-      setState(() {
-        totalbgresult = msg['userInfo'].toString();
-      });
-      savetbgrPref();
-    }
-    return totalbgresult;
-  }
-
-  savetbgrPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totalbgresult', totalbgresult!);
-  }
-
-  savePref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('email', email!);
-    prefs.setString('phonenumber', phonenumber!);
-    prefs.setString('status', status!);
-    prefs.setString('schufname', schufname!);
-    prefs.setString('schumname', schumname!);
-    prefs.setString('schulname', schulname!);
-  }
-
-  Future<List<BloodTestSchAppdata>> getBloodTestApp(String query) async {
-    var data = {'phonenumber': phonenumber};
-
-    var response = await http.post(
-        Uri.parse("https://community.lifebloodsl.com/manageappointments.php"),
-        body: json.encode(data));
-
-    if (response.statusCode == 200) {
-      final List schedule = json.decode(response.body);
-
-      return schedule
-          .map((json) => BloodTestSchAppdata.fromJson(json))
-          .where((schedule) {
-        final facilityLower = schedule.facility.toLowerCase();
-        final refcodeLower = schedule.refcode.toLowerCase();
-        final searchLower = query.toLowerCase();
-
-        return facilityLower.contains(searchLower) ||
-            refcodeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-
-  Future<List<BloodTestSchAppdata>> getBloodTestResultApp(String query) async {
-    var data = {'phonenumber': phonenumber};
-
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/manageappointmentsresults.php"),
-        body: json.encode(data));
-
-    if (response.statusCode == 200) {
-      final List schedule = json.decode(response.body);
-
-      return schedule
-          .map((json) => BloodTestSchAppdata.fromJson(json))
-          .where((schedule) {
-        final facilityLower = schedule.facility.toLowerCase();
-        final refcodeLower = schedule.refcode.toLowerCase();
-        final searchLower = query.toLowerCase();
-
-        return facilityLower.contains(searchLower) ||
-            refcodeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-
-  Future<List<BloodTestSchAppdata>> getMyBloodTestApp(String query) async {
-    var data = {'phonenumber': phonenumber, 'bloodtestfor': 'Myself'};
-
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/managemybgtappointments.php"),
-        body: json.encode(data));
-
-    if (response.statusCode == 200) {
-      final List schedule = json.decode(response.body);
-
-      return schedule
-          .map((json) => BloodTestSchAppdata.fromJson(json))
-          .where((schedule) {
-        final facilityLower = schedule.facility.toLowerCase();
-        final refcodeLower = schedule.refcode.toLowerCase();
-        final dateLower = schedule.date.toLowerCase();
-        final timeslotLower = schedule.timeslot.toLowerCase();
-        final statusLower = schedule.status.toLowerCase();
-        final firstnameLower = schedule.firstname.toLowerCase();
-        final middlenameLower = schedule.middlename.toLowerCase();
-        final lastnameLower = schedule.lastname.toLowerCase();
-        final emailLower = schedule.email.toLowerCase();
-        final phonenumberLower = schedule.phonenumber.toLowerCase();
-        final searchLower = query.toLowerCase();
-
-        return facilityLower.contains(searchLower) ||
-            dateLower.contains(searchLower) ||
-            timeslotLower.contains(searchLower) ||
-            statusLower.contains(searchLower) ||
-            firstnameLower.contains(searchLower) ||
-            middlenameLower.contains(searchLower) ||
-            lastnameLower.contains(searchLower) ||
-            emailLower.contains(searchLower) ||
-            phonenumberLower.contains(searchLower) ||
-            refcodeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-
-  Future<List<BloodTestSchAppdata>> getFamilyBloodTestApp(String query) async {
-    var data = {'phonenumber': phonenumber, 'bloodtestfor': 'Family'};
-
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/managebgtappointments.php"),
-        body: json.encode(data));
-
-    if (response.statusCode == 200) {
-      final List schedule = json.decode(response.body);
-
-      return schedule
-          .map((json) => BloodTestSchAppdata.fromJson(json))
-          .where((schedule) {
-        final facilityLower = schedule.facility.toLowerCase();
-        final refcodeLower = schedule.refcode.toLowerCase();
-        final dateLower = schedule.date.toLowerCase();
-        final timeslotLower = schedule.timeslot.toLowerCase();
-        final statusLower = schedule.status.toLowerCase();
-        final firstnameLower = schedule.firstname.toLowerCase();
-        final middlenameLower = schedule.middlename.toLowerCase();
-        final lastnameLower = schedule.lastname.toLowerCase();
-        final emailLower = schedule.email.toLowerCase();
-        final phonenumberLower = schedule.phonenumber.toLowerCase();
-        final searchLower = query.toLowerCase();
-
-        return facilityLower.contains(searchLower) ||
-            dateLower.contains(searchLower) ||
-            timeslotLower.contains(searchLower) ||
-            statusLower.contains(searchLower) ||
-            firstnameLower.contains(searchLower) ||
-            middlenameLower.contains(searchLower) ||
-            lastnameLower.contains(searchLower) ||
-            emailLower.contains(searchLower) ||
-            phonenumberLower.contains(searchLower) ||
-            refcodeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
   }
 
   Future<bool> getInternetUsingInternetConnectivity() async {
     bool result = await InternetConnectionChecker().hasConnection;
     return result;
-  }
-
-  Future<List<BloodTestSchAppdata>> getFriendBloodTestApp(String query) async {
-    var data = {'phonenumber': phonenumber, 'bloodtestfor': 'Friend'};
-
-    var response = await http.post(
-        Uri.parse("http://localhost/sbims/community/managebgtappointments.php"),
-        body: json.encode(data));
-
-    if (response.statusCode == 200) {
-      final List schedule = json.decode(response.body);
-
-      return schedule
-          .map((json) => BloodTestSchAppdata.fromJson(json))
-          .where((schedule) {
-        final facilityLower = schedule.facility.toLowerCase();
-        final refcodeLower = schedule.refcode.toLowerCase();
-        final dateLower = schedule.date.toLowerCase();
-        final timeslotLower = schedule.timeslot.toLowerCase();
-        final statusLower = schedule.status.toLowerCase();
-        final firstnameLower = schedule.firstname.toLowerCase();
-        final middlenameLower = schedule.middlename.toLowerCase();
-        final lastnameLower = schedule.lastname.toLowerCase();
-        final emailLower = schedule.email.toLowerCase();
-        final phonenumberLower = schedule.phonenumber.toLowerCase();
-        final searchLower = query.toLowerCase();
-
-        return facilityLower.contains(searchLower) ||
-            dateLower.contains(searchLower) ||
-            timeslotLower.contains(searchLower) ||
-            statusLower.contains(searchLower) ||
-            firstnameLower.contains(searchLower) ||
-            middlenameLower.contains(searchLower) ||
-            lastnameLower.contains(searchLower) ||
-            emailLower.contains(searchLower) ||
-            phonenumberLower.contains(searchLower) ||
-            refcodeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-
-  Future<List<BloodTestingFacilities>> getBloodFacilities(
-      String donationquery) async {
-    final url = Uri.parse(
-        'http://api.famcaresl.com/communityapp/index.php?route=facilities');
-    final response = await http.post(
-      url,
-      body: jsonEncode({
-        "country": 'Sierra Leone'
-
-        // Additional data
-      }),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode == 200) {
-      final List donationschedule = json.decode(response.body);
-      return donationschedule
-          .map((json) => BloodTestingFacilities.fromJson(json))
-          .where((donationschedule) {
-        final regionLower = donationschedule.district!.toLowerCase();
-        final facilitynameLower = donationschedule.name!.toLowerCase();
-        final servicetypeLower = donationschedule.name!.toLowerCase();
-        final searchLower = donationquery.toLowerCase();
-        return regionLower.contains(searchLower) ||
-            facilitynameLower.contains(searchLower) ||
-            servicetypeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
   }
 
   void debounce(
@@ -468,63 +176,7 @@ class blooddonorrequestState extends State<blooddonorrequest> {
     if (debouncer != null) {
       debouncer!.cancel();
     }
-
     debouncer = Timer(duration, callback);
-  }
-
-  Future sendrating() async {
-    if (selectedRating!.isNotEmpty) {
-      var response = await http.post(
-          Uri.parse(
-              "https://community.lifebloodsl.com/blooddonationrating.php"),
-          body: {
-            "phonenumber": phonenumber,
-            "rating": selectedRating,
-            "refcode": refcode,
-          });
-
-      var data = json.decode(response.body);
-      if (data == "Error") {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please Try Again, Feedback Already Exists'),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.fixed,
-          duration: Duration(seconds: 3),
-        ));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Container(
-            height: 20.h,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text('Rating Successfully Sent',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 14,
-                    )),
-              ],
-            ),
-          ),
-          backgroundColor: Colors.teal,
-          behavior: SnackBarBehavior.fixed,
-          duration: Duration(seconds: 5),
-        ));
-        // scheduleAlarm();
-        Future.delayed(Duration(seconds: 1), () {
-          setState(() {
-            ratingappbar = true;
-          });
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => managedonationAppointments(),
-            ),
-          );
-        });
-      }
-    }
   }
 
   final List<String> facilityItems = [
@@ -541,7 +193,7 @@ class blooddonorrequestState extends State<blooddonorrequest> {
       );
 
   Future searchBook(String donationquery) async => debounce(() async {
-        final donationschedule = await getBloodFacilities(donationquery);
+        // final donationschedule = await getBloodFacilities(donationquery);
 
         if (!mounted) return;
 
@@ -554,7 +206,6 @@ class blooddonorrequestState extends State<blooddonorrequest> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
@@ -562,12 +213,12 @@ class blooddonorrequestState extends State<blooddonorrequest> {
           onPressed: () {
             Navigator.push(
               context,
-              new MaterialPageRoute(
+              MaterialPageRoute(
                 builder: (context) => HomePageScreen(pageIndex: 0),
               ),
             );
           },
-          icon: FaIcon(
+          icon: const FaIcon(
             FontAwesomeIcons.arrowLeft,
             color: kWhiteColor,
           ),
@@ -588,12 +239,7 @@ class blooddonorrequestState extends State<blooddonorrequest> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [],
-              ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               builddonationSearch(),
@@ -602,7 +248,7 @@ class blooddonorrequestState extends State<blooddonorrequest> {
                   future: getCommunityDonorRequest(context),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                           child: CircularProgressIndicator(
                         color: Colors.teal,
                       ));
@@ -972,54 +618,6 @@ class blooddonorrequestState extends State<blooddonorrequest> {
                                           ),
                                           SizedBox(
                                             height: 5.h,
-                                          ),
-                                          SizedBox(
-                                            width: double.infinity,
-                                            child: TextButton(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.view_agenda_outlined,
-                                                    size: 15,
-                                                    color: kWhiteColor,
-                                                  ),
-                                                  5.horizontalSpace,
-                                                  Text(
-                                                      'View All Blood Donor Requests',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                        fontSize: 11.sp,
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.white,
-                                                      )),
-                                                ],
-                                              ),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.white,
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 53, 87, 112),
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10))),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          blooddonorrequest()),
-                                                );
-                                              },
-                                            ),
                                           ),
                                         ],
                                       ),

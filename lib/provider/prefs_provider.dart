@@ -71,4 +71,11 @@ class PrefsProvider extends ChangeNotifier {
     _user = null;
     notifyListeners();
   }
+
+  String userId = '';
+
+  getUserId(Id) {
+    userId = Id;
+    notifyListeners();
+  }
 }

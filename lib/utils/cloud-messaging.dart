@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lifebloodworld/features/Home/views/body.dart';
 import 'package:lifebloodworld/main.dart';
@@ -18,11 +19,16 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // await Firebase.initializeApp();
   print("Handling a background message: ${message.notification?.title}");
   print("Handling a body background message: ${message.notification?.body}");
+  debugPrint('Message data: ${message.data}');
+  print('Message data: ${message.data['type']}');
+
   // print("Handling a background message: ${message.data}");
 }
 
-class FirebaseServices {
+class FirebaseServices extends ChangeNotifier {
   // Create an instance of firebase messaging
+
+  String deviceToken = '';
 
   final _fbMessaging = FirebaseMessaging.instance;
 
@@ -43,18 +49,18 @@ class FirebaseServices {
       // Print token to see
       debugPrint(token);
 
+      // Store token in shared preferences
+      await prefs.setString('deviceToken', token!);
+
+      // set device toke to the variable deviceToken
+      deviceToken = token;
+      notifyListeners();
+
       // Store that permission has been requested
       await prefs.setBool('permissionRequested', true);
     }
 
     // rewuest permission from user to allow notification
-    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    // await _fbMessaging.requestPermission();
-
-    // fetch FCM token for this device
-    // final token = await _fbMessaging.getToken();
-
-    // print token to see
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
 // initialise flutter settings for push noti
@@ -65,18 +71,18 @@ class FirebaseServices {
 
   void handleMsg(RemoteMessage? msg) {
     if (msg == null) return;
-    print(msg.data);
-    print("Handling a background message: ${msg.data}");
 
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   print('Got a message whilst in the foreground!');
-    //   print('Message data: ${message.data}');
-
-    //   if (message.notification != null) {
-    //     print('Message also contained a notification: ${message.notification}');
-    //   }
-    // });
-
+    if (msg.data['type'] == 'Blood Donation Request') {
+      navigatorKey.currentState?.pushNamed('/notification');
+    } else if (msg.data['type'] == 'Campaign') {
+      navigatorKey.currentState?.pushNamed('/request');
+    } else if (msg.data['type'] == 'Result') {
+      navigatorKey.currentState?.pushNamed('/request');
+    } else if (msg.data['type'] == 'Next Donation Date') {
+      navigatorKey.currentState?.pushNamed('/request');
+    } else if (msg.data['type'] == 'Birthday Reminder') {
+      navigatorKey.currentState?.pushNamed('/request');
+    }
     navigatorKey.currentState?.pushNamed("/home");
     // navigatorKey.currentState?.pushNamed('/home');
   }

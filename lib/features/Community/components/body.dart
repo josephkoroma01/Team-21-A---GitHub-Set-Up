@@ -1,47 +1,19 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lifebloodworld/features/Community/components/communities.dart';
 import 'package:lifebloodworld/features/Community/components/wmerchandise.dart';
-import 'package:lifebloodworld/features/FAQ/welcome_screen.dart';
+import 'package:lifebloodworld/models/community_activity_model.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-import 'package:lifebloodworld/models/blooddonationschedule.dart';
-import 'package:lifebloodworld/models/bloodtestschedule.dart';
-import 'package:lifebloodworld/features/Home/views/knowbloodtype.dart';
-import 'package:lifebloodworld/features/Home/views/managebloodtestapp.dart';
-import 'package:lifebloodworld/features/Home/views/schedulebloodtest.dart';
-import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../../main.dart';
 import '../../../constants/colors.dart';
 import '../../../models/community_model.dart';
-
-class DonationCarddata {
-  DonationCarddata({required this.donortype, required this.date});
-
-  factory DonationCarddata.fromJson(Map<String, dynamic> json) {
-    return DonationCarddata(donortype: json['donor_type'], date: json['date']);
-  }
-
-  String date;
-  String donortype;
-}
 
 DateTime now = DateTime.now();
 String formattedNewDate = DateFormat('d MMM yyyy').format(now);
@@ -50,8 +22,8 @@ String formattedNewMonth = DateFormat('LLLL').format(now);
 String formattedNewYear = DateFormat('y').format(now);
 
 class community extends StatefulWidget {
-  community({Key? key}) : super(key: key);
-
+  community({Key? key, required this.userId}) : super(key: key);
+  String userId;
   @override
   State<community> createState() => _communityState();
 }
@@ -123,17 +95,7 @@ class _communityState extends State<community> with TickerProviderStateMixin {
       TextEditingController(text: formattedNewYear.toString());
 
   int _currentIndex = 0;
-  final TextEditingController _feedbackCtrl = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
 
-  bool _isloginLoading = false;
-  StreamController _streamController = StreamController();
-  bool _validate = false;
-
-  final _stopWatchTimer = StopWatchTimer();
-  bool _isRunning = false;
-  late Timer _weeklyResetTimer;
-  Duration _remainingTime = Duration.zero;
   String communityCheck = "No";
 
   @override
@@ -141,11 +103,13 @@ class _communityState extends State<community> with TickerProviderStateMixin {
     // getAllCommunities();
     getPref();
     super.initState();
-    tz.initializeTimeZones();
+    getAllActivities();
+    getAllCommunities();
+    // tz.initializeTimeZones();
     tabs = ['Activities', 'Communities'];
     tabController = TabController(length: tabs.length, vsync: this);
     tabController.addListener(_handleTabControllerTick);
-    communityCheckGet();
+    fetchUserMemberships();
   }
 
   String? userId;
@@ -153,68 +117,15 @@ class _communityState extends State<community> with TickerProviderStateMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
-      // name = prefs.getString('name');
-      // uname = prefs.getString('uname');
-      // avartar = prefs.getString('avatar');
       agecategory = prefs.getString('agecategory');
       gender = prefs.getString('gender');
       phonenumber = prefs.getString('phonenumber');
       address = prefs.getString('address');
       district = prefs.getString('district');
-      // countryId = prefs.getString('country_id');
-      // country = prefs.getString('country');
       bloodtype = prefs.getString('bloodtype');
       prevdonation = prefs.getString('prevdonation');
       userId = prefs.getString('id');
     });
-  }
-
-  communityCheckGet() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    communityCheck = prefs.getString('communityCheck')!;
-  }
-
-  List<CommunityModel> comminities = [];
-  //   try {
-  //     var response = await http.get(Uri.parse(
-  //         "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/donorgroups"));
-  //     if (response.statusCode == 200) {
-  //       List<dynamic> jsonData = json.decode(response.body);
-  //       List<CommunityModel> data =
-  //           jsonData.map((e) => CommunityModel.fromJson(e)).toList();
-
-  //       setState(() {
-  //         comminities = data;
-  //       });
-  //   } 
-  //   catch (e) {}
-  //   }
-  // }
-
-  savenextdonationPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('nextdonationdate', nextdonationdate!);
-    prefs.setString('donorid', donorid!);
-    prefs.setString('donated', donated!);
-  }
-
-  savetdPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totaldonation', totaldonation!);
-  }
-
-  savenodyPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('nody', nody!);
-  }
-
-  savenewsPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('newsready', newsready!);
-    prefs.setString('newstitle', newstitle!);
-    prefs.setString('newsdescription', newsdescription!);
-    prefs.setString('newslink', newslink!);
-    prefs.setString('newscalltoaction', newscalltoaction!);
   }
 
   Future<bool> getInternetUsingInternetConnectivity() async {
@@ -243,92 +154,132 @@ class _communityState extends State<community> with TickerProviderStateMixin {
               ),
               child: Column(
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('LifeLine Donors',
-                          textAlign: TextAlign.left,
+                  comminityActivity.isNotEmpty
+                      ? Column(
+                          children: comminityActivity
+                              .map(
+                                (e) => Container(
+                                  margin: EdgeInsets.only(bottom: 10.r),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(e.title.toString(),
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              letterSpacing: 0,
+                                              fontSize: 13.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: kGreyColor)),
+                                      5.verticalSpace,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            flex: 3,
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 0,
+                                                      horizontal: 5),
+                                                  decoration: BoxDecoration(
+                                                    color: kIconBcgColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            0),
+                                                  ),
+                                                  child: Text(
+                                                    e.location.toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 10.sp,
+                                                      color: kPrimaryColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                5.horizontalSpace,
+                                              ],
+                                            ),
+                                          ),
+                                          Flexible(
+                                            flex: 1,
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 0,
+                                                      horizontal: 5),
+                                                  decoration: BoxDecoration(
+                                                      color: kIconBcgColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0)),
+                                                  child: Text(
+                                                    'Ongoing',
+                                                    style: TextStyle(
+                                                        fontSize: 10.sp,
+                                                        color: kPrimaryColor,
+                                                        letterSpacing: 0,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  e.activityDate.toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    letterSpacing: 0,
+                                                    fontSize: 10.sp,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: kBlackColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      10.verticalSpace,
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                                e.description.toString(),
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    letterSpacing: 0,
+                                                    overflow: TextOverflow.clip,
+                                                    fontSize: 11.sp,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: kBlackColor)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .toList())
+                      : Text(
+                          'No Community Activities',
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               letterSpacing: 0,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.bold,
-                              color: kGreyColor)),
-                      5.verticalSpace,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 5),
-                                  decoration: BoxDecoration(
-                                      color: kIconBcgColor,
-                                      borderRadius: BorderRadius.circular(0)),
-                                  child: Text(
-                                    'Bo',
-                                    style: TextStyle(
-                                        fontSize: 10.sp,
-                                        color: kPrimaryColor,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                5.horizontalSpace,
-                                Text(dateinput.text,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        letterSpacing: 0,
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.normal,
-                                        color: kBlackColor)),
-                              ],
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: kIconBcgColor,
-                                  borderRadius: BorderRadius.circular(0)),
-                              child: Text(
-                                'Ongoing',
-                                style: TextStyle(
-                                    fontSize: 10.sp,
-                                    color: kPrimaryColor,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      10.verticalSpace,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                                'There is a meeting on the 1 Jun 2024, at 7 Malama Thomas Street',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                    overflow: TextOverflow.clip,
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.normal,
-                                    color: kBlackColor)),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.normal,
+                              color: kGreyColor),
+                        ),
                   SizedBox(
                     height: 2.h,
                   ),
@@ -336,207 +287,141 @@ class _communityState extends State<community> with TickerProviderStateMixin {
               ),
             ),
           ),
-
-          // (dataready == "Yes")
-          //     ? Column(
-          //         mainAxisAlignment: MainAxisAlignment.start,
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //             Text.rich(
-          //               TextSpan(
-          //                 style: TextStyle(
-          //                   color: Color(0xFF205072),
-          //                   fontSize: 15,
-          //                   fontWeight: FontWeight.bold,
-          //                 ),
-          //                 children: [
-          //                   TextSpan(
-          //                     text: 'Donor Type: ',
-          //                     style: TextStyle(
-          //                       fontFamily: 'Montserrat',
-          //                       letterSpacing: 0,
-          //                       fontSize: 12,
-          //                       fontWeight: FontWeight.normal,
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                   TextSpan(
-          //                     text: "$donationtype",
-          //                     style: TextStyle(
-          //                       fontFamily: 'Montserrat',
-          //                       letterSpacing: 0,
-          //                       fontSize: 12,
-          //                       fontWeight: FontWeight.bold,
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //               textHeightBehavior:
-          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
-          //               textAlign: TextAlign.left,
-          //             ),
-          //             Text.rich(
-          //               TextSpan(
-          //                 style: TextStyle(
-          //                   color: Color(0xFF205072),
-          //                   fontSize: 12,
-          //                   fontWeight: FontWeight.bold,
-          //                 ),
-          //                 children: [
-          //                   TextSpan(
-          //                     text: 'Facility: ',
-          //                     style: TextStyle(
-          //                       fontFamily: 'Montserrat',
-          //                       letterSpacing: 0,
-          //                       fontSize: 12,
-          //                       fontWeight: FontWeight.normal,
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                   TextSpan(
-          //                     text: "$facility",
-          //                     style: TextStyle(
-          //                       fontFamily: 'Montserrat',
-          //                       letterSpacing: 0,
-          //                       fontSize: 12,
-          //                       fontWeight: FontWeight.bold,
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //               textHeightBehavior:
-          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
-          //               textAlign: TextAlign.left,
-          //             ),
-          //             Text.rich(
-          //               TextSpan(
-          //                 style: TextStyle(
-          //                   color: Color(0xFF205072),
-          //                   fontSize: 12,
-          //                   fontWeight: FontWeight.bold,
-          //                 ),
-          //                 children: [
-          //                   TextSpan(
-          //                     text: 'Time Slot: ',
-          //                     style: TextStyle(
-          //                       fontFamily: 'Montserrat',
-          //                       letterSpacing: 0,
-          //                       fontSize: 12,
-          //                       fontWeight: FontWeight.normal,
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                   TextSpan(
-          //                     text: "$timeslot",
-          //                     style: TextStyle(
-          //                       fontFamily: 'Montserrat',
-          //                       letterSpacing: 0,
-          //                       fontSize: 12,
-          //                       fontWeight: FontWeight.bold,
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //               textHeightBehavior:
-          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
-          //               textAlign: TextAlign.left,
-          //             ),
-          //             Text.rich(
-          //               TextSpan(
-          //                 style: TextStyle(
-          //                   color: Color(0xFF205072),
-          //                   fontSize: 12,
-          //                   fontWeight: FontWeight.bold,
-          //                 ),
-          //                 children: [
-          //                   TextSpan(
-          //                     text: 'Status: ',
-          //                     style: TextStyle(
-          //                       fontFamily: 'Montserrat',
-          //                       letterSpacing: 0,
-          //                       fontSize: 12,
-          //                       fontWeight: FontWeight.normal,
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                   TextSpan(
-          //                     text: "$status",
-          //                     style: TextStyle(
-          //                       fontFamily: 'Montserrat',
-          //                       letterSpacing: 0,
-          //                       fontSize: 12,
-          //                       fontWeight: FontWeight.bold,
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //               textHeightBehavior:
-          //                   TextHeightBehavior(applyHeightToFirstAscent: false),
-          //               textAlign: TextAlign.left,
-          //             ),
-          //             SizedBox(
-          //               height: 5,
-          //             )
-          //           ])
-          //     : Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [
-          //           Column(
-          //             children: [
-          //               Row(
-          //                 children: [
-          //                   Text(
-          //                     'No Blood Donation Schedule',
-          //                     style: TextStyle(
-          //                         fontFamily: 'Montserrat',
-          //                         color: Colors.white,
-          //                         letterSpacing: 0,
-          //                         fontWeight: FontWeight.normal,
-          //                         fontSize: 11),
-          //                   ),
-          //                   IconButton(
-          //                       onPressed: () {},
-          //                       icon: Icon(
-          //                         Icons.add_box_rounded,
-          //                         color: Colors.white,
-          //                       ))
-          //                 ],
-          //               ),
-          //             ],
-          //           ),
-          //         ],
-          //       ),
         ],
       );
     } else if (_currentIndex == 1) {
-      return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: comminities
-              .map((e) => CommunityCard(
-                    context: context,
-                    communityName: e.name.toString(),
-                    location: e.location.toString(),
-                    description: e.description.toString(),
-                    communityId: e.id.toString(),
-                    data: e,
-                    userId: userId.toString(),
-                    // communityMembership: ,
-                  ))
-              .toList(growable: false)
-          // .toList()
-          );
+      return FutureBuilder<List<String>>(
+        future: getUserMembershipsFromPrefs(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error loading memberships'));
+          } else {
+            final memberships = snapshot.data ?? [];
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: communities.take(3).map((e) {
+                bool isMember = memberships.contains(e.id.toString());
+                return CommunityCard(
+                  context: context,
+                  communityName: e.name.toString(),
+                  location: e.location.toString(),
+                  description: e.description.toString(),
+                  communityId: e.id.toString(),
+                  data: e,
+                  userId: userId.toString(),
+                  place: e.place.toString(),
+                  category: e.category.toString(),
+                  isMember: isMember,
+
+                  // communityMembership: ,
+                );
+              }).toList(growable: false),
+            );
+          }
+        },
+      );
+      // return Column(
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: communities
+      //         .take(2)
+      //         .map((e) => CommunityCard(
+      //               context: context,
+      //               communityName: e.name.toString(),
+      //               location: e.location.toString(),
+      //               description: e.description.toString(),
+      //               communityId: e.id.toString(),
+      //               data: e,
+      //               userId: userId.toString(),
+      //               place: e.place.toString(),
+      //               category: e.category.toString(),
+      //               // communityMembership: ,
+      //             ))
+      //         .toList(growable: false)
+      //     // .toList()
+      //     );
+    }
+  }
+
+  List<CommunityModel> communities = [];
+  Future getAllCommunities() async {
+    try {
+      var response = await http.get(Uri.parse(
+          "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/donorgroups"));
+      if (response.statusCode == 200) {
+        List<dynamic> jsonData = json.decode(response.body);
+        List<CommunityModel> data =
+            jsonData.map((e) => CommunityModel.fromJson(e)).toList();
+        if (mounted) {
+          setState(() {
+            communities = data;
+          });
+        }
+      }
+    } catch (e) {}
+  }
+
+  List<String> userMemberships = [];
+  // bool isLoading = true;
+
+  Future<void> fetchUserMemberships() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final response = await http.get(Uri.parse(
+        'https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/joinedstatus/${widget.userId}'));
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      if (mounted) {
+        setState(() {
+          userMemberships =
+              data.map((e) => e['donor_group_id'].toString()).toList();
+        });
+      }
+
+      await prefs.setStringList('userMemberships', userMemberships);
+    } else {
+      throw Exception('Failed to load user memberships');
+    }
+  }
+
+  Future<List<String>> getUserMembershipsFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList('userMemberships') ?? [];
+  }
+
+  List<CommunityActivity> comminityActivity = [];
+  Future getAllActivities() async {
+    String url =
+        "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/donorgroups/activities/${widget.userId}";
+    try {
+      var response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        List<dynamic> jsonData = json.decode(response.body);
+        List<CommunityActivity> data =
+            jsonData.map((e) => CommunityActivity.fromJson(e)).toList();
+        if (mounted) {
+          setState(() {
+            comminityActivity = data;
+          });
+        }
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    tabController.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFe0e9e4),
       body: SingleChildScrollView(
@@ -547,8 +432,8 @@ class _communityState extends State<community> with TickerProviderStateMixin {
             Column(
               children: [
                 SizedBox(height: 15.h),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                const Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -579,7 +464,7 @@ class _communityState extends State<community> with TickerProviderStateMixin {
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: Container(
                         // padding: EdgeInsets.all(10.r),
                         width: double.infinity,
@@ -605,7 +490,7 @@ class _communityState extends State<community> with TickerProviderStateMixin {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Commmunity Updates',
+                                    'Community Updates',
                                     overflow: TextOverflow.clip,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -701,8 +586,9 @@ class _communityState extends State<community> with TickerProviderStateMixin {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => Communities(
-                                                title:
-                                                    "Communities on LifeBlood"),
+                                              title: "Communities on LifeBlood",
+                                              userId: widget.userId,
+                                            ),
                                           ),
                                         );
                                         // _showRequestsDialog(context);
@@ -1085,7 +971,9 @@ class _communityState extends State<community> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Communities(
-                                    title: "Communities on LifeBlood"),
+                                  title: "Communities on LifeBlood",
+                                  userId: widget.userId,
+                                ),
                               ),
                             );
                     },

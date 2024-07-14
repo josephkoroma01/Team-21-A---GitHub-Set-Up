@@ -53,9 +53,12 @@ String formattedNewMonth = DateFormat('LLLL').format(now);
 String formattedNewYear = DateFormat('y').format(now);
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key, required this.pageIndex}) : super(key: key);
+  HomePage({Key? key, required this.pageIndex, required this.userId, required this.countryid})
+      : super(key: key);
 
   int pageIndex;
+  String userId;
+  String countryid;
 
   @override
   HomePageState createState() => HomePageState(pageIndex: pageIndex);
@@ -103,11 +106,11 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           child: IndexedStack(
             index: pageIndex,
             children: <Widget>[
-              home(),
+              home(userId: widget.userId, countryId: widget.countryid),
               donate(),
               // labbody(),
-              CommunityPageScreen(),
-              notification(),
+              CommunityPageScreen(userId: widget.userId),
+              NotificationPage(userId:widget.userId.toString(), countryid: widget.countryid.toString()),
               memorebody(),
             ],
           ),
@@ -316,89 +319,7 @@ class _manageAppointmentsState extends State<manageAppointments> {
     }
   }
 
-  Future<List<BloodTestSchAppdata>> getFamilyBloodTestApp(String query) async {
-    var data = {'phonenumber': phonenumber, 'bloodtestfor': 'Family'};
-
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/managebgtappointments.php"),
-        body: json.encode(data));
-
-    if (response.statusCode == 200) {
-      final List schedule = json.decode(response.body);
-
-      return schedule
-          .map((json) => BloodTestSchAppdata.fromJson(json))
-          .where((schedule) {
-        final facilityLower = schedule.facility.toLowerCase();
-        final refcodeLower = schedule.refcode.toLowerCase();
-        final dateLower = schedule.date.toLowerCase();
-        final timeslotLower = schedule.timeslot.toLowerCase();
-        final statusLower = schedule.status.toLowerCase();
-        final firstnameLower = schedule.firstname.toLowerCase();
-        final middlenameLower = schedule.middlename.toLowerCase();
-        final lastnameLower = schedule.lastname.toLowerCase();
-        final emailLower = schedule.email.toLowerCase();
-        final phonenumberLower = schedule.phonenumber.toLowerCase();
-        final searchLower = query.toLowerCase();
-
-        return facilityLower.contains(searchLower) ||
-            dateLower.contains(searchLower) ||
-            timeslotLower.contains(searchLower) ||
-            statusLower.contains(searchLower) ||
-            firstnameLower.contains(searchLower) ||
-            middlenameLower.contains(searchLower) ||
-            lastnameLower.contains(searchLower) ||
-            emailLower.contains(searchLower) ||
-            phonenumberLower.contains(searchLower) ||
-            refcodeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-
-  Future<List<BloodTestSchAppdata>> getFriendBloodTestApp(String query) async {
-    var data = {'phonenumber': phonenumber, 'bloodtestfor': 'Friend'};
-
-    var response = await http.post(
-        Uri.parse(
-            "https://community.lifebloodsl.com/managebgtappointments.php"),
-        body: json.encode(data));
-
-    if (response.statusCode == 200) {
-      final List schedule = json.decode(response.body);
-
-      return schedule
-          .map((json) => BloodTestSchAppdata.fromJson(json))
-          .where((schedule) {
-        final facilityLower = schedule.facility.toLowerCase();
-        final refcodeLower = schedule.refcode.toLowerCase();
-        final dateLower = schedule.date.toLowerCase();
-        final timeslotLower = schedule.timeslot.toLowerCase();
-        final statusLower = schedule.status.toLowerCase();
-        final firstnameLower = schedule.firstname.toLowerCase();
-        final middlenameLower = schedule.middlename.toLowerCase();
-        final lastnameLower = schedule.lastname.toLowerCase();
-        final emailLower = schedule.email.toLowerCase();
-        final phonenumberLower = schedule.phonenumber.toLowerCase();
-        final searchLower = query.toLowerCase();
-
-        return facilityLower.contains(searchLower) ||
-            dateLower.contains(searchLower) ||
-            timeslotLower.contains(searchLower) ||
-            statusLower.contains(searchLower) ||
-            firstnameLower.contains(searchLower) ||
-            middlenameLower.contains(searchLower) ||
-            lastnameLower.contains(searchLower) ||
-            emailLower.contains(searchLower) ||
-            phonenumberLower.contains(searchLower) ||
-            refcodeLower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
+ 
 
   Widget buildbloodtestallSearch() => SearchWidget(
         text: query,
@@ -417,24 +338,7 @@ class _manageAppointmentsState extends State<manageAppointments> {
     debouncer = Timer(duration, callback);
   }
 
-  // if (response.statusCode == 200) {
-  //
-  //   print(response.statusCode);
-  //
-  //   final items = json.decode(response.body).cast<Map<String, dynamic>>();
-  //   List<BloodTestSchAppdata> bloodtestschList = items.map<BloodTestSchAppdata>((json) {
-  //     return BloodTestSchAppdata.fromJson(json);
-  //   }).toList();
-  //   return bloodtestschList;
-  // }
-  // else {
-  //   print(response.statusCode.toString());
-  //   throw Exception('Failed load data with status code ${response.statusCode}');
-  // }
 
-  // }catch(e){
-  //   print (e);
-  //   throw e;}
 
   @override
   Widget build(BuildContext context) {
@@ -633,6 +537,7 @@ class _manageAppointmentsState extends State<manageAppointments> {
   }
 }
 
+// ignore: must_be_immutable
 class AppointmentCard extends StatelessWidget {
   AppointmentCard({super.key, required this.data});
 
@@ -960,12 +865,12 @@ class AppointmentCard extends StatelessWidget {
                                                               .viewInsets
                                                               .bottom),
                                                       child: Padding(
-                                                        padding:
-                                                            EdgeInsets.fromLTRB(
-                                                                20.0,
-                                                                20.0,
-                                                                20.0,
-                                                                0.0), // content padding
+                                                        padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                            20.0,
+                                                            20.0,
+                                                            20.0,
+                                                            0.0), // content padding
                                                         child: Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment

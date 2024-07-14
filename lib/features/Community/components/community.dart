@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lifebloodworld/features/Community/components/createactivity.dart';
 import 'package:lifebloodworld/features/Community/components/createcommunity.dart';
+import 'package:lifebloodworld/features/Home/models/user_model.dart';
 import 'package:lifebloodworld/features/Home/views/search.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:intl/intl.dart';
@@ -34,32 +35,10 @@ import 'package:shimmer/shimmer.dart';
 import '../../../constants/colors.dart';
 import '../../../models/community_model.dart';
 
-DateTime now = DateTime.now();
-String formattedNewDate = DateFormat('d MMM yyyy').format(now);
-String formattedNewMonth = DateFormat('LLLL').format(now);
-String formattedNewYear = DateFormat('y').format(now);
-
-// class AppCountry {
-//   final String name;
-//   final Map<String, String> nameTranslations;
-//   final String flag;
-//   final String code;
-//   final String dialCode;
-//   final String regionCode;
-//   final int minLength;
-//   final int maxLength;
-
-//   const AppCountry({
-//     required this.name,
-//     required this.flag,
-//     required this.code,
-//     required this.dialCode,
-//     required this.nameTranslations,
-//     required this.minLength,
-//     required this.maxLength,
-//     this.regionCode = "",
-//   });
-// }
+// DateTime now = DateTime.now();
+// String formattedNewDate = DateFormat('d MMM yyyy').format(now);
+// String formattedNewMonth = DateFormat('LLLL').format(now);
+// String formattedNewYear = DateFormat('y').format(now);
 
 class Community extends StatefulWidget {
   Community({
@@ -84,7 +63,7 @@ class Community extends StatefulWidget {
 class _CommunityState extends State<Community> with TickerProviderStateMixin {
   // Convert AppCountry to Country
 
-  final _formKey = GlobalKey<FormBuilderState>();
+  // final _formKey = GlobalKey<FormBuilderState>();
 
   // Your list of AppCountry instances
 
@@ -103,125 +82,146 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
     tabController = TabController(length: tabs.length, vsync: this);
     tabController.addListener(_handleTabControllerTick);
     //set the initial value of text field
+    // getAllCommunitiesActivity();
+    getMembers();
     getAllCommunitiesActivity();
     super.initState();
   }
 
-  _tabsContent() {
+  int totalMembers = 0;
+
+  Widget _tabsContent() {
     if (_currentIndex == 0) {
-      return Column(
-        children: [
-          Column(
-              children:
-                  // children: comminityActivity.isNotEmpty
-                  comminityActivity
-                      .map(
-                        (e) => CommunityActivityCard(
-                          communityData: widget.communityData,
-                          communityId: widget.communityId,
-                          activityName: e.title.toString(),
-                          description: e.description.toString(),
-                          location: e.location.toString(),
-                        ),
-                      )
-                      .toList()
-              //     : [
-              //   const SchimmerCard(),
-              //   const SchimmerCard(),
-              //   const SchimmerCard(),
-              // ],
-              ),
-        ],
-      );
-    } else if (_currentIndex == 1) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 0, right: 8.0, left: 8.0, bottom: 0.0),
-            child: Container(
-              padding: EdgeInsets.all(10.r),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/man1.png"),
-                      ),
-                      15.horizontalSpace,
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Joseph David Koroma',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  letterSpacing: 0,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: kGreyColor)),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 5),
-                            decoration: BoxDecoration(
-                                color: kIconBcgColor,
-                                borderRadius: BorderRadius.circular(0)),
-                            child: Expanded(
-                              child: Text(
-                                'itdoc99',
-                                style: TextStyle(
-                                    fontSize: 10.sp,
-                                    overflow: TextOverflow.ellipsis,
-                                    color: kPrimaryColor,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+      if (isActivityLoading) {
+        return const SingleChildScrollView(
+          child: Column(
+            children: [
+              SchimmerCard(),
+              SchimmerCard(),
+              SchimmerCard(),
+            ],
           ),
-        ],
-      );
+        );
+      } else if (comminityActivity.isEmpty) {
+        return const Center(
+          child: Text('No Activity Found.'),
+        );
+      } else {
+        return ListView.builder(
+          itemCount: comminityActivity.length,
+          itemBuilder: (context, index) {
+            var activity = comminityActivity[index];
+            return CommunityActivityCard(
+              communityData: widget.communityData,
+              communityId: widget.communityId,
+              activityName: activity.title.toString(),
+              description: activity.description.toString(),
+              location: activity.location.toString(),
+              status: activity.status.toString(),
+            );
+          },
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+        );
+      }
+    } else if (_currentIndex == 1) {
+      if (isMembersLoading) {
+        return const Column(
+          children: [
+            SchimmerCard(),
+            SchimmerCard(),
+            SchimmerCard(),
+          ],
+        );
+      } else if (members.isEmpty) {
+        return const Center(
+          child: Text('No members found.'),
+        );
+      } else {
+        return ListView.builder(
+          itemCount: members.length,
+          itemBuilder: (context, index) {
+            var user = members[index];
+            return CommunityMemberCard(
+              avartar: user.avartar.toString(),
+              name: user.name.toString(),
+              uname: user.username.toString(),
+            );
+          },
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+        );
+      }
     }
+    return Container(); // Return an empty container if _currentIndex doesn't match any case
   }
 
   List<CommunityActivity> comminityActivity = [];
-  Future getAllCommunitiesActivity() async {
+  bool isActivityLoading = true; // Loading state
+  Future<List<CommunityActivity>> getAllCommunitiesActivity() async {
     try {
+      setState(() {
+        isActivityLoading = true;
+      });
       var response = await http.get(Uri.parse(
           "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/donorgroups/${widget.communityId}/activities"));
+
       if (response.statusCode == 200) {
         List<dynamic> jsonData = json.decode(response.body);
         List<CommunityActivity> data =
             jsonData.map((e) => CommunityActivity.fromJson(e)).toList();
-
         setState(() {
           comminityActivity = data;
+          isActivityLoading = false;
         });
+        return data;
+      } else {
+        setState(() {
+          isActivityLoading = false;
+        });
+        return [];
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
+      setState(() {
+        isActivityLoading = false;
+      });
+      return [];
+    }
+  }
+
+  List<User> members = [];
+  bool isMembersLoading = true; // Loading state
+  Future<List<User>> getMembers() async {
+    setState(() {
+      print("emmie");
+      isMembersLoading = true;
+    });
+    try {
+      var response = await http.get(Uri.parse(
+          "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/communitymembers/${widget.communityId}"));
+
+      if (response.statusCode == 200) {
+        List<dynamic> jsonData = json.decode(response.body);
+        List<User> data = jsonData.map((e) => User.fromJson(e)).toList();
+
+        setState(() {
+          members = data;
+          totalMembers = data.length;
+          isMembersLoading = false;
+        });
+
+        return data;
+      } else {
+        setState(() {
+          isMembersLoading = false;
+        });
+        return [];
+      }
+    } catch (e) {
+      setState(() {
+        isMembersLoading = false;
+      });
+      return [];
     }
   }
 
@@ -240,7 +240,7 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
           ),
         ),
         elevation: 0,
-        title: Text('Communities on LifeBlood',
+        title: Text(widget.communityName,
             textAlign: TextAlign.center,
             style: GoogleFonts.montserrat(fontSize: 14, color: Colors.white)),
       ),
@@ -254,7 +254,15 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.all(Radius.circular(10))),
           ),
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CreateActivity(
+                          title: "Create Activity",
+                          donorGroupId: widget.communityId,
+                        )));
           },
           child: Row(children: [
             const FaIcon(
@@ -264,10 +272,14 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
             SizedBox(
               width: 5.h,
             ),
-            Text('Create Activity',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.montserrat(
-                    fontSize: 11.sp, color: Colors.white)),
+            Text(
+              'Create Activity',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(
+                fontSize: 11.sp,
+                color: Colors.white,
+              ),
+            ),
           ]),
         ),
       ),
@@ -275,7 +287,7 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
         child: Container(
           width: double.infinity,
           // padding: EdgeInsets.symmetric(horizontal: 10),
-          color: Color(0xFFe0e9e4),
+          color: const Color(0xFFe0e9e4),
           child: Column(
             children: [
               Column(
@@ -307,7 +319,7 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
                                 Flexible(
                                   flex: 3,
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 0, horizontal: 5),
                                     decoration: BoxDecoration(
                                         color: kIconBcgColor,
@@ -316,36 +328,41 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
                                       child: Text(
                                         'Blood Donation Community',
                                         style: TextStyle(
-                                            fontSize: 10.sp,
-                                            overflow: TextOverflow.ellipsis,
-                                            color: kPrimaryColor,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 10.sp,
+                                          overflow: TextOverflow.ellipsis,
+                                          color: kPrimaryColor,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 Flexible(
-                                    flex: 1,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 0, horizontal: 5),
-                                      decoration: BoxDecoration(
-                                          color: Colors.black12,
-                                          borderRadius:
-                                              BorderRadius.circular(0)),
-                                      child: Expanded(
-                                        child: Text(
-                                          '10 ' + 'members',
-                                          style: TextStyle(
-                                              fontSize: 10.sp,
-                                              color: kBlackColor,
-                                              overflow: TextOverflow.ellipsis,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.bold),
+                                  flex: 1,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(0),
+                                    ),
+                                    child: Expanded(
+                                      child: Text(
+                                        totalMembers > 1
+                                            ? '$totalMembers members'
+                                            : '$totalMembers member',
+                                        style: TextStyle(
+                                          fontSize: 10.sp,
+                                          color: kBlackColor,
+                                          overflow: TextOverflow.ellipsis,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ))
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                             5.verticalSpace,
@@ -357,7 +374,7 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
                                   child: Row(
                                     children: [
                                       Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               vertical: 0, horizontal: 5),
                                           decoration: BoxDecoration(
                                               color: kIconBcgColor,
@@ -377,7 +394,7 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
                                           )),
                                       5.horizontalSpace,
                                       Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 0, horizontal: 5),
                                         decoration: BoxDecoration(
                                             color: kIconBcgColor,
@@ -401,7 +418,7 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
                                 Flexible(
                                   flex: 1,
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 0, horizontal: 5),
                                     decoration: BoxDecoration(
                                         color: kWhiteColor,
@@ -475,6 +492,88 @@ class _CommunityState extends State<Community> with TickerProviderStateMixin {
   }
 }
 
+class CommunityMemberCard extends StatelessWidget {
+  CommunityMemberCard({
+    super.key,
+    required this.name,
+    required this.uname,
+    required this.avartar,
+  });
+  String name;
+  String uname;
+  String avartar;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 0, right: 8.0, left: 8.0, bottom: 0.0),
+          child: Container(
+            padding: EdgeInsets.all(10.r),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage(avartar),
+                    ),
+                    15.horizontalSpace,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(name,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold,
+                                color: kGreyColor)),
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                          decoration: BoxDecoration(
+                              color: kIconBcgColor,
+                              borderRadius: BorderRadius.circular(0)),
+                          child: Expanded(
+                            child: Text(
+                              uname,
+                              style: TextStyle(
+                                  fontSize: 10.sp,
+                                  overflow: TextOverflow.ellipsis,
+                                  color: kPrimaryColor,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        8.verticalSpace
+      ],
+    );
+  }
+}
+
 class SchimmerCard extends StatelessWidget {
   const SchimmerCard({
     super.key,
@@ -494,8 +593,8 @@ class SchimmerCard extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
-          height: 200,
-          width: 200,
+          height: 160,
+          width: 260,
         ),
       ),
     );
@@ -510,11 +609,13 @@ class CommunityActivityCard extends StatelessWidget {
     required this.description,
     required this.communityId,
     required this.communityData,
+    required this.status,
   });
   String activityName;
   String location;
   String description;
   String communityId;
+  String status;
   CommunityModel communityData;
 
   @override
@@ -523,6 +624,7 @@ class CommunityActivityCard extends StatelessWidget {
       padding:
           const EdgeInsets.only(top: 0, right: 8.0, left: 8.0, bottom: 0.0),
       child: Container(
+        margin: EdgeInsets.only(bottom: 10.r),
         padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -578,7 +680,7 @@ class CommunityActivityCard extends StatelessWidget {
                             color: kIconBcgColor,
                             borderRadius: BorderRadius.circular(0)),
                         child: Text(
-                          'Ongoing',
+                          status,
                           style: TextStyle(
                               fontSize: 10.sp,
                               color: kPrimaryColor,

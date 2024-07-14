@@ -20,6 +20,7 @@ import 'package:lifebloodworld/features/Login/views/eligibilityscreen.dart';
 import 'package:lifebloodworld/features/Login/views/etrigger.dart';
 import 'package:lifebloodworld/features/Login/views/forgetpassword.dart';
 import 'package:lifebloodworld/features/Register/views/register.dart';
+import 'package:lifebloodworld/utils/cloud-messaging.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,20 +37,10 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var t = AppLocalizations.of(context)!;
-    final Locale locale = Localizations.localeOf(context);
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   elevation: 0,
-      //   backgroundColor: Colors.teal,
-      //   title: Text(t.login,
-      //       style: GoogleFonts.montserrat(
-      //           fontSize: size.width * 0.05,
-      //           fontWeight: FontWeight.bold,
-      //           color: Colors.white)),
-      // ),
-      body: const LoginPage(),
+    // final Locale locale = Localizations.localeOf(context);
+    // Size size = MediaQuery.of(context).size;
+    return const Scaffold(
+      body: LoginPage(),
     );
   }
 }
@@ -64,22 +55,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final List<String> bloodgrouplist = [
-    'A+',
-    'A-',
-    'AB+',
-    'AB-',
-    'B+',
-    'B-',
-    'O+',
-    'O-',
-  ];
-
-  final List<String> genderItems = [
-    'Male',
-    'Female',
-  ];
-
   String? selectedBloodType = '';
   final TextEditingController _birthdateinput = TextEditingController();
 
@@ -167,14 +142,17 @@ class _LoginPageState extends State<LoginPage> {
     });
     // getPref();
     _passwordVisible = false;
+
+    Provider.of<FirebaseServices>(context, listen: false).initNotif();
     _toggleServiceStatusStream();
     _getCurrentPosition();
+    getToken();
   }
 
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _phonenumber = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  final TextEditingController _phonenumber = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   bool _validate = false;
   bool _passwordVisible = false;
   bool _isloginLoading = false;
@@ -185,6 +163,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   FocusNode focusNode = FocusNode();
+  String? token;
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('deviceToken');
+    });
+
+    print(token);
+  }
 
   savePref(Users data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -207,6 +194,8 @@ class _LoginPageState extends State<LoginPage> {
     prefs.setString('totaldonation', "${data.user!.noOfDonation}");
     prefs.setString('community', "${data.user!.community}");
     prefs.setString('id', "${data.user!.id}");
+    prefs.setString('trivia', "${data.user!.trivia}");
+
   }
 
   String? holdPhoneNo;
@@ -241,6 +230,8 @@ class _LoginPageState extends State<LoginPage> {
           if (data.message == "Login successful") {
             savePref(data);
             prefsProvider.savePref(data.user!);
+
+            updateToken(data.user!.id!.toString());
             setState(() {
               _isloginLoading = false;
             });
@@ -256,9 +247,9 @@ class _LoginPageState extends State<LoginPage> {
                 MaterialPageRoute(
                     builder: (context) => HomePageScreen(
                           pageIndex: 0,
+                          userId: data.user!.id.toString(),
                         )),
                 (route) => false);
-
             // Navigate to Home Screen
           } else if (response.body == "Invalid Credentials") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -305,12 +296,35 @@ class _LoginPageState extends State<LoginPage> {
             style: GoogleFonts.montserrat(fontSize: 11)),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.fixed,
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
       ));
       setState(() {
         _isloginLoading = false;
       });
     }
+  }
+
+  Future updateToken(String id) async {
+    String deviceToken =
+        Provider.of<FirebaseServices>(context, listen: false).deviceToken;
+
+    var data = {
+      'device_token': deviceToken,
+    };
+    //Starting Web API Call.
+    try {
+      await http.post(
+        Uri.parse(
+            "https://phplaravel-1274936-4609077.cloudwaysapps.com/api/v1/updateUser/$id"),
+        body: json.encode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+
+      // print(response);
+    } catch (e) {}
   }
 
   Future<void> _getCurrentPosition() async {
@@ -559,7 +573,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     var t = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: const Color(0xFFe0e9e4),

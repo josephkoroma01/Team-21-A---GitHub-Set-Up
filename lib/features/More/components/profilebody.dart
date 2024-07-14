@@ -229,26 +229,13 @@ class _ProfilePageState extends State<ProfilePage> {
         setState(() {
           _isLoading = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Column(
-              children: [
-                Text("${response.statusCode}"),
-                Text("${response.body}"),
-              ],
-            ),
-          ),
-        );
+        
       }
     } catch (e) {
       setState(() {
         _isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Something went wrong. Please try again"),
-        ),
-      );
+       
     }
   }
 

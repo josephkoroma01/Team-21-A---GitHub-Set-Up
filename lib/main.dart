@@ -1,10 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:lifebloodworld/features/Home/views/bgresults.dart';
 import 'package:lifebloodworld/features/Home/views/welcome_screen.dart';
 import 'package:lifebloodworld/features/Login/views/login_screen.dart';
 import 'package:lifebloodworld/features/Welcome/onboarding.dart';
 import 'package:provider/provider.dart';
+import 'features/Home/models/community_donor_request_model.dart';
 import 'firebase_options.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -15,6 +18,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'hive_boxes.dart';
+import 'provider/manage_appointment_provider.dart';
 import 'provider/prefs_provider.dart';
 import 'utils/cloud-messaging.dart';
 
@@ -28,26 +33,33 @@ import 'utils/cloud-messaging.dart';
 //   // print("Handling a background message: ${message.data}");
 // }
 
-String? id, email, onboarding;
+String? id, countryid, email, onboarding;
 final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
+  await Hive.initFlutter();
+  donorRequestBox = await Hive.openBox<CommunityDonorRequest>('DonorRequest');
+
   // Use countryList as needed
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await FirebaseServices().initNotif();
-
+  // await FirebaseServices().initNotif();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   email = prefs.getString('email');
   onboarding = prefs.getString('onboarding');
+  id = prefs.getString('id');
+  countryid = prefs.getString('country_id');
+  print(countryid);
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PrefsProvider()),
+        ChangeNotifierProvider(create: (_) => FirebaseServices()),
+        ChangeNotifierProvider(create: (_) => ManageAppoiynmentProvider()),
       ],
       child: const LifeBlood(),
     ),
@@ -71,6 +83,7 @@ class _LifeBloodState extends State<LifeBlood> {
   void initState() {
     super.initState();
     // getPref();
+    Provider.of<PrefsProvider>(context, listen: false).getPref();
   }
 
   late Position _currentPosition;
@@ -95,7 +108,13 @@ class _LifeBloodState extends State<LifeBlood> {
               debugShowCheckedModeBanner: false,
               title: 'LifeBlood',
               routes: {
-                '/home': (context) => HomePageScreen(pageIndex: 3),
+                '/notification': (context) =>
+                    HomePageScreen(pageIndex: 3, userId: id.toString()),
+                '/request': (context) =>
+                    HomePageScreen(pageIndex: 2, userId: id.toString()),
+                '/drives': (context) =>
+                    HomePageScreen(pageIndex: 3, userId: id.toString()),
+                '/result': (context) => BloodGroupResults()
               },
               navigatorKey: navigatorKey,
               theme: ThemeData(
@@ -129,6 +148,8 @@ class _LifeBloodState extends State<LifeBlood> {
               home: (email != null && onboarding == "Yes")
                   ? HomePageScreen(
                       pageIndex: 0,
+                      userId: id.toString(),
+                      countryid: countryid.toString(),
                     )
                   : (email == null && onboarding == "Yes")
                       ? LoginScreen()
